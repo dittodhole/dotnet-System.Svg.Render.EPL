@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Svg, Version=2.1.0.34216, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Svg.0.0.2\lib\Net40\System.Svg.dll</HintPath>
       <Private>True</Private>
