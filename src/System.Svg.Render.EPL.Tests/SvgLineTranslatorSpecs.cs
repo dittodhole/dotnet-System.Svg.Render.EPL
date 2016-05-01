@@ -175,5 +175,9 @@ namespace System.Svg.Render.EPL.Tests
                         this.Actual);
       }
     }
+
+    // TODO add test for TranslateHorizontalLine
+    // TODO add test for TranslateVertialLine
+    // TODO add test for TranslateDiagonal
   }
 }

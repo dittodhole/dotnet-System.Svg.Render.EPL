@@ -33,38 +33,22 @@ namespace System.Svg.Render.EPL
       if (startY == endY
           || startX == endX)
       {
-        // horizontal or vertical
-        string command;
-
-        var color = instance.Color as SvgColourServer;
-        if (color?.Colour == Color.White)
-        {
-          command = "LW";
-        }
-        else
-        {
-          command = "LO";
-        }
-
+        var strokeShouldBeWhite = (instance.Color as SvgColourServer)?.Colour == Color.White;
         if (startX < endX)
         {
-          // horizontal
-          var horizontalStart = startX;
-          var verticalStart = startY;
-          var horizontalLength = endX - startX;
-          var verticalLength = strokeWidth;
-
-          translation = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+          translation = this.TranslateHorizontalLine(startX,
+                                                     startY,
+                                                     endX,
+                                                     strokeWidth,
+                                                     strokeShouldBeWhite);
         }
         else if (startY < endY)
         {
-          // vertical
-          var horizontalStart = startX;
-          var verticalStart = startY;
-          var horizontalLength = strokeWidth;
-          var verticalLength = endY - startY;
-
-          translation = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+          translation = this.TranslateVertialLine(startX,
+                                                  startY,
+                                                  endY,
+                                                  strokeWidth,
+                                                  strokeShouldBeWhite);
         }
         else
         {
@@ -75,16 +59,11 @@ namespace System.Svg.Render.EPL
       else if (startX <= endX
                && startY <= endY)
       {
-        // diagonal
-        var command = "LS";
-
-        var horizontalStart = startX;
-        var verticalStart = startY;
-        var horizontalLength = strokeWidth;
-        var verticalLength = endX;
-        var verticalEnd = endY;
-
-        translation = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
+        translation = this.TranslateDiagonal(startX,
+                                             startY,
+                                             endX,
+                                             endY,
+                                             strokeWidth);
       }
       else
       {
@@ -93,6 +72,80 @@ namespace System.Svg.Render.EPL
       }
 
       return translation;
+    }
+
+    public string TranslateHorizontalLine(int startX,
+                                          int startY,
+                                          int endX,
+                                          int strokeWidth,
+                                          bool strokeShouldBeWhite)
+    {
+      // horizontal
+      var horizontalStart = startX;
+      var verticalStart = startY;
+      var horizontalLength = endX - startX;
+      var verticalLength = strokeWidth;
+
+      string command;
+      if (strokeShouldBeWhite)
+      {
+        command = "LW";
+      }
+      else
+      {
+        command = "LO";
+      }
+
+      string result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+
+      return result;
+    }
+
+    public string TranslateVertialLine(int startX,
+                                       int startY,
+                                       int endY,
+                                       int strokeWidth,
+                                       bool strokeShouldBeWhite)
+    {
+      // vertical
+      var horizontalStart = startX;
+      var verticalStart = startY;
+      var horizontalLength = strokeWidth;
+      var verticalLength = endY - startY;
+
+      string command;
+      if (strokeShouldBeWhite)
+      {
+        command = "LW";
+      }
+      else
+      {
+        command = "LO";
+      }
+
+      string result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+
+      return result;
+    }
+
+    public string TranslateDiagonal(int startX,
+                                    int startY,
+                                    int endX,
+                                    int endY,
+                                    int strokeWidth)
+    {
+      // diagonal
+      var command = "LS";
+
+      var horizontalStart = startX;
+      var verticalStart = startY;
+      var horizontalLength = strokeWidth;
+      var verticalLength = endX;
+      var verticalEnd = endY;
+
+      string result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
+
+      return result;
     }
   }
 }
