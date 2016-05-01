@@ -18,6 +18,8 @@ namespace System.Svg.Render.EPL.Tests
 
       protected override void BecauseOf()
       {
+        base.BecauseOf();
+
         this.Actual = this.SvgLineTranslator.Translate(this.SvgLine);
       }
     }
@@ -27,6 +29,8 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected override void Context()
       {
+        base.Context();
+
         this.SvgLine = new SvgLine
                        {
                          StartX = new SvgUnit(50f),
@@ -50,6 +54,8 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected override void Context()
       {
+        base.Context();
+
         this.SvgLine = new SvgLine
                        {
                          StartX = new SvgUnit(200f),
@@ -73,6 +79,8 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected override void Context()
       {
+        base.Context();
+
         this.SvgLine = new SvgLine
                        {
                          StartX = new SvgUnit(10f),
