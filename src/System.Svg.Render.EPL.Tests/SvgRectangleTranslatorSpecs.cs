@@ -16,8 +16,8 @@ namespace System.Svg.Render.EPL.Tests
                                                                  svgUnitCalculator);
       }
 
-      protected SvgRectangleTranslator SvgRectangleTranslator { get; set; }
-      protected SvgLineTranslator SvgLineTranslator { get; set; }
+      protected SvgRectangleTranslator SvgRectangleTranslator { get; }
+      protected SvgLineTranslator SvgLineTranslator { get; }
       protected SvgRectangle SvgRectangle { get; set; }
       protected SvgLine UpperLine { get; set; }
       protected SvgLine RightLine { get; set; }
