@@ -13,7 +13,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       protected SvgUnitCalculator SvgUnitCalculator { get; }
-      protected Exception Actual { get; set; }
+      protected object Actual { get; set; }
     }
 
     public class SvgUnitCalculatorSpecsContext : ContextSpecification
@@ -24,7 +24,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       protected SvgUnitCalculator SvgUnitCalculator { get; }
-      protected float Actual { get; set; }
+      protected object Actual { get; set; }
     }
 
     [TestClass]
