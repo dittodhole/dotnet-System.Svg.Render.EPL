@@ -95,7 +95,7 @@ namespace System.Svg.Render.EPL.Tests
       public void the_values_should_be_substracted_correctly()
       {
         Assert.AreEqual(this.Actual,
-                        200f);
+                        200);
       }
     }
   }
