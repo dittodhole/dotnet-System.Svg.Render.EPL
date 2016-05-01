@@ -73,7 +73,7 @@ namespace System.Svg.Render.EPL.Tests
       public void the_values_should_be_added_correctly()
       {
         Assert.AreEqual(this.Actual,
-                        400f);
+                        400);
       }
     }
 
