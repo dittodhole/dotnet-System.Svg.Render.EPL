@@ -27,6 +27,21 @@ namespace System.Svg.Render.EPL.Tests
       protected object ActualRightLine { get; set; }
       protected object ActualLowerLine { get; set; }
       protected object ActualLeftLine { get; set; }
+
+      protected override void BecauseOf()
+      {
+        base.BecauseOf();
+
+        this.UpperLine = this.SvgRectangleTranslator.GetUpperLine(this.SvgRectangle);
+        this.RightLine = this.SvgRectangleTranslator.GetRightLine(this.SvgRectangle);
+        this.LowerLine = this.SvgRectangleTranslator.GetLowerLine(this.SvgRectangle);
+        this.LeftLine = this.SvgRectangleTranslator.GetLeftLine(this.SvgRectangle);
+
+        this.ActualUpperLine = this.SvgLineTranslator.Translate(this.UpperLine);
+        this.ActualRightLine = this.SvgLineTranslator.Translate(this.RightLine);
+        this.ActualLowerLine = this.SvgLineTranslator.Translate(this.LowerLine);
+        this.ActualLeftLine = this.SvgLineTranslator.Translate(this.LeftLine);
+      }
     }
 
     [TestClass]
@@ -44,21 +59,6 @@ namespace System.Svg.Render.EPL.Tests
                               Height = new SvgUnit(100f),
                               StrokeWidth = new SvgUnit(20f)
                             };
-      }
-
-      protected override void BecauseOf()
-      {
-        base.BecauseOf();
-
-        this.UpperLine = this.SvgRectangleTranslator.GetUpperLine(this.SvgRectangle);
-        this.RightLine = this.SvgRectangleTranslator.GetRightLine(this.SvgRectangle);
-        this.LowerLine = this.SvgRectangleTranslator.GetLowerLine(this.SvgRectangle);
-        this.LeftLine = this.SvgRectangleTranslator.GetLeftLine(this.SvgRectangle);
-
-        this.ActualUpperLine = this.SvgLineTranslator.Translate(this.UpperLine);
-        this.ActualRightLine = this.SvgLineTranslator.Translate(this.RightLine);
-        this.ActualLowerLine = this.SvgLineTranslator.Translate(this.LowerLine);
-        this.ActualLeftLine = this.SvgLineTranslator.Translate(this.LeftLine);
       }
 
       [TestMethod]
