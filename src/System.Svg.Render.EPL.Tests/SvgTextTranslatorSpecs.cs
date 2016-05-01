@@ -183,5 +183,6 @@ namespace System.Svg.Render.EPL.Tests
       }
     }
 
+    // TODO add test for TryGetRotation
   }
 }

@@ -27,6 +27,29 @@ namespace System.Svg.Render.EPL
       int rotation;
       var rotationTransformation = instance.Transforms.OfType<SvgRotate>()
                                            .FirstOrDefault();
+      if (!this.TryGetRotation(rotationTransformation,
+                               out rotation))
+      {
+        return string.Empty;
+      }
+
+      // TODO here comes the magic!
+      var fontSelection = 1;
+      var horizontalMultiplier = 1;
+      var verticalMultiplier = 1;
+
+      var reverseImage = "N";
+
+      var text = instance.Text;
+
+      var translation = $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMultiplier},{verticalMultiplier},{reverseImage},""{text}""";
+
+      return translation;
+    }
+
+    public bool TryGetRotation(SvgRotate rotationTransformation,
+                               out int rotation)
+    {
       if (rotationTransformation == null)
       {
         rotation = 0;
@@ -50,22 +73,11 @@ namespace System.Svg.Render.EPL
         else
         {
           Trace.TraceError($@"Could not translate {nameof(SvgText)}, as {nameof(rotationTransformation.Angle)}:{rotationTransformation.Angle} could not be mapped");
-          return string.Empty;
+          rotation = 0;
+          return false;
         }
       }
-
-      // TODO here comes the magic!
-      var fontSelection = 1;
-      var horizontalMultiplier = 1;
-      var verticalMultiplier = 1;
-
-      var reverseImage = "N";
-
-      var text = instance.Text;
-
-      var translation = $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMultiplier},{verticalMultiplier},{reverseImage},""{text}""";
-
-      return translation;
+      return true;
     }
   }
 }
