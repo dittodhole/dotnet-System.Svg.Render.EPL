@@ -52,10 +52,6 @@ namespace System.Svg.Render.EPL
           var horizontalStart = startX;
           var verticalStart = startY;
           var horizontalLength = endX - startX;
-          if (horizontalLength == 0)
-          {
-            horizontalLength = strokeWidth;
-          }
           var verticalLength = strokeWidth;
 
           translation = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
@@ -67,10 +63,6 @@ namespace System.Svg.Render.EPL
           var verticalStart = startY;
           var horizontalLength = strokeWidth;
           var verticalLength = endY - startY;
-          if (verticalLength == 0)
-          {
-            verticalLength = strokeWidth;
-          }
 
           translation = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
         }
