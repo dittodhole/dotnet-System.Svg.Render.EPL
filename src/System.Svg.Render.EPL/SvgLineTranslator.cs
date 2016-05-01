@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 
 namespace System.Svg.Render.EPL
 {
@@ -35,8 +36,8 @@ namespace System.Svg.Render.EPL
         // horizontal or vertical
         string command;
 
-        var stroke = instance.Stroke as SvgColourServer;
-        if (stroke?.Colour == Color.White)
+        var color = instance.Color as SvgColourServer;
+        if (color?.Colour == Color.White)
         {
           command = "LW";
         }
@@ -75,8 +76,8 @@ namespace System.Svg.Render.EPL
         }
         else
         {
-          // TODO add documentation
-          throw new NotImplementedException();
+          Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startX} < {endX}"" or ""{startY} < {endY}"" is not true.");
+          return string.Empty;
         }
       }
       else if (startX <= endX
@@ -95,8 +96,8 @@ namespace System.Svg.Render.EPL
       }
       else
       {
-        // TODO add documentation
-        throw new NotImplementedException();
+        Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startX} < {endX}"" or ""{startY} < {endY}"" is not true.");
+        return string.Empty;
       }
 
       return translation;

@@ -102,6 +102,7 @@ namespace System.Svg.Render.EPL.Tests
       }
     }
 
+    [TestClass]
     public class when_stroke_is_white : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
@@ -112,8 +113,8 @@ namespace System.Svg.Render.EPL.Tests
         {
           StartX = new SvgUnit(10f),
           StartY = new SvgUnit(10f),
-          EndX = new SvgUnit(200f),
-          EndY = new SvgUnit(200f),
+          EndX = new SvgUnit(10f),
+          EndY = new SvgUnit(210f),
           StrokeWidth = new SvgUnit(20f),
           Color = new SvgColourServer(Color.White)
         };
@@ -122,7 +123,55 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_invalid_EPL_code()
       {
-        Assert.AreEqual("LW10,10,20,200,200",
+        Assert.AreEqual("LW10,10,20,200",
+                        this.Actual);
+      }
+    }
+
+    [TestClass]
+    public class when_partially_swapped_coordinates_are_given : SvgLineTranslatorSpecsContext
+    {
+      protected override void Context()
+      {
+        base.Context();
+
+        this.SvgLine = new SvgLine
+                       {
+                         StartX = new SvgUnit(0f),
+                         StartY = new SvgUnit(0f),
+                         EndX = new SvgUnit(-10f),
+                         EndY = new SvgUnit(0f)
+                       };
+      }
+
+      [TestMethod]
+      public void returns_invalid_epl_code()
+      {
+        Assert.AreEqual(string.Empty,
+                        this.Actual);
+      }
+    }
+
+    [TestClass]
+    public class when_completely_swapped_coordinates_are_given : SvgLineTranslatorSpecsContext
+    {
+      protected override void Context()
+      {
+        base.Context();
+
+        this.SvgLine = new SvgLine
+        {
+          StartX = new SvgUnit(0f),
+          StartY = new SvgUnit(-10f),
+          EndX = new SvgUnit(-10f),
+          EndY = new SvgUnit(0f)
+        };
+      }
+
+      [TestMethod]
+      public void returns_invalid_epl_code()
+      {
+        Assert.AreEqual(string.Empty,
                         this.Actual);
       }
     }
