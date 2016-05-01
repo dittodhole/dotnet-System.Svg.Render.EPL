@@ -26,8 +26,8 @@
       return result;
     }
 
-    private void CheckSvgUnitType(SvgUnit svgUnit1,
-                                  SvgUnit svgUnit2)
+    public void CheckSvgUnitType(SvgUnit svgUnit1,
+                                 SvgUnit svgUnit2)
     {
       if (svgUnit1.Type != svgUnit2.Type)
       {
