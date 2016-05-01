@@ -9,7 +9,9 @@ namespace System.Svg.Render.EPL.Tests
     {
       public SvgLineTranslatorSpecsContext()
       {
-        this.SvgLineTranslator = new SvgLineTranslator();
+        var svgUnitCalculator = new SvgUnitCalculator();
+
+        this.SvgLineTranslator = new SvgLineTranslator(svgUnitCalculator);
       }
 
       protected SvgLineTranslator SvgLineTranslator { get; set; }
@@ -35,7 +37,7 @@ namespace System.Svg.Render.EPL.Tests
                        {
                          StartX = new SvgUnit(50f),
                          StartY = new SvgUnit(200f),
-                         EndX = new SvgUnit(600f),
+                         EndX = new SvgUnit(450f),
                          EndY = new SvgUnit(200f),
                          StrokeWidth = new SvgUnit(20f)
                        };
