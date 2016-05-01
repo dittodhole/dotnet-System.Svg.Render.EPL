@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
 namespace System.Svg.Render.EPL.Tests
@@ -97,6 +98,31 @@ namespace System.Svg.Render.EPL.Tests
       public void return_invalid_EPL_code()
       {
         Assert.AreEqual("LS10,10,20,200,200",
+                        this.Actual);
+      }
+    }
+
+    public class when_stroke_is_white : SvgLineTranslatorSpecsContext
+    {
+      protected override void Context()
+      {
+        base.Context();
+
+        this.SvgLine = new SvgLine
+        {
+          StartX = new SvgUnit(10f),
+          StartY = new SvgUnit(10f),
+          EndX = new SvgUnit(200f),
+          EndY = new SvgUnit(200f),
+          StrokeWidth = new SvgUnit(20f),
+          Color = new SvgColourServer(Color.White)
+        };
+      }
+
+      [TestMethod]
+      public void return_invalid_EPL_code()
+      {
+        Assert.AreEqual("LW10,10,20,200,200",
                         this.Actual);
       }
     }
