@@ -2,6 +2,8 @@
 {
   public class SvgUnitCalculator
   {
+    // TODO add reading for different origin
+
     public SvgUnit Add(SvgUnit svgUnit1,
                        SvgUnit svgUnit2)
     {
