@@ -15,7 +15,7 @@ namespace System.Svg.Render.EPL.Tests
         this.SvgTextTranslator = new SvgTextTranslator(svgUnitCalculator);
       }
 
-      protected SvgTextTranslator SvgTextTranslator { get; set; }
+      protected SvgTextTranslator SvgTextTranslator { get; }
       protected SvgText SvgText { get; set; }
       protected object Actual { get; set; }
 
