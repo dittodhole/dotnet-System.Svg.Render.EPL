@@ -21,9 +21,6 @@ namespace System.Svg.Render.EPL
     public override object Translate(SvgLine instance,
                                      int targetDpi)
     {
-      // TODO fix if upper/lower bound are swapped
-      // TODO implement device-specific values
-
       var startX = this.SvgUnitCalculator.GetDevicePoints(instance.StartX,
                                                           targetDpi);
       var startY = this.SvgUnitCalculator.GetDevicePoints(instance.StartY,

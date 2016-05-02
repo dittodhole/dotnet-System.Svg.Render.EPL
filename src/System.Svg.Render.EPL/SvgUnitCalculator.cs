@@ -49,8 +49,6 @@
 
     public int GetValue(SvgUnit svgUnit)
     {
-      // TODO implement device-specific getting of .Value
-
       var result = (int) svgUnit.Value;
 
       return result;
