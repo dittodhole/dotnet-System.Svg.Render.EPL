@@ -35,35 +35,30 @@ namespace System.Svg.Render.EPL
       var strokeWidth = this.SvgUnitCalculator.GetDevicePoints(instance.StrokeWidth,
                                                                targetDpi);
 
+      if (startX > endX)
+      {
+        Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startX} < {endX}"" is not true.");
+        return null;
+      }
+      if (startY > endY)
+      {
+        Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startY} < {endY}"" is not true.");
+        return null;
+      }
+
       string translation;
       if (startY == endY
           || startX == endX)
       {
         var strokeShouldBeWhite = (instance.Color as SvgColourServer)?.Colour == Color.White;
-        if (startX < endX)
-        {
-          translation = this.TranslateHorizontalLine(startX,
-                                                     startY,
-                                                     endX,
-                                                     strokeWidth,
-                                                     strokeShouldBeWhite);
-        }
-        else if (startY < endY)
-        {
-          translation = this.TranslateVerticalLine(startX,
-                                                   startY,
-                                                   endY,
-                                                   strokeWidth,
-                                                   strokeShouldBeWhite);
-        }
-        else
-        {
-          Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startX} < {endX}"" or ""{startY} < {endY}"" is not true.");
-          return null;
-        }
+        translation = this.TranslateHorizontalOrVerticalLine(startX,
+                                                             startY,
+                                                             endX,
+                                                             endY,
+                                                             strokeWidth,
+                                                             strokeShouldBeWhite);
       }
-      else if (startX <= endX
-               && startY <= endY)
+      else
       {
         translation = this.TranslateDiagonal(startX,
                                              startY,
@@ -71,53 +66,29 @@ namespace System.Svg.Render.EPL
                                              endY,
                                              strokeWidth);
       }
-      else
-      {
-        Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startX} < {endX}"" or ""{startY} < {endY}"" is not true.");
-        return null;
-      }
 
       return translation;
     }
 
-    public string TranslateHorizontalLine(int startX,
-                                          int startY,
-                                          int endX,
-                                          int strokeWidth,
-                                          bool strokeShouldBeWhite)
+    public string TranslateHorizontalOrVerticalLine(int startX,
+                                                    int startY,
+                                                    int endX,
+                                                    int endY,
+                                                    int strokeWidth,
+                                                    bool strokeShouldBeWhite)
     {
-      // horizontal
       var horizontalStart = startX;
       var verticalStart = startY;
       var horizontalLength = endX - startX;
-      var verticalLength = strokeWidth;
-
-      string command;
-      if (strokeShouldBeWhite)
+      if (horizontalLength == 0)
       {
-        command = "LW";
+        horizontalLength = strokeWidth;
       }
-      else
-      {
-        command = "LO";
-      }
-
-      string result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
-
-      return result;
-    }
-
-    public string TranslateVerticalLine(int startX,
-                                        int startY,
-                                        int endY,
-                                        int strokeWidth,
-                                        bool strokeShouldBeWhite)
-    {
-      // vertical
-      var horizontalStart = startX;
-      var verticalStart = startY;
-      var horizontalLength = strokeWidth;
       var verticalLength = endY - startY;
+      if (verticalLength == 0)
+      {
+        verticalLength = strokeWidth;
+      }
 
       string command;
       if (strokeShouldBeWhite)
@@ -132,6 +103,7 @@ namespace System.Svg.Render.EPL
       string result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
 
       return result;
+
     }
 
     public string TranslateDiagonal(int startX,
