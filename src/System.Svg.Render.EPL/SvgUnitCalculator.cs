@@ -4,6 +4,16 @@
   {
     // TODO add reading for different origin
 
+    public SvgUnitCalculator()
+      : this(72) {}
+
+    public SvgUnitCalculator(int sourceDpi)
+    {
+      this.SourceDpi = sourceDpi;
+    }
+
+    public int SourceDpi { get; set; }
+
     public SvgUnit Add(SvgUnit svgUnit1,
                        SvgUnit svgUnit2)
     {
