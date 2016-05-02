@@ -28,7 +28,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_horizontal_sepcs_given : SvgLineTranslatorSpecsContext
+    public class when_horizontal_svg_line_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -45,7 +45,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void return_valid_EPL_code()
+      public void return_valid_epl_code()
       {
         Assert.AreEqual("LO50,200,400,20",
                         this.Actual);
@@ -53,7 +53,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_vertical_sepcs_given : SvgLineTranslatorSpecsContext
+    public class when_vertical_svg_line_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -70,7 +70,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void return_valid_EPL_code()
+      public void return_valid_epl_code()
       {
         Assert.AreEqual("LO200,50,20,400",
                         this.Actual);
@@ -78,7 +78,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_diagonal_specs_given : SvgLineTranslatorSpecsContext
+    public class when_diagonal_svg_line_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -95,7 +95,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void return_invalid_EPL_code()
+      public void return_valid_epl_code()
       {
         Assert.AreEqual("LS10,10,20,200,200",
                         this.Actual);
@@ -103,7 +103,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_stroke_is_white : SvgLineTranslatorSpecsContext
+    public class when_svg_line_with_white_stroke_color_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -121,7 +121,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void return_invalid_EPL_code()
+      public void return_valid_epl_code()
       {
         Assert.AreEqual("LW10,10,20,200",
                         this.Actual);
@@ -129,7 +129,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_partially_swapped_coordinates_are_given : SvgLineTranslatorSpecsContext
+    public class when_svg_line_with_partly_swapped_coordinates_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -145,7 +145,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void returns_invalid_epl_code()
+      public void return_no_epl_code()
       {
         Assert.AreEqual(string.Empty,
                         this.Actual);
@@ -153,7 +153,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_completely_swapped_coordinates_are_given : SvgLineTranslatorSpecsContext
+    public class when_svg_line_with_completely_swapped_coordinates_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -169,7 +169,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void returns_invalid_epl_code()
+      public void return_no_epl_code()
       {
         Assert.AreEqual(string.Empty,
                         this.Actual);

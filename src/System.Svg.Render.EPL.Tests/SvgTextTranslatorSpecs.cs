@@ -28,7 +28,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_valid_specs_are_given : SvgTextTranslatorSpecsContext
+    public class when_svg_text_is_translated : SvgTextTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -56,7 +56,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_90_degree_rotation_is_given : SvgTextTranslatorSpecsContext
+    public class when_svg_text_with_a_90_degree_rotation_is_translated : SvgTextTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -88,7 +88,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_180_degree_rotation_is_given : SvgTextTranslatorSpecsContext
+    public class when_svg_text_with_a_180_degree_rotation_is_translated : SvgTextTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -120,7 +120,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_270_degree_rotation_is_given : SvgTextTranslatorSpecsContext
+    public class when_svg_text_with_a_270_degree_rotation_is_translated : SvgTextTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -152,7 +152,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_invalid_rotation_is_given : SvgTextTranslatorSpecsContext
+    public class when_svg_text_with_an_out_of_range_rotation_is_translated : SvgTextTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -176,7 +176,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void return_valid_epl_code()
+      public void return_no_epl_code()
       {
         Assert.AreEqual(string.Empty,
                         this.Actual);

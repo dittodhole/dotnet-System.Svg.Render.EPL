@@ -28,7 +28,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_doing_something_with_different_svg_unit_types : SvgUnitCalculatorFailingSpecsContext
+    public class when_two_svg_unit_instances_with_different_types_are_the_basis_of_math_methods : SvgUnitCalculatorFailingSpecsContext
     {
       protected override void BecauseOf()
       {
@@ -56,7 +56,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_adding_svg_units : SvgUnitCalculatorSpecsContext
+    public class when_two_svg_unit_instances_are_added : SvgUnitCalculatorSpecsContext
     {
       protected override void BecauseOf()
       {
@@ -70,7 +70,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void the_values_should_be_added_correctly()
+      public void the_result_should_be_correct()
       {
         Assert.AreEqual(this.Actual,
                         400);
@@ -78,7 +78,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_substracting_svg_units : SvgUnitCalculatorSpecsContext
+    public class when_two_svg_unit_instances_are_substracted : SvgUnitCalculatorSpecsContext
     {
       protected override void BecauseOf()
       {
@@ -92,7 +92,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void the_values_should_be_substracted_correctly()
+      public void the_result_should_be_correct()
       {
         Assert.AreEqual(this.Actual,
                         200);

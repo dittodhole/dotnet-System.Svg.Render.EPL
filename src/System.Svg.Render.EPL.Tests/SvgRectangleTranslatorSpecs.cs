@@ -45,7 +45,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_valid_specs_are_given : SvgRectangleTranslatorSpecsContext
+    public class when_svg_rectangle_is_translated : SvgRectangleTranslatorSpecsContext
     {
       protected override void Context()
       {
@@ -62,7 +62,7 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       [TestMethod]
-      public void translation_should_be_correct()
+      public void return_valid_epl_code()
       {
         Assert.AreEqual("LO10,10,100,20",
                         this.ActualUpperLine);
