@@ -5,6 +5,7 @@
     // TODO add reading for different origin
 
     public int SourceDpi { get; set; } = 72;
+    public SvgUnitType NoneSubstution { get; set; } = SvgUnitType.None;
 
     public SvgUnit Add(SvgUnit svgUnit1,
                        SvgUnit svgUnit2)
@@ -47,6 +48,61 @@
       var result = (int) svgUnit.Value;
 
       return result;
+    }
+
+    public int GetDevicePoints(SvgUnit svgUnit,
+                               int targetDpi)
+    {
+      var type = svgUnit.Type;
+      if (type == SvgUnitType.None)
+      {
+        type = this.NoneSubstution;
+      }
+
+      float? inches;
+      if (type == SvgUnitType.Inch)
+      {
+        inches = svgUnit.Value;
+      }
+      else if (type == SvgUnitType.Centimeter)
+      {
+        inches = svgUnit.Value / 2.54f;
+      }
+      else if (type == SvgUnitType.Millimeter)
+      {
+        inches = svgUnit.Value / 10f / 2.54f;
+      }
+      else if (type == SvgUnitType.Point)
+      {
+        inches = svgUnit.Value / 72f;
+      }
+      else if (type == SvgUnitType.Pica)
+      {
+        inches = svgUnit.Value / 10f / 72f;
+      }
+      else
+      {
+        inches = null;
+      }
+
+      float pixels;
+      if (type == SvgUnitType.Pixel)
+      {
+        pixels = svgUnit.Value;
+      }
+      else if (inches.HasValue)
+      {
+        pixels = inches.Value * this.SourceDpi;
+      }
+      else
+      {
+        // TODO add documentation
+        throw new NotImplementedException($"a conversion for {nameof(svgUnit)}'s {nameof(SvgUnit.Type)} value set is currently not implemented: {type}");
+      }
+
+      var devicePoints = (int) (pixels / this.SourceDpi * targetDpi);
+
+      return devicePoints;
     }
   }
 }
