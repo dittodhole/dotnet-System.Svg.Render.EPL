@@ -150,7 +150,6 @@ namespace System.Svg.Render.EPL.Tests
       }
     }
 
-
     [TestClass]
     public class when_centimeter_is_converted_to_device_points : SvgUnitCalculatorSpecsContext
     {
@@ -199,7 +198,6 @@ namespace System.Svg.Render.EPL.Tests
                         this.Actual);
       }
     }
-
 
     [TestClass]
     public class when_millimeter_is_converted_to_device_points : SvgUnitCalculatorSpecsContext
@@ -298,7 +296,6 @@ namespace System.Svg.Render.EPL.Tests
                         this.Actual);
       }
     }
-
 
     [TestClass]
     public class when_pica_is_converted_to_device_points : SvgUnitCalculatorSpecsContext
