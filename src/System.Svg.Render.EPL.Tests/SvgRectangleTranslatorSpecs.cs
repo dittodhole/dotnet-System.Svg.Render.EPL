@@ -1,13 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
+// ReSharper disable InconsistentNaming
+
 namespace System.Svg.Render.EPL.Tests
 {
   public static class SvgRectangleTranslatorSpecs
   {
-    public class SvgRectangleTranslatorSpecsContext : ContextSpecification
+    public abstract class SvgRectangleTranslatorSpecsContext : ContextSpecification
     {
-      public SvgRectangleTranslatorSpecsContext()
+      protected SvgRectangleTranslatorSpecsContext()
       {
         var svgUnitCalculator = new SvgUnitCalculator();
 
@@ -16,13 +18,13 @@ namespace System.Svg.Render.EPL.Tests
                                                                  svgUnitCalculator);
       }
 
-      protected SvgRectangleTranslator SvgRectangleTranslator { get; }
-      protected SvgLineTranslator SvgLineTranslator { get; }
+      private SvgRectangleTranslator SvgRectangleTranslator { get; }
+      private SvgLineTranslator SvgLineTranslator { get; }
       protected SvgRectangle SvgRectangle { get; set; }
-      protected SvgLine UpperLine { get; set; }
-      protected SvgLine RightLine { get; set; }
-      protected SvgLine LowerLine { get; set; }
-      protected SvgLine LeftLine { get; set; }
+      private SvgLine UpperLine { get; set; }
+      private SvgLine RightLine { get; set; }
+      private SvgLine LowerLine { get; set; }
+      private SvgLine LeftLine { get; set; }
       protected object ActualUpperLine { get; set; }
       protected object ActualRightLine { get; set; }
       protected object ActualLowerLine { get; set; }

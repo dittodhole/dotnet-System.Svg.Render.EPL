@@ -2,20 +2,22 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
+// ReSharper disable InconsistentNaming
+
 namespace System.Svg.Render.EPL.Tests
 {
   public static class SvgTextTranslatorSpecs
   {
-    public class SvgTextTranslatorSpecsContext : ContextSpecification
+    public abstract class SvgTextTranslatorSpecsContext : ContextSpecification
     {
-      public SvgTextTranslatorSpecsContext()
+      protected SvgTextTranslatorSpecsContext()
       {
         var svgUnitCalculator = new SvgUnitCalculator();
 
         this.SvgTextTranslator = new SvgTextTranslator(svgUnitCalculator);
       }
 
-      protected SvgTextTranslator SvgTextTranslator { get; }
+      private SvgTextTranslator SvgTextTranslator { get; }
       protected SvgText SvgText { get; set; }
       protected object Actual { get; set; }
 
@@ -159,20 +161,20 @@ namespace System.Svg.Render.EPL.Tests
         base.Context();
 
         this.SvgText = new SvgText("hello")
-        {
-          X = new SvgUnitCollection
+                       {
+                         X = new SvgUnitCollection
                              {
                                new SvgUnit(100f)
                              },
-          Y = new SvgUnitCollection
+                         Y = new SvgUnitCollection
                              {
                                new SvgUnit(100f)
                              },
-          Transforms = new SvgTransformCollection
+                         Transforms = new SvgTransformCollection
                                       {
                                         new SvgRotate(290f)
                                       }
-        };
+                       };
       }
 
       [TestMethod]

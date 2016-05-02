@@ -1,13 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
+// ReSharper disable InconsistentNaming
 
 namespace System.Svg.Render.EPL.Tests
 {
   public static class SvgUnitCalculatorSpecs
   {
-    public class SvgUnitCalculatorFailingSpecsContext : ContextSpecification
+    public abstract class SvgUnitCalculatorFailingSpecsContext : ContextSpecification
     {
-      public SvgUnitCalculatorFailingSpecsContext()
+      protected SvgUnitCalculatorFailingSpecsContext()
       {
         this.SvgUnitCalculator = new SvgUnitCalculator();
       }
@@ -16,9 +17,9 @@ namespace System.Svg.Render.EPL.Tests
       protected object Actual { get; set; }
     }
 
-    public class SvgUnitCalculatorSpecsContext : ContextSpecification
+    public abstract class SvgUnitCalculatorSpecsContext : ContextSpecification
     {
-      public SvgUnitCalculatorSpecsContext()
+      protected SvgUnitCalculatorSpecsContext()
       {
         this.SvgUnitCalculator = new SvgUnitCalculator();
       }

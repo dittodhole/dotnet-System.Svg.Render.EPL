@@ -2,20 +2,22 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
+// ReSharper disable InconsistentNaming
+
 namespace System.Svg.Render.EPL.Tests
 {
   public static class SvgLineTranslatorSpecs
   {
-    public class SvgLineTranslatorSpecsContext : ContextSpecification
+    public abstract class SvgLineTranslatorSpecsContext : ContextSpecification
     {
-      public SvgLineTranslatorSpecsContext()
+      protected SvgLineTranslatorSpecsContext()
       {
         var svgUnitCalculator = new SvgUnitCalculator();
 
         this.SvgLineTranslator = new SvgLineTranslator(svgUnitCalculator);
       }
 
-      protected SvgLineTranslator SvgLineTranslator { get; }
+      private SvgLineTranslator SvgLineTranslator { get; }
       protected SvgLine SvgLine { get; set; }
       protected object Actual { get; set; }
 
@@ -110,14 +112,14 @@ namespace System.Svg.Render.EPL.Tests
         base.Context();
 
         this.SvgLine = new SvgLine
-        {
-          StartX = new SvgUnit(10f),
-          StartY = new SvgUnit(10f),
-          EndX = new SvgUnit(10f),
-          EndY = new SvgUnit(210f),
-          StrokeWidth = new SvgUnit(20f),
-          Color = new SvgColourServer(Color.White)
-        };
+                       {
+                         StartX = new SvgUnit(10f),
+                         StartY = new SvgUnit(10f),
+                         EndX = new SvgUnit(10f),
+                         EndY = new SvgUnit(210f),
+                         StrokeWidth = new SvgUnit(20f),
+                         Color = new SvgColourServer(Color.White)
+                       };
       }
 
       [TestMethod]
@@ -160,12 +162,12 @@ namespace System.Svg.Render.EPL.Tests
         base.Context();
 
         this.SvgLine = new SvgLine
-        {
-          StartX = new SvgUnit(0f),
-          StartY = new SvgUnit(-10f),
-          EndX = new SvgUnit(-10f),
-          EndY = new SvgUnit(0f)
-        };
+                       {
+                         StartX = new SvgUnit(0f),
+                         StartY = new SvgUnit(-10f),
+                         EndX = new SvgUnit(-10f),
+                         EndY = new SvgUnit(0f)
+                       };
       }
 
       [TestMethod]
