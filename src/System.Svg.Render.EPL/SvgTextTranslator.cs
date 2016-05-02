@@ -23,6 +23,9 @@ namespace System.Svg.Render.EPL
     public override object Translate(SvgText instance,
                                      int targetDpi)
     {
+      // TODO add multiline translation
+      // TODO add lineHeight translation
+
       var horizontalStart = this.SvgUnitCalculator.GetDevicePoints(instance.X.First(),
                                                                    targetDpi);
       var verticalStart = this.SvgUnitCalculator.GetDevicePoints(instance.Y.First(),
