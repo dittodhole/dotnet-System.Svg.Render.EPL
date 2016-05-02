@@ -41,6 +41,12 @@
       }
     }
 
+    public bool IsValueZero(SvgUnit svgUnit)
+    {
+      // TODO find a good TOLERANCE
+      return Math.Abs(svgUnit.Value) < 0.5f;
+    }
+
     public int GetValue(SvgUnit svgUnit)
     {
       // TODO implement device-specific getting of .Value
