@@ -45,11 +45,11 @@ namespace System.Svg.Render.EPL
         }
         else if (startY < endY)
         {
-          translation = this.TranslateVertialLine(startX,
-                                                  startY,
-                                                  endY,
-                                                  strokeWidth,
-                                                  strokeShouldBeWhite);
+          translation = this.TranslateVerticalLine(startX,
+                                                   startY,
+                                                   endY,
+                                                   strokeWidth,
+                                                   strokeShouldBeWhite);
         }
         else
         {
@@ -102,11 +102,11 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    public string TranslateVertialLine(int startX,
-                                       int startY,
-                                       int endY,
-                                       int strokeWidth,
-                                       bool strokeShouldBeWhite)
+    public string TranslateVerticalLine(int startX,
+                                        int startY,
+                                        int endY,
+                                        int strokeWidth,
+                                        bool strokeShouldBeWhite)
     {
       // vertical
       var horizontalStart = startX;
