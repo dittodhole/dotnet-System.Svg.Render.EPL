@@ -5,7 +5,7 @@
     // TODO add reading for different origin
 
     public int SourceDpi { get; set; } = 72;
-    public SvgUnitType NoneSubstution { get; set; } = SvgUnitType.None;
+    public SvgUnitType UserUnitTypeSubstitution { get; set; } = SvgUnitType.Pixel;
 
     public SvgUnit Add(SvgUnit svgUnit1,
                        SvgUnit svgUnit2)
@@ -54,9 +54,9 @@
                                int targetDpi)
     {
       var type = svgUnit.Type;
-      if (type == SvgUnitType.None)
+      if (type == SvgUnitType.User)
       {
-        type = this.NoneSubstution;
+        type = this.UserUnitTypeSubstitution;
       }
 
       float? inches;
