@@ -24,11 +24,16 @@ namespace System.Svg.Render.EPL
       // TODO fix if upper/lower bound are swapped
       // TODO implement device-specific values
 
-      var startX = this.SvgUnitCalculator.GetDevicePoints(instance.StartX, targetDpi);
-      var startY = this.SvgUnitCalculator.GetDevicePoints(instance.StartY, targetDpi);
-      var endX = this.SvgUnitCalculator.GetDevicePoints(instance.EndX, targetDpi);
-      var endY = this.SvgUnitCalculator.GetDevicePoints(instance.EndY, targetDpi);
-      var strokeWidth = this.SvgUnitCalculator.GetDevicePoints(instance.StrokeWidth, targetDpi);
+      var startX = this.SvgUnitCalculator.GetDevicePoints(instance.StartX,
+                                                          targetDpi);
+      var startY = this.SvgUnitCalculator.GetDevicePoints(instance.StartY,
+                                                          targetDpi);
+      var endX = this.SvgUnitCalculator.GetDevicePoints(instance.EndX,
+                                                        targetDpi);
+      var endY = this.SvgUnitCalculator.GetDevicePoints(instance.EndY,
+                                                        targetDpi);
+      var strokeWidth = this.SvgUnitCalculator.GetDevicePoints(instance.StrokeWidth,
+                                                               targetDpi);
 
       string translation;
       if (startY == endY
