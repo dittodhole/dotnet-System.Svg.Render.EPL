@@ -18,16 +18,17 @@ namespace System.Svg.Render.EPL
 
     private SvgUnitCalculator SvgUnitCalculator { get; }
 
-    public override object Translate(SvgLine instance)
+    public override object Translate(SvgLine instance,
+                                     int targetDpi)
     {
       // TODO fix if upper/lower bound are swapped
       // TODO implement device-specific values
 
-      var startX = this.SvgUnitCalculator.GetValue(instance.StartX);
-      var startY = this.SvgUnitCalculator.GetValue(instance.StartY);
-      var endX = this.SvgUnitCalculator.GetValue(instance.EndX);
-      var endY = this.SvgUnitCalculator.GetValue(instance.EndY);
-      var strokeWidth = this.SvgUnitCalculator.GetValue(instance.StrokeWidth);
+      var startX = this.SvgUnitCalculator.GetDevicePoints(instance.StartX, targetDpi);
+      var startY = this.SvgUnitCalculator.GetDevicePoints(instance.StartY, targetDpi);
+      var endX = this.SvgUnitCalculator.GetDevicePoints(instance.EndX, targetDpi);
+      var endY = this.SvgUnitCalculator.GetDevicePoints(instance.EndY, targetDpi);
+      var strokeWidth = this.SvgUnitCalculator.GetDevicePoints(instance.StrokeWidth, targetDpi);
 
       string translation;
       if (startY == endY

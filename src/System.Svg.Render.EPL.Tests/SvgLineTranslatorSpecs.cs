@@ -12,11 +12,14 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected SvgLineTranslatorSpecsContext()
       {
-        var svgUnitCalculator = new SvgUnitCalculator();
-
-        this.SvgLineTranslator = new SvgLineTranslator(svgUnitCalculator);
+        this.SvgUnitCalculator = new SvgUnitCalculator
+                                 {
+                                   UserUnitTypeSubstitution = SvgUnitType.Pixel
+                                 };
+        this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator);
       }
 
+      private SvgUnitCalculator SvgUnitCalculator { get; }
       private SvgLineTranslator SvgLineTranslator { get; }
       protected SvgLine SvgLine { get; set; }
       protected object Actual { get; set; }
@@ -25,7 +28,8 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        this.Actual = this.SvgLineTranslator.Translate(this.SvgLine);
+        this.Actual = this.SvgLineTranslator.Translate(this.SvgLine,
+                                                       this.SvgUnitCalculator.SourceDpi);
       }
     }
 

@@ -19,10 +19,13 @@ namespace System.Svg.Render.EPL
 
     private SvgUnitCalculator SvgUnitCalculator { get; }
 
-    public override object Translate(SvgText instance)
+    public override object Translate(SvgText instance,
+                                     int targetDpi)
     {
-      var horizontalStart = this.SvgUnitCalculator.GetValue(instance.X.First());
-      var verticalStart = this.SvgUnitCalculator.GetValue(instance.Y.First());
+      var horizontalStart = this.SvgUnitCalculator.GetDevicePoints(instance.X.First(),
+                                                                   targetDpi);
+      var verticalStart = this.SvgUnitCalculator.GetDevicePoints(instance.Y.First(),
+                                                                 targetDpi);
 
       int rotation;
       var rotationTransformation = instance.Transforms.OfType<SvgRotate>()

@@ -25,7 +25,8 @@ namespace System.Svg.Render.EPL
     private SvgLineTranslator SvgLineTranslator { get; }
     private SvgUnitCalculator SvgUnitCalculator { get; }
 
-    public override object Translate(SvgRectangle instance)
+    public override object Translate(SvgRectangle instance,
+                                     int targetDpi)
     {
       var upperLine = this.GetUpperLine(instance);
       var rightLine = this.GetRightLine(instance);
@@ -37,7 +38,8 @@ namespace System.Svg.Render.EPL
                            rightLine,
                            lowerLine,
                            leftLine
-                         }.Select(this.SvgLineTranslator.Translate);
+                         }.Select(instance1 => this.SvgLineTranslator.Translate(instance1,
+                                                                                targetDpi));
       var translation = string.Join(Environment.NewLine,
                                     translations);
 

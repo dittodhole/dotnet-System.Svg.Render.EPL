@@ -123,21 +123,20 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_untyped_value_is_mapped_to_inches_and_converted_to_device_points : SvgUnitCalculatorSpecsContext
+    public class when_user_value_is_mapped_to_inches_and_converted_to_device_points : SvgUnitCalculatorSpecsContext
     {
       protected override void Context()
       {
         base.Context();
 
-        this.SvgUnitCalculator.NoneSubstution = SvgUnitType.Inch;
+        this.SvgUnitCalculator.UserUnitTypeSubstitution = SvgUnitType.Inch;
       }
 
       protected override void BecauseOf()
       {
         base.BecauseOf();
 
-        var svgUnit = new SvgUnit(SvgUnitType.None,
-                                  3f);
+        var svgUnit = new SvgUnit(3f);
         this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
                                                              203);
       }
@@ -172,21 +171,20 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_untyped_value_is_mapped_to_centimeters_and_converted_to_device_points : SvgUnitCalculatorSpecsContext
+    public class when_user_value_is_mapped_to_centimeters_and_converted_to_device_points : SvgUnitCalculatorSpecsContext
     {
       protected override void Context()
       {
         base.Context();
 
-        this.SvgUnitCalculator.NoneSubstution = SvgUnitType.Centimeter;
+        this.SvgUnitCalculator.UserUnitTypeSubstitution = SvgUnitType.Centimeter;
       }
 
       protected override void BecauseOf()
       {
         base.BecauseOf();
 
-        var svgUnit = new SvgUnit(SvgUnitType.Centimeter,
-                                  10f);
+        var svgUnit = new SvgUnit(10f);
         this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
                                                              203);
       }
@@ -221,21 +219,20 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_untyped_value_is_mapped_to_millimeters_and_converted_to_device_points : SvgUnitCalculatorSpecsContext
+    public class when_user_value_is_mapped_to_millimeters_and_converted_to_device_points : SvgUnitCalculatorSpecsContext
     {
       protected override void Context()
       {
         base.Context();
 
-        this.SvgUnitCalculator.NoneSubstution = SvgUnitType.Millimeter;
+        this.SvgUnitCalculator.UserUnitTypeSubstitution = SvgUnitType.Millimeter;
       }
 
       protected override void BecauseOf()
       {
         base.BecauseOf();
 
-        var svgUnit = new SvgUnit(SvgUnitType.None,
-                                  8433f);
+        var svgUnit = new SvgUnit(8433f);
         this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
                                                              203);
       }
@@ -270,21 +267,20 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_untyped_value_is_mapped_to_pixels_and_converted_to_device_points : SvgUnitCalculatorSpecsContext
+    public class when_user_value_is_mapped_to_pixels_and_converted_to_device_points : SvgUnitCalculatorSpecsContext
     {
       protected override void Context()
       {
         base.Context();
 
-        this.SvgUnitCalculator.NoneSubstution = SvgUnitType.Pixel;
+        this.SvgUnitCalculator.UserUnitTypeSubstitution = SvgUnitType.Pixel;
       }
 
       protected override void BecauseOf()
       {
         base.BecauseOf();
 
-        var svgUnit = new SvgUnit(SvgUnitType.None,
-                                  100f);
+        var svgUnit = new SvgUnit(100f);
         this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
                                                              203);
       }
@@ -319,21 +315,20 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_untyped_value_is_mapped_to_pica_and_converted_to_device_points_and_translated : SvgUnitCalculatorSpecsContext
+    public class when_user_value_is_mapped_to_pica_and_converted_to_device_points_and_translated : SvgUnitCalculatorSpecsContext
     {
       protected override void Context()
       {
         base.Context();
 
-        this.SvgUnitCalculator.NoneSubstution = SvgUnitType.Pica;
+        this.SvgUnitCalculator.UserUnitTypeSubstitution = SvgUnitType.Pica;
       }
 
       protected override void BecauseOf()
       {
         base.BecauseOf();
 
-        var svgUnit = new SvgUnit(SvgUnitType.None,
-                                  128840f);
+        var svgUnit = new SvgUnit(128840f);
         this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
                                                              203);
       }
@@ -412,35 +407,6 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         var svgUnit = new SvgUnit(SvgUnitType.Percentage,
-                                  100f);
-
-        try
-        {
-          this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                 203);
-        }
-        catch (NotImplementedException notImplementedException)
-        {
-          this.Actual = notImplementedException;
-        }
-      }
-
-      [TestMethod]
-      public void should_get_not_implemented_exception()
-      {
-        Assert.IsInstanceOfType(this.Actual,
-                                typeof(NotImplementedException));
-      }
-    }
-
-    [TestClass]
-    public class when_user_value_is_converted_to_device_points : SvgUnitCalculatorFailingSpecsContext
-    {
-      protected override void BecauseOf()
-      {
-        base.BecauseOf();
-
-        var svgUnit = new SvgUnit(SvgUnitType.User,
                                   100f);
 
         try

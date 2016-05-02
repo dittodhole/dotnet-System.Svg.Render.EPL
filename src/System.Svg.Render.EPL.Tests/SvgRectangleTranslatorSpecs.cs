@@ -11,13 +11,16 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected SvgRectangleTranslatorSpecsContext()
       {
-        var svgUnitCalculator = new SvgUnitCalculator();
-
-        this.SvgLineTranslator = new SvgLineTranslator(svgUnitCalculator);
+        this.SvgUnitCalculator = new SvgUnitCalculator
+                                 {
+                                   UserUnitTypeSubstitution = SvgUnitType.Pixel
+                                 };
+        this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator);
         this.SvgRectangleTranslator = new SvgRectangleTranslator(this.SvgLineTranslator,
-                                                                 svgUnitCalculator);
+                                                                 this.SvgUnitCalculator);
       }
 
+      private SvgUnitCalculator SvgUnitCalculator { get; }
       private SvgRectangleTranslator SvgRectangleTranslator { get; }
       private SvgLineTranslator SvgLineTranslator { get; }
       protected SvgRectangle SvgRectangle { get; set; }
@@ -39,10 +42,14 @@ namespace System.Svg.Render.EPL.Tests
         this.LowerLine = this.SvgRectangleTranslator.GetLowerLine(this.SvgRectangle);
         this.LeftLine = this.SvgRectangleTranslator.GetLeftLine(this.SvgRectangle);
 
-        this.ActualUpperLine = this.SvgLineTranslator.Translate(this.UpperLine);
-        this.ActualRightLine = this.SvgLineTranslator.Translate(this.RightLine);
-        this.ActualLowerLine = this.SvgLineTranslator.Translate(this.LowerLine);
-        this.ActualLeftLine = this.SvgLineTranslator.Translate(this.LeftLine);
+        this.ActualUpperLine = this.SvgLineTranslator.Translate(this.UpperLine,
+                                                                this.SvgUnitCalculator.SourceDpi);
+        this.ActualRightLine = this.SvgLineTranslator.Translate(this.RightLine,
+                                                                this.SvgUnitCalculator.SourceDpi);
+        this.ActualLowerLine = this.SvgLineTranslator.Translate(this.LowerLine,
+                                                                this.SvgUnitCalculator.SourceDpi);
+        this.ActualLeftLine = this.SvgLineTranslator.Translate(this.LeftLine,
+                                                               this.SvgUnitCalculator.SourceDpi);
       }
     }
 
