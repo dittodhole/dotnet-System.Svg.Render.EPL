@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Svg.Transforms;
 
@@ -64,7 +65,15 @@ namespace System.Svg.Render.EPL
       var horizontalMultiplier = 1; // Accepted Values: 1–6, 8
       var verticalMultiplier = 1; // Accepted Values: 1–9
 
-      var reverseImage = "N";
+      string reverseImage;
+      if ((instance.Fill as SvgColourServer)?.Colour == Color.White)
+      {
+        reverseImage = "R";
+      }
+      else
+      {
+        reverseImage = "N";
+      }
 
       var text = instance.Text;
 

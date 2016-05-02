@@ -1,4 +1,5 @@
-﻿using System.Svg.Transforms;
+﻿using System.Drawing;
+using System.Svg.Transforms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
@@ -60,6 +61,36 @@ namespace System.Svg.Render.EPL.Tests
                         this.Actual);
       }
     }
+
+    [TestClass]
+    public class when_svg_text_with_black_fill_is_translated : SvgTextTranslatorSpecsContext
+    {
+      protected override void Context()
+      {
+        base.Context();
+
+        this.SvgText = new SvgText("hello")
+        {
+          X = new SvgUnitCollection
+                             {
+                               new SvgUnit(100f)
+                             },
+          Y = new SvgUnitCollection
+                             {
+                               new SvgUnit(100f)
+                             },
+          Fill = new SvgColourServer(Color.White)
+        };
+      }
+
+      [TestMethod]
+      public void return_valid_epl_code()
+      {
+        Assert.AreEqual(@"A100,100,0,1,1,1,R,""hello""",
+                        this.Actual);
+      }
+    }
+
 
     [TestClass]
     public class when_svg_text_with_a_90_degree_rotation_is_translated : SvgTextTranslatorSpecsContext
