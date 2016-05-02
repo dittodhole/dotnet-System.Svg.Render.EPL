@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.Linq;
 
 namespace System.Svg.Render.EPL
 {
   public class SvgRectangleTranslator : SvgElementTranslator<SvgRectangle>
   {
+    // TODO add documentation/quote: strokes are printed inside the rectangle (calculation stuff)
+
     public SvgRectangleTranslator(SvgLineTranslator svgLineTranslator,
                                   SvgUnitCalculator svgUnitCalculator)
     {
@@ -28,82 +31,120 @@ namespace System.Svg.Render.EPL
     public override object Translate(SvgRectangle instance,
                                      int targetDpi)
     {
-      var upperLine = this.GetUpperLine(instance);
-      var rightLine = this.GetRightLine(instance);
-      var lowerLine = this.GetLowerLine(instance);
-      var leftLine = this.GetLeftLine(instance);
-      var translations = new[]
-                         {
-                           upperLine,
-                           rightLine,
-                           lowerLine,
-                           leftLine
-                         }.Select(instance1 => this.SvgLineTranslator.Translate(instance1,
-                                                                                targetDpi))
-                          .Where(arg => arg != null);
-      var translation = string.Join(Environment.NewLine,
-                                    translations);
+      object translation;
+      if (this.SvgUnitCalculator.IsValueZero(instance.Width)
+          && this.SvgUnitCalculator.IsValueZero(instance.Height))
+      {
+        var svgLine = new SvgLine
+                      {
+                        StartX = instance.X,
+                        StartY = instance.Y,
+                        EndX = instance.X,
+                        EndY = instance.Y,
+                        StrokeWidth = instance.StrokeWidth
+                      };
 
+        translation = this.SvgLineTranslator.Translate(svgLine,
+                                                       targetDpi);
+      }
+      else if ((instance.Color as SvgColourServer)?.Colour == Color.Black)
+      {
+        var svgLine = new SvgLine
+                      {
+                        StartX = instance.X,
+                        StartY = instance.Y,
+                        EndX = this.SvgUnitCalculator.Add(instance.X,
+                                                          instance.Width),
+                        EndY = instance.Y,
+                        StrokeWidth = instance.Height
+                      };
+
+        translation = this.SvgLineTranslator.Translate(svgLine,
+                                                       targetDpi);
+      }
+      else
+      {
+        var upperLine = this.GetUpperLine(instance);
+        var rightLine = this.GetRightLine(instance);
+        var lowerLine = this.GetLowerLine(instance);
+        var leftLine = this.GetLeftLine(instance);
+        var translations = new[]
+                           {
+                             upperLine,
+                             rightLine,
+                             lowerLine,
+                             leftLine
+                           }.Select(instance1 => this.SvgLineTranslator.Translate(instance1,
+                                                                                  targetDpi))
+                            .Where(arg => arg != null);
+
+        translation = string.Join(Environment.NewLine,
+                                  translations);
+      }
       return translation;
     }
 
     public SvgLine GetLeftLine(SvgRectangle instance)
     {
-      var leftLine = new SvgLine // (10/10) - (10/110)
+      var leftLine = new SvgLine
                      {
-                       StartX = instance.X, // 10
-                       StartY = instance.Y, // 10
-                       EndX = instance.X, // 10
+                       StartX = instance.X,
+                       StartY = instance.Y,
+                       EndX = instance.X,
                        EndY = this.SvgUnitCalculator.Add(instance.Y,
-                                                         instance.Height), // 110
+                                                         instance.Height),
                        StrokeWidth = instance.StrokeWidth
                      };
+
       return leftLine;
     }
 
     public SvgLine GetLowerLine(SvgRectangle instance)
     {
-      var lowerLine = new SvgLine // (10/110) - (110/110)
+      var lowerLine = new SvgLine
                       {
-                        StartX = instance.X, // 10
+                        StartX = instance.X,
                         StartY = this.SvgUnitCalculator.Add(instance.Y,
-                                                            instance.Height), // 110
+                                                            instance.Height),
                         EndX = this.SvgUnitCalculator.Add(instance.X,
-                                                          instance.Width), // 110
+                                                          instance.Width),
                         EndY = this.SvgUnitCalculator.Add(instance.Y,
-                                                          instance.Height), // 110
+                                                          instance.Height),
                         StrokeWidth = instance.StrokeWidth
                       };
+
       return lowerLine;
     }
 
     public SvgLine GetRightLine(SvgRectangle instance)
     {
-      var rightLine = new SvgLine // (110/10) - (110/110)
+      var rightLine = new SvgLine
                       {
                         StartX = this.SvgUnitCalculator.Add(instance.X,
-                                                            instance.Width), // 110
-                        StartY = instance.Y, // 10
+                                                            instance.Width),
+                        StartY = instance.Y,
                         EndX = this.SvgUnitCalculator.Add(instance.X,
-                                                          instance.Width), // 110
+                                                          instance.Width),
                         EndY = this.SvgUnitCalculator.Add(instance.Y,
-                                                          instance.Height), // 110
+                                                          instance.Height),
                         StrokeWidth = instance.StrokeWidth
                       };
+
       return rightLine;
     }
 
     public SvgLine GetUpperLine(SvgRectangle instance)
     {
-      var upperLine = new SvgLine // (10/10) - (110/10)
+      var upperLine = new SvgLine
                       {
-                        StartX = instance.X, // 10
-                        StartY = instance.Y, // 10
+                        StartX = instance.X,
+                        StartY = instance.Y,
                         EndX = this.SvgUnitCalculator.Add(instance.X,
-                                                          instance.Width), //110
-                        EndY = instance.Y, // 10
+                                                          instance.Width),
+                        EndY = instance.Y,
                         StrokeWidth = instance.StrokeWidth
                       };
+
       return upperLine;
     }
   }
