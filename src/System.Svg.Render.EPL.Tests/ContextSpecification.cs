@@ -2,6 +2,8 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+// ReSharper disable CheckNamespace
+
 namespace UnitTest
 {
   public abstract class ContextSpecification
