@@ -50,7 +50,8 @@ namespace System.Svg.Render.EPL.Tests
                          Y = new SvgUnitCollection
                              {
                                new SvgUnit(100f)
-                             }
+                             },
+                         FontSize = new SvgUnit(12f)
                        };
       }
 
@@ -70,17 +71,18 @@ namespace System.Svg.Render.EPL.Tests
         base.Context();
 
         this.SvgText = new SvgText("hello")
-        {
-          X = new SvgUnitCollection
+                       {
+                         X = new SvgUnitCollection
                              {
                                new SvgUnit(100f)
                              },
-          Y = new SvgUnitCollection
+                         Y = new SvgUnitCollection
                              {
                                new SvgUnit(100f)
                              },
-          Fill = new SvgColourServer(Color.White)
-        };
+                         Fill = new SvgColourServer(Color.White),
+                         FontSize = new SvgUnit(12f)
+                       };
       }
 
       [TestMethod]
@@ -90,7 +92,6 @@ namespace System.Svg.Render.EPL.Tests
                         this.Actual);
       }
     }
-
 
     [TestClass]
     public class when_svg_text_with_a_90_degree_rotation_is_translated : SvgTextTranslatorSpecsContext
@@ -112,7 +113,8 @@ namespace System.Svg.Render.EPL.Tests
                          Transforms = new SvgTransformCollection
                                       {
                                         new SvgRotate(90f)
-                                      }
+                                      },
+                         FontSize = new SvgUnit(12f)
                        };
       }
 
@@ -144,7 +146,8 @@ namespace System.Svg.Render.EPL.Tests
                          Transforms = new SvgTransformCollection
                                       {
                                         new SvgRotate(180f)
-                                      }
+                                      },
+                         FontSize = new SvgUnit(12f)
                        };
       }
 
@@ -176,7 +179,8 @@ namespace System.Svg.Render.EPL.Tests
                          Transforms = new SvgTransformCollection
                                       {
                                         new SvgRotate(270f)
-                                      }
+                                      },
+                         FontSize = new SvgUnit(12f)
                        };
       }
 
@@ -208,7 +212,8 @@ namespace System.Svg.Render.EPL.Tests
                          Transforms = new SvgTransformCollection
                                       {
                                         new SvgRotate(290f)
-                                      }
+                                      },
+                         FontSize = new SvgUnit(12f)
                        };
       }
 
