@@ -39,7 +39,8 @@ namespace System.Svg.Render.EPL
                            lowerLine,
                            leftLine
                          }.Select(instance1 => this.SvgLineTranslator.Translate(instance1,
-                                                                                targetDpi));
+                                                                                targetDpi))
+                          .Where(arg => arg != null);
       var translation = string.Join(Environment.NewLine,
                                     translations);
 

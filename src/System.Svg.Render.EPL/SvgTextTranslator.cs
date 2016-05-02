@@ -33,7 +33,7 @@ namespace System.Svg.Render.EPL
       if (!this.TryGetRotation(rotationTransformation,
                                out rotation))
       {
-        return string.Empty;
+        return null;
       }
 
       // TODO here comes the magic!

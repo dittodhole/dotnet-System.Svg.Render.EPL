@@ -184,7 +184,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_no_epl_code()
       {
-        Assert.AreEqual(string.Empty,
+        Assert.AreEqual(null,
                         this.Actual);
       }
     }

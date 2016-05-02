@@ -59,7 +59,7 @@ namespace System.Svg.Render.EPL
         else
         {
           Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startX} < {endX}"" or ""{startY} < {endY}"" is not true.");
-          return string.Empty;
+          return null;
         }
       }
       else if (startX <= endX
@@ -74,7 +74,7 @@ namespace System.Svg.Render.EPL
       else
       {
         Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startX} < {endX}"" or ""{startY} < {endY}"" is not true.");
-        return string.Empty;
+        return null;
       }
 
       return translation;
