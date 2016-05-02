@@ -38,8 +38,31 @@ namespace System.Svg.Render.EPL
 
       // TODO here comes the magic!
       var fontSelection = 1;
-      var horizontalMultiplier = 1;
-      var verticalMultiplier = 1;
+      // VALUE    203dpi        300dpi
+      // ==================================
+      //  1       20.3cpi       25cpi
+      //          6pts          4pts
+      //          8x12 dots     12x20 dots
+      // ==================================
+      //  2       16.9cpi       18.75cpi
+      //          7pts          6pts
+      //          10x16 dots    16x28 dots
+      // ==================================
+      //  3       14.5cpi       15cpi
+      //          10pts         8pts
+      //          12x20 dots    20x36 dots
+      // ==================================
+      //  4       12.7cpi       12.5cpi
+      //          12pts         10pts
+      //          14x24 dots    24x44 dots
+      // ==================================
+      //  5       5.6cpi        6.25cpi
+      //          24pts         21pts
+      //          32x48 dots    48x80 dots
+      // ==================================
+
+      var horizontalMultiplier = 1; // Accepted Values: 1–6, 8
+      var verticalMultiplier = 1; // Accepted Values: 1–9
 
       var reverseImage = "N";
 
