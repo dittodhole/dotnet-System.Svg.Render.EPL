@@ -38,6 +38,8 @@ namespace System.Svg.Render.EPL
       }
 
       // TODO allow diagnoal rectangle ...
+      // TODO translate stroke separately for filled rectangles
+      // TODO fix calculation of stroke based on StrokeLineJoin
 
       object translation;
       if (this.SvgUnitCalculator.IsValueZero(instance.Width)
@@ -55,11 +57,10 @@ namespace System.Svg.Render.EPL
         translation = this.SvgLineTranslator.Translate(svgLine,
                                                        targetDpi);
       }
-      else if ((instance.Fill as SvgColourServer)?.Colour == Color.White)
+      // TODO find a good TOLERANCE
+      else if ((instance.Fill as SvgColourServer)?.Colour == Color.White
+               && Math.Abs(instance.FillOpacity - 1f) < 0.5f)
       {
-        // TODO svgRectangle.StrokeLineJoin
-        // TODO add translation for instance.StrokeWidth
-
         SvgUnit endX;
         try
         {
@@ -85,11 +86,10 @@ namespace System.Svg.Render.EPL
         translation = this.SvgLineTranslator.Translate(svgLine,
                                                        targetDpi);
       }
-      else if ((instance.Fill as SvgColourServer)?.Colour == Color.Black)
+      // TODO find a good TOLERANCE
+      else if ((instance.Fill as SvgColourServer)?.Colour == Color.Black
+               && Math.Abs(instance.FillOpacity - 1f) < 0.5f)
       {
-        // TODO svgRectangle.StrokeLineJoin
-        // TODO add translation for instance.StrokeWidth
-
         SvgUnit endX;
         try
         {

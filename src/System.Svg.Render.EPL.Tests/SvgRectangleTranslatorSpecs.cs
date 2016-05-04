@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
@@ -26,20 +27,17 @@ namespace System.Svg.Render.EPL.Tests
       protected SvgRectangleTranslator SvgRectangleTranslator { get; }
       protected SvgLineTranslator SvgLineTranslator { get; }
       protected SvgRectangle SvgRectangle { get; set; }
+      protected object Actual { get; set; }
+      protected object ActualUpperLine { get; set; }
+      protected object ActualRightLine { get; set; }
+      protected object ActualLowerLine { get; set; }
+      protected object ActualLeftLine { get; set; }
+      protected object ActualInnerLine { get; set; }
     }
 
     [TestClass]
-    public class when_svg_rectangle_is_translated : SvgRectangleTranslatorSpecsContext
+    public class when_svg_rectangle_without_fill_is_translated : SvgRectangleTranslatorSpecsContext
     {
-      private SvgLine UpperLine { get; set; }
-      private SvgLine RightLine { get; set; }
-      private SvgLine LowerLine { get; set; }
-      private SvgLine LeftLine { get; set; }
-      private object ActualUpperLine { get; set; }
-      private object ActualRightLine { get; set; }
-      private object ActualLowerLine { get; set; }
-      private object ActualLeftLine { get; set; }
-
       protected override void Context()
       {
         base.Context();
@@ -50,7 +48,8 @@ namespace System.Svg.Render.EPL.Tests
                               Y = new SvgUnit(10f),
                               Width = new SvgUnit(100f),
                               Height = new SvgUnit(100f),
-                              StrokeWidth = new SvgUnit(20f)
+                              StrokeWidth = new SvgUnit(20f),
+                              FillOpacity = 0f
                             };
       }
 
@@ -58,19 +57,18 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        this.UpperLine = this.SvgRectangleTranslator.GetUpperLine(this.SvgRectangle);
-        this.RightLine = this.SvgRectangleTranslator.GetRightLine(this.SvgRectangle);
-        this.LowerLine = this.SvgRectangleTranslator.GetLowerLine(this.SvgRectangle);
-        this.LeftLine = this.SvgRectangleTranslator.GetLeftLine(this.SvgRectangle);
+        var translation = (string) this.SvgRectangleTranslator.Translate(this.SvgRectangle,
+                                                                         this.SvgUnitCalculator.SourceDpi);
+        var lines = translation.Split(new[]
+                                      {
+                                        Environment.NewLine
+                                      },
+                                      StringSplitOptions.None);
 
-        this.ActualUpperLine = this.SvgLineTranslator.Translate(this.UpperLine,
-                                                                this.SvgUnitCalculator.SourceDpi);
-        this.ActualRightLine = this.SvgLineTranslator.Translate(this.RightLine,
-                                                                this.SvgUnitCalculator.SourceDpi);
-        this.ActualLowerLine = this.SvgLineTranslator.Translate(this.LowerLine,
-                                                                this.SvgUnitCalculator.SourceDpi);
-        this.ActualLeftLine = this.SvgLineTranslator.Translate(this.LeftLine,
-                                                               this.SvgUnitCalculator.SourceDpi);
+        this.ActualUpperLine = lines.ElementAt(0);
+        this.ActualRightLine = lines.ElementAt(1);
+        this.ActualLowerLine = lines.ElementAt(2);
+        this.ActualLeftLine = lines.ElementAt(3);
       }
 
       [TestMethod]
@@ -90,8 +88,6 @@ namespace System.Svg.Render.EPL.Tests
     [TestClass]
     public class when_svg_rectangle_which_is_a_point_is_translated : SvgRectangleTranslatorSpecsContext
     {
-      private object Actual { get; set; }
-
       protected override void Context()
       {
         base.Context();
@@ -102,7 +98,8 @@ namespace System.Svg.Render.EPL.Tests
                               Y = new SvgUnit(10f),
                               Width = new SvgUnit(0f),
                               Height = new SvgUnit(0f),
-                              StrokeWidth = new SvgUnit(20f)
+                              StrokeWidth = new SvgUnit(20f),
+                              FillOpacity = 0f
                             };
       }
 
@@ -125,8 +122,6 @@ namespace System.Svg.Render.EPL.Tests
     [TestClass]
     public class when_svg_rectangle_with_black_fill_is_translated : SvgRectangleTranslatorSpecsContext
     {
-      private object Actual { get; set; }
-
       protected override void Context()
       {
         base.Context();
@@ -138,7 +133,8 @@ namespace System.Svg.Render.EPL.Tests
                               Width = new SvgUnit(100f),
                               Height = new SvgUnit(50f),
                               //StrokeWidth = new SvgUnit(20f),
-                              Fill = new SvgColourServer(Color.Black)
+                              Fill = new SvgColourServer(Color.Black),
+                              FillOpacity = 1f
                             };
       }
 
@@ -161,8 +157,6 @@ namespace System.Svg.Render.EPL.Tests
     [TestClass]
     public class when_svg_rectangle_with_white_fill_is_translated : SvgRectangleTranslatorSpecsContext
     {
-      private object Actual { get; set; }
-
       protected override void Context()
       {
         base.Context();
@@ -174,7 +168,8 @@ namespace System.Svg.Render.EPL.Tests
                               Width = new SvgUnit(100f),
                               Height = new SvgUnit(50f),
                               //StrokeWidth = new SvgUnit(20f),
-                              Fill = new SvgColourServer(Color.White)
+                              Fill = new SvgColourServer(Color.White),
+                              FillOpacity = 1f
                             };
       }
 
