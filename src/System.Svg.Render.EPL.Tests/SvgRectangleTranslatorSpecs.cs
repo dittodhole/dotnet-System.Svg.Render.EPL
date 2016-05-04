@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
@@ -54,6 +55,7 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         this.Actual = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
+                                                            new Matrix(),
                                                             this.SvgUnitCalculator.SourceDpi);
       }
 
@@ -133,6 +135,7 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         this.Actual = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
+                                                            new Matrix(),
                                                             this.SvgUnitCalculator.SourceDpi);
       }
 
@@ -168,6 +171,7 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         this.Actual = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
+                                                            new Matrix(),
                                                             this.SvgUnitCalculator.SourceDpi);
       }
 
@@ -203,6 +207,7 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         this.Actual = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
+                                                            new Matrix(),
                                                             this.SvgUnitCalculator.SourceDpi);
       }
 

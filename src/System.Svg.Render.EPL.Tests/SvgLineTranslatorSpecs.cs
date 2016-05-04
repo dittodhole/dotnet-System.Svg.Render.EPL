@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
@@ -30,6 +31,7 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         this.Actual = this.SvgLineTranslator.Translate(this.SvgLine,
+                                                       new Matrix(),
                                                        this.SvgUnitCalculator.SourceDpi);
       }
     }

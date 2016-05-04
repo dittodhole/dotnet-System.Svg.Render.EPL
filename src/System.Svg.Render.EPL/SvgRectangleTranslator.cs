@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using Anotar.LibLog;
 using JetBrains.Annotations;
@@ -31,12 +32,17 @@ namespace System.Svg.Render.EPL
     protected SvgUnitCalculator SvgUnitCalculator { get; }
 
     public override object Translate(SvgRectangle instance,
+                                     Matrix matrix,
                                      int targetDpi)
     {
       if (instance == null)
       {
         LogTo.Error($"{nameof(instance)} is null");
         return null;
+      }
+      if (matrix == null)
+      {
+        LogTo.Error($"{nameof(matrix)} is null");
       }
 
       // TODO allow diagnoal rectangle ...
@@ -57,6 +63,7 @@ namespace System.Svg.Render.EPL
                       };
 
         translation = this.SvgLineTranslator.Translate(svgLine,
+                                                       matrix,
                                                        targetDpi);
       }
       else
@@ -102,6 +109,7 @@ namespace System.Svg.Render.EPL
                                fillLine
                              }.Where(arg => arg != null)
                               .Select(arg => this.SvgLineTranslator.Translate(arg,
+                                                                              matrix,
                                                                               targetDpi))
                               .Where(arg => arg != null);
 

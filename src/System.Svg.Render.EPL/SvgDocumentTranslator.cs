@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using Anotar.LibLog;
 
 namespace System.Svg.Render.EPL
@@ -10,11 +11,18 @@ namespace System.Svg.Render.EPL
     private ConcurrentDictionary<Type, SvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, SvgElementTranslator>();
 
     public override object Translate(SvgDocument instance,
+                                     Matrix matrix,
                                      int targetDpi)
     {
+      if (matrix == null)
+      {
+        matrix = new Matrix();
+      }
+
       var translations = new LinkedList<object>();
 
       this.TranslateSvgElementAndChildren(instance,
+                                          matrix,
                                           targetDpi,
                                           translations);
 
@@ -25,6 +33,7 @@ namespace System.Svg.Render.EPL
     }
 
     private void TranslateSvgElementAndChildren(SvgElement svgElement,
+                                                Matrix matrix,
                                                 int targetDpi,
                                                 ICollection<object> translations)
     {
@@ -39,18 +48,21 @@ namespace System.Svg.Render.EPL
       }
 
       this.TranslateSvgElement(svgElement,
+                               matrix,
                                targetDpi,
                                translations);
 
       foreach (var child in svgElement.Children)
       {
         this.TranslateSvgElementAndChildren(child,
+                                            matrix,
                                             targetDpi,
                                             translations);
       }
     }
 
     protected virtual void TranslateSvgElement(SvgElement svgElement,
+                                               Matrix matrix,
                                                int targetDpi,
                                                ICollection<object> translations)
     {
@@ -62,6 +74,7 @@ namespace System.Svg.Render.EPL
       }
 
       var translation = svgElementTranslator.TranslateUntyped(svgElement,
+                                                              matrix,
                                                               targetDpi);
       if (translation != null)
       {

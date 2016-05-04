@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Svg.Transforms;
 using Anotar.LibLog;
@@ -43,12 +44,17 @@ namespace System.Svg.Render.EPL
     }
 
     public override object Translate(SvgText instance,
+                                     Matrix matrix,
                                      int targetDpi)
     {
       if (instance == null)
       {
         LogTo.Error($"{nameof(instance)} is null");
         return null;
+      }
+      if (matrix == null)
+      {
+        LogTo.Error($"{nameof(matrix)} is null");
       }
 
       if (instance.X == null)

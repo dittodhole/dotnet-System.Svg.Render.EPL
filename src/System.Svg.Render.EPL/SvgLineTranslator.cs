@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using Anotar.LibLog;
 
 namespace System.Svg.Render.EPL
@@ -19,12 +20,17 @@ namespace System.Svg.Render.EPL
     protected SvgUnitCalculator SvgUnitCalculator { get; }
 
     public override object Translate(SvgLine instance,
+                                     Matrix matrix,
                                      int targetDpi)
     {
       if (instance == null)
       {
         LogTo.Error($"{nameof(instance)} is null");
         return null;
+      }
+      if (matrix == null)
+      {
+        LogTo.Error($"{nameof(matrix)} is null");
       }
 
       int startX;

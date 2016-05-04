@@ -1,10 +1,12 @@
-﻿using Anotar.LibLog;
+﻿using System.Drawing.Drawing2D;
+using Anotar.LibLog;
 
 namespace System.Svg.Render.EPL
 {
   public abstract class SvgElementTranslator
   {
     internal abstract object TranslateUntyped(object untypedInstance,
+                                              Matrix matrix,
                                               int targetDpi);
   }
 
@@ -12,6 +14,7 @@ namespace System.Svg.Render.EPL
     where T : SvgElement
   {
     internal override object TranslateUntyped(object untypedInstance,
+                                              Matrix matrix,
                                               int targetDpi)
     {
       if (untypedInstance == null)
@@ -28,12 +31,15 @@ namespace System.Svg.Render.EPL
       }
 
       var translation = this.Translate(instance,
+                                       matrix,
                                        targetDpi);
 
       return translation;
     }
 
+
     public abstract object Translate(T instance,
+                                     Matrix matrix,
                                      int targetDpi);
   }
 }
