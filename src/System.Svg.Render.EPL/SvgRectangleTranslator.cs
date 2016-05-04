@@ -27,8 +27,8 @@ namespace System.Svg.Render.EPL
       this.SvgUnitCalculator = svgUnitCalculator;
     }
 
-    private SvgLineTranslator SvgLineTranslator { get; }
-    private SvgUnitCalculator SvgUnitCalculator { get; }
+    protected SvgLineTranslator SvgLineTranslator { get; }
+    protected SvgUnitCalculator SvgUnitCalculator { get; }
 
     public override object Translate(SvgRectangle instance,
                                      int targetDpi)
@@ -113,8 +113,8 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    private bool TryGetFillSvgLine([NotNull] SvgRectangle instance,
-                                   out SvgLine fillLine)
+    protected virtual bool TryGetFillSvgLine([NotNull] SvgRectangle instance,
+                                             out SvgLine fillLine)
     {
       // TODO fix dat for every scenario - test cases!
 
@@ -152,11 +152,11 @@ namespace System.Svg.Render.EPL
       return true;
     }
 
-    private bool TryGetBorderSvgLines([NotNull] SvgRectangle instance,
-                                      out SvgLine upperLine,
-                                      out SvgLine rightLine,
-                                      out SvgLine lowerLine,
-                                      out SvgLine leftLine)
+    protected virtual bool TryGetBorderSvgLines([NotNull] SvgRectangle instance,
+                                                out SvgLine upperLine,
+                                                out SvgLine rightLine,
+                                                out SvgLine lowerLine,
+                                                out SvgLine leftLine)
     {
       var strokeColor = (instance.Stroke as SvgColourServer)?.Colour ?? Color.Empty;
       if (strokeColor == Color.Empty)

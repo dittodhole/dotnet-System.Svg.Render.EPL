@@ -19,9 +19,9 @@ namespace System.Svg.Render.EPL
       this.SvgUnitCalculator = svgUnitCalculator;
     }
 
-    private SvgUnitCalculator SvgUnitCalculator { get; }
+    protected SvgUnitCalculator SvgUnitCalculator { get; }
 
-    private bool IsTransformationAllowed([NotNull] Type type)
+    protected virtual bool IsTransformationAllowed([NotNull] Type type)
     {
       if (type == typeof(SvgMatrix))
       {
@@ -151,10 +151,10 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    private bool TryCalculateStartPointAndRotation([NotNull] SvgText svgText,
-                                                   out PointF startPoint,
-                                                   out SvgUnitType svgUnitType,
-                                                   out object rotationTranslation)
+    protected virtual bool TryCalculateStartPointAndRotation([NotNull] SvgText svgText,
+                                                             out PointF startPoint,
+                                                             out SvgUnitType svgUnitType,
+                                                             out object rotationTranslation)
     {
       var x = svgText.X.First();
       var y = svgText.Y.First();

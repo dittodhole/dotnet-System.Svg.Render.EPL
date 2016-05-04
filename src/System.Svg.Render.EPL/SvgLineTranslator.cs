@@ -16,7 +16,7 @@ namespace System.Svg.Render.EPL
       this.SvgUnitCalculator = svgUnitCalculator;
     }
 
-    private SvgUnitCalculator SvgUnitCalculator { get; }
+    protected SvgUnitCalculator SvgUnitCalculator { get; }
 
     public override object Translate(SvgLine instance,
                                      int targetDpi)
@@ -107,12 +107,12 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    public string TranslateHorizontalOrVerticalLine(int startX,
-                                                    int startY,
-                                                    int endX,
-                                                    int endY,
-                                                    int strokeWidth,
-                                                    bool strokeShouldBeWhite)
+    protected virtual string TranslateHorizontalOrVerticalLine(int startX,
+                                                               int startY,
+                                                               int endX,
+                                                               int endY,
+                                                               int strokeWidth,
+                                                               bool strokeShouldBeWhite)
     {
       var horizontalStart = startX;
       var verticalStart = startY;
@@ -142,11 +142,11 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    public string TranslateDiagonal(int startX,
-                                    int startY,
-                                    int endX,
-                                    int endY,
-                                    int strokeWidth)
+    protected virtual string TranslateDiagonal(int startX,
+                                               int startY,
+                                               int endX,
+                                               int endY,
+                                               int strokeWidth)
     {
       var horizontalStart = startX;
       var verticalStart = startY;

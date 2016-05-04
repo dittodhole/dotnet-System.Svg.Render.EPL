@@ -12,8 +12,8 @@ namespace System.Svg.Render.EPL
     public SvgUnitType UserUnitTypeSubstitution { get; set; } = SvgUnitType.Pixel;
 
     /// <exception cref="ArgumentException">If <see cref="SvgUnitType" /> of <paramref name="svgUnit1" /> and <paramref name="svgUnit2" /> are not matching.</exception>
-    public SvgUnit Add(SvgUnit svgUnit1,
-                       SvgUnit svgUnit2)
+    public virtual SvgUnit Add(SvgUnit svgUnit1,
+                               SvgUnit svgUnit2)
     {
       var svgUnitType = this.CheckSvgUnitType(svgUnit1,
                                               svgUnit2);
@@ -29,8 +29,8 @@ namespace System.Svg.Render.EPL
     }
 
     /// <exception cref="ArgumentException">If <see cref="SvgUnitType" /> of <paramref name="svgUnit1" /> and <paramref name="svgUnit2" /> are not matching.</exception>
-    public SvgUnit Substract(SvgUnit svgUnit1,
-                             SvgUnit svgUnit2)
+    public virtual SvgUnit Substract(SvgUnit svgUnit1,
+                                     SvgUnit svgUnit2)
     {
       var svgUnitType = this.CheckSvgUnitType(svgUnit1,
                                               svgUnit2);
@@ -46,8 +46,8 @@ namespace System.Svg.Render.EPL
     }
 
     /// <exception cref="ArgumentException">If <see cref="SvgUnitType" /> of <paramref name="svgUnit1" /> and <paramref name="svgUnit2" /> are not matching.</exception>
-    public SvgUnitType CheckSvgUnitType(SvgUnit svgUnit1,
-                                        SvgUnit svgUnit2)
+    public virtual SvgUnitType CheckSvgUnitType(SvgUnit svgUnit1,
+                                                SvgUnit svgUnit2)
     {
       if (svgUnit1.Type != svgUnit2.Type)
       {
@@ -85,10 +85,10 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    public bool TryGetDevicePoints(float value,
-                                   SvgUnitType svgUnitType,
-                                   int targetDpi,
-                                   out int devicePoints)
+    public virtual bool TryGetDevicePoints(float value,
+                                           SvgUnitType svgUnitType,
+                                           int targetDpi,
+                                           out int devicePoints)
     {
       if (svgUnitType == SvgUnitType.User)
       {
@@ -227,7 +227,7 @@ namespace System.Svg.Render.EPL
     }
 
     /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rotation" /> cannot be translated.</exception>
-    public object GetRotationTranslation(Rotation rotation)
+    protected internal virtual object GetRotationTranslation(Rotation rotation)
     {
       switch (rotation)
       {
