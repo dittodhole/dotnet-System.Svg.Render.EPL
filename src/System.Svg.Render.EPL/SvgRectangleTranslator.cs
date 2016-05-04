@@ -55,9 +55,10 @@ namespace System.Svg.Render.EPL
         translation = this.SvgLineTranslator.Translate(svgLine,
                                                        targetDpi);
       }
-      else if ((instance.Color as SvgColourServer)?.Colour == Color.Black)
+      else if ((instance.Fill as SvgColourServer)?.Colour == Color.White)
       {
         // TODO svgRectangle.StrokeLineJoin
+        // TODO add translation for instance.StrokeWidth
 
         SvgUnit endX;
         try
@@ -77,7 +78,38 @@ namespace System.Svg.Render.EPL
                         StartY = instance.Y,
                         EndX = endX,
                         EndY = instance.Y,
-                        StrokeWidth = instance.Height
+                        StrokeWidth = instance.Height,
+                        Stroke = instance.Fill
+                      };
+
+        translation = this.SvgLineTranslator.Translate(svgLine,
+                                                       targetDpi);
+      }
+      else if ((instance.Fill as SvgColourServer)?.Colour == Color.Black)
+      {
+        // TODO svgRectangle.StrokeLineJoin
+        // TODO add translation for instance.StrokeWidth
+
+        SvgUnit endX;
+        try
+        {
+          endX = this.SvgUnitCalculator.Add(instance.X,
+                                            instance.Width);
+        }
+        catch (ArgumentException argumentException)
+        {
+          // TODO add logging
+          return null;
+        }
+
+        var svgLine = new SvgLine
+                      {
+                        StartX = instance.X,
+                        StartY = instance.Y,
+                        EndX = endX,
+                        EndY = instance.Y,
+                        StrokeWidth = instance.Height,
+                        Stroke = instance.Fill
                       };
 
         translation = this.SvgLineTranslator.Translate(svgLine,

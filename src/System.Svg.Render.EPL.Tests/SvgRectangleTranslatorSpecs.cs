@@ -123,7 +123,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_horizontal_svg_rectangle_with_black_fill_is_translated : SvgRectangleTranslatorSpecsContext
+    public class when_svg_rectangle_with_black_fill_is_translated : SvgRectangleTranslatorSpecsContext
     {
       private object Actual { get; set; }
 
@@ -137,8 +137,8 @@ namespace System.Svg.Render.EPL.Tests
                               Y = new SvgUnit(10f),
                               Width = new SvgUnit(100f),
                               Height = new SvgUnit(50f),
-                              StrokeWidth = new SvgUnit(20f),
-                              Stroke = new SvgColourServer(Color.Black)
+                              //StrokeWidth = new SvgUnit(20f),
+                              Fill = new SvgColourServer(Color.Black)
                             };
       }
 
@@ -159,7 +159,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [TestClass]
-    public class when_vertical_svg_rectangle_with_black_fill_is_translated : SvgRectangleTranslatorSpecsContext
+    public class when_svg_rectangle_with_white_fill_is_translated : SvgRectangleTranslatorSpecsContext
     {
       private object Actual { get; set; }
 
@@ -171,10 +171,10 @@ namespace System.Svg.Render.EPL.Tests
                             {
                               X = new SvgUnit(10f),
                               Y = new SvgUnit(10f),
-                              Width = new SvgUnit(50f),
-                              Height = new SvgUnit(100f),
-                              StrokeWidth = new SvgUnit(20f),
-                              Stroke = new SvgColourServer(Color.Black)
+                              Width = new SvgUnit(100f),
+                              Height = new SvgUnit(50f),
+                              //StrokeWidth = new SvgUnit(20f),
+                              Fill = new SvgColourServer(Color.White)
                             };
       }
 
@@ -189,7 +189,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LO10,10,50,100",
+        Assert.AreEqual("LW10,10,100,50",
                         this.Actual);
       }
     }
