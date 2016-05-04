@@ -28,6 +28,16 @@ namespace System.Svg.Render.EPL
                                                 int targetDpi,
                                                 List<object> translations)
     {
+      var svgVisualElement = svgElement as SvgVisualElement;
+      if (svgVisualElement != null)
+      {
+        // TODO consider performance here w/ the cast
+        if (!svgVisualElement.Visible)
+        {
+          return;
+        }
+      }
+
       this.TranslateSvgElement(svgElement,
                                targetDpi,
                                translations);

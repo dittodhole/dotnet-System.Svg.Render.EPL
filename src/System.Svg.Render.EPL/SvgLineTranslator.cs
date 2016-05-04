@@ -27,12 +27,6 @@ namespace System.Svg.Render.EPL
         return null;
       }
 
-      if (!instance.Visible)
-      {
-        LogTo.Debug($"{nameof(SvgLine)} with id {instance.ID} is hidden - skipping translation");
-        return null;
-      }
-
       int startX;
       if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StartX,
                                                      targetDpi,
