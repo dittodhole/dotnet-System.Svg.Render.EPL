@@ -38,7 +38,6 @@ namespace System.Svg.Render.EPL
       }
 
       // TODO allow diagnoal rectangle ...
-      // TODO translate stroke separately for filled rectangles
       // TODO fix calculation of stroke based on StrokeLineJoin
 
       object translation;
@@ -51,65 +50,8 @@ namespace System.Svg.Render.EPL
                         StartY = instance.Y,
                         EndX = instance.X,
                         EndY = instance.Y,
-                        StrokeWidth = instance.StrokeWidth
-                      };
-
-        translation = this.SvgLineTranslator.Translate(svgLine,
-                                                       targetDpi);
-      }
-      // TODO find a good TOLERANCE
-      else if ((instance.Fill as SvgColourServer)?.Colour == Color.White
-               && Math.Abs(instance.FillOpacity - 1f) < 0.5f)
-      {
-        SvgUnit endX;
-        try
-        {
-          endX = this.SvgUnitCalculator.Add(instance.X,
-                                            instance.Width);
-        }
-        catch (ArgumentException argumentException)
-        {
-          // TODO add logging
-          return null;
-        }
-
-        var svgLine = new SvgLine
-                      {
-                        StartX = instance.X,
-                        StartY = instance.Y,
-                        EndX = endX,
-                        EndY = instance.Y,
-                        StrokeWidth = instance.Height,
-                        Stroke = instance.Fill
-                      };
-
-        translation = this.SvgLineTranslator.Translate(svgLine,
-                                                       targetDpi);
-      }
-      // TODO find a good TOLERANCE
-      else if ((instance.Fill as SvgColourServer)?.Colour == Color.Black
-               && Math.Abs(instance.FillOpacity - 1f) < 0.5f)
-      {
-        SvgUnit endX;
-        try
-        {
-          endX = this.SvgUnitCalculator.Add(instance.X,
-                                            instance.Width);
-        }
-        catch (ArgumentException argumentException)
-        {
-          // TODO add logging
-          return null;
-        }
-
-        var svgLine = new SvgLine
-                      {
-                        StartX = instance.X,
-                        StartY = instance.Y,
-                        EndX = endX,
-                        EndY = instance.Y,
-                        StrokeWidth = instance.Height,
-                        Stroke = instance.Fill
+                        StrokeWidth = instance.StrokeWidth,
+                        Stroke = instance.Stroke
                       };
 
         translation = this.SvgLineTranslator.Translate(svgLine,
@@ -117,130 +59,168 @@ namespace System.Svg.Render.EPL
       }
       else
       {
-        // TODO svgRectangle.StrokeLineJoin
-        SvgLine upperLine;
-        SvgLine rightLine;
-        SvgLine lowerLine;
-        SvgLine leftLine;
-        try
-        {
-          upperLine = this.GetUpperLine(instance);
-          rightLine = this.GetRightLine(instance);
-          lowerLine = this.GetLowerLine(instance);
-          leftLine = this.GetLeftLine(instance);
-        }
-        catch (ArgumentException argumentException)
+        SvgLine fillLine;
+        if (!this.TryGetFillSvgLine(instance,
+                                    out fillLine))
         {
           // TODO add logging
           return null;
         }
 
-        var translations = new[]
-                           {
-                             upperLine,
-                             rightLine,
-                             lowerLine,
-                             leftLine
-                           }.Select(arg => this.SvgLineTranslator.Translate(arg,
-                                                                            targetDpi))
-                            .Where(arg => arg != null);
+        SvgLine upperLine;
+        SvgLine rightLine;
+        SvgLine lowerLine;
+        SvgLine leftLine;
+        if (!this.TryGetBorderSvgLines(instance,
+                                       out upperLine,
+                                       out rightLine,
+                                       out lowerLine,
+                                       out leftLine))
+        {
+          // TODO add logging
+          return null;
+        }
 
-        translation = string.Join(Environment.NewLine,
-                                  translations);
+        if (fillLine == null
+            && upperLine == null
+            && rightLine == null
+            && lowerLine == null
+            && leftLine == null)
+        {
+          translation = null;
+        }
+        else
+        {
+          var translations = new[]
+                             {
+                               upperLine,
+                               rightLine,
+                               lowerLine,
+                               leftLine,
+                               fillLine
+                             }.Select(arg => this.SvgLineTranslator.Translate(arg,
+                                                                              targetDpi))
+                              .Where(arg => arg != null);
+
+          translation = string.Join(Environment.NewLine,
+                                    translations);
+        }
       }
+
       return translation;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Width" />, <see cref="SvgRectangle.Height" />, or <see cref="SvgElement.StrokeWidth" />.</exception>
-    public SvgLine GetLeftLine(SvgRectangle svgRectangle)
+    private bool TryGetFillSvgLine(SvgRectangle instance,
+                                   out SvgLine fillLine)
     {
-      if (svgRectangle == null)
+      // TODO fix dat for every scenario - test cases!
+
+      var fillColor = (instance.Fill as SvgColourServer)?.Colour ?? Color.Empty;
+      if (fillColor == Color.Empty)
       {
-        throw new ArgumentNullException(nameof(svgRectangle));
+        fillLine = null;
+        return true;
       }
 
-      var leftLine = new SvgLine
-                     {
-                       StartX = svgRectangle.X,
-                       StartY = svgRectangle.Y,
-                       EndX = svgRectangle.X,
-                       EndY = this.SvgUnitCalculator.Add(svgRectangle.Y,
-                                                         svgRectangle.Height),
-                       StrokeWidth = svgRectangle.StrokeWidth
-                     };
+      SvgUnit endX;
+      try
+      {
+        endX = this.SvgUnitCalculator.Add(instance.X,
+                                          instance.Width);
+      }
+      catch (ArgumentException argumentException)
+      {
+        // TODO add logging
+        fillLine = null;
+        return false;
+      }
 
-      return leftLine;
+      fillLine = new SvgLine
+                    {
+                      StartX = instance.X,
+                      StartY = instance.Y,
+                      EndX = endX,
+                      EndY = instance.Y,
+                      StrokeWidth = instance.Height,
+                      Stroke = instance.Fill
+                    };
+
+      return true;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Width" />, <see cref="SvgRectangle.Height" />, or <see cref="SvgElement.StrokeWidth" />.</exception>
-    public SvgLine GetLowerLine(SvgRectangle svgRectangle)
+    private bool TryGetBorderSvgLines(SvgRectangle instance,
+                                      out SvgLine upperLine,
+                                      out SvgLine rightLine,
+                                      out SvgLine lowerLine,
+                                      out SvgLine leftLine)
     {
-      if (svgRectangle == null)
+      var strokeColor = (instance.Stroke as SvgColourServer)?.Colour ?? Color.Empty;
+      if (strokeColor == Color.Empty)
       {
-        throw new ArgumentNullException(nameof(svgRectangle));
+        upperLine = null;
+        rightLine = null;
+        lowerLine = null;
+        leftLine = null;
+        return true;
       }
 
-      var lowerLine = new SvgLine
-                      {
-                        StartX = svgRectangle.X,
-                        StartY = this.SvgUnitCalculator.Add(svgRectangle.Y,
-                                                            svgRectangle.Height),
-                        EndX = this.SvgUnitCalculator.Add(svgRectangle.X,
-                                                          svgRectangle.Width),
-                        EndY = this.SvgUnitCalculator.Add(svgRectangle.Y,
-                                                          svgRectangle.Height),
-                        StrokeWidth = svgRectangle.StrokeWidth
-                      };
-
-      return lowerLine;
-    }
-
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Width" />, <see cref="SvgRectangle.Height" />, or <see cref="SvgElement.StrokeWidth" />.</exception>
-    public SvgLine GetRightLine(SvgRectangle svgRectangle)
-    {
-      if (svgRectangle == null)
+      try
       {
-        throw new ArgumentNullException(nameof(svgRectangle));
+        upperLine = new SvgLine
+                    {
+                      StartX = instance.X,
+                      StartY = instance.Y,
+                      EndX = this.SvgUnitCalculator.Add(instance.X,
+                                                        instance.Width),
+                      EndY = instance.Y,
+                      StrokeWidth = instance.StrokeWidth
+                    };
+
+        rightLine = new SvgLine
+                    {
+                      StartX = this.SvgUnitCalculator.Add(instance.X,
+                                                          instance.Width),
+                      StartY = instance.Y,
+                      EndX = this.SvgUnitCalculator.Add(instance.X,
+                                                        instance.Width),
+                      EndY = this.SvgUnitCalculator.Add(instance.Y,
+                                                        instance.Height),
+                      StrokeWidth = instance.StrokeWidth
+                    };
+
+        lowerLine = new SvgLine
+                    {
+                      StartX = instance.X,
+                      StartY = this.SvgUnitCalculator.Add(instance.Y,
+                                                          instance.Height),
+                      EndX = this.SvgUnitCalculator.Add(instance.X,
+                                                        instance.Width),
+                      EndY = this.SvgUnitCalculator.Add(instance.Y,
+                                                        instance.Height),
+                      StrokeWidth = instance.StrokeWidth
+                    };
+
+        leftLine = new SvgLine
+                   {
+                     StartX = instance.X,
+                     StartY = instance.Y,
+                     EndX = instance.X,
+                     EndY = this.SvgUnitCalculator.Add(instance.Y,
+                                                       instance.Height),
+                     StrokeWidth = instance.StrokeWidth
+                   };
+      }
+      catch (ArgumentException argumentException)
+      {
+        // TODO add logging
+        upperLine = null;
+        rightLine = null;
+        lowerLine = null;
+        leftLine = null;
+        return false;
       }
 
-      var rightLine = new SvgLine
-                      {
-                        StartX = this.SvgUnitCalculator.Add(svgRectangle.X,
-                                                            svgRectangle.Width),
-                        StartY = svgRectangle.Y,
-                        EndX = this.SvgUnitCalculator.Add(svgRectangle.X,
-                                                          svgRectangle.Width),
-                        EndY = this.SvgUnitCalculator.Add(svgRectangle.Y,
-                                                          svgRectangle.Height),
-                        StrokeWidth = svgRectangle.StrokeWidth
-                      };
-
-      return rightLine;
-    }
-
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Width" />, <see cref="SvgRectangle.Height" />, or <see cref="SvgElement.StrokeWidth" />.</exception>
-    public SvgLine GetUpperLine(SvgRectangle svgRectangle)
-    {
-      if (svgRectangle == null)
-      {
-        throw new ArgumentNullException(nameof(svgRectangle));
-      }
-
-      var upperLine = new SvgLine
-                      {
-                        StartX = svgRectangle.X,
-                        StartY = svgRectangle.Y,
-                        EndX = this.SvgUnitCalculator.Add(svgRectangle.X,
-                                                          svgRectangle.Width),
-                        EndY = svgRectangle.Y,
-                        StrokeWidth = svgRectangle.StrokeWidth
-                      };
-
-      return upperLine;
+      return true;
     }
   }
 }

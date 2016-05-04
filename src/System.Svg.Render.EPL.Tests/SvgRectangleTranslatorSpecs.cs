@@ -28,11 +28,6 @@ namespace System.Svg.Render.EPL.Tests
       protected SvgLineTranslator SvgLineTranslator { get; }
       protected SvgRectangle SvgRectangle { get; set; }
       protected object Actual { get; set; }
-      protected object ActualUpperLine { get; set; }
-      protected object ActualRightLine { get; set; }
-      protected object ActualLowerLine { get; set; }
-      protected object ActualLeftLine { get; set; }
-      protected object ActualInnerLine { get; set; }
     }
 
     [TestClass]
@@ -49,7 +44,8 @@ namespace System.Svg.Render.EPL.Tests
                               Width = new SvgUnit(100f),
                               Height = new SvgUnit(100f),
                               StrokeWidth = new SvgUnit(20f),
-                              FillOpacity = 0f
+                              Stroke = new SvgColourServer(Color.Black),
+                              Fill = new SvgColourServer(Color.Empty)
                             };
       }
 
@@ -57,31 +53,60 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        var translation = (string) this.SvgRectangleTranslator.Translate(this.SvgRectangle,
-                                                                         this.SvgUnitCalculator.SourceDpi);
-        var lines = translation.Split(new[]
-                                      {
-                                        Environment.NewLine
-                                      },
-                                      StringSplitOptions.None);
-
-        this.ActualUpperLine = lines.ElementAt(0);
-        this.ActualRightLine = lines.ElementAt(1);
-        this.ActualLowerLine = lines.ElementAt(2);
-        this.ActualLeftLine = lines.ElementAt(3);
+        this.Actual = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
+                                                            this.SvgUnitCalculator.SourceDpi);
       }
 
       [TestMethod]
-      public void return_valid_epl_code()
+      public void returns_four_epl_commands()
+      {
+        Assert.AreEqual(4,
+                        this.GetActualLines()
+                            .Count());
+      }
+
+      [TestMethod]
+      public void returns_valid_epl_code_for_upper_line()
       {
         Assert.AreEqual("LO10,10,100,20",
-                        this.ActualUpperLine);
+                        this.GetActualLines()
+                            .ElementAt(0));
+      }
+
+      [TestMethod]
+      public void returns_valid_epl_code_for_right_line()
+      {
         Assert.AreEqual("LO110,10,20,100",
-                        this.ActualRightLine);
+                        this.GetActualLines()
+                            .ElementAt(1));
+      }
+
+      [TestMethod]
+      public void returns_valid_epl_code_for_lower_line()
+      {
         Assert.AreEqual("LO10,110,100,20",
-                        this.ActualLowerLine);
+                        this.GetActualLines()
+                            .ElementAt(2));
+      }
+
+      [TestMethod]
+      public void returns_valid_epl_code_for_left_line()
+      {
         Assert.AreEqual("LO10,10,20,100",
-                        this.ActualLeftLine);
+                        this.GetActualLines()
+                            .ElementAt(3));
+      }
+
+      private string[] GetActualLines()
+      {
+        var lines = (string) this.Actual;
+        var linesArray = lines.Split(new[]
+                                     {
+                                       Environment.NewLine
+                                     },
+                                     StringSplitOptions.None);
+
+        return linesArray;
       }
     }
 
@@ -99,7 +124,7 @@ namespace System.Svg.Render.EPL.Tests
                               Width = new SvgUnit(0f),
                               Height = new SvgUnit(0f),
                               StrokeWidth = new SvgUnit(20f),
-                              FillOpacity = 0f
+                              Fill = new SvgColourServer(Color.Empty)
                             };
       }
 
@@ -133,8 +158,8 @@ namespace System.Svg.Render.EPL.Tests
                               Width = new SvgUnit(100f),
                               Height = new SvgUnit(50f),
                               //StrokeWidth = new SvgUnit(20f),
-                              Fill = new SvgColourServer(Color.Black),
-                              FillOpacity = 1f
+                              Stroke = new SvgColourServer(Color.Empty),
+                              Fill = new SvgColourServer(Color.Black)
                             };
       }
 
@@ -168,8 +193,8 @@ namespace System.Svg.Render.EPL.Tests
                               Width = new SvgUnit(100f),
                               Height = new SvgUnit(50f),
                               //StrokeWidth = new SvgUnit(20f),
-                              Fill = new SvgColourServer(Color.White),
-                              FillOpacity = 1f
+                              Stroke = new SvgColourServer(Color.Empty),
+                              Fill = new SvgColourServer(Color.White)
                             };
       }
 
