@@ -1,6 +1,9 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Svg.Transforms;
 using Anotar.LibLog;
+using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
@@ -15,11 +18,14 @@ namespace System.Svg.Render.EPL
     public virtual SvgUnit Add(SvgUnit svgUnit1,
                                SvgUnit svgUnit2)
     {
-      var svgUnitType = this.CheckSvgUnitType(svgUnit1,
-                                              svgUnit2);
+      var svgUnitType = svgUnit1.Type;
+      if (svgUnitType != svgUnit2.Type)
+      {
+        throw new ArgumentException($"{nameof(svgUnit1)} ({svgUnit1}) and {nameof(svgUnit2)} ({svgUnit2}) are not of same type");
+      }
 
-      var val1 = this.GetValue(svgUnit1);
-      var val2 = this.GetValue(svgUnit2);
+      var val1 = svgUnit1.Value;
+      var val2 = svgUnit2.Value;
       var value = val1 + val2;
 
       var result = new SvgUnit(svgUnitType,
@@ -32,11 +38,14 @@ namespace System.Svg.Render.EPL
     public virtual SvgUnit Substract(SvgUnit svgUnit1,
                                      SvgUnit svgUnit2)
     {
-      var svgUnitType = this.CheckSvgUnitType(svgUnit1,
-                                              svgUnit2);
+      var svgUnitType = svgUnit1.Type;
+      if (svgUnitType != svgUnit2.Type)
+      {
+        throw new ArgumentException($"{nameof(svgUnit1)} ({svgUnit1}) and {nameof(svgUnit2)} ({svgUnit2}) are not of same type");
+      }
 
-      var val1 = this.GetValue(svgUnit1);
-      var val2 = this.GetValue(svgUnit2);
+      var val1 = svgUnit1.Value;
+      var val2 = svgUnit2.Value;
       var value = val1 - val2;
 
       var result = new SvgUnit(svgUnitType,
@@ -45,40 +54,18 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    /// <exception cref="ArgumentException">If <see cref="SvgUnitType" /> of <paramref name="svgUnit1" /> and <paramref name="svgUnit2" /> are not matching.</exception>
-    public virtual SvgUnitType CheckSvgUnitType(SvgUnit svgUnit1,
-                                                SvgUnit svgUnit2)
-    {
-      if (svgUnit1.Type != svgUnit2.Type)
-      {
-        throw new ArgumentException($"{nameof(svgUnit2)}'s {nameof(SvgUnit.Type)} ({svgUnit2.Type}) does not equal {nameof(svgUnit1)}'s {nameof(SvgUnit.Type)} ({svgUnit1.Type})");
-      }
-
-      return svgUnit1.Type;
-    }
-
     public bool IsValueZero(SvgUnit svgUnit)
     {
       // TODO find a good TOLERANCE
       return Math.Abs(svgUnit.Value) < 0.5f;
     }
 
-    public float GetValue(SvgUnit svgUnit)
-    {
-      var result = svgUnit.Value;
-
-      return result;
-    }
-
     public bool TryGetDevicePoints(SvgUnit svgUnit,
                                    int targetDpi,
                                    out int devicePoints)
     {
-      var value = this.GetValue(svgUnit);
-      var svgUnitType = svgUnit.Type;
-
-      var result = this.TryGetDevicePoints(value,
-                                           svgUnitType,
+      var result = this.TryGetDevicePoints(svgUnit.Value,
+                                           svgUnit.Type,
                                            targetDpi,
                                            out devicePoints);
 
@@ -149,9 +136,8 @@ namespace System.Svg.Render.EPL
       Rotate270
     }
 
-    public bool TryApplyMatrixTransformation(Matrix matrix,
-                                             ref PointF startPoint,
-                                             out object rotationTranslation)
+    public virtual bool TryGetRotationTranslation(Matrix matrix,
+                                                  out object rotationTranslation)
     {
       if (matrix == null)
       {
@@ -160,17 +146,17 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      var endPoint = new PointF
-                     {
-                       X = startPoint.X + 10,
-                       Y = startPoint.Y
-                     };
+      var startPoint = new PointF(0f,
+                                  0f);
+      var endPoint = new PointF(10f,
+                                0f);
 
       var points = new[]
                    {
                      startPoint,
                      endPoint
                    };
+
       matrix.TransformPoints(points);
 
       startPoint = points[0];
@@ -211,39 +197,221 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      try
-      {
-        rotationTranslation = this.GetRotationTranslation(rotation);
-      }
-      catch (ArgumentOutOfRangeException argumentOutOfRangeException)
-      {
-        LogTo.ErrorException($"could not get rotation translation for {rotation}",
-                             argumentOutOfRangeException);
-        rotationTranslation = null;
-        return false;
-      }
-
-      return true;
+      return this.TryGetRotationTranslation(rotation,
+                                            out rotationTranslation);
     }
 
-    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rotation" /> cannot be translated.</exception>
-    protected internal virtual object GetRotationTranslation(Rotation rotation)
+    public virtual bool TryGetRotationTranslation(Rotation rotation,
+                                                  out object rotationTranslation)
     {
       switch (rotation)
       {
         case Rotation.None:
-          return 0;
+          rotationTranslation = "0";
+          return true;
         case Rotation.Rotate90:
-          return 1;
+          rotationTranslation = "1";
+          return true;
         case Rotation.Rotate180:
-          return 2;
+          rotationTranslation = "2";
+          return true;
         case Rotation.Rotate270:
-          return 3;
+          rotationTranslation = "3";
+          return true;
         default:
-          throw new ArgumentOutOfRangeException(nameof(rotation),
-                                                rotation,
-                                                null);
+          rotationTranslation = null;
+          return false;
       }
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="svgTransformable" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="matrix" /> is <see langword="null" />.</exception>
+    public virtual void ApplyTransformationsToMatrix(ISvgTransformable svgTransformable,
+                                                     Matrix matrix)
+    {
+      if (svgTransformable == null)
+      {
+        throw new ArgumentNullException(nameof(svgTransformable));
+      }
+      if (matrix == null)
+      {
+        throw new ArgumentNullException(nameof(matrix));
+      }
+
+      if (svgTransformable.Transforms.Any())
+      {
+        foreach (var transformation in svgTransformable.Transforms)
+        {
+          var transformationType = transformation.GetType();
+          if (!this.IsTransformationAllowed(transformationType))
+          {
+            LogTo.Error($"transformation {transformationType} is not allowed");
+            return;
+          }
+
+          // TODO fix rotationTranslation for multiple transformations
+
+          var matrixToMultiply = transformation.Matrix;
+          if (matrixToMultiply == null)
+          {
+            LogTo.Error($"{nameof(transformation.Matrix)} is null");
+            return;
+          }
+
+          matrix.Multiply(matrixToMultiply,
+                          MatrixOrder.Append);
+        }
+      }
+    }
+
+    protected virtual bool IsTransformationAllowed([NotNull] Type type)
+    {
+      if (type == typeof(SvgMatrix))
+      {
+        return true;
+      }
+      if (type == typeof(SvgRotate))
+      {
+        return true;
+      }
+      if (type == typeof(SvgScale))
+      {
+        return true;
+      }
+      if (type == typeof(SvgTranslate))
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+    public virtual bool TryApplyMatrix(SvgUnit x,
+                                       SvgUnit y,
+                                       Matrix matrix,
+                                       out SvgUnit newX,
+                                       out SvgUnit newY)
+    {
+      if (matrix == null)
+      {
+        LogTo.Error($"{nameof(matrix)} is null");
+        newX = SvgUnit.None;
+        newY = SvgUnit.None;
+        return false;
+      }
+
+      var typeX = x.Type;
+      var typeY = y.Type;
+      if (typeX != typeY)
+      {
+        LogTo.Error($"types do not match: {typeX} - {typeY}");
+        newX = SvgUnit.None;
+        newY = SvgUnit.None;
+        return false;
+      }
+
+      var originalX = x.Value;
+      var originalY = y.Value;
+      var originalPoint = new PointF(originalX,
+                                     originalY);
+
+      var points = new[]
+                   {
+                     originalPoint
+                   };
+      matrix.TransformPoints(points);
+
+      var transformedPoint = points[0];
+      var transformedX = transformedPoint.X;
+      var transformedY = transformedPoint.Y;
+
+      newX = new SvgUnit(typeX,
+                         transformedX);
+      newY = new SvgUnit(typeY,
+                         transformedY);
+
+      return true;
+    }
+
+    public virtual bool TryApplyMatrix(SvgUnit x1,
+                                       SvgUnit y1,
+                                       SvgUnit x2,
+                                       SvgUnit y2,
+                                       Matrix matrix,
+                                       out SvgUnit newX1,
+                                       out SvgUnit newY1,
+                                       out SvgUnit newX2,
+                                       out SvgUnit newY2)
+    {
+      if (matrix == null)
+      {
+        LogTo.Error($"{nameof(matrix)} is null");
+        newX1 = SvgUnit.None;
+        newY1 = SvgUnit.None;
+        newX2 = SvgUnit.None;
+        newY2 = SvgUnit.None;
+        return false;
+      }
+
+      var typeX1 = x1.Type;
+      var typeY1 = y1.Type;
+      if (typeX1 != typeY1)
+      {
+        LogTo.Error($"types do not match: {nameof(typeX1)} ({typeX1}) - {nameof(typeY1)} ({typeY1})");
+        newX1 = SvgUnit.None;
+        newY1 = SvgUnit.None;
+        newX2 = SvgUnit.None;
+        newY2 = SvgUnit.None;
+        return false;
+      }
+
+      var typeX2 = x2.Type;
+      var typeY2 = y2.Type;
+      if (typeX2 != typeY2)
+      {
+        LogTo.Error($"types do not match: {nameof(typeX2)} ({typeX2}) - {nameof(typeY2)} ({typeY2})");
+        newX1 = SvgUnit.None;
+        newY1 = SvgUnit.None;
+        newX2 = SvgUnit.None;
+        newY2 = SvgUnit.None;
+        return false;
+      }
+
+      var originalPoint1 = new PointF(x1.Value,
+                                      y1.Value);
+      var originalPoint2 = new PointF(x2.Value,
+                                      y2.Value);
+
+      var points = new[]
+                   {
+                     originalPoint1,
+                     originalPoint2
+                   };
+      matrix.TransformPoints(points);
+
+      {
+        var transformedPoint1 = points[0];
+        var transformedX1 = transformedPoint1.X;
+        var transformedY1 = transformedPoint1.Y;
+
+        newX1 = new SvgUnit(typeX1,
+                            transformedX1);
+        newY1 = new SvgUnit(typeY1,
+                            transformedY1);
+      }
+
+      {
+        var transformedPoint2 = points[1];
+        var transformedX2 = transformedPoint2.X;
+        var transformedY2 = transformedPoint2.Y;
+
+        newX2 = new SvgUnit(typeX2,
+                            transformedX2);
+        newY2 = new SvgUnit(typeY2,
+                            transformedY2);
+      }
+
+      return true;
     }
   }
 }

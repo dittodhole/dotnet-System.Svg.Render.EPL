@@ -31,41 +31,65 @@ namespace System.Svg.Render.EPL
       if (matrix == null)
       {
         LogTo.Error($"{nameof(matrix)} is null");
+        return null;
+      }
+
+      var newMatrix = matrix.Clone();
+
+      this.SvgUnitCalculator.ApplyTransformationsToMatrix(instance,
+                                                          newMatrix);
+
+      SvgUnit newStartX;
+      SvgUnit newStartY;
+      SvgUnit newEndX;
+      SvgUnit newEndY;
+      if (!this.SvgUnitCalculator.TryApplyMatrix(instance.StartX,
+                                                 instance.StartY,
+                                                 instance.EndX,
+                                                 instance.EndY,
+                                                 newMatrix,
+                                                 out newStartX,
+                                                 out newStartY,
+                                                 out newEndX,
+                                                 out newEndY))
+      {
+        LogTo.Error($"could not apply matrix on start");
+        return null;
       }
 
       int startX;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StartX,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(newStartX,
                                                      targetDpi,
                                                      out startX))
       {
-        LogTo.Error($"could not convert {instance.StartX} to device points");
+        LogTo.Error($"could not convert {nameof(newStartX)} ({newStartX}) to device points");
         return null;
       }
 
       int startY;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StartY,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(newStartY,
                                                      targetDpi,
                                                      out startY))
       {
-        LogTo.Error($"could not convert {instance.StartY} to device points");
+        LogTo.Error($"could not convert {nameof(newStartY)} ({newStartY}) to device points");
         return null;
       }
 
       int endX;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.EndX,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(newEndX,
                                                      targetDpi,
                                                      out endX))
       {
-        LogTo.Error($"could not convert {instance.EndX} to device points");
+        LogTo.Error($"could not convert {nameof(newEndX)} ({newEndX}) to device points");
         return null;
       }
 
       int endY;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.EndY,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(newEndY,
                                                      targetDpi,
                                                      out endY))
       {
-        LogTo.Error($"could not convert {instance.EndY} to device points");
+        LogTo.Error($"could not convert {nameof(newEndY)} ({newEndY}) to device points");
         return null;
       }
 

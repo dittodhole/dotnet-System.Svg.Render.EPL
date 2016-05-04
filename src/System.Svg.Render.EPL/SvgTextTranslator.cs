@@ -1,9 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Svg.Transforms;
 using Anotar.LibLog;
-using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
@@ -22,27 +20,6 @@ namespace System.Svg.Render.EPL
 
     protected SvgUnitCalculator SvgUnitCalculator { get; }
 
-    protected virtual bool IsTransformationAllowed([NotNull] Type type)
-    {
-      if (type == typeof(SvgMatrix))
-      {
-        return true;
-      }
-      if (type == typeof(SvgRotate))
-      {
-        return true;
-      }
-      if (type == typeof(SvgScale))
-      {
-        return true;
-      }
-      if (type == typeof(SvgTranslate))
-      {
-        return true;
-      }
-      return false;
-    }
-
     public override object Translate(SvgText instance,
                                      Matrix matrix,
                                      int targetDpi)
@@ -55,6 +32,7 @@ namespace System.Svg.Render.EPL
       if (matrix == null)
       {
         LogTo.Error($"{nameof(matrix)} is null");
+        return null;
       }
 
       if (instance.X == null)
@@ -81,35 +59,49 @@ namespace System.Svg.Render.EPL
       // TODO add multiline translation
       // TODO add lineHeight translation
 
-      SvgUnitType svgUnitType;
-      PointF startPoint;
+      var newMatrix = matrix.Clone();
+
+      this.SvgUnitCalculator.ApplyTransformationsToMatrix(instance,
+                                                          newMatrix);
+
       object rotationTranslation;
-      if (!this.TryCalculateStartPointAndRotation(instance,
-                                                  out startPoint,
-                                                  out svgUnitType,
-                                                  out rotationTranslation))
+      if (!this.SvgUnitCalculator.TryGetRotationTranslation(matrix,
+                                                            out rotationTranslation))
       {
         LogTo.Error($"could not calculate start point and rotation");
         return null;
       }
 
+      SvgUnit newX;
+      SvgUnit newY;
+
+      var x = instance.X.First();
+      var y = instance.Y.First();
+      if (!this.SvgUnitCalculator.TryApplyMatrix(x,
+                                                 y,
+                                                 newMatrix,
+                                                 out newX,
+                                                 out newY))
+      {
+        LogTo.Error($"could not apply matrix");
+        return null;
+      }
+
       int horizontalStart;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(startPoint.X,
-                                                     svgUnitType,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(newX,
                                                      targetDpi,
                                                      out horizontalStart))
       {
-        LogTo.Error($"could not translate {nameof(startPoint.X)} ({startPoint.X}) to device points");
+        LogTo.Error($"could not translate {nameof(newX)} ({newX}) to device points");
         return null;
       }
 
       int verticalStart;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(startPoint.Y,
-                                                     svgUnitType,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(newY,
                                                      targetDpi,
                                                      out verticalStart))
       {
-        LogTo.Error($"could not translate {nameof(startPoint.Y)} ({startPoint.Y}) to device points");
+        LogTo.Error($"could not translate {nameof(newY)} ({newY}) to device points");
         return null;
       }
 
@@ -156,77 +148,6 @@ namespace System.Svg.Render.EPL
       var translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontSelection},{horizontalMultiplier},{verticalMultiplier},{reverseImage},""{text}""";
 
       return translation;
-    }
-
-    protected virtual bool TryCalculateStartPointAndRotation([NotNull] SvgText svgText,
-                                                             out PointF startPoint,
-                                                             out SvgUnitType svgUnitType,
-                                                             out object rotationTranslation)
-    {
-      var x = svgText.X.First();
-      var y = svgText.Y.First();
-
-      try
-      {
-        svgUnitType = this.SvgUnitCalculator.CheckSvgUnitType(x,
-                                                              y);
-      }
-      catch (ArgumentException argumentException)
-      {
-        LogTo.ErrorException($"could not calculate start point for {nameof(x)} ({x}) and {nameof(y)} ({y})",
-                             argumentException);
-        startPoint = PointF.Empty;
-        svgUnitType = SvgUnitType.None;
-        rotationTranslation = null;
-        return false;
-      }
-
-      startPoint = new PointF(this.SvgUnitCalculator.GetValue(x),
-                              this.SvgUnitCalculator.GetValue(y));
-
-      rotationTranslation = default(object);
-      foreach (var transformation in svgText.Transforms)
-      {
-        var transformationType = transformation.GetType();
-        if (!this.IsTransformationAllowed(transformationType))
-        {
-          LogTo.Error($"transformation {transformationType} is not allowed");
-          startPoint = PointF.Empty;
-          svgUnitType = SvgUnitType.None;
-          rotationTranslation = null;
-          return false;
-        }
-
-        // TODO fix rotationTranslation for multiple transformations
-
-        var matrix = transformation.Matrix;
-        if (matrix == null)
-        {
-          LogTo.Error($"{nameof(transformation.Matrix)} is null");
-          startPoint = PointF.Empty;
-          svgUnitType = SvgUnitType.None;
-          rotationTranslation = null;
-          return false;
-        }
-
-        if (!this.SvgUnitCalculator.TryApplyMatrixTransformation(matrix,
-                                                                 ref startPoint,
-                                                                 out rotationTranslation))
-        {
-          LogTo.Error($"could not apply {nameof(matrix)}");
-          startPoint = PointF.Empty;
-          svgUnitType = SvgUnitType.None;
-          rotationTranslation = null;
-          return false;
-        }
-      }
-
-      if (rotationTranslation == null)
-      {
-        rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(SvgUnitCalculator.Rotation.None);
-      }
-
-      return true;
     }
   }
 }

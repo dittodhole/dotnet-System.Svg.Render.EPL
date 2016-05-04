@@ -37,7 +37,6 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-
     public abstract object Translate(T instance,
                                      Matrix matrix,
                                      int targetDpi);

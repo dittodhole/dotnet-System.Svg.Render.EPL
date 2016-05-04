@@ -43,6 +43,7 @@ namespace System.Svg.Render.EPL
       if (matrix == null)
       {
         LogTo.Error($"{nameof(matrix)} is null");
+        return null;
       }
 
       // TODO allow diagnoal rectangle ...
