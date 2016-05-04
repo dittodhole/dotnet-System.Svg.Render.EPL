@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SvgDocumentTranslator.cs" />
     <Compile Include="SvgElementTranslator.cs" />
     <Compile Include="SvgLineTranslator.cs" />
     <Compile Include="SvgRectangleTranslator.cs" />
