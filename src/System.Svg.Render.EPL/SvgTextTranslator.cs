@@ -6,11 +6,11 @@ namespace System.Svg.Render.EPL
 {
   public class SvgTextTranslator : SvgElementTranslator<SvgText>
   {
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
     public SvgTextTranslator(SvgUnitCalculator svgUnitCalculator)
     {
       if (svgUnitCalculator == null)
       {
-        // TODO add documentation
         throw new ArgumentNullException(nameof(svgUnitCalculator));
       }
 
@@ -43,14 +43,50 @@ namespace System.Svg.Render.EPL
     public override object Translate(SvgText instance,
                                      int targetDpi)
     {
+      if (instance == null)
+      {
+        // TODO add logging
+        return null;
+      }
+      if (instance.X == null)
+      {
+        // TODO add logging
+        return null;
+      }
+      if (!instance.X.Any())
+      {
+        // TODO add documentation
+        return null;
+      }
+      if (instance.Y == null)
+      {
+        // TODO add logging
+        return null;
+      }
+      if (!instance.Y.Any())
+      {
+        // TODO add documentation
+        return null;
+      }
+
       // TODO add multiline translation
       // TODO add lineHeight translation
 
       var x = instance.X.First();
       var y = instance.Y.First();
 
-      var svgUnitType = this.SvgUnitCalculator.CheckSvgUnitType(x,
-                                                                y);
+      SvgUnitType svgUnitType;
+      try
+      {
+        svgUnitType = this.SvgUnitCalculator.CheckSvgUnitType(x,
+                                                              y);
+      }
+      catch (ArgumentException argumentException)
+      {
+        // TODO add logging
+        return null;
+      }
+
       var startPoint = new PointF(this.SvgUnitCalculator.GetValue(x),
                                   this.SvgUnitCalculator.GetValue(y));
 
@@ -66,9 +102,26 @@ namespace System.Svg.Render.EPL
 
         // TODO fix rotationTranslation for multiple transformations
         var matrix = transformation.Matrix;
-        if (!this.SvgUnitCalculator.TryApplyMatrixTransformation(matrix,
-                                                                 ref startPoint,
-                                                                 out rotationTranslation))
+        if (matrix == null)
+        {
+          // TODO add logging
+          return null;
+        }
+
+        bool success;
+        try
+        {
+          success = this.SvgUnitCalculator.TryApplyMatrixTransformation(matrix,
+                                                                        ref startPoint,
+                                                                        out rotationTranslation);
+        }
+        catch (ArgumentOutOfRangeException argumentOutOfRangeException)
+        {
+          // TODO add logging
+          return null;
+        }
+
+        if (!success)
         {
           // TODO add logging
           return null;
@@ -77,15 +130,42 @@ namespace System.Svg.Render.EPL
 
       if (rotationTranslation == null)
       {
-        rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(SvgUnitCalculator.Rotation.None);
+        try
+        {
+          rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(SvgUnitCalculator.Rotation.None);
+        }
+        catch (ArgumentOutOfRangeException argumentOutOfRangeException)
+        {
+          // TODO add logging
+          return null;
+        }
       }
 
-      var horizontalStart = this.SvgUnitCalculator.GetDevicePoints(startPoint.X,
-                                                                   svgUnitType,
-                                                                   targetDpi);
-      var verticalStart = this.SvgUnitCalculator.GetDevicePoints(startPoint.Y,
+      int horizontalStart;
+      try
+      {
+        horizontalStart = this.SvgUnitCalculator.GetDevicePoints(startPoint.X,
                                                                  svgUnitType,
                                                                  targetDpi);
+      }
+      catch (NotImplementedException notImplementedException)
+      {
+        // TODO add logging
+        return null;
+      }
+
+      int verticalStart;
+      try
+      {
+        verticalStart = this.SvgUnitCalculator.GetDevicePoints(startPoint.Y,
+                                                               svgUnitType,
+                                                               targetDpi);
+      }
+      catch (NotImplementedException notImplementedException)
+      {
+        // TODO add logging
+        return null;
+      }
 
       // TODO here comes the magic!
       var fontSelection = 1;

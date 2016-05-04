@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 
 namespace System.Svg.Render.EPL
 {
@@ -12,6 +10,7 @@ namespace System.Svg.Render.EPL
     public int SourceDpi { get; set; } = 72;
     public SvgUnitType UserUnitTypeSubstitution { get; set; } = SvgUnitType.Pixel;
 
+    /// <exception cref="ArgumentException">If <see cref="SvgUnitType" /> of <paramref name="svgUnit1" /> and <paramref name="svgUnit2" /> are not matching.</exception>
     public SvgUnit Add(SvgUnit svgUnit1,
                        SvgUnit svgUnit2)
     {
@@ -27,6 +26,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    /// <exception cref="ArgumentException">If <see cref="SvgUnitType" /> of <paramref name="svgUnit1" /> and <paramref name="svgUnit2" /> are not matching.</exception>
     public SvgUnit Substract(SvgUnit svgUnit1,
                              SvgUnit svgUnit2)
     {
@@ -42,6 +42,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    /// <exception cref="ArgumentException">If <see cref="SvgUnitType" /> of <paramref name="svgUnit1" /> and <paramref name="svgUnit2" /> are not matching.</exception>
     public SvgUnitType CheckSvgUnitType(SvgUnit svgUnit1,
                                         SvgUnit svgUnit2)
     {
@@ -67,6 +68,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    /// <exception cref="NotImplementedException">If a translation for <see cref="SvgUnitType" /> of <paramref name="svgUnit" /> is not implemented.</exception>
     public int GetDevicePoints(SvgUnit svgUnit,
                                int targetDpi)
     {
@@ -80,6 +82,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    /// <exception cref="NotImplementedException">If a translation for <paramref name="svgUnitType" /> is not implemented.</exception>
     public int GetDevicePoints(float value,
                                SvgUnitType svgUnitType,
                                int targetDpi)
@@ -126,8 +129,7 @@ namespace System.Svg.Render.EPL
       }
       else
       {
-        // TODO add documentation
-        throw new NotImplementedException($"a conversion for {nameof(value)} {svgUnitType} is currently not implemented");
+        throw new NotImplementedException($"a conversion of {svgUnitType} is currently not implemented");
       }
 
       var devicePoints = (int) (pixels / this.SourceDpi * targetDpi);
@@ -143,29 +145,13 @@ namespace System.Svg.Render.EPL
       Rotate270
     }
 
-    private Dictionary<Rotation, object> RotationTranslations { get; } = new Dictionary<Rotation, object>
-                                                                         {
-                                                                           {
-                                                                             Rotation.None, 0
-                                                                           },
-                                                                           {
-                                                                             Rotation.Rotate90, 1
-                                                                           },
-                                                                           {
-                                                                             Rotation.Rotate180, 2
-                                                                           },
-                                                                           {
-                                                                             Rotation.Rotate270, 3
-                                                                           }
-                                                                         };
-
+    /// <exception cref="ArgumentNullException"><paramref name="matrix" /> is <see langword="null" />.</exception>
     public bool TryApplyMatrixTransformation(Matrix matrix,
                                              ref PointF startPoint,
                                              out object rotationTranslation)
     {
       if (matrix == null)
       {
-        // TODO add documentation
         throw new ArgumentNullException(nameof(matrix));
       }
 
@@ -182,8 +168,8 @@ namespace System.Svg.Render.EPL
                    };
       matrix.TransformPoints(points);
 
-      startPoint = points.ElementAt(0);
-      endPoint = points.ElementAt(1);
+      startPoint = points[0];
+      endPoint = points[1];
 
       Rotation rotation;
 
@@ -220,14 +206,38 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      rotationTranslation = this.GetRotationTranslation(rotation);
+      try
+      {
+        rotationTranslation = this.GetRotationTranslation(rotation);
+      }
+      catch (ArgumentOutOfRangeException argumentOutOfRangeException)
+      {
+        // TODO add logging
+        rotationTranslation = null;
+        return false;
+      }
 
       return true;
     }
 
+    /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rotation" /> cannot be translated.</exception>
     public object GetRotationTranslation(Rotation rotation)
     {
-      return this.RotationTranslations[rotation];
+      switch (rotation)
+      {
+        case Rotation.None:
+          return 0;
+        case Rotation.Rotate90:
+          return 1;
+        case Rotation.Rotate180:
+          return 2;
+        case Rotation.Rotate270:
+          return 3;
+        default:
+          throw new ArgumentOutOfRangeException(nameof(rotation),
+                                                rotation,
+                                                null);
+      }
     }
   }
 }

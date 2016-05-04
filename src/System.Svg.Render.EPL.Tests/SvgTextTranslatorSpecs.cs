@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
 // ReSharper disable InconsistentNaming
+// ReSharper disable ExceptionNotDocumented
 
 namespace System.Svg.Render.EPL.Tests
 {
