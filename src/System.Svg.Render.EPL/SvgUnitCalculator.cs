@@ -31,14 +31,16 @@
       return result;
     }
 
-    public void CheckSvgUnitType(SvgUnit svgUnit1,
-                                 SvgUnit svgUnit2)
+    public SvgUnitType CheckSvgUnitType(SvgUnit svgUnit1,
+                                        SvgUnit svgUnit2)
     {
       if (svgUnit1.Type != svgUnit2.Type)
       {
         // TODO add documentation
         throw new ArgumentException($"{nameof(svgUnit2)}'s {nameof(SvgUnit.Type)} ({svgUnit2.Type}) does not equal {nameof(svgUnit1)}'s {nameof(SvgUnit.Type)} ({svgUnit1.Type})");
       }
+
+      return svgUnit1.Type;
     }
 
     public bool IsValueZero(SvgUnit svgUnit)
