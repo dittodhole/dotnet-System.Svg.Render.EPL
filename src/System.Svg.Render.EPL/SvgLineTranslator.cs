@@ -86,7 +86,7 @@ namespace System.Svg.Render.EPL
       if (startY == endY
           || startX == endX)
       {
-        var strokeShouldBeWhite = (instance.Color as SvgColourServer)?.Colour == Color.White;
+        var strokeShouldBeWhite = (instance.Stroke as SvgColourServer)?.Colour == Color.White;
         translation = this.TranslateHorizontalOrVerticalLine(startX,
                                                              startY,
                                                              endX,

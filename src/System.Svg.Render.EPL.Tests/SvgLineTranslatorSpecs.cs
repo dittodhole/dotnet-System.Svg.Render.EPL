@@ -123,7 +123,7 @@ namespace System.Svg.Render.EPL.Tests
                          EndX = new SvgUnit(10f),
                          EndY = new SvgUnit(210f),
                          StrokeWidth = new SvgUnit(20f),
-                         Color = new SvgColourServer(Color.White)
+                         Stroke = new SvgColourServer(Color.White)
                        };
       }
 
