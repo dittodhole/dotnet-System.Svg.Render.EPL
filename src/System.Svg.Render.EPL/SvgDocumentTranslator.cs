@@ -63,7 +63,10 @@ namespace System.Svg.Render.EPL
 
       var translation = svgElementTranslator.TranslateUntyped(svgElement,
                                                               targetDpi);
-      translations.Add(translation);
+      if (translation != null)
+      {
+        translations.Add(translation);
+      }
     }
 
     public SvgElementTranslator GetSvgElementTranslator<T>() where T : SvgElement
