@@ -88,12 +88,12 @@ namespace System.Svg.Render.EPL
 
       if (startX > endX)
       {
-        Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startX} < {endX}"" is not true.");
+        // TODO add logging
         return null;
       }
       if (startY > endY)
       {
-        Trace.TraceError($@"Could not translate {nameof(SvgLine)}, as either ""{startY} < {endY}"" is not true.");
+        // TODO add logging
         return null;
       }
 
