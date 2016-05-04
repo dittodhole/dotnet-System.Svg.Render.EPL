@@ -9,32 +9,12 @@ namespace System.Svg.Render.EPL
   {
     /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
     public SvgTextTranslator(SvgUnitCalculator svgUnitCalculator)
-    {
-      if (svgUnitCalculator == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitCalculator));
-      }
-
-      this.SvgUnitCalculator = svgUnitCalculator;
-    }
-
-    protected SvgUnitCalculator SvgUnitCalculator { get; }
+      : base(svgUnitCalculator) {}
 
     public override object Translate(SvgText instance,
                                      Matrix matrix,
                                      int targetDpi)
     {
-      if (instance == null)
-      {
-        LogTo.Error($"{nameof(instance)} is null");
-        return null;
-      }
-      if (matrix == null)
-      {
-        LogTo.Error($"{nameof(matrix)} is null");
-        return null;
-      }
-
       if (instance.X == null)
       {
         LogTo.Error($"{nameof(SvgTextBase.X)} is null");
@@ -59,11 +39,6 @@ namespace System.Svg.Render.EPL
       // TODO add multiline translation
       // TODO add lineHeight translation
 
-      var newMatrix = matrix.Clone();
-
-      this.SvgUnitCalculator.ApplyTransformationsToMatrix(instance,
-                                                          newMatrix);
-
       object rotationTranslation;
       if (!this.SvgUnitCalculator.TryGetRotationTranslation(matrix,
                                                             out rotationTranslation))
@@ -79,7 +54,7 @@ namespace System.Svg.Render.EPL
       var y = instance.Y.First();
       if (!this.SvgUnitCalculator.TryApplyMatrix(x,
                                                  y,
-                                                 newMatrix,
+                                                 matrix,
                                                  out newX,
                                                  out newY))
       {

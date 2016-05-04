@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using Anotar.LibLog;
+using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
@@ -8,37 +9,12 @@ namespace System.Svg.Render.EPL
   {
     /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
     public SvgLineTranslator(SvgUnitCalculator svgUnitCalculator)
-    {
-      if (svgUnitCalculator == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitCalculator));
-      }
+      : base(svgUnitCalculator) {}
 
-      this.SvgUnitCalculator = svgUnitCalculator;
-    }
-
-    protected SvgUnitCalculator SvgUnitCalculator { get; }
-
-    public override object Translate(SvgLine instance,
-                                     Matrix matrix,
+    public override object Translate([NotNull] SvgLine instance,
+                                     [NotNull] Matrix matrix,
                                      int targetDpi)
     {
-      if (instance == null)
-      {
-        LogTo.Error($"{nameof(instance)} is null");
-        return null;
-      }
-      if (matrix == null)
-      {
-        LogTo.Error($"{nameof(matrix)} is null");
-        return null;
-      }
-
-      var newMatrix = matrix.Clone();
-
-      this.SvgUnitCalculator.ApplyTransformationsToMatrix(instance,
-                                                          newMatrix);
-
       SvgUnit newStartX;
       SvgUnit newStartY;
       SvgUnit newEndX;
@@ -47,7 +23,7 @@ namespace System.Svg.Render.EPL
                                                  instance.StartY,
                                                  instance.EndX,
                                                  instance.EndY,
-                                                 newMatrix,
+                                                 matrix,
                                                  out newStartX,
                                                  out newStartY,
                                                  out newEndX,
@@ -113,7 +89,7 @@ namespace System.Svg.Render.EPL
         return null;
       }
 
-      string translation;
+      object translation;
       if (startY == endY
           || startX == endX)
       {
@@ -137,7 +113,7 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    protected virtual string TranslateHorizontalOrVerticalLine(int startX,
+    protected virtual object TranslateHorizontalOrVerticalLine(int startX,
                                                                int startY,
                                                                int endX,
                                                                int endY,
@@ -172,7 +148,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    protected virtual string TranslateDiagonal(int startX,
+    protected virtual object TranslateDiagonal(int startX,
                                                int startY,
                                                int endX,
                                                int endY,

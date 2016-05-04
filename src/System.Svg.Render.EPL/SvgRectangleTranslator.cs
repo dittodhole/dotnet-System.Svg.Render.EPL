@@ -14,38 +14,22 @@ namespace System.Svg.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
     public SvgRectangleTranslator(SvgLineTranslator svgLineTranslator,
                                   SvgUnitCalculator svgUnitCalculator)
+      : base(svgUnitCalculator)
     {
       if (svgLineTranslator == null)
       {
         throw new ArgumentNullException(nameof(svgLineTranslator));
       }
-      if (svgUnitCalculator == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitCalculator));
-      }
 
       this.SvgLineTranslator = svgLineTranslator;
-      this.SvgUnitCalculator = svgUnitCalculator;
     }
 
     protected SvgLineTranslator SvgLineTranslator { get; }
-    protected SvgUnitCalculator SvgUnitCalculator { get; }
 
-    public override object Translate(SvgRectangle instance,
-                                     Matrix matrix,
+    public override object Translate([NotNull] SvgRectangle instance,
+                                     [NotNull] Matrix matrix,
                                      int targetDpi)
     {
-      if (instance == null)
-      {
-        LogTo.Error($"{nameof(instance)} is null");
-        return null;
-      }
-      if (matrix == null)
-      {
-        LogTo.Error($"{nameof(matrix)} is null");
-        return null;
-      }
-
       // TODO allow diagnoal rectangle ...
       // TODO fix calculation of stroke based on StrokeLineJoin
 

@@ -7,19 +7,34 @@ namespace System.Svg.Render.EPL
 {
   public class SvgDocumentTranslator : SvgElementTranslator<SvgDocument>
   {
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
+    public SvgDocumentTranslator(SvgUnitCalculator svgUnitCalculator)
+      : base(svgUnitCalculator) {}
+
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     private ConcurrentDictionary<Type, SvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, SvgElementTranslator>();
 
-    public override object Translate(SvgDocument instance,
-                                     Matrix matrix,
-                                     int targetDpi)
+    public string Translate(SvgDocument instance,
+                            int targetDpi)
+    {
+      var translation = this.Translate(instance,
+                                       new Matrix(),
+                                       targetDpi);
+
+      return translation;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="matrix" /> is <see langword="null" />.</exception>
+    public new string Translate(SvgDocument instance,
+                                Matrix matrix,
+                                int targetDpi)
     {
       if (matrix == null)
       {
-        matrix = new Matrix();
+        throw new ArgumentNullException(nameof(matrix));
       }
 
-      var translations = new LinkedList<object>();
+      var translations = new LinkedList<string>();
 
       this.TranslateSvgElementAndChildren(instance,
                                           matrix,
@@ -35,7 +50,7 @@ namespace System.Svg.Render.EPL
     private void TranslateSvgElementAndChildren(SvgElement svgElement,
                                                 Matrix matrix,
                                                 int targetDpi,
-                                                ICollection<object> translations)
+                                                ICollection<string> translations)
     {
       var svgVisualElement = svgElement as SvgVisualElement;
       if (svgVisualElement != null)
@@ -47,15 +62,22 @@ namespace System.Svg.Render.EPL
         }
       }
 
+      object translation;
+      Matrix newMatrix;
       this.TranslateSvgElement(svgElement,
                                matrix,
                                targetDpi,
-                               translations);
+                               out translation,
+                               out newMatrix);
+      if (translation != null)
+      {
+        translations.Add(translation.ToString());
+      }
 
       foreach (var child in svgElement.Children)
       {
         this.TranslateSvgElementAndChildren(child,
-                                            matrix,
+                                            newMatrix,
                                             targetDpi,
                                             translations);
       }
@@ -64,30 +86,26 @@ namespace System.Svg.Render.EPL
     protected virtual void TranslateSvgElement(SvgElement svgElement,
                                                Matrix matrix,
                                                int targetDpi,
-                                               ICollection<object> translations)
+                                               out object translation,
+                                               out Matrix newMatrix)
     {
       var type = svgElement.GetType();
       var svgElementTranslator = this.GetSvgElementTranslator(type);
       if (svgElementTranslator == null)
       {
+        translation = null;
+        newMatrix = matrix;
         return;
       }
 
-      var translation = svgElementTranslator.TranslateUntyped(svgElement,
-                                                              matrix,
-                                                              targetDpi);
-      if (translation != null)
-      {
-        translations.Add(translation);
-      }
+      svgElementTranslator.TranslateUntyped(svgElement,
+                                            matrix,
+                                            targetDpi,
+                                            out translation,
+                                            out newMatrix);
     }
 
-    public SvgElementTranslator GetSvgElementTranslator<T>() where T : SvgElement
-    {
-      return this.GetSvgElementTranslator(typeof(T));
-    }
-
-    public SvgElementTranslator GetSvgElementTranslator(Type type)
+    protected virtual SvgElementTranslator GetSvgElementTranslator(Type type)
     {
       if (type == null)
       {
@@ -101,16 +119,9 @@ namespace System.Svg.Render.EPL
       return svgElementTranslator;
     }
 
-    public void AddSvgElementTranslator<T>(SvgElementTranslator<T> svgElementTranslator) where T : SvgElement
+    public void RegisterTranslator<T>(SvgElementTranslator<T> svgElementTranslator) where T : SvgElement
     {
       this.SvgElementTranslators[typeof(T)] = svgElementTranslator;
-    }
-
-    public void RemoveSvgElementTranslator<T>() where T : SvgElement
-    {
-      SvgElementTranslator svgElementTranslator;
-      this.SvgElementTranslators.TryRemove(typeof(T),
-                                           out svgElementTranslator);
     }
   }
 }
