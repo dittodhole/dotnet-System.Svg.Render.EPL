@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Linq;
+using Anotar.LibLog;
 
 namespace System.Svg.Render.EPL
 {
@@ -33,7 +34,7 @@ namespace System.Svg.Render.EPL
     {
       if (instance == null)
       {
-        // TODO add logging
+        LogTo.Error($"{nameof(instance)} is null");
         return null;
       }
 
@@ -63,7 +64,7 @@ namespace System.Svg.Render.EPL
         if (!this.TryGetFillSvgLine(instance,
                                     out fillLine))
         {
-          // TODO add logging
+          LogTo.Error($"could not get line for filling");
           return null;
         }
 
@@ -77,7 +78,7 @@ namespace System.Svg.Render.EPL
                                        out lowerLine,
                                        out leftLine))
         {
-          // TODO add logging
+          LogTo.Error($"could not get lines for borders");
           return null;
         }
 
@@ -98,7 +99,8 @@ namespace System.Svg.Render.EPL
                                lowerLine,
                                leftLine,
                                fillLine
-                             }.Select(arg => this.SvgLineTranslator.Translate(arg,
+                             }.Where(arg => arg != null)
+                              .Select(arg => this.SvgLineTranslator.Translate(arg,
                                                                               targetDpi))
                               .Where(arg => arg != null);
 
@@ -130,20 +132,21 @@ namespace System.Svg.Render.EPL
       }
       catch (ArgumentException argumentException)
       {
-        // TODO add logging
+        LogTo.ErrorException($"could not calculate fill",
+                             argumentException);
         fillLine = null;
         return false;
       }
 
       fillLine = new SvgLine
-                    {
-                      StartX = instance.X,
-                      StartY = instance.Y,
-                      EndX = endX,
-                      EndY = instance.Y,
-                      StrokeWidth = instance.Height,
-                      Stroke = instance.Fill
-                    };
+                 {
+                   StartX = instance.X,
+                   StartY = instance.Y,
+                   EndX = endX,
+                   EndY = instance.Y,
+                   StrokeWidth = instance.Height,
+                   Stroke = instance.Fill
+                 };
 
       return true;
     }
@@ -212,7 +215,8 @@ namespace System.Svg.Render.EPL
       }
       catch (ArgumentException argumentException)
       {
-        // TODO add logging
+        LogTo.ErrorException($"could not calculate fill",
+                             argumentException);
         upperLine = null;
         rightLine = null;
         lowerLine = null;

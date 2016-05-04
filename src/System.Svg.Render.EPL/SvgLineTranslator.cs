@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Anotar.LibLog;
 
 namespace System.Svg.Render.EPL
 {
@@ -22,7 +23,7 @@ namespace System.Svg.Render.EPL
     {
       if (instance == null)
       {
-        // TODO add logging
+        LogTo.Error($"{nameof(instance)} is null");
         return null;
       }
 
@@ -31,7 +32,7 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out startX))
       {
-        // TODO add logging
+        LogTo.Error($"could not convert {instance.StartX} to device points");
         return null;
       }
 
@@ -40,7 +41,7 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out startY))
       {
-        // TODO add logging
+        LogTo.Error($"could not convert {instance.StartY} to device points");
         return null;
       }
 
@@ -49,7 +50,7 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out endX))
       {
-        // TODO add logging
+        LogTo.Error($"could not convert {instance.EndX} to device points");
         return null;
       }
 
@@ -58,7 +59,7 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out endY))
       {
-        // TODO add logging
+        LogTo.Error($"could not convert {instance.EndY} to device points");
         return null;
       }
 
@@ -67,18 +68,18 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out strokeWidth))
       {
-        // TODO add logging
+        LogTo.Error($"could not convert {instance.StrokeWidth} to device points");
         return null;
       }
 
       if (startX > endX)
       {
-        // TODO add logging
+        LogTo.Error($"invalid coordinates: {nameof(startX)} ({startX}) is greater than {nameof(endX)} ({endX})");
         return null;
       }
       if (startY > endY)
       {
-        // TODO add logging
+        LogTo.Error($"invalid coordinates: {nameof(startY)} ({startY}) is greater than {nameof(endY)} ({endY})");
         return null;
       }
 

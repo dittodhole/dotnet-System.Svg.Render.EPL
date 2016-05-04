@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using Anotar.LibLog;
 
 namespace System.Svg.Render.EPL
 {
@@ -50,7 +51,6 @@ namespace System.Svg.Render.EPL
     {
       if (svgUnit1.Type != svgUnit2.Type)
       {
-        // TODO add documentation
         throw new ArgumentException($"{nameof(svgUnit2)}'s {nameof(SvgUnit.Type)} ({svgUnit2.Type}) does not equal {nameof(svgUnit1)}'s {nameof(SvgUnit.Type)} ({svgUnit1.Type})");
       }
 
@@ -132,7 +132,6 @@ namespace System.Svg.Render.EPL
       }
       else
       {
-        // TODO add logging
         devicePoints = 0;
         return false;
       }
@@ -156,7 +155,7 @@ namespace System.Svg.Render.EPL
     {
       if (matrix == null)
       {
-        // TODO add logging
+        LogTo.Error($"{nameof(matrix)} is null");
         rotationTranslation = null;
         return false;
       }
@@ -192,7 +191,7 @@ namespace System.Svg.Render.EPL
         }
         else
         {
-          // TODO woho, stop - HAMMER TIME - transformation results in a singularity?
+          LogTo.Error($"HAMMER TIME - singularity detected ({startPoint.X}/{startPoint.Y}, {endPoint.X}/{endPoint.Y})");
           rotationTranslation = null;
           return false;
         }
@@ -207,7 +206,7 @@ namespace System.Svg.Render.EPL
       }
       else
       {
-        // TODO woho, stop - HAMMER TIME - transformation results in a singularity?
+        LogTo.Error($"HAMMER TIME - singularity detected ({startPoint.X}/{startPoint.Y}, {endPoint.X}/{endPoint.Y})");
         rotationTranslation = null;
         return false;
       }
@@ -218,7 +217,8 @@ namespace System.Svg.Render.EPL
       }
       catch (ArgumentOutOfRangeException argumentOutOfRangeException)
       {
-        // TODO add logging
+        LogTo.ErrorException($"could not get rotation translation for {rotation}",
+                             argumentOutOfRangeException);
         rotationTranslation = null;
         return false;
       }

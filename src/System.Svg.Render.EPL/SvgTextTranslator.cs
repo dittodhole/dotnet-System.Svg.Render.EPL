@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
 using System.Svg.Transforms;
+using Anotar.LibLog;
 
 namespace System.Svg.Render.EPL
 {
@@ -45,27 +46,27 @@ namespace System.Svg.Render.EPL
     {
       if (instance == null)
       {
-        // TODO add logging
+        LogTo.Error($"{nameof(instance)} is null");
         return null;
       }
       if (instance.X == null)
       {
-        // TODO add logging
+        LogTo.Error($"{nameof(instance.X)} is null");
         return null;
       }
       if (!instance.X.Any())
       {
-        // TODO add documentation
+        LogTo.Error($"no values in {nameof(instance.X)}");
         return null;
       }
       if (instance.Y == null)
       {
-        // TODO add logging
+        LogTo.Error($"{nameof(instance.Y)} is null");
         return null;
       }
       if (!instance.Y.Any())
       {
-        // TODO add documentation
+        LogTo.Error($"no values in {nameof(instance.Y)}");
         return null;
       }
 
@@ -80,7 +81,7 @@ namespace System.Svg.Render.EPL
                                                   out svgUnitType,
                                                   out rotationTranslation))
       {
-        // TODO add logging
+        LogTo.Error($"could not calculate start point and rotation");
         return null;
       }
 
@@ -90,7 +91,7 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out horizontalStart))
       {
-        // TODO add logging
+        LogTo.Error($"could not translate {nameof(startPoint.X)} ({startPoint.X}) to device points");
         return null;
       }
 
@@ -100,7 +101,7 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out verticalStart))
       {
-        // TODO add logging
+        LogTo.Error($"could not translate {nameof(startPoint.Y)} ({startPoint.Y}) to device points");
         return null;
       }
 
@@ -149,22 +150,22 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    private bool TryCalculateStartPointAndRotation(SvgText instance,
+    private bool TryCalculateStartPointAndRotation(SvgText svgText,
                                                    out PointF startPoint,
                                                    out SvgUnitType svgUnitType,
                                                    out object rotationTranslation)
     {
-      if (instance == null)
+      if (svgText == null)
       {
-        // TODO add logging
+        LogTo.Error($"{nameof(svgText)} is null");
         startPoint = PointF.Empty;
         svgUnitType = SvgUnitType.None;
         rotationTranslation = null;
         return false;
       }
 
-      var x = instance.X.First();
-      var y = instance.Y.First();
+      var x = svgText.X.First();
+      var y = svgText.Y.First();
 
       try
       {
@@ -173,7 +174,8 @@ namespace System.Svg.Render.EPL
       }
       catch (ArgumentException argumentException)
       {
-        // TODO add logging
+        LogTo.ErrorException($"could not calculate start point for {nameof(x)} ({x}) and {nameof(y)} ({y})",
+                             argumentException);
         startPoint = PointF.Empty;
         svgUnitType = SvgUnitType.None;
         rotationTranslation = null;
@@ -184,12 +186,12 @@ namespace System.Svg.Render.EPL
                               this.SvgUnitCalculator.GetValue(y));
 
       rotationTranslation = default(object);
-      foreach (var transformation in instance.Transforms)
+      foreach (var transformation in svgText.Transforms)
       {
         var transformationType = transformation.GetType();
         if (!this.IsTransformationAllowed(transformationType))
         {
-          // TODO add logging
+          LogTo.Error($"transformation {transformationType} is not allowed");
           startPoint = PointF.Empty;
           svgUnitType = SvgUnitType.None;
           rotationTranslation = null;
@@ -201,7 +203,7 @@ namespace System.Svg.Render.EPL
         var matrix = transformation.Matrix;
         if (matrix == null)
         {
-          // TODO add logging
+          LogTo.Error($"{nameof(transformation.Matrix)} is null");
           startPoint = PointF.Empty;
           svgUnitType = SvgUnitType.None;
           rotationTranslation = null;
@@ -212,7 +214,7 @@ namespace System.Svg.Render.EPL
                                                                  ref startPoint,
                                                                  out rotationTranslation))
         {
-          // TODO add logging
+          LogTo.Error($"could not apply {nameof(matrix)}");
           startPoint = PointF.Empty;
           svgUnitType = SvgUnitType.None;
           rotationTranslation = null;
