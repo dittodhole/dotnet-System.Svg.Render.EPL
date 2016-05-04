@@ -150,14 +150,15 @@ namespace System.Svg.Render.EPL
       Rotate270
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="matrix" /> is <see langword="null" />.</exception>
     public bool TryApplyMatrixTransformation(Matrix matrix,
                                              ref PointF startPoint,
                                              out object rotationTranslation)
     {
       if (matrix == null)
       {
-        throw new ArgumentNullException(nameof(matrix));
+        // TODO add logging
+        rotationTranslation = null;
+        return false;
       }
 
       var endPoint = new PointF

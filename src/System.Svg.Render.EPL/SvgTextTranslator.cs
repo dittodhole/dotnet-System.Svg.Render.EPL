@@ -154,6 +154,15 @@ namespace System.Svg.Render.EPL
                                                    out SvgUnitType svgUnitType,
                                                    out object rotationTranslation)
     {
+      if (instance == null)
+      {
+        // TODO add logging
+        startPoint = PointF.Empty;
+        svgUnitType = SvgUnitType.None;
+        rotationTranslation = null;
+        return false;
+      }
+
       var x = instance.X.First();
       var y = instance.Y.First();
 
@@ -199,23 +208,9 @@ namespace System.Svg.Render.EPL
           return false;
         }
 
-        bool success;
-        try
-        {
-          success = this.SvgUnitCalculator.TryApplyMatrixTransformation(matrix,
-                                                                        ref startPoint,
-                                                                        out rotationTranslation);
-        }
-        catch (ArgumentOutOfRangeException argumentOutOfRangeException)
-        {
-          // TODO add logging
-          startPoint = PointF.Empty;
-          svgUnitType = SvgUnitType.None;
-          rotationTranslation = null;
-          return false;
-        }
-
-        if (!success)
+        if (!this.SvgUnitCalculator.TryApplyMatrixTransformation(matrix,
+                                                                 ref startPoint,
+                                                                 out rotationTranslation))
         {
           // TODO add logging
           startPoint = PointF.Empty;
