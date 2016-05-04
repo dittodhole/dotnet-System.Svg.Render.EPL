@@ -70,24 +70,25 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    /// <exception cref="NotImplementedException">If a translation for <see cref="SvgUnitType" /> of <paramref name="svgUnit" /> is not implemented.</exception>
-    public int GetDevicePoints(SvgUnit svgUnit,
-                               int targetDpi)
+    public bool TryGetDevicePoints(SvgUnit svgUnit,
+                                   int targetDpi,
+                                   out int devicePoints)
     {
       var value = this.GetValue(svgUnit);
       var svgUnitType = svgUnit.Type;
 
-      var result = this.GetDevicePoints(value,
-                                        svgUnitType,
-                                        targetDpi);
+      var result = this.TryGetDevicePoints(value,
+                                           svgUnitType,
+                                           targetDpi,
+                                           out devicePoints);
 
       return result;
     }
 
-    /// <exception cref="NotImplementedException">If a translation for <paramref name="svgUnitType" /> is not implemented.</exception>
-    public int GetDevicePoints(float value,
-                               SvgUnitType svgUnitType,
-                               int targetDpi)
+    public bool TryGetDevicePoints(float value,
+                                   SvgUnitType svgUnitType,
+                                   int targetDpi,
+                                   out int devicePoints)
     {
       if (svgUnitType == SvgUnitType.User)
       {
@@ -131,12 +132,14 @@ namespace System.Svg.Render.EPL
       }
       else
       {
-        throw new NotImplementedException($"a conversion of {svgUnitType} is currently not implemented");
+        // TODO add logging
+        devicePoints = 0;
+        return false;
       }
 
-      var devicePoints = (int) (pixels / this.SourceDpi * targetDpi);
+      devicePoints = (int) (pixels / this.SourceDpi * targetDpi);
 
-      return devicePoints;
+      return true;
     }
 
     public enum Rotation

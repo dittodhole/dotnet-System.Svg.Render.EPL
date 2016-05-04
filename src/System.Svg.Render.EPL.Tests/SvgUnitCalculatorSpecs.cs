@@ -1,5 +1,4 @@
-﻿using System.Drawing.Drawing2D;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
 // ReSharper disable InconsistentNaming
@@ -125,8 +124,14 @@ namespace System.Svg.Render.EPL.Tests
 
         var svgUnit = new SvgUnit(SvgUnitType.Inch,
                                   3f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -152,8 +157,14 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         var svgUnit = new SvgUnit(3f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -173,8 +184,14 @@ namespace System.Svg.Render.EPL.Tests
 
         var svgUnit = new SvgUnit(SvgUnitType.Centimeter,
                                   10f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -200,8 +217,14 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         var svgUnit = new SvgUnit(10f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -221,8 +244,14 @@ namespace System.Svg.Render.EPL.Tests
 
         var svgUnit = new SvgUnit(SvgUnitType.Millimeter,
                                   8433f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -248,8 +277,14 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         var svgUnit = new SvgUnit(8433f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -269,8 +304,14 @@ namespace System.Svg.Render.EPL.Tests
 
         var svgUnit = new SvgUnit(SvgUnitType.Pixel,
                                   100f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -296,8 +337,14 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         var svgUnit = new SvgUnit(100f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -317,8 +364,14 @@ namespace System.Svg.Render.EPL.Tests
 
         var svgUnit = new SvgUnit(SvgUnitType.Pica,
                                   128840f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -344,8 +397,13 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         var svgUnit = new SvgUnit(128840f);
-        this.Actual = this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                             203);
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
+        {
+          this.Actual = devicePoints;
+        }
       }
 
       [TestMethod]
@@ -366,22 +424,19 @@ namespace System.Svg.Render.EPL.Tests
         var svgUnit = new SvgUnit(SvgUnitType.Em,
                                   100f);
 
-        try
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
         {
-          this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                 203);
-        }
-        catch (NotImplementedException notImplementedException)
-        {
-          this.Actual = notImplementedException;
+          this.Actual = devicePoints;
         }
       }
 
       [TestMethod]
       public void should_get_not_implemented_exception()
       {
-        Assert.IsInstanceOfType(this.Actual,
-                                typeof(NotImplementedException));
+        Assert.IsNull(this.Actual);
       }
     }
 
@@ -395,22 +450,19 @@ namespace System.Svg.Render.EPL.Tests
         var svgUnit = new SvgUnit(SvgUnitType.Ex,
                                   100f);
 
-        try
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
         {
-          this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                 203);
-        }
-        catch (NotImplementedException notImplementedException)
-        {
-          this.Actual = notImplementedException;
+          this.Actual = devicePoints;
         }
       }
 
       [TestMethod]
       public void should_get_not_implemented_exception()
       {
-        Assert.IsInstanceOfType(this.Actual,
-                                typeof(NotImplementedException));
+        Assert.IsNull(this.Actual);
       }
     }
 
@@ -424,22 +476,19 @@ namespace System.Svg.Render.EPL.Tests
         var svgUnit = new SvgUnit(SvgUnitType.Percentage,
                                   100f);
 
-        try
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
         {
-          this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                 203);
-        }
-        catch (NotImplementedException notImplementedException)
-        {
-          this.Actual = notImplementedException;
+          this.Actual = devicePoints;
         }
       }
 
       [TestMethod]
       public void should_get_not_implemented_exception()
       {
-        Assert.IsInstanceOfType(this.Actual,
-                                typeof(NotImplementedException));
+        Assert.IsNull(this.Actual);
       }
     }
 
@@ -453,22 +502,19 @@ namespace System.Svg.Render.EPL.Tests
         var svgUnit = new SvgUnit(SvgUnitType.None,
                                   100f);
 
-        try
+        int devicePoints;
+        if (this.SvgUnitCalculator.TryGetDevicePoints(svgUnit,
+                                                      203,
+                                                      out devicePoints))
         {
-          this.SvgUnitCalculator.GetDevicePoints(svgUnit,
-                                                 203);
-        }
-        catch (NotImplementedException notImplementedException)
-        {
-          this.Actual = notImplementedException;
+          this.Actual = devicePoints;
         }
       }
 
       [TestMethod]
       public void should_get_not_implemented_exception()
       {
-        Assert.IsInstanceOfType(this.Actual,
-                                typeof(NotImplementedException));
+        Assert.IsNull(this.Actual);
       }
     }
   }

@@ -85,26 +85,20 @@ namespace System.Svg.Render.EPL
       }
 
       int horizontalStart;
-      try
-      {
-        horizontalStart = this.SvgUnitCalculator.GetDevicePoints(startPoint.X,
-                                                                 svgUnitType,
-                                                                 targetDpi);
-      }
-      catch (NotImplementedException notImplementedException)
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(startPoint.X,
+                                                     svgUnitType,
+                                                     targetDpi,
+                                                     out horizontalStart))
       {
         // TODO add logging
         return null;
       }
 
       int verticalStart;
-      try
-      {
-        verticalStart = this.SvgUnitCalculator.GetDevicePoints(startPoint.Y,
-                                                               svgUnitType,
-                                                               targetDpi);
-      }
-      catch (NotImplementedException notImplementedException)
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(startPoint.Y,
+                                                     svgUnitType,
+                                                     targetDpi,
+                                                     out verticalStart))
       {
         // TODO add logging
         return null;

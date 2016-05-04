@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace System.Svg.Render.EPL
 {
@@ -28,59 +27,45 @@ namespace System.Svg.Render.EPL
       }
 
       int startX;
-      try
-      {
-        startX = this.SvgUnitCalculator.GetDevicePoints(instance.StartX,
-                                                        targetDpi);
-      }
-      catch (NotImplementedException notImplementedException)
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StartX,
+                                                     targetDpi,
+                                                     out startX))
       {
         // TODO add logging
         return null;
       }
 
       int startY;
-      try
-      {
-        startY = this.SvgUnitCalculator.GetDevicePoints(instance.StartY,
-                                                        targetDpi);
-      }
-      catch (NotImplementedException notImplementedException)
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StartY,
+                                                     targetDpi,
+                                                     out startY))
       {
         // TODO add logging
         return null;
       }
 
       int endX;
-      try
-      {
-        endX = this.SvgUnitCalculator.GetDevicePoints(instance.EndX,
-                                                      targetDpi);
-      }
-      catch (NotImplementedException notImplementedException)
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.EndX,
+                                                     targetDpi,
+                                                     out endX))
       {
         // TODO add logging
         return null;
       }
 
       int endY;
-      try
-      {
-        endY = this.SvgUnitCalculator.GetDevicePoints(instance.EndY,
-                                                      targetDpi);
-      }
-      catch (NotImplementedException notImplementedException)
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.EndY,
+                                                     targetDpi,
+                                                     out endY))
       {
         // TODO add logging
         return null;
       }
+
       int strokeWidth;
-      try
-      {
-        strokeWidth = this.SvgUnitCalculator.GetDevicePoints(instance.StrokeWidth,
-                                                             targetDpi);
-      }
-      catch (NotImplementedException notImplementedException)
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StrokeWidth,
+                                                     targetDpi,
+                                                     out strokeWidth))
       {
         // TODO add logging
         return null;
