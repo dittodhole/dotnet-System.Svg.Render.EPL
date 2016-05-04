@@ -80,13 +80,18 @@ namespace System.Svg.Render.EPL
 
       if (startX > endX)
       {
-        LogTo.Error($"invalid coordinates: {nameof(startX)} ({startX}) is greater than {nameof(endX)} ({endX})");
-        return null;
+        // no .. i won't go down two-variable-way - compiler galore
+        var temp = endX;
+        endX = startX;
+        startX = temp;
       }
+
       if (startY > endY)
       {
-        LogTo.Error($"invalid coordinates: {nameof(startY)} ({startY}) is greater than {nameof(endY)} ({endY})");
-        return null;
+        // no .. i won't go down two-variable-way - compiler galore
+        var temp = endY;
+        endY = startY;
+        startY = temp;
       }
 
       object translation;
