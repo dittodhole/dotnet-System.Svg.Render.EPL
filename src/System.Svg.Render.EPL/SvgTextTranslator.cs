@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Svg.Transforms;
 using Anotar.LibLog;
+using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
@@ -20,7 +21,7 @@ namespace System.Svg.Render.EPL
 
     private SvgUnitCalculator SvgUnitCalculator { get; }
 
-    private bool IsTransformationAllowed(Type type)
+    private bool IsTransformationAllowed([NotNull] Type type)
     {
       if (type == typeof(SvgMatrix))
       {
@@ -150,20 +151,11 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    private bool TryCalculateStartPointAndRotation(SvgText svgText,
+    private bool TryCalculateStartPointAndRotation([NotNull] SvgText svgText,
                                                    out PointF startPoint,
                                                    out SvgUnitType svgUnitType,
                                                    out object rotationTranslation)
     {
-      if (svgText == null)
-      {
-        LogTo.Error($"{nameof(svgText)} is null");
-        startPoint = PointF.Empty;
-        svgUnitType = SvgUnitType.None;
-        rotationTranslation = null;
-        return false;
-      }
-
       var x = svgText.X.First();
       var y = svgText.Y.First();
 

@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
 using Anotar.LibLog;
+using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
@@ -112,7 +113,7 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    private bool TryGetFillSvgLine(SvgRectangle instance,
+    private bool TryGetFillSvgLine([NotNull] SvgRectangle instance,
                                    out SvgLine fillLine)
     {
       // TODO fix dat for every scenario - test cases!
@@ -151,7 +152,7 @@ namespace System.Svg.Render.EPL
       return true;
     }
 
-    private bool TryGetBorderSvgLines(SvgRectangle instance,
+    private bool TryGetBorderSvgLines([NotNull] SvgRectangle instance,
                                       out SvgLine upperLine,
                                       out SvgLine rightLine,
                                       out SvgLine lowerLine,
