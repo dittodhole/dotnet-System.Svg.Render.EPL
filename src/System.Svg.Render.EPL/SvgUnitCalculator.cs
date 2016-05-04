@@ -10,11 +10,14 @@
     public SvgUnit Add(SvgUnit svgUnit1,
                        SvgUnit svgUnit2)
     {
-      this.CheckSvgUnitType(svgUnit1,
-                            svgUnit2);
+      var svgUnitType = this.CheckSvgUnitType(svgUnit1,
+                                              svgUnit2);
 
-      var result = new SvgUnit(svgUnit1.Type,
-                               svgUnit1.Value + svgUnit2.Value);
+      var val1 = this.GetValue(svgUnit1);
+      var val2 = this.GetValue(svgUnit2);
+
+      var result = new SvgUnit(svgUnitType,
+                               val1 + val2);
 
       return result;
     }
@@ -22,11 +25,14 @@
     public SvgUnit Substract(SvgUnit svgUnit1,
                              SvgUnit svgUnit2)
     {
-      this.CheckSvgUnitType(svgUnit1,
-                            svgUnit2);
+      var svgUnitType = this.CheckSvgUnitType(svgUnit1,
+                                              svgUnit2);
 
-      var result = new SvgUnit(svgUnit1.Type,
-                               svgUnit1.Value - svgUnit2.Value);
+      var val1 = this.GetValue(svgUnit1);
+      var val2 = this.GetValue(svgUnit2);
+
+      var result = new SvgUnit(svgUnitType,
+                               val1 - val2);
 
       return result;
     }
