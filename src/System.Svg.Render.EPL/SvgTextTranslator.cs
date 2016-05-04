@@ -72,73 +72,16 @@ namespace System.Svg.Render.EPL
       // TODO add multiline translation
       // TODO add lineHeight translation
 
-      var x = instance.X.First();
-      var y = instance.Y.First();
-
       SvgUnitType svgUnitType;
-      try
-      {
-        svgUnitType = this.SvgUnitCalculator.CheckSvgUnitType(x,
-                                                              y);
-      }
-      catch (ArgumentException argumentException)
+      PointF startPoint;
+      object rotationTranslation;
+      if (!this.TryCalculateStartPointAndRotation(instance,
+                                                  out startPoint,
+                                                  out svgUnitType,
+                                                  out rotationTranslation))
       {
         // TODO add logging
         return null;
-      }
-
-      var startPoint = new PointF(this.SvgUnitCalculator.GetValue(x),
-                                  this.SvgUnitCalculator.GetValue(y));
-
-      var rotationTranslation = default(object);
-      foreach (var transformation in instance.Transforms)
-      {
-        var transformationType = transformation.GetType();
-        if (!this.IsTransformationAllowed(transformationType))
-        {
-          // TODO add logging
-          return null;
-        }
-
-        // TODO fix rotationTranslation for multiple transformations
-        var matrix = transformation.Matrix;
-        if (matrix == null)
-        {
-          // TODO add logging
-          return null;
-        }
-
-        bool success;
-        try
-        {
-          success = this.SvgUnitCalculator.TryApplyMatrixTransformation(matrix,
-                                                                        ref startPoint,
-                                                                        out rotationTranslation);
-        }
-        catch (ArgumentOutOfRangeException argumentOutOfRangeException)
-        {
-          // TODO add logging
-          return null;
-        }
-
-        if (!success)
-        {
-          // TODO add logging
-          return null;
-        }
-      }
-
-      if (rotationTranslation == null)
-      {
-        try
-        {
-          rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(SvgUnitCalculator.Rotation.None);
-        }
-        catch (ArgumentOutOfRangeException argumentOutOfRangeException)
-        {
-          // TODO add logging
-          return null;
-        }
       }
 
       int horizontalStart;
@@ -210,6 +153,90 @@ namespace System.Svg.Render.EPL
       var translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontSelection},{horizontalMultiplier},{verticalMultiplier},{reverseImage},""{text}""";
 
       return translation;
+    }
+
+    private bool TryCalculateStartPointAndRotation(SvgText instance,
+                                                   out PointF startPoint,
+                                                   out SvgUnitType svgUnitType,
+                                                   out object rotationTranslation)
+    {
+      var x = instance.X.First();
+      var y = instance.Y.First();
+
+      try
+      {
+        svgUnitType = this.SvgUnitCalculator.CheckSvgUnitType(x,
+                                                              y);
+      }
+      catch (ArgumentException argumentException)
+      {
+        // TODO add logging
+        startPoint = PointF.Empty;
+        svgUnitType = SvgUnitType.None;
+        rotationTranslation = null;
+        return false;
+      }
+
+      startPoint = new PointF(this.SvgUnitCalculator.GetValue(x),
+                              this.SvgUnitCalculator.GetValue(y));
+
+      rotationTranslation = default(object);
+      foreach (var transformation in instance.Transforms)
+      {
+        var transformationType = transformation.GetType();
+        if (!this.IsTransformationAllowed(transformationType))
+        {
+          // TODO add logging
+          startPoint = PointF.Empty;
+          svgUnitType = SvgUnitType.None;
+          rotationTranslation = null;
+          return false;
+        }
+
+        // TODO fix rotationTranslation for multiple transformations
+
+        var matrix = transformation.Matrix;
+        if (matrix == null)
+        {
+          // TODO add logging
+          startPoint = PointF.Empty;
+          svgUnitType = SvgUnitType.None;
+          rotationTranslation = null;
+          return false;
+        }
+
+        bool success;
+        try
+        {
+          success = this.SvgUnitCalculator.TryApplyMatrixTransformation(matrix,
+                                                                        ref startPoint,
+                                                                        out rotationTranslation);
+        }
+        catch (ArgumentOutOfRangeException argumentOutOfRangeException)
+        {
+          // TODO add logging
+          startPoint = PointF.Empty;
+          svgUnitType = SvgUnitType.None;
+          rotationTranslation = null;
+          return false;
+        }
+
+        if (!success)
+        {
+          // TODO add logging
+          startPoint = PointF.Empty;
+          svgUnitType = SvgUnitType.None;
+          rotationTranslation = null;
+          return false;
+        }
+      }
+
+      if (rotationTranslation == null)
+      {
+        rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(SvgUnitCalculator.Rotation.None);
+      }
+
+      return true;
     }
   }
 }
