@@ -51,22 +51,22 @@ namespace System.Svg.Render.EPL
       }
       if (instance.X == null)
       {
-        LogTo.Error($"{nameof(instance.X)} is null");
+        LogTo.Error($"{nameof(SvgTextBase.X)} is null");
         return null;
       }
       if (!instance.X.Any())
       {
-        LogTo.Error($"no values in {nameof(instance.X)}");
+        LogTo.Error($"no values in {nameof(SvgTextBase.X)}");
         return null;
       }
       if (instance.Y == null)
       {
-        LogTo.Error($"{nameof(instance.Y)} is null");
+        LogTo.Error($"{nameof(SvgTextBase.Y)} is null");
         return null;
       }
       if (!instance.Y.Any())
       {
-        LogTo.Error($"no values in {nameof(instance.Y)}");
+        LogTo.Error($"no values in {nameof(SvgTextBase.Y)}");
         return null;
       }
 
