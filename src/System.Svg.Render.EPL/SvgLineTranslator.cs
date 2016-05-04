@@ -136,7 +136,7 @@ namespace System.Svg.Render.EPL
         command = "LO";
       }
 
-      string result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+      var result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
 
       return result;
     }
@@ -153,7 +153,7 @@ namespace System.Svg.Render.EPL
       var verticalLength = endX;
       var verticalEnd = endY;
 
-      string result = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
+      var result = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
 
       return result;
     }
