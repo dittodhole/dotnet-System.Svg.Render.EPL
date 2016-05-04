@@ -12,7 +12,7 @@ namespace System.Svg.Render.EPL
     public override object Translate(SvgDocument instance,
                                      int targetDpi)
     {
-      var translations = new List<object>();
+      var translations = new LinkedList<object>();
 
       this.TranslateSvgElementAndChildren(instance,
                                           targetDpi,
@@ -26,7 +26,7 @@ namespace System.Svg.Render.EPL
 
     private void TranslateSvgElementAndChildren(SvgElement svgElement,
                                                 int targetDpi,
-                                                List<object> translations)
+                                                ICollection<object> translations)
     {
       var svgVisualElement = svgElement as SvgVisualElement;
       if (svgVisualElement != null)
@@ -52,7 +52,7 @@ namespace System.Svg.Render.EPL
 
     protected virtual void TranslateSvgElement(SvgElement svgElement,
                                                int targetDpi,
-                                               List<object> translations)
+                                               ICollection<object> translations)
     {
       var type = svgElement.GetType();
       var svgElementTranslator = this.GetSvgElementTranslator(type);
