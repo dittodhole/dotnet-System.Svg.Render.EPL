@@ -147,16 +147,13 @@ namespace System.Svg.Render.EPL
                                     int endY,
                                     int strokeWidth)
     {
-      // diagonal
-      var command = "LS";
-
       var horizontalStart = startX;
       var verticalStart = startY;
       var horizontalLength = strokeWidth;
       var verticalLength = endX;
       var verticalEnd = endY;
 
-      string result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
+      string result = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
 
       return result;
     }
