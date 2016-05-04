@@ -9,8 +9,6 @@ namespace System.Svg.Render.EPL
 {
   public class SvgUnitCalculator
   {
-    // TODO add reading for different origin
-
     public int SourceDpi { get; set; } = 72;
     public SvgUnitType UserUnitTypeSubstitution { get; set; } = SvgUnitType.Pixel;
 
@@ -146,6 +144,8 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
+      // TODO check with real scenarios
+
       var startPoint = new PointF(0f,
                                   0f);
       var endPoint = new PointF(10f,
@@ -164,7 +164,7 @@ namespace System.Svg.Render.EPL
 
       Rotation rotation;
 
-      // TODO find a good tolerance
+      // TODO find a good TOLERANCE
       if (Math.Abs(startPoint.Y - endPoint.Y) < 0.5f)
       {
         if (startPoint.X < endPoint.X)
@@ -248,8 +248,6 @@ namespace System.Svg.Render.EPL
             LogTo.Error($"transformation {transformationType} is not allowed");
             return;
           }
-
-          // TODO fix rotationTranslation for multiple transformations
 
           var matrixToMultiply = transformation.Matrix;
           if (matrixToMultiply == null)
