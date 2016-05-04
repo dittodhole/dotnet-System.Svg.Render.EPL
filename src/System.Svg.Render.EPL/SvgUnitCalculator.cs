@@ -19,9 +19,10 @@ namespace System.Svg.Render.EPL
 
       var val1 = this.GetValue(svgUnit1);
       var val2 = this.GetValue(svgUnit2);
+      var value = val1 + val2;
 
       var result = new SvgUnit(svgUnitType,
-                               val1 + val2);
+                               value);
 
       return result;
     }
@@ -35,9 +36,10 @@ namespace System.Svg.Render.EPL
 
       var val1 = this.GetValue(svgUnit1);
       var val2 = this.GetValue(svgUnit2);
+      var value = val1 - val2;
 
       var result = new SvgUnit(svgUnitType,
-                               val1 - val2);
+                               value);
 
       return result;
     }
