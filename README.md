@@ -4,6 +4,21 @@ This project aims to provide a translation/compilation/transpilation of SVG to E
 
 It references [System.Svg](https://github.com/dittodhole/dotnet-System.Svg), a fork of [SVG.NET](https://github.com/vvvv/SVG) without all the actual image-rendering bloat. Additionally, [ExCSS](https://github.com/TylerBrinks/ExCSS) and [Fizzler](https://code.google.com/archive/p/fizzler) are referenced instead.
 
+## Getting started
+
+You can start by using the `System.Svg.Render.EPL.DefaultBootstrapper`:
+
+```
+var sourceDpi = 90; // we are coming from Inkscape
+var targetDpi = 203; // basic dpi for most EPL printers
+var file = "";
+var svgDocument = System.Svg.SvgDocument.Open(file);
+var svgDocumentTranslator = System.Svg.Render.EPL.DefaultBootstrapper.Create(sourceDpi);
+var translation = svgDocumentTranslator.Translate(svgDocument,
+                                                  targetDpi);
+// TADADADA
+```
+
 ## I am interested, tell me more ...
 
 ### Currently implemented elements
@@ -33,21 +48,6 @@ It references [System.Svg](https://github.com/dittodhole/dotnet-System.Svg), a f
 - `stroke` (`<rectangle>`, `<line>`, `<text>`) w/ solid color
 - `stroke-width`
 - `visible`
-
-## Getting started
-
-You can start by using the `System.Svg.Render.EPL.DefaultBootstrapper`:
-
-```
-var sourceDpi = 90; // we are coming from Inkscape
-var targetDpi = 203; // basic dpi for most EPL printers
-var file = "";
-var svgDocument = System.Svg.SvgDocument.Open(file);
-var svgDocumentTranslator = System.Svg.Render.EPL.DefaultBootstrapper.Create(sourceDpi);
-var translation = svgDocumentTranslator.Translate(svgDocument,
-                                                  targetDpi);
-// TADADADA
-```
 
 ## Logging
 
