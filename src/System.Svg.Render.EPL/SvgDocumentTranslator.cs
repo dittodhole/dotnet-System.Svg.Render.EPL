@@ -67,10 +67,6 @@ namespace System.Svg.Render.EPL
         return;
       }
 
-#if DEBUG
-      translations.Add($"; <{svgElement.ID}>");
-#endif
-
       object translation;
       Matrix newMatrix;
       this.TranslateSvgElement(svgElement,
@@ -80,12 +76,14 @@ namespace System.Svg.Render.EPL
                                out newMatrix);
       if (translation != null)
       {
-        translations.Add(translation.ToString());
-      }
-
 #if DEBUG
-      translations.Add($"; </{svgElement.ID}>");
+        translations.Add($"; <{svgElement.ID}>");
 #endif
+        translations.Add(translation.ToString());
+#if DEBUG
+        translations.Add($"; </{svgElement.ID}>");
+#endif
+      }
 
       foreach (var child in svgElement.Children)
       {
