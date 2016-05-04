@@ -16,10 +16,13 @@
 
       var svgTextTranslator = new SvgTextTranslator(svgUnitCalculator);
 
+      var svgGroupTranslator = new SvgGroupTranslator(svgUnitCalculator);
+
       var svgDocumentTranslator = new SvgDocumentTranslator();
       svgDocumentTranslator.AddSvgElementTranslator(svgLineTranslator);
       svgDocumentTranslator.AddSvgElementTranslator(svgRectangleTranslator);
       svgDocumentTranslator.AddSvgElementTranslator(svgTextTranslator);
+      svgDocumentTranslator.AddSvgElementTranslator(svgGroupTranslator);
 
       return svgDocumentTranslator;
     }
