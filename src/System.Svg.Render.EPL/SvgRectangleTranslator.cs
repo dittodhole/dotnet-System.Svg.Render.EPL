@@ -31,6 +31,8 @@ namespace System.Svg.Render.EPL
     public override object Translate(SvgRectangle instance,
                                      int targetDpi)
     {
+      // TODO allow diagnoal rectangle ...
+
       object translation;
       if (this.SvgUnitCalculator.IsValueZero(instance.Width)
           && this.SvgUnitCalculator.IsValueZero(instance.Height))

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
 using System.Svg.Transforms;
 
@@ -20,25 +19,73 @@ namespace System.Svg.Render.EPL
 
     private SvgUnitCalculator SvgUnitCalculator { get; }
 
+    private bool IsTransformationAllowed(Type type)
+    {
+      if (type == typeof(SvgMatrix))
+      {
+        return true;
+      }
+      if (type == typeof(SvgRotate))
+      {
+        return true;
+      }
+      if (type == typeof(SvgScale))
+      {
+        return true;
+      }
+      if (type == typeof(SvgTranslate))
+      {
+        return true;
+      }
+      return false;
+    }
+
     public override object Translate(SvgText instance,
                                      int targetDpi)
     {
       // TODO add multiline translation
       // TODO add lineHeight translation
 
-      var horizontalStart = this.SvgUnitCalculator.GetDevicePoints(instance.X.First(),
-                                                                   targetDpi);
-      var verticalStart = this.SvgUnitCalculator.GetDevicePoints(instance.Y.First(),
-                                                                 targetDpi);
+      var x = instance.X.First();
+      var y = instance.Y.First();
 
-      int rotation;
-      var rotationTransformation = instance.Transforms.OfType<SvgRotate>()
-                                           .FirstOrDefault();
-      if (!this.TryGetRotation(rotationTransformation,
-                               out rotation))
+      var svgUnitType = this.SvgUnitCalculator.CheckSvgUnitType(x,
+                                                                y);
+      var startPoint = new PointF(this.SvgUnitCalculator.GetValue(x),
+                                  this.SvgUnitCalculator.GetValue(y));
+
+      var rotationTranslation = default(object);
+      foreach (var transformation in instance.Transforms)
       {
-        return null;
+        var transformationType = transformation.GetType();
+        if (!this.IsTransformationAllowed(transformationType))
+        {
+          // TODO add logging
+          return null;
+        }
+
+        // TODO fix rotationTranslation for multiple transformations
+        var matrix = transformation.Matrix;
+        if (!this.SvgUnitCalculator.TryApplyMatrixTransformation(matrix,
+                                                                 ref startPoint,
+                                                                 out rotationTranslation))
+        {
+          // TODO add logging
+          return null;
+        }
       }
+
+      if (rotationTranslation == null)
+      {
+        rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(SvgUnitCalculator.Rotation.None);
+      }
+
+      var horizontalStart = this.SvgUnitCalculator.GetDevicePoints(startPoint.X,
+                                                                   svgUnitType,
+                                                                   targetDpi);
+      var verticalStart = this.SvgUnitCalculator.GetDevicePoints(startPoint.Y,
+                                                                 svgUnitType,
+                                                                 targetDpi);
 
       // TODO here comes the magic!
       var fontSelection = 1;
@@ -80,42 +127,9 @@ namespace System.Svg.Render.EPL
 
       var text = instance.Text;
 
-      var translation = $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMultiplier},{verticalMultiplier},{reverseImage},""{text}""";
+      var translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontSelection},{horizontalMultiplier},{verticalMultiplier},{reverseImage},""{text}""";
 
       return translation;
-    }
-
-    public bool TryGetRotation(SvgRotate rotationTransformation,
-                               out int rotation)
-    {
-      if (rotationTransformation == null)
-      {
-        rotation = 0;
-      }
-      else
-      {
-        // TODO adapt the horizontalStart and verticalStart if rotation's origin is center
-        // TODO find a good value for TOLERANCE
-        if (Math.Abs(rotationTransformation.Angle - 90) < 0.5f)
-        {
-          rotation = 1;
-        }
-        else if (Math.Abs(rotationTransformation.Angle - 180) < 0.5f)
-        {
-          rotation = 2;
-        }
-        else if (Math.Abs(rotationTransformation.Angle - 270) < 0.5f)
-        {
-          rotation = 3;
-        }
-        else
-        {
-          Trace.TraceError($@"Could not translate {nameof(SvgText)}, as {nameof(rotationTransformation.Angle)}:{rotationTransformation.Angle} could not be mapped");
-          rotation = 0;
-          return false;
-        }
-      }
-      return true;
     }
   }
 }

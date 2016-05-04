@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Drawing.Drawing2D;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
 // ReSharper disable InconsistentNaming
@@ -26,6 +27,20 @@ namespace System.Svg.Render.EPL.Tests
       }
 
       protected SvgUnitCalculator SvgUnitCalculator { get; }
+      protected object Actual { get; set; }
+    }
+
+    public abstract class SvgUnitCalculatorTransformationSepcsContext : ContextSpecification
+    {
+      protected SvgUnitCalculatorTransformationSepcsContext()
+      {
+        this.SvgUnitCalculator = new SvgUnitCalculator();
+      }
+
+      protected SvgUnitCalculator SvgUnitCalculator { get; }
+      protected SvgUnit X { get; set; }
+      protected SvgUnit Y { get; set; }
+      protected object RotationTranslation { get; set; }
       protected object Actual { get; set; }
     }
 
