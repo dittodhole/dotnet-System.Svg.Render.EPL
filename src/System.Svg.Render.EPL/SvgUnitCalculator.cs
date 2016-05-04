@@ -47,9 +47,9 @@
       return Math.Abs(svgUnit.Value) < 0.5f;
     }
 
-    public int GetValue(SvgUnit svgUnit)
+    public float GetValue(SvgUnit svgUnit)
     {
-      var result = (int) svgUnit.Value;
+      var result = svgUnit.Value;
 
       return result;
     }

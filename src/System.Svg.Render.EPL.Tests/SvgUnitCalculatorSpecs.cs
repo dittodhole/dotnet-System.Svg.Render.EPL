@@ -75,7 +75,7 @@ namespace System.Svg.Render.EPL.Tests
       public void the_result_should_be_correct()
       {
         Assert.AreEqual(this.Actual,
-                        400);
+                        400f);
       }
     }
 
@@ -97,7 +97,7 @@ namespace System.Svg.Render.EPL.Tests
       public void the_result_should_be_correct()
       {
         Assert.AreEqual(this.Actual,
-                        200);
+                        200f);
       }
     }
 
