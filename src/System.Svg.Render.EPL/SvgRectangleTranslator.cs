@@ -49,6 +49,7 @@ namespace System.Svg.Render.EPL
       }
       else if ((instance.Color as SvgColourServer)?.Colour == Color.Black)
       {
+        // TODO instance.StrokeLineJoin
         var svgLine = new SvgLine
                       {
                         StartX = instance.X,
@@ -64,6 +65,7 @@ namespace System.Svg.Render.EPL
       }
       else
       {
+        // TODO instance.StrokeLineJoin
         var upperLine = this.GetUpperLine(instance);
         var rightLine = this.GetRightLine(instance);
         var lowerLine = this.GetLowerLine(instance);
