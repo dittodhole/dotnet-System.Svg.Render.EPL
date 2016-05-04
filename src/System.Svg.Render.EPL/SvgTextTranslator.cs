@@ -2,6 +2,7 @@
 using System.Drawing.Drawing2D;
 using System.Linq;
 using Anotar.LibLog;
+using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
@@ -15,6 +16,54 @@ namespace System.Svg.Render.EPL
                                      Matrix matrix,
                                      int targetDpi)
     {
+      object translation;
+      var text = instance.Text;
+      if (text != null)
+      {
+        translation = this.Translate(instance,
+                                     matrix,
+                                     targetDpi);
+      }
+      else
+      {
+        var svgTextSpan = instance.Children.OfType<SvgTextSpan>()
+                                  .ToArray();
+        if (svgTextSpan.Any())
+        {
+          var translations = svgTextSpan.Select(arg => this.Translate(arg,
+                                                                      matrix,
+                                                                      targetDpi))
+                                        .Where(arg => arg != null)
+                                        .ToArray();
+          translation = string.Join(Environment.NewLine,
+                                    translations);
+        }
+        else
+        {
+          translation = null;
+        }
+      }
+
+      return translation;
+    }
+
+    private object Translate([NotNull] SvgTextBase instance,
+                             [NotNull] Matrix matrix,
+                             int targetDpi)
+    {
+      if (instance.Text == null)
+      {
+        return null;
+      }
+
+      object rotationTranslation;
+      if (!this.SvgUnitCalculator.TryGetRotationTranslation(matrix,
+                                                            out rotationTranslation))
+      {
+        LogTo.Error($"could not calculate start point and rotation");
+        return null;
+      }
+
       if (instance.X == null)
       {
         LogTo.Error($"{nameof(SvgTextBase.X)} is null");
@@ -33,17 +82,6 @@ namespace System.Svg.Render.EPL
       if (!instance.Y.Any())
       {
         LogTo.Error($"no values in {nameof(SvgTextBase.Y)}");
-        return null;
-      }
-
-      // TODO add multiline translation
-      // TODO add lineHeight translation
-
-      object rotationTranslation;
-      if (!this.SvgUnitCalculator.TryGetRotationTranslation(matrix,
-                                                            out rotationTranslation))
-      {
-        LogTo.Error($"could not calculate start point and rotation");
         return null;
       }
 
@@ -118,11 +156,15 @@ namespace System.Svg.Render.EPL
         reverseImage = "N";
       }
 
-      var text = instance.Text;
-
+      var text = this.RemoveIllegalCharacters(instance.Text);
       var translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontSelection},{horizontalMultiplier},{verticalMultiplier},{reverseImage},""{text}""";
 
       return translation;
+    }
+
+    protected virtual string RemoveIllegalCharacters(string text)
+    {
+      return text;
     }
   }
 }
