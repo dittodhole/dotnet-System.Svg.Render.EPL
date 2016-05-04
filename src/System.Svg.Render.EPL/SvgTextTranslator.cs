@@ -17,24 +17,18 @@ namespace System.Svg.Render.EPL
                                      int targetDpi)
     {
       object translation;
-      var text = instance.Text;
-      if (text != null)
+
+      var svgTextSpan = instance.Children.OfType<SvgTextSpan>()
+                                .ToArray();
+      if (svgTextSpan.Any())
       {
-        translation = this.Translate(instance,
-                                     matrix,
-                                     targetDpi);
-      }
-      else
-      {
-        var svgTextSpan = instance.Children.OfType<SvgTextSpan>()
-                                  .ToArray();
-        if (svgTextSpan.Any())
+        var translations = svgTextSpan.Select(arg => this.Translate(arg,
+                                                                    matrix,
+                                                                    targetDpi))
+                                      .Where(arg => arg != null)
+                                      .ToArray();
+        if (translations.Any())
         {
-          var translations = svgTextSpan.Select(arg => this.Translate(arg,
-                                                                      matrix,
-                                                                      targetDpi))
-                                        .Where(arg => arg != null)
-                                        .ToArray();
           translation = string.Join(Environment.NewLine,
                                     translations);
         }
@@ -42,6 +36,12 @@ namespace System.Svg.Render.EPL
         {
           translation = null;
         }
+      }
+      else
+      {
+        translation = this.Translate(instance,
+                                     matrix,
+                                     targetDpi);
       }
 
       return translation;
@@ -51,7 +51,8 @@ namespace System.Svg.Render.EPL
                              [NotNull] Matrix matrix,
                              int targetDpi)
     {
-      if (instance.Text == null)
+      var text = this.RemoveIllegalCharacters(instance.Text);
+      if (string.IsNullOrWhiteSpace(text))
       {
         return null;
       }
@@ -156,7 +157,6 @@ namespace System.Svg.Render.EPL
         reverseImage = "N";
       }
 
-      var text = this.RemoveIllegalCharacters(instance.Text);
       var translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontSelection},{horizontalMultiplier},{verticalMultiplier},{reverseImage},""{text}""";
 
       return translation;
