@@ -120,7 +120,7 @@ namespace System.Svg.Render.EPL
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Height" /> or <see cref="SvgRectangle.Width" />.</exception>
+    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Width" />, <see cref="SvgRectangle.Height" />, or <see cref="SvgElement.StrokeWidth" />.</exception>
     public SvgLine GetLeftLine(SvgRectangle svgRectangle)
     {
       if (svgRectangle == null)
@@ -142,7 +142,7 @@ namespace System.Svg.Render.EPL
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Height" /> or <see cref="SvgRectangle.Width" />.</exception>
+    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Width" />, <see cref="SvgRectangle.Height" />, or <see cref="SvgElement.StrokeWidth" />.</exception>
     public SvgLine GetLowerLine(SvgRectangle svgRectangle)
     {
       if (svgRectangle == null)
@@ -166,7 +166,7 @@ namespace System.Svg.Render.EPL
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Height" /> or <see cref="SvgRectangle.Width" />.</exception>
+    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Width" />, <see cref="SvgRectangle.Height" />, or <see cref="SvgElement.StrokeWidth" />.</exception>
     public SvgLine GetRightLine(SvgRectangle svgRectangle)
     {
       if (svgRectangle == null)
@@ -190,7 +190,7 @@ namespace System.Svg.Render.EPL
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Height" /> or <see cref="SvgRectangle.Width" />.</exception>
+    /// <exception cref="ArgumentException">If <paramref name="svgRectangle" /> has mixed <see cref="SvgUnitType" /> for <see cref="SvgRectangle.X" />, <see cref="SvgRectangle.Y" />, <see cref="SvgRectangle.Width" />, <see cref="SvgRectangle.Height" />, or <see cref="SvgElement.StrokeWidth" />.</exception>
     public SvgLine GetUpperLine(SvgRectangle svgRectangle)
     {
       if (svgRectangle == null)
