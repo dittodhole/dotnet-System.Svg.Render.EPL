@@ -50,6 +50,13 @@ namespace System.Svg.Render.EPL
         LogTo.Error($"{nameof(instance)} is null");
         return null;
       }
+
+      if (!instance.Visible)
+      {
+        LogTo.Debug($"{nameof(SvgText)} with id {instance.ID} is hidden - skipping translation");
+        return null;
+      }
+
       if (instance.X == null)
       {
         LogTo.Error($"{nameof(SvgTextBase.X)} is null");

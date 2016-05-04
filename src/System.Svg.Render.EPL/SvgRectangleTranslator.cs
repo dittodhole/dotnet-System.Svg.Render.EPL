@@ -39,6 +39,12 @@ namespace System.Svg.Render.EPL
         return null;
       }
 
+      if (!instance.Visible)
+      {
+        LogTo.Debug($"{nameof(SvgRectangle)} with id {instance.ID} is hidden - skipping translation");
+        return null;
+      }
+
       // TODO allow diagnoal rectangle ...
       // TODO fix calculation of stroke based on StrokeLineJoin
 
