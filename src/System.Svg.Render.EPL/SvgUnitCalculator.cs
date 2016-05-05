@@ -226,8 +226,8 @@ namespace System.Svg.Render.EPL
 
     /// <exception cref="ArgumentNullException"><paramref name="svgTransformable" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="matrix" /> is <see langword="null" />.</exception>
-    public virtual void ApplyTransformationsToMatrix(ISvgTransformable svgTransformable,
-                                                     Matrix matrix)
+    public virtual Matrix MultiplyTransformationsIntoNewMatrix(ISvgTransformable svgTransformable,
+                                                               Matrix matrix)
     {
       if (svgTransformable == null)
       {
@@ -238,28 +238,33 @@ namespace System.Svg.Render.EPL
         throw new ArgumentNullException(nameof(matrix));
       }
 
-      if (svgTransformable.Transforms.Any())
+      var result = default(Matrix);
+      foreach (var transformation in svgTransformable.Transforms)
       {
-        foreach (var transformation in svgTransformable.Transforms)
+        var transformationType = transformation.GetType();
+        if (!this.IsTransformationAllowed(transformationType))
         {
-          var transformationType = transformation.GetType();
-          if (!this.IsTransformationAllowed(transformationType))
-          {
-            LogTo.Error($"transformation {transformationType} is not allowed");
-            return;
-          }
-
-          var matrixToMultiply = transformation.Matrix;
-          if (matrixToMultiply == null)
-          {
-            LogTo.Error($"{nameof(transformation.Matrix)} is null");
-            return;
-          }
-
-          matrix.Multiply(matrixToMultiply,
-                          MatrixOrder.Append);
+          LogTo.Error($"transformation {transformationType} is not allowed");
+          continue;
         }
+
+        var matrixToMultiply = transformation.Matrix;
+        if (matrixToMultiply == null)
+        {
+          LogTo.Error($"{nameof(transformation.Matrix)} is null");
+          continue;
+        }
+
+        if (result == null)
+        {
+          result = matrix.Clone();
+        }
+
+        result.Multiply(matrixToMultiply,
+                        MatrixOrder.Append);
       }
+
+      return result ?? matrix;
     }
 
     protected virtual bool IsTransformationAllowed([NotNull] Type type)

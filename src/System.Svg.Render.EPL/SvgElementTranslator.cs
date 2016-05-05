@@ -81,10 +81,8 @@ namespace System.Svg.Render.EPL
         return;
       }
 
-      newMatrix = matrix.Clone();
-
-      this.SvgUnitCalculator.ApplyTransformationsToMatrix(instance,
-                                                          newMatrix);
+      newMatrix = this.SvgUnitCalculator.MultiplyTransformationsIntoNewMatrix(instance,
+                                                                              matrix);
 
       translation = this.Translate(instance,
                                    newMatrix,
