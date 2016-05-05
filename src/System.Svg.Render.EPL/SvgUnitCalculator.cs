@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Svg.Transforms;
 using Anotar.LibLog;
 using JetBrains.Annotations;
@@ -242,7 +241,8 @@ namespace System.Svg.Render.EPL
       foreach (var transformation in svgTransformable.Transforms)
       {
         var transformationType = transformation.GetType();
-        if (!this.IsTransformationAllowed(transformationType))
+        if (!this.IsTransformationAllowed(svgTransformable,
+                                          transformationType))
         {
           LogTo.Error($"transformation {transformationType} is not allowed");
           continue;
@@ -267,7 +267,8 @@ namespace System.Svg.Render.EPL
       return result ?? matrix;
     }
 
-    protected virtual bool IsTransformationAllowed([NotNull] Type type)
+    protected virtual bool IsTransformationAllowed([NotNull] ISvgTransformable svgTransformable,
+                                                   [NotNull] Type type)
     {
       if (type == typeof(SvgMatrix))
       {
