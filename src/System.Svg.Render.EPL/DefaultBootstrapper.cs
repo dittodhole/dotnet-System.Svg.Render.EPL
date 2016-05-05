@@ -2,11 +2,13 @@
 {
   public static class DefaultBootstrapper
   {
-    public static SvgDocumentTranslator Create(int sourceDpi)
+    public static SvgDocumentTranslator Create(int sourceDpi,
+                                               SvgUnitType userUnitTypeSubstituion = SvgUnitType.Pixel)
     {
       var svgUnitCalculator = new SvgUnitCalculator
                               {
-                                SourceDpi = sourceDpi
+                                SourceDpi = sourceDpi,
+                                UserUnitTypeSubstitution = userUnitTypeSubstituion
                               };
 
       var svgDocumentTranslator = new SvgDocumentTranslator(svgUnitCalculator);
