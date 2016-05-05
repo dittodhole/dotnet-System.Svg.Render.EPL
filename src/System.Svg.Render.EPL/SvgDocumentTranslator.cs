@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using Anotar.LibLog;
+using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
@@ -29,6 +30,10 @@ namespace System.Svg.Render.EPL
                                 Matrix matrix,
                                 int targetDpi)
     {
+      if (instance == null)
+      {
+        return null;
+      }
       if (matrix == null)
       {
         throw new ArgumentNullException(nameof(matrix));
@@ -47,10 +52,10 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    private void TranslateSvgElementAndChildren(SvgElement svgElement,
-                                                Matrix matrix,
+    private void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
+                                                [NotNull] Matrix matrix,
                                                 int targetDpi,
-                                                ICollection<string> translations)
+                                                [NotNull] ICollection<string> translations)
     {
       var svgVisualElement = svgElement as SvgVisualElement;
       if (svgVisualElement != null)
@@ -72,8 +77,8 @@ namespace System.Svg.Render.EPL
       this.TranslateSvgElement(svgElement,
                                matrix,
                                targetDpi,
-                               out translation,
-                               out newMatrix);
+                               out newMatrix,
+                               out translation);
       if (translation != null)
       {
 #if DEBUG
@@ -87,6 +92,11 @@ namespace System.Svg.Render.EPL
 
       foreach (var child in svgElement.Children)
       {
+        if (child == null)
+        {
+          continue;
+        }
+
         this.TranslateSvgElementAndChildren(child,
                                             newMatrix,
                                             targetDpi,
@@ -94,11 +104,11 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    protected virtual void TranslateSvgElement(SvgElement svgElement,
-                                               Matrix matrix,
+    protected virtual void TranslateSvgElement([NotNull] SvgElement svgElement,
+                                               [NotNull] Matrix matrix,
                                                int targetDpi,
-                                               out object translation,
-                                               out Matrix newMatrix)
+                                               out Matrix newMatrix,
+                                               out object translation)
     {
       var type = svgElement.GetType();
       var svgElementTranslator = this.GetSvgElementTranslator(type);
@@ -112,8 +122,8 @@ namespace System.Svg.Render.EPL
       svgElementTranslator.TranslateUntyped(svgElement,
                                             matrix,
                                             targetDpi,
-                                            out translation,
-                                            out newMatrix);
+                                            out newMatrix,
+                                            out translation);
     }
 
     protected virtual SvgElementTranslator GetSvgElementTranslator(Type type)

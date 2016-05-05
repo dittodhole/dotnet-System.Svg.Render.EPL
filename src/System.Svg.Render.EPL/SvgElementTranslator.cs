@@ -9,8 +9,8 @@ namespace System.Svg.Render.EPL
     internal abstract void TranslateUntyped(object untypedInstance,
                                             Matrix matrix,
                                             int targetDpi,
-                                            out object translation,
-                                            out Matrix newMatrix);
+                                            out Matrix newMatrix,
+                                            out object translation);
   }
 
   public abstract class SvgElementTranslator<T> : SvgElementTranslator
@@ -32,8 +32,8 @@ namespace System.Svg.Render.EPL
     internal override void TranslateUntyped(object untypedInstance,
                                             Matrix matrix,
                                             int targetDpi,
-                                            out object translation,
-                                            out Matrix newMatrix)
+                                            out Matrix newMatrix,
+                                            out object translation)
     {
       if (untypedInstance == null)
       {
@@ -55,15 +55,15 @@ namespace System.Svg.Render.EPL
       this.Translate(instance,
                      matrix,
                      targetDpi,
-                     out translation,
-                     out newMatrix);
+                     out newMatrix,
+                     out translation);
     }
 
     public void Translate(T instance,
                           Matrix matrix,
                           int targetDpi,
-                          out object translation,
-                          out Matrix newMatrix)
+                          out Matrix newMatrix,
+                          out object translation)
     {
       if (instance == null)
       {
