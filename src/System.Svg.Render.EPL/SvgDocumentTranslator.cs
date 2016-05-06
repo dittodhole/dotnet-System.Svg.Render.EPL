@@ -25,20 +25,10 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="matrix" /> is <see langword="null" />.</exception>
-    public new string Translate(SvgDocument instance,
-                                Matrix matrix,
+    public new string Translate([NotNull] SvgDocument instance,
+                                [NotNull] Matrix matrix,
                                 int targetDpi)
     {
-      if (instance == null)
-      {
-        return null;
-      }
-      if (matrix == null)
-      {
-        throw new ArgumentNullException(nameof(matrix));
-      }
-
       var translations = new LinkedList<string>();
 
       this.TranslateSvgElementAndChildren(instance,
@@ -126,14 +116,8 @@ namespace System.Svg.Render.EPL
                                             out translation);
     }
 
-    private SvgElementTranslator GetSvgElementTranslator(Type type)
+    private SvgElementTranslator GetSvgElementTranslator([NotNull] Type type)
     {
-      if (type == null)
-      {
-        LogTo.Error($"{nameof(type)} is null");
-        return null;
-      }
-
       SvgElementTranslator svgElementTranslator;
       this.SvgElementTranslators.TryGetValue(type,
                                              out svgElementTranslator);
