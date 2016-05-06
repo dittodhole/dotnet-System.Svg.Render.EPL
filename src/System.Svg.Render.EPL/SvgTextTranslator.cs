@@ -164,8 +164,10 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    protected virtual string RemoveIllegalCharacters(string text)
+    private string RemoveIllegalCharacters(string text)
     {
+      // TODO add regex for removing illegal characters ...
+
       return text;
     }
   }
