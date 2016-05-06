@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Svg.Transforms;
@@ -315,6 +316,13 @@ namespace System.Svg.Render.EPL
       public string Font { get; set; }
     }
 
+    private class FontDefinitionCandidate
+    {
+      public object FontSelection { get; set; }
+      public int ActualHeight { get; set; }
+      public object Multiplier { get; set; }
+    }
+
     private bool TryGetFontSelection(int height,
                                      int targetDpi,
                                      out object fontSelection,
@@ -430,44 +438,46 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      // TODO maybe ... :angel: ... optimize performance ... :athletic_shoe:
+      // TODO binary search tree
+      var fontDefinitionCandidates = new LinkedList<FontDefinitionCandidate>();
 
-      fontSelection = null;
-      multiplier = null;
-
-      // TODO take into account, that a smaller font w/ a bigger multiplier could be a better match than a bigger font w/ a smaller multiplier, or vice-versa
-
-      foreach (var possibleMultiplier in new[]
-                                         {
-                                           1,
-                                           2,
-                                           3,
-                                           4,
-                                           5,
-                                           6,
-                                           8
-                                         })
+      // TODO :athletic_shoe: ... go go go ... performance
+      foreach (var factor in new[]
+                             {
+                               1,
+                               2,
+                               3,
+                               4,
+                               5,
+                               6,
+                               8
+                             })
       {
-        multiplier = possibleMultiplier;
-
         foreach (var fontDefinition in fontDefinitions)
         {
-          if (fontSelection == null)
-          {
-            fontSelection = fontDefinition.Font;
-          }
-
-          var actualHeight = fontDefinition.Height * possibleMultiplier;
-          if (actualHeight > height)
-          {
-            return true;
-          }
-
-          fontSelection = fontDefinition.Font;
+          var fontDefinitionCandidate = new FontDefinitionCandidate
+                                        {
+                                          FontSelection = fontDefinition.Font,
+                                          Multiplier = factor,
+                                          ActualHeight = fontDefinition.Height * factor
+                                        };
+          fontDefinitionCandidates.AddLast(fontDefinitionCandidate);
         }
       }
 
-      return false;
+      var bestFontDefinitionCandidate = fontDefinitionCandidates.OrderBy(arg => Math.Abs(height - arg.ActualHeight))
+                                                                .FirstOrDefault();
+      if (bestFontDefinitionCandidate == null)
+      {
+        fontSelection = null;
+        multiplier = null;
+        return false;
+      }
+
+      fontSelection = bestFontDefinitionCandidate.FontSelection;
+      multiplier = bestFontDefinitionCandidate.Multiplier;
+
+      return true;
     }
 
     private int GetHeightOfFontSize(int fontSize,
