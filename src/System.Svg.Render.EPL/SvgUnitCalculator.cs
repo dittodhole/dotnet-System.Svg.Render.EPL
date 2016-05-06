@@ -316,26 +316,16 @@ namespace System.Svg.Render.EPL
       return true;
     }
 
-    public virtual bool TryApplyMatrix(SvgUnit x1,
-                                       SvgUnit y1,
-                                       SvgUnit x2,
-                                       SvgUnit y2,
-                                       Matrix matrix,
-                                       out SvgUnit newX1,
-                                       out SvgUnit newY1,
-                                       out SvgUnit newX2,
-                                       out SvgUnit newY2)
+    public bool TryApplyMatrix(SvgUnit x1,
+                               SvgUnit y1,
+                               SvgUnit x2,
+                               SvgUnit y2,
+                               [NotNull] Matrix matrix,
+                               out SvgUnit newX1,
+                               out SvgUnit newY1,
+                               out SvgUnit newX2,
+                               out SvgUnit newY2)
     {
-      if (matrix == null)
-      {
-        LogTo.Error($"{nameof(matrix)} is null");
-        newX1 = SvgUnit.None;
-        newY1 = SvgUnit.None;
-        newX2 = SvgUnit.None;
-        newY2 = SvgUnit.None;
-        return false;
-      }
-
       var typeX1 = x1.Type;
       var typeY1 = y1.Type;
       if (typeX1 != typeY1)
