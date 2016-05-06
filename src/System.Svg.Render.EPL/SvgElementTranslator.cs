@@ -15,14 +15,8 @@ namespace System.Svg.Render.EPL
   public abstract class SvgElementTranslator<T> : SvgElementTranslator
     where T : SvgElement
   {
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
-    protected SvgElementTranslator(SvgUnitCalculator svgUnitCalculator)
+    protected SvgElementTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
     {
-      if (svgUnitCalculator == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitCalculator));
-      }
-
       this.SvgUnitCalculator = svgUnitCalculator;
     }
 

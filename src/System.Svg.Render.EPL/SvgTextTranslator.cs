@@ -10,8 +10,7 @@ namespace System.Svg.Render.EPL
   {
     // TODO translate dX and dY
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
-    public SvgTextTranslator(SvgUnitCalculator svgUnitCalculator)
+    public SvgTextTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
 
     public override bool TryTranslate(SvgText instance,

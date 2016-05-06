@@ -10,17 +10,10 @@ namespace System.Svg.Render.EPL
   {
     // TODO add documentation/quote: strokes are printed inside the rectangle (calculation stuff)
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgLineTranslator" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
-    public SvgRectangleTranslator(SvgLineTranslator svgLineTranslator,
-                                  SvgUnitCalculator svgUnitCalculator)
+    public SvgRectangleTranslator([NotNull] SvgLineTranslator svgLineTranslator,
+                                  [NotNull] SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator)
     {
-      if (svgLineTranslator == null)
-      {
-        throw new ArgumentNullException(nameof(svgLineTranslator));
-      }
-
       this.SvgLineTranslator = svgLineTranslator;
     }
 

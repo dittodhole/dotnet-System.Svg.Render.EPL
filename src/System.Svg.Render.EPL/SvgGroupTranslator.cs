@@ -1,9 +1,10 @@
-﻿namespace System.Svg.Render.EPL
+﻿using JetBrains.Annotations;
+
+namespace System.Svg.Render.EPL
 {
   public class SvgGroupTranslator : SvgElementTranslator<SvgGroup>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
-    public SvgGroupTranslator(SvgUnitCalculator svgUnitCalculator)
+    public SvgGroupTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
   }
 }

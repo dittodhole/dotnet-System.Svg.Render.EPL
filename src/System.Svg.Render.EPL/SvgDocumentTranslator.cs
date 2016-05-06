@@ -8,8 +8,7 @@ namespace System.Svg.Render.EPL
 {
   public class SvgDocumentTranslator : SvgElementTranslator<SvgDocument>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
-    public SvgDocumentTranslator(SvgUnitCalculator svgUnitCalculator)
+    public SvgDocumentTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
 
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!

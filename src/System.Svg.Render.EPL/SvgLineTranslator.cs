@@ -6,8 +6,7 @@ namespace System.Svg.Render.EPL
 {
   public class SvgLineTranslator : SvgElementTranslator<SvgLine>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
-    public SvgLineTranslator(SvgUnitCalculator svgUnitCalculator)
+    public SvgLineTranslator([NotNull]SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
 
     public override bool TryTranslate([NotNull] SvgLine instance,
