@@ -54,9 +54,14 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        this.Actual = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
-                                                            new Matrix(),
-                                                            this.SvgUnitCalculator.SourceDpi);
+        object translation;
+        if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
+                                                     new Matrix(),
+                                                     this.SvgUnitCalculator.SourceDpi,
+                                                     out translation))
+        {
+          this.Actual = translation;
+        }
       }
 
       [TestMethod]
@@ -134,9 +139,14 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        this.Actual = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
-                                                            new Matrix(),
-                                                            this.SvgUnitCalculator.SourceDpi);
+        object translation;
+        if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
+                                                     new Matrix(),
+                                                     this.SvgUnitCalculator.SourceDpi,
+                                                     out translation))
+        {
+          this.Actual = translation;
+        }
       }
 
       [TestMethod]
@@ -170,9 +180,14 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        this.Actual = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
-                                                            new Matrix(),
-                                                            this.SvgUnitCalculator.SourceDpi);
+        object translation;
+        if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
+                                                     new Matrix(),
+                                                     this.SvgUnitCalculator.SourceDpi,
+                                                     out translation))
+        {
+          this.Actual = translation;
+        }
       }
 
       [TestMethod]
@@ -206,9 +221,14 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        this.Actual = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
-                                                            new Matrix(),
-                                                            this.SvgUnitCalculator.SourceDpi);
+        object translation;
+        if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
+                                                     new Matrix(),
+                                                     this.SvgUnitCalculator.SourceDpi,
+                                                     out translation))
+        {
+          this.Actual = translation;
+        }
       }
 
       [TestMethod]

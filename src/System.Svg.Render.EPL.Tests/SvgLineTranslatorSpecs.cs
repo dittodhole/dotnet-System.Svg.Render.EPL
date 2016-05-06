@@ -30,9 +30,14 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        this.Actual = this.SvgLineTranslator.Translate(this.SvgLine,
-                                                       new Matrix(),
-                                                       this.SvgUnitCalculator.SourceDpi);
+        object translation;
+        if (this.SvgLineTranslator.TryTranslate(this.SvgLine,
+                                                new Matrix(),
+                                                this.SvgUnitCalculator.SourceDpi,
+                                                out translation))
+        {
+          this.Actual = translation;
+        }
       }
     }
 

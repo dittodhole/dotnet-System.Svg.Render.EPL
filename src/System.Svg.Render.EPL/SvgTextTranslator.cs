@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
@@ -13,21 +14,29 @@ namespace System.Svg.Render.EPL
     public SvgTextTranslator(SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
 
-    public override object Translate(SvgText instance,
-                                     Matrix matrix,
-                                     int targetDpi)
+    public override bool TryTranslate(SvgText instance,
+                                      Matrix matrix,
+                                      int targetDpi,
+                                      out object translation)
     {
-      object translation;
-
-      var svgTextSpan = instance.Children.OfType<SvgTextSpan>()
-                                .ToArray();
-      if (svgTextSpan.Any())
+      var svgTextSpans = instance.Children.OfType<SvgTextSpan>()
+                                 .ToArray();
+      if (svgTextSpans.Any())
       {
-        var translations = svgTextSpan.Select(arg => this.Translate(arg,
-                                                                    matrix,
-                                                                    targetDpi))
-                                      .Where(arg => arg != null)
-                                      .ToArray();
+        ICollection<object> translations = new LinkedList<object>();
+        foreach (var svgTextSpan in svgTextSpans)
+        {
+          if (!this.TryTranslate(svgTextSpan,
+                                 matrix,
+                                 targetDpi,
+                                 out translation))
+          {
+            return false;
+          }
+
+          translations.Add(translation);
+        }
+
         if (translations.Any())
         {
           translation = string.Join(Environment.NewLine,
@@ -37,25 +46,28 @@ namespace System.Svg.Render.EPL
         {
           translation = null;
         }
-      }
-      else
-      {
-        translation = this.Translate(instance,
-                                     matrix,
-                                     targetDpi);
+
+        return true;
       }
 
-      return translation;
+      var success = this.TryTranslate(instance,
+                                      matrix,
+                                      targetDpi,
+                                      out translation);
+
+      return success;
     }
 
-    private object Translate([NotNull] SvgTextBase instance,
-                             [NotNull] Matrix matrix,
-                             int targetDpi)
+    private bool TryTranslate([NotNull] SvgTextBase instance,
+                              [NotNull] Matrix matrix,
+                              int targetDpi,
+                              out object translation)
     {
       var text = this.RemoveIllegalCharacters(instance.Text);
       if (string.IsNullOrWhiteSpace(text))
       {
-        return null;
+        translation = null;
+        return true;
       }
 
       object rotationTranslation;
@@ -63,43 +75,51 @@ namespace System.Svg.Render.EPL
                                                             out rotationTranslation))
       {
 #if DEBUG
-        return $"; could not get rotation translation: {instance.GetXML()}";
+        translation = $"; could not get rotation translation: {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       if (instance.X == null)
       {
 #if DEBUG
-        return $"; x is null: {instance.GetXML()}";
+        translation = $"; x is null: {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
+
       if (!instance.X.Any())
       {
 #if DEBUG
-        return $"; no x-coordinates: {instance.GetXML()}";
+        translation = $"; no x-coordinates: {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
+
       if (instance.Y == null)
       {
 #if DEBUG
-        return $"; y is null: {instance.GetXML()}";
+        translation = $"; y is null: {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
+
       if (!instance.Y.Any())
       {
 #if DEBUG
-        return $"; no y-coordinates: {instance.GetXML()}";
+        translation = $"; no y-coordinates: {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       SvgUnit newX;
@@ -114,10 +134,11 @@ namespace System.Svg.Render.EPL
                                                  out newY))
       {
 #if DEBUG
-        return $"; could not apply matrix on x and y: {instance.GetXML()}";
+        translation = $"; could not apply matrix on x and y: {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       int horizontalStart;
@@ -126,10 +147,11 @@ namespace System.Svg.Render.EPL
                                                      out horizontalStart))
       {
 #if DEBUG
-        return $"; could not get device points (x): {instance.GetXML()}";
+        translation = $"; could not get device points (x): {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       int verticalStart;
@@ -138,10 +160,11 @@ namespace System.Svg.Render.EPL
                                                      out verticalStart))
       {
 #if DEBUG
-        return $"; could not get device points (y): {instance.GetXML()}";
+        translation = $"; could not get device points (y): {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       object fontTranslation;
@@ -151,10 +174,11 @@ namespace System.Svg.Render.EPL
                                                         out fontTranslation))
       {
 #if DEBUG
-        return $"; could not get font translation: {instance.GetXML()}";
+        translation = $"; could not get font translation: {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       string reverseImage;
@@ -167,9 +191,9 @@ namespace System.Svg.Render.EPL
         reverseImage = "N";
       }
 
-      var translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
+      translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
 
-      return translation;
+      return true;
     }
 
     private string RemoveIllegalCharacters(string text)

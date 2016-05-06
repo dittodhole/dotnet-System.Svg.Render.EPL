@@ -374,10 +374,10 @@ namespace System.Svg.Render.EPL
       public string Font { get; set; }
     }
 
-    public bool TryGetFontSelection(int fontSize,
-                                    int targetDpi,
-                                    out object fontSelection,
-                                    out object multiplier)
+    private bool TryGetFontSelection(int fontSize,
+                                     int targetDpi,
+                                     out object fontSelection,
+                                     out object multiplier)
     {
       // VALUE    203dpi        300dpi
       // ==================================

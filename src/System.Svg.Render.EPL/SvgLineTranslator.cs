@@ -10,9 +10,10 @@ namespace System.Svg.Render.EPL
     public SvgLineTranslator(SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
 
-    public override object Translate([NotNull] SvgLine instance,
-                                     [NotNull] Matrix matrix,
-                                     int targetDpi)
+    public override bool TryTranslate([NotNull] SvgLine instance,
+                                      [NotNull] Matrix matrix,
+                                      int targetDpi,
+                                      out object translation)
     {
       SvgUnit newStartX;
       SvgUnit newStartY;
@@ -29,10 +30,11 @@ namespace System.Svg.Render.EPL
                                                  out newEndY))
       {
 #if DEBUG
-        return $"; could not apply matrix: {instance.GetXML()}";
+        translation = $"; could not apply matrix: {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       int startX;
@@ -41,10 +43,11 @@ namespace System.Svg.Render.EPL
                                                      out startX))
       {
 #if DEBUG
-        return $"; could not get device points (startX): {instance.GetXML()}";
+        translation = $"; could not get device points (startX): {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       int startY;
@@ -53,10 +56,11 @@ namespace System.Svg.Render.EPL
                                                      out startY))
       {
 #if DEBUG
-        return $"; could not get device points (startY): {instance.GetXML()}";
+        translation = $"; could not get device points (startY): {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       int endX;
@@ -65,10 +69,11 @@ namespace System.Svg.Render.EPL
                                                      out endX))
       {
 #if DEBUG
-        return $"; could not get device points (endX): {instance.GetXML()}";
+        translation = $"; could not get device points (endX): {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       int endY;
@@ -77,10 +82,11 @@ namespace System.Svg.Render.EPL
                                                      out endY))
       {
 #if DEBUG
-        return $"; could not get device points (endY): {instance.GetXML()}";
+        translation = $"; could not get device points (endY): {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       int strokeWidth;
@@ -89,10 +95,11 @@ namespace System.Svg.Render.EPL
                                                      out strokeWidth))
       {
 #if DEBUG
-        return $"; could not get device points (stroke): {instance.GetXML()}";
+        translation = $"; could not get device points (stroke): {instance.GetXML()}";
 #else
-        return null;
+        translation = null;
 #endif
+        return false;
       }
 
       if (startX > endX)
@@ -111,7 +118,6 @@ namespace System.Svg.Render.EPL
         startY = temp;
       }
 
-      object translation;
       if (startY == endY
           || startX == endX)
       {
@@ -132,7 +138,7 @@ namespace System.Svg.Render.EPL
                                              strokeWidth);
       }
 
-      return translation;
+      return true;
     }
 
     private object TranslateHorizontalOrVerticalLine(int startX,

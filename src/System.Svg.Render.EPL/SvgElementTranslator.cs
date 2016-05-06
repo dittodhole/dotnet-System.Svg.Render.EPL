@@ -5,11 +5,11 @@ namespace System.Svg.Render.EPL
 {
   public abstract class SvgElementTranslator
   {
-    internal abstract void TranslateUntyped([NotNull] object untypedInstance,
-                                            [NotNull] Matrix matrix,
-                                            int targetDpi,
-                                            out Matrix newMatrix,
-                                            out object translation);
+    public abstract bool TryTranslateUntyped([NotNull] object untypedInstance,
+                                             [NotNull] Matrix matrix,
+                                             int targetDpi,
+                                             out Matrix newMatrix,
+                                             out object translation);
   }
 
   public abstract class SvgElementTranslator<T> : SvgElementTranslator
@@ -29,20 +29,22 @@ namespace System.Svg.Render.EPL
     [NotNull]
     protected SvgUnitCalculator SvgUnitCalculator { get; }
 
-    internal override void TranslateUntyped([NotNull] object untypedInstance,
-                                            [NotNull] Matrix matrix,
-                                            int targetDpi,
-                                            out Matrix newMatrix,
-                                            out object translation)
+    public override bool TryTranslateUntyped([NotNull] object untypedInstance,
+                                             [NotNull] Matrix matrix,
+                                             int targetDpi,
+                                             out Matrix newMatrix,
+                                             out object translation)
     {
-      this.Translate((T) untypedInstance,
-                     matrix,
-                     targetDpi,
-                     out newMatrix,
-                     out translation);
+      var success = this.Translate((T) untypedInstance,
+                                   matrix,
+                                   targetDpi,
+                                   out newMatrix,
+                                   out translation);
+
+      return success;
     }
 
-    private void Translate([NotNull] T instance,
+    private bool Translate([NotNull] T instance,
                            [NotNull] Matrix matrix,
                            int targetDpi,
                            out Matrix newMatrix,
@@ -51,16 +53,21 @@ namespace System.Svg.Render.EPL
       newMatrix = this.SvgUnitCalculator.MultiplyTransformationsIntoNewMatrix(instance,
                                                                               matrix);
 
-      translation = this.Translate(instance,
-                                   newMatrix,
-                                   targetDpi);
+      var success = this.TryTranslate(instance,
+                                      newMatrix,
+                                      targetDpi,
+                                      out translation);
+
+      return success;
     }
 
-    public virtual object Translate([NotNull] T instance,
-                                    [NotNull] Matrix matrix,
-                                    int targetDpi)
+    public virtual bool TryTranslate([NotNull] T instance,
+                                     [NotNull] Matrix matrix,
+                                     int targetDpi,
+                                     out object translation)
     {
-      return null;
+      translation = null;
+      return true;
     }
   }
 }

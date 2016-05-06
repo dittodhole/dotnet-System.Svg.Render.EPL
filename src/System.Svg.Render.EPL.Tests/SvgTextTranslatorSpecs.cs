@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Svg.Transforms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
@@ -32,9 +31,14 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        this.Actual = this.SvgTextTranslator.Translate(this.SvgText,
-                                                       new Matrix(),
-                                                       this.SvgUnitCalculator.SourceDpi);
+        object translation;
+        if (this.SvgTextTranslator.TryTranslate(this.SvgText,
+                                                new Matrix(),
+                                                this.SvgUnitCalculator.SourceDpi,
+                                                out translation))
+        {
+          this.Actual = translation;
+        }
       }
     }
 

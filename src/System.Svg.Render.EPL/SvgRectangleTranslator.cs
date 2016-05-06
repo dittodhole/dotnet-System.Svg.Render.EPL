@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
@@ -26,13 +27,13 @@ namespace System.Svg.Render.EPL
     [NotNull]
     protected SvgLineTranslator SvgLineTranslator { get; }
 
-    public override object Translate([NotNull] SvgRectangle instance,
-                                     [NotNull] Matrix matrix,
-                                     int targetDpi)
+    public override bool TryTranslate([NotNull] SvgRectangle instance,
+                                      [NotNull] Matrix matrix,
+                                      int targetDpi,
+                                      out object translation)
     {
       // TODO fix calculation of stroke based on StrokeLineJoin
 
-      object translation;
       if (this.SvgUnitCalculator.IsValueZero(instance.Width)
           && this.SvgUnitCalculator.IsValueZero(instance.Height))
       {
@@ -46,69 +47,81 @@ namespace System.Svg.Render.EPL
                         Stroke = instance.Stroke
                       };
 
-        translation = this.SvgLineTranslator.Translate(svgLine,
-                                                       matrix,
-                                                       targetDpi);
+        var success = this.SvgLineTranslator.TryTranslate(svgLine,
+                                                          matrix,
+                                                          targetDpi,
+                                                          out translation);
+
+        return success;
+      }
+
+      SvgLine fillLine;
+      if (!this.TryGetFillSvgLine(instance,
+                                  out fillLine))
+      {
+#if DEBUG
+        translation = $"; could not get filling line: {instance.GetXML()}";
+#else
+        translation = null;
+#endif
+        return false;
+      }
+
+      SvgLine upperLine;
+      SvgLine rightLine;
+      SvgLine lowerLine;
+      SvgLine leftLine;
+      if (!this.TryGetBorderSvgLines(instance,
+                                     out upperLine,
+                                     out rightLine,
+                                     out lowerLine,
+                                     out leftLine))
+      {
+#if DEBUG
+        translation = $"; could not get border lines: {instance.GetXML()}";
+#else
+        translation = null;
+#endif
+        return false;
+      }
+
+      ICollection<object> translations = new LinkedList<object>();
+      foreach (var line in new[]
+                           {
+                             upperLine,
+                             rightLine,
+                             lowerLine,
+                             leftLine,
+                             fillLine
+                           })
+      {
+        if (line == null)
+        {
+          continue;
+        }
+
+        if (!this.SvgLineTranslator.TryTranslate(line,
+                                                 matrix,
+                                                 targetDpi,
+                                                 out translation))
+        {
+          return false;
+        }
+
+        translations.Add(translation);
+      }
+
+      if (translations.Any())
+      {
+        translation = string.Join(Environment.NewLine,
+                                  translations);
       }
       else
       {
-        SvgLine fillLine;
-        if (!this.TryGetFillSvgLine(instance,
-                                    out fillLine))
-        {
-#if DEBUG
-          return $"; could not get filling line: {instance.GetXML()}";
-#else
-          return null;
-#endif
-        }
-
-        SvgLine upperLine;
-        SvgLine rightLine;
-        SvgLine lowerLine;
-        SvgLine leftLine;
-        if (!this.TryGetBorderSvgLines(instance,
-                                       out upperLine,
-                                       out rightLine,
-                                       out lowerLine,
-                                       out leftLine))
-        {
-#if DEBUG
-          return $"; could not get border lines: {instance.GetXML()}";
-#else
-          return null;
-#endif
-        }
-
-        if (fillLine == null
-            && upperLine == null
-            && rightLine == null
-            && lowerLine == null
-            && leftLine == null)
-        {
-          translation = null;
-        }
-        else
-        {
-          var translations = new[]
-                             {
-                               upperLine,
-                               rightLine,
-                               lowerLine,
-                               leftLine,
-                               fillLine
-                             }.Where(arg => arg != null)
-                              .Select(arg => this.SvgLineTranslator.Translate(arg,
-                                                                              matrix,
-                                                                              targetDpi))
-                              .Where(arg => arg != null);
-
-          translation = string.Join(Environment.NewLine,
-                                    translations);
-        }
+        translation = null;
       }
 
-      return translation;
+      return true;
     }
 
     private bool TryGetFillSvgLine([NotNull] SvgRectangle instance,

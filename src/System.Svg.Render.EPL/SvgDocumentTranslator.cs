@@ -25,11 +25,11 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    public new string Translate([NotNull] SvgDocument instance,
-                                [NotNull] Matrix matrix,
-                                int targetDpi)
+    public string Translate([NotNull] SvgDocument instance,
+                            [NotNull] Matrix matrix,
+                            int targetDpi)
     {
-      var translations = new LinkedList<string>();
+      ICollection<object> translations = new LinkedList<object>();
 
       this.TranslateSvgElementAndChildren(instance,
                                           matrix,
@@ -45,7 +45,7 @@ namespace System.Svg.Render.EPL
     private void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
                                                 [NotNull] Matrix matrix,
                                                 int targetDpi,
-                                                [NotNull] ICollection<string> translations)
+                                                [NotNull] ICollection<object> translations)
     {
       var svgVisualElement = svgElement as SvgVisualElement;
       if (svgVisualElement != null)
@@ -68,17 +68,29 @@ namespace System.Svg.Render.EPL
 
       object translation;
       Matrix newMatrix;
-      this.TranslateSvgElement(svgElement,
-                               matrix,
-                               targetDpi,
-                               out newMatrix,
-                               out translation);
+      if (!this.TryTranslateSvgElement(svgElement,
+                                       matrix,
+                                       targetDpi,
+                                       out newMatrix,
+                                       out translation))
+      {
+#if DEBUG
+        translations.Add($"; <{svgElement.ID}>");
+        if (translation != null)
+        {
+          translations.Add(translation);
+        }
+        translations.Add($"; </{svgElement.ID}>");
+#endif
+        return;
+      }
+
       if (translation != null)
       {
 #if DEBUG
         translations.Add($"; <{svgElement.ID}>");
 #endif
-        translations.Add(translation.ToString());
+        translations.Add(translation);
 #if DEBUG
         translations.Add($"; </{svgElement.ID}>");
 #endif
@@ -98,38 +110,27 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    private void TranslateSvgElement([NotNull] SvgElement svgElement,
-                                     [NotNull] Matrix matrix,
-                                     int targetDpi,
-                                     out Matrix newMatrix,
-                                     out object translation)
+    private bool TryTranslateSvgElement([NotNull] SvgElement svgElement,
+                                        [NotNull] Matrix matrix,
+                                        int targetDpi,
+                                        out Matrix newMatrix,
+                                        out object translation)
     {
       var type = svgElement.GetType();
-      var svgElementTranslator = this.GetSvgElementTranslator(type);
-      if (svgElementTranslator == null)
-      {
-        translation = null;
-        newMatrix = matrix;
-        return;
-      }
-
-      svgElementTranslator.TranslateUntyped(svgElement,
-                                            matrix,
-                                            targetDpi,
-                                            out newMatrix,
-                                            out translation);
-    }
-
-    private SvgElementTranslator GetSvgElementTranslator([NotNull] Type type)
-    {
       SvgElementTranslator svgElementTranslator;
-      if (this.SvgElementTranslators.TryGetValue(type,
-                                                 out svgElementTranslator))
+      if (!this.SvgElementTranslators.TryGetValue(type,
+                                                  out svgElementTranslator))
       {
-        return svgElementTranslator;
+        newMatrix = matrix;
+        translation = null;
+        return true;
       }
 
-      return null;
+      return svgElementTranslator.TryTranslateUntyped(svgElement,
+                                                      matrix,
+                                                      targetDpi,
+                                                      out newMatrix,
+                                                      out translation);
     }
 
     public void RegisterTranslator<T>(SvgElementTranslator<T> svgElementTranslator) where T : SvgElement
