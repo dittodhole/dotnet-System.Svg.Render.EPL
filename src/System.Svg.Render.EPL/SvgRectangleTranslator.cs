@@ -106,8 +106,8 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    protected virtual bool TryGetFillSvgLine([NotNull] SvgRectangle instance,
-                                             out SvgLine fillLine)
+    private bool TryGetFillSvgLine([NotNull] SvgRectangle instance,
+                                   out SvgLine fillLine)
     {
       // TODO fix dat for every scenario - test cases!
 
@@ -145,11 +145,11 @@ namespace System.Svg.Render.EPL
       return true;
     }
 
-    protected virtual bool TryGetBorderSvgLines([NotNull] SvgRectangle instance,
-                                                out SvgLine upperLine,
-                                                out SvgLine rightLine,
-                                                out SvgLine lowerLine,
-                                                out SvgLine leftLine)
+    private bool TryGetBorderSvgLines([NotNull] SvgRectangle instance,
+                                      out SvgLine upperLine,
+                                      out SvgLine rightLine,
+                                      out SvgLine lowerLine,
+                                      out SvgLine leftLine)
     {
       var strokeColor = (instance.Stroke as SvgColourServer)?.Colour ?? Color.Empty;
       if (strokeColor == Color.Empty)
