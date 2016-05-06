@@ -189,8 +189,13 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      return this.TryGetRotationTranslation(rotation,
-                                            out rotationTranslation);
+      if (this.TryGetRotationTranslation(rotation,
+                                         out rotationTranslation))
+      {
+        return true;
+      }
+
+      return false;
     }
 
     private bool TryGetRotationTranslation(Rotation rotation,
