@@ -95,86 +95,23 @@ namespace System.Svg.Render.EPL
       return true;
     }
 
-    private enum Rotation
-    {
-      None,
-      Rotate90,
-      Rotate180,
-      Rotate270
-    }
-
     public bool TryGetRotationTranslation([NotNull] Matrix matrix,
                                           out object rotationTranslation)
     {
-      // TODO check with real scenarios
+      var vector = new PointF(10f,
+                              0f);
+      var vectors = new[]
+                    {
+                      vector
+                    };
+      matrix.TransformVectors(vectors);
+      vector = vectors.First();
 
-      var startPoint = new PointF(0f,
-                                  0f);
-      var endPoint = new PointF(10f,
-                                0f);
+      var rotation = Math.Atan2(vector.Y,
+                                vector.X) / (2 * Math.PI);
+      rotationTranslation = Math.Ceiling(rotation * 4);
 
-      var points = new[]
-                   {
-                     startPoint,
-                     endPoint
-                   };
-
-      matrix.TransformPoints(points);
-
-      startPoint = points[0];
-      endPoint = points[1];
-
-      Rotation rotation;
-
-      // TODO find a good TOLERANCE
-      if (Math.Abs(startPoint.Y - endPoint.Y) < 0.5f)
-      {
-        if (startPoint.X < endPoint.X)
-        {
-          rotation = Rotation.None;
-        }
-        else if (startPoint.X > endPoint.X)
-        {
-          rotation = Rotation.Rotate180;
-        }
-        else
-        {
-          rotationTranslation = null;
-          return false;
-        }
-      }
-      else if (startPoint.Y > endPoint.Y)
-      {
-        rotation = Rotation.Rotate90;
-      }
-      else if (startPoint.Y < endPoint.Y)
-      {
-        rotation = Rotation.Rotate270;
-      }
-      else
-      {
-        rotationTranslation = null;
-        return false;
-      }
-
-      switch (rotation)
-      {
-        case Rotation.None:
-          rotationTranslation = "0";
-          return true;
-        case Rotation.Rotate90:
-          rotationTranslation = "1";
-          return true;
-        case Rotation.Rotate180:
-          rotationTranslation = "2";
-          return true;
-        case Rotation.Rotate270:
-          rotationTranslation = "3";
-          return true;
-      }
-
-      rotationTranslation = null;
-      return false;
+      return true;
     }
 
     public Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
