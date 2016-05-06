@@ -27,6 +27,7 @@ namespace System.Svg.Render.EPL
       this.SvgUnitCalculator = svgUnitCalculator;
     }
 
+    [NotNull]
     protected SvgUnitCalculator SvgUnitCalculator { get; }
 
     internal override void TranslateUntyped([NotNull] object untypedInstance,

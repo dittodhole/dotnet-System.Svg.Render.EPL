@@ -24,6 +24,7 @@ namespace System.Svg.Render.EPL
       this.SvgLineTranslator = svgLineTranslator;
     }
 
+    [NotNull]
     protected SvgLineTranslator SvgLineTranslator { get; }
 
     public override object Translate([NotNull] SvgRectangle instance,

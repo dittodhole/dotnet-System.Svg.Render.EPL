@@ -13,6 +13,7 @@ namespace System.Svg.Render.EPL
       : base(svgUnitCalculator) {}
 
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
+    [NotNull]
     private ConcurrentDictionary<Type, SvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, SvgElementTranslator>();
 
     public string Translate(SvgDocument instance,
