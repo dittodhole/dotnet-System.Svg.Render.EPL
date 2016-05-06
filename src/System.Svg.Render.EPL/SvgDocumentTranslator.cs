@@ -120,9 +120,13 @@ namespace System.Svg.Render.EPL
     private SvgElementTranslator GetSvgElementTranslator([NotNull] Type type)
     {
       SvgElementTranslator svgElementTranslator;
-      this.SvgElementTranslators.TryGetValue(type,
-                                             out svgElementTranslator);
-      return svgElementTranslator;
+      if (this.SvgElementTranslators.TryGetValue(type,
+                                                 out svgElementTranslator))
+      {
+        return svgElementTranslator;
+      }
+
+      return null;
     }
 
     public void RegisterTranslator<T>(SvgElementTranslator<T> svgElementTranslator) where T : SvgElement
