@@ -63,12 +63,6 @@ namespace System.Svg.Render.EPL
         }
       }
 
-      if (svgElement is SvgTextSpan)
-      {
-        // TODO remove this in a later version, this should be internal of SvgTextTranslator
-        return;
-      }
-
       object translation;
       Matrix newMatrix;
       if (!this.TryTranslateSvgElement(svgElement,
