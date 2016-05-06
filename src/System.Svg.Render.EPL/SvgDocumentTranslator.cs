@@ -104,11 +104,11 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    protected virtual void TranslateSvgElement([NotNull] SvgElement svgElement,
-                                               [NotNull] Matrix matrix,
-                                               int targetDpi,
-                                               out Matrix newMatrix,
-                                               out object translation)
+    private void TranslateSvgElement([NotNull] SvgElement svgElement,
+                                     [NotNull] Matrix matrix,
+                                     int targetDpi,
+                                     out Matrix newMatrix,
+                                     out object translation)
     {
       var type = svgElement.GetType();
       var svgElementTranslator = this.GetSvgElementTranslator(type);
@@ -126,7 +126,7 @@ namespace System.Svg.Render.EPL
                                             out translation);
     }
 
-    protected virtual SvgElementTranslator GetSvgElementTranslator(Type type)
+    private SvgElementTranslator GetSvgElementTranslator(Type type)
     {
       if (type == null)
       {
