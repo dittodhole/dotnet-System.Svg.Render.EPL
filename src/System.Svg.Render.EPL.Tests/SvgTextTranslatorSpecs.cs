@@ -17,7 +17,8 @@ namespace System.Svg.Render.EPL.Tests
       {
         this.SvgUnitCalculator = new SvgUnitCalculator
                                  {
-                                   UserUnitTypeSubstitution = SvgUnitType.Pixel
+                                   UserUnitTypeSubstitution = SvgUnitType.Pixel,
+                                   SourceDpi = 203
                                  };
         this.SvgTextTranslator = new SvgTextTranslator(this.SvgUnitCalculator);
       }

@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Svg.Transforms;
 using Anotar.LibLog;
 using JetBrains.Annotations;
@@ -385,6 +386,198 @@ namespace System.Svg.Render.EPL
       }
 
       return true;
+    }
+
+    public bool TryGetFontTranslation([NotNull] SvgTextBase svgTextBase,
+                                      [NotNull] Matrix matrix,
+                                      int targetDpi,
+                                      out object translation)
+    {
+      int fontSize;
+      if (!this.TryGetDevicePoints(svgTextBase.FontSize,
+                                   targetDpi,
+                                   out fontSize))
+      {
+        LogTo.Error($"could not get device points for {nameof(fontSize)} ({svgTextBase.FontSize})");
+        translation = null;
+        return false;
+      }
+
+      object fontSelection;
+      object multiplier;
+      if (!this.TryGetFontSelection(fontSize,
+                                    targetDpi,
+                                    out fontSelection,
+                                    out multiplier))
+      {
+        LogTo.Error($"could not get {nameof(fontSelection)} for {nameof(targetDpi)} {targetDpi}");
+        translation = null;
+        return false;
+      }
+
+      translation = $"{fontSelection},{multiplier},{multiplier}";
+
+      return true;
+    }
+
+    private class FontDefinition
+    {
+      public int Width { get; set; }
+      public int Height { get; set; }
+      public string Font { get; set; }
+    }
+
+    public bool TryGetFontSelection(int fontSize,
+                                    int targetDpi,
+                                    out object fontSelection,
+                                    out object multiplier)
+    {
+      // VALUE    203dpi        300dpi
+      // ==================================
+      //  1       20.3cpi       25cpi
+      //          6pts          4pts
+      //          8x12 dots     12x20 dots
+      //          1:1.5         1:1.66
+      // ==================================
+      //  2       16.9cpi       18.75cpi
+      //          7pts          6pts
+      //          10x16 dots    16x28 dots
+      //          1:1.6         1:1.75
+      // ==================================
+      //  3       14.5cpi       15cpi
+      //          10pts         8pts
+      //          12x20 dots    20x36 dots
+      //          1:1.66        1:1.8
+      // ==================================
+      //  4       12.7cpi       12.5cpi
+      //          12pts         10pts
+      //          14x24 dots    24x44 dots
+      //          1:1.71        1:1.83
+      // ==================================
+      //  5       5.6cpi        6.25cpi
+      //          24pts         21pts
+      //          32x48 dots    48x80 dots
+      //          1:1.5         1:1.6
+      // ==================================
+      // horizontal multiplier: Accepted Values: 1–6, 8
+      // vertical multiplier: Accepted Values: 1–9
+
+      FontDefinition[] fontDefinitions;
+      if (targetDpi == 203)
+      {
+        fontDefinitions = new[]
+                          {
+                            new FontDefinition
+                            {
+                              Width = 8,
+                              Height = 12,
+                              Font = "1"
+                            },
+                            new FontDefinition
+                            {
+                              Width = 10,
+                              Height = 16,
+                              Font = "2"
+                            },
+                            new FontDefinition
+                            {
+                              Width = 12,
+                              Height = 20,
+                              Font = "3"
+                            },
+                            new FontDefinition
+                            {
+                              Width = 14,
+                              Height = 24,
+                              Font = "4"
+                            },
+                            new FontDefinition
+                            {
+                              Width = 32,
+                              Height = 48,
+                              Font = "5"
+                            }
+                          };
+      }
+      else if (targetDpi == 300)
+      {
+        fontDefinitions = new[]
+                          {
+                            new FontDefinition
+                            {
+                              Width = 12,
+                              Height = 20,
+                              Font = "1"
+                            },
+                            new FontDefinition
+                            {
+                              Width = 16,
+                              Height = 28,
+                              Font = "2"
+                            },
+                            new FontDefinition
+                            {
+                              Width = 20,
+                              Height = 36,
+                              Font = "3"
+                            },
+                            new FontDefinition
+                            {
+                              Width = 24,
+                              Height = 44,
+                              Font = "4"
+                            },
+                            new FontDefinition
+                            {
+                              Width = 48,
+                              Height = 80,
+                              Font = "5"
+                            }
+                          };
+      }
+      else
+      {
+        fontSelection = null;
+        multiplier = null;
+        return false;
+      }
+
+      // TODO maybe ... :angel: ... optimize performance ... :athletic_shoe:
+
+      fontSelection = null;
+      multiplier = null;
+
+      foreach (var possibleMultiplier in new[]
+                                         {
+                                           1,
+                                           2,
+                                           3,
+                                           4,
+                                           5,
+                                           6,
+                                           8
+                                         })
+      {
+        multiplier = possibleMultiplier;
+
+        foreach (var fontDefinition in fontDefinitions)
+        {
+          if (fontSelection == null)
+          {
+            fontSelection = fontDefinition.Font;
+          }
+
+          var height = fontDefinition.Height * possibleMultiplier;
+          if (height <= fontSize)
+          {
+            return true;
+          }
+
+          fontSelection = fontDefinition.Font;
+        }
+      }
+
+      return false;
     }
   }
 }
