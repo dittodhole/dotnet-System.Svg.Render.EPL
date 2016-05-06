@@ -254,8 +254,8 @@ namespace System.Svg.Render.EPL
       return result ?? matrix;
     }
 
-    protected virtual bool IsTransformationAllowed([NotNull] ISvgTransformable svgTransformable,
-                                                   [NotNull] Type type)
+    private bool IsTransformationAllowed([NotNull] ISvgTransformable svgTransformable,
+                                         [NotNull] Type type)
     {
       if (type == typeof(SvgMatrix))
       {
