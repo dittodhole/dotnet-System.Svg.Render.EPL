@@ -125,7 +125,7 @@ namespace System.Svg.Render.EPL
       return true;
     }
 
-    public enum Rotation
+    private enum Rotation
     {
       None,
       Rotate90,
@@ -200,8 +200,8 @@ namespace System.Svg.Render.EPL
                                             out rotationTranslation);
     }
 
-    public virtual bool TryGetRotationTranslation(Rotation rotation,
-                                                  out object rotationTranslation)
+    private bool TryGetRotationTranslation(Rotation rotation,
+                                           out object rotationTranslation)
     {
       switch (rotation)
       {
