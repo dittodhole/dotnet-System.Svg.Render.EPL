@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using Anotar.LibLog;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -125,15 +124,10 @@ namespace System.Svg.Render.EPL
       }
 
       SvgUnit endX;
-      try
+      if (!this.SvgUnitCalculator.TryAdd(instance.X,
+                                         instance.Width,
+                                         out endX))
       {
-        endX = this.SvgUnitCalculator.Add(instance.X,
-                                          instance.Width);
-      }
-      catch (ArgumentException argumentException)
-      {
-        LogTo.ErrorException($"could not calculate fill",
-                             argumentException);
         fillLine = null;
         return false;
       }
@@ -167,62 +161,186 @@ namespace System.Svg.Render.EPL
         return true;
       }
 
-      try
+      if (!this.TryGetUpperLine(instance,
+                                out upperLine))
       {
-        upperLine = new SvgLine
-                    {
-                      StartX = instance.X,
-                      StartY = instance.Y,
-                      EndX = this.SvgUnitCalculator.Add(instance.X,
-                                                        instance.Width),
-                      EndY = instance.Y,
-                      StrokeWidth = instance.StrokeWidth
-                    };
-
-        rightLine = new SvgLine
-                    {
-                      StartX = this.SvgUnitCalculator.Add(instance.X,
-                                                          instance.Width),
-                      StartY = instance.Y,
-                      EndX = this.SvgUnitCalculator.Add(instance.X,
-                                                        instance.Width),
-                      EndY = this.SvgUnitCalculator.Add(instance.Y,
-                                                        instance.Height),
-                      StrokeWidth = instance.StrokeWidth
-                    };
-
-        lowerLine = new SvgLine
-                    {
-                      StartX = instance.X,
-                      StartY = this.SvgUnitCalculator.Add(instance.Y,
-                                                          instance.Height),
-                      EndX = this.SvgUnitCalculator.Add(instance.X,
-                                                        instance.Width),
-                      EndY = this.SvgUnitCalculator.Add(instance.Y,
-                                                        instance.Height),
-                      StrokeWidth = instance.StrokeWidth
-                    };
-
-        leftLine = new SvgLine
-                   {
-                     StartX = instance.X,
-                     StartY = instance.Y,
-                     EndX = instance.X,
-                     EndY = this.SvgUnitCalculator.Add(instance.Y,
-                                                       instance.Height),
-                     StrokeWidth = instance.StrokeWidth
-                   };
-      }
-      catch (ArgumentException argumentException)
-      {
-        LogTo.ErrorException($"could not calculate fill",
-                             argumentException);
         upperLine = null;
         rightLine = null;
         lowerLine = null;
         leftLine = null;
         return false;
       }
+
+      if (!this.TryGetRightLine(instance,
+                                out rightLine))
+      {
+        upperLine = null;
+        rightLine = null;
+        lowerLine = null;
+        leftLine = null;
+        return false;
+      }
+      if (!this.TryGetLowerLine(instance,
+                                out lowerLine))
+      {
+        upperLine = null;
+        rightLine = null;
+        lowerLine = null;
+        leftLine = null;
+        return false;
+      }
+
+      if (!this.TryGetLeftLine(instance,
+                               out leftLine))
+      {
+        upperLine = null;
+        rightLine = null;
+        lowerLine = null;
+        leftLine = null;
+        return false;
+      }
+
+      return true;
+    }
+
+    private bool TryGetUpperLine(SvgRectangle instance,
+                                 out SvgLine upperLine)
+    {
+      var startX = instance.X;
+      var y = instance.Y;
+
+      SvgUnit endX;
+      if (!this.SvgUnitCalculator.TryAdd(startX,
+                                         instance.Width,
+                                         out endX))
+      {
+        upperLine = null;
+        return false;
+      }
+
+      upperLine = new SvgLine
+                  {
+                    StartX = startX,
+                    StartY = y,
+                    EndX = endX,
+                    EndY = y,
+                    StrokeWidth = instance.StrokeWidth
+                  };
+
+      return true;
+    }
+
+    private bool TryGetRightLine(SvgRectangle instance,
+                                 out SvgLine rightLine)
+    {
+      SvgUnit startX;
+      if (!this.SvgUnitCalculator.TryAdd(instance.X,
+                                         instance.Width,
+                                         out startX))
+      {
+        rightLine = null;
+        return false;
+      }
+
+      var startY = instance.Y;
+
+      SvgUnit endX;
+      if (!this.SvgUnitCalculator.TryAdd(instance.X,
+                                         instance.Width,
+                                         out endX))
+      {
+        rightLine = null;
+        return false;
+      }
+
+      SvgUnit endY;
+      if (!this.SvgUnitCalculator.TryAdd(startY,
+                                         instance.Height,
+                                         out endY))
+      {
+        rightLine = null;
+        return false;
+      }
+
+      rightLine = new SvgLine
+                  {
+                    StartX = startX,
+                    StartY = startY,
+                    EndX = endX,
+                    EndY = endY,
+                    StrokeWidth = instance.StrokeWidth
+                  };
+
+      return true;
+    }
+
+    private bool TryGetLowerLine(SvgRectangle instance,
+                                 out SvgLine lowerLine)
+    {
+      var startX = instance.X;
+
+      SvgUnit startY;
+      if (!this.SvgUnitCalculator.TryAdd(instance.Y,
+                                         instance.Height,
+                                         out startY))
+      {
+        lowerLine = null;
+        return false;
+      }
+
+      SvgUnit endX;
+      if (!this.SvgUnitCalculator.TryAdd(startX,
+                                         instance.Width,
+                                         out endX))
+      {
+        lowerLine = null;
+        return false;
+      }
+
+      SvgUnit endY;
+      if (!this.SvgUnitCalculator.TryAdd(instance.Y,
+                                         instance.Height,
+                                         out endY))
+      {
+        lowerLine = null;
+        return false;
+      }
+
+      lowerLine = new SvgLine
+                  {
+                    StartX = startX,
+                    StartY = startY,
+                    EndX = endX,
+                    EndY = endY,
+                    StrokeWidth = instance.StrokeWidth
+                  };
+
+      return true;
+    }
+
+    private bool TryGetLeftLine(SvgRectangle instance,
+                                out SvgLine leftLine)
+    {
+      var x = instance.X;
+      var startY = instance.Y;
+
+      SvgUnit endY;
+      if (!this.SvgUnitCalculator.TryAdd(startY,
+                                         instance.Height,
+                                         out endY))
+      {
+        leftLine = null;
+        return false;
+      }
+
+      leftLine = new SvgLine
+                 {
+                   StartX = x,
+                   StartY = startY,
+                   EndX = x,
+                   EndY = endY,
+                   StrokeWidth = instance.StrokeWidth
+                 };
 
       return true;
     }

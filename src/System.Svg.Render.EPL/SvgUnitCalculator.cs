@@ -1,8 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Svg.Transforms;
-using Anotar.LibLog;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -12,44 +10,25 @@ namespace System.Svg.Render.EPL
     public int SourceDpi { get; set; } = 72;
     public SvgUnitType UserUnitTypeSubstitution { get; set; } = SvgUnitType.Pixel;
 
-    /// <exception cref="ArgumentException">If <see cref="SvgUnitType" /> of <paramref name="svgUnit1" /> and <paramref name="svgUnit2" /> are not matching.</exception>
-    public virtual SvgUnit Add(SvgUnit svgUnit1,
-                               SvgUnit svgUnit2)
+    public bool TryAdd(SvgUnit svgUnit1,
+                       SvgUnit svgUnit2,
+                       out SvgUnit result)
     {
       var svgUnitType = svgUnit1.Type;
       if (svgUnitType != svgUnit2.Type)
       {
-        throw new ArgumentException($"{nameof(svgUnit1)} ({svgUnit1}) and {nameof(svgUnit2)} ({svgUnit2}) are not of same type");
+        result = SvgUnit.None;
+        return false;
       }
 
       var val1 = svgUnit1.Value;
       var val2 = svgUnit2.Value;
       var value = val1 + val2;
 
-      var result = new SvgUnit(svgUnitType,
-                               value);
+      result = new SvgUnit(svgUnitType,
+                           value);
 
-      return result;
-    }
-
-    /// <exception cref="ArgumentException">If <see cref="SvgUnitType" /> of <paramref name="svgUnit1" /> and <paramref name="svgUnit2" /> are not matching.</exception>
-    public virtual SvgUnit Substract(SvgUnit svgUnit1,
-                                     SvgUnit svgUnit2)
-    {
-      var svgUnitType = svgUnit1.Type;
-      if (svgUnitType != svgUnit2.Type)
-      {
-        throw new ArgumentException($"{nameof(svgUnit1)} ({svgUnit1}) and {nameof(svgUnit2)} ({svgUnit2}) are not of same type");
-      }
-
-      var val1 = svgUnit1.Value;
-      var val2 = svgUnit2.Value;
-      var value = val1 - val2;
-
-      var result = new SvgUnit(svgUnitType,
-                               value);
-
-      return result;
+      return true;
     }
 
     public bool IsValueZero(SvgUnit svgUnit)
@@ -62,19 +41,8 @@ namespace System.Svg.Render.EPL
                                    int targetDpi,
                                    out int devicePoints)
     {
-      var result = this.TryGetDevicePoints(svgUnit.Value,
-                                           svgUnit.Type,
-                                           targetDpi,
-                                           out devicePoints);
-
-      return result;
-    }
-
-    public virtual bool TryGetDevicePoints(float value,
-                                           SvgUnitType svgUnitType,
-                                           int targetDpi,
-                                           out int devicePoints)
-    {
+      var value = svgUnit.Value;
+      var svgUnitType = svgUnit.Type;
       if (svgUnitType == SvgUnitType.User)
       {
         svgUnitType = this.UserUnitTypeSubstitution;
@@ -170,7 +138,6 @@ namespace System.Svg.Render.EPL
         }
         else
         {
-          LogTo.Error($"HAMMER TIME - singularity detected ({startPoint.X}/{startPoint.Y}, {endPoint.X}/{endPoint.Y})");
           rotationTranslation = null;
           return false;
         }
@@ -185,23 +152,10 @@ namespace System.Svg.Render.EPL
       }
       else
       {
-        LogTo.Error($"HAMMER TIME - singularity detected ({startPoint.X}/{startPoint.Y}, {endPoint.X}/{endPoint.Y})");
         rotationTranslation = null;
         return false;
       }
 
-      if (this.TryGetRotationTranslation(rotation,
-                                         out rotationTranslation))
-      {
-        return true;
-      }
-
-      return false;
-    }
-
-    private bool TryGetRotationTranslation(Rotation rotation,
-                                           out object rotationTranslation)
-    {
       switch (rotation)
       {
         case Rotation.None:
@@ -216,10 +170,10 @@ namespace System.Svg.Render.EPL
         case Rotation.Rotate270:
           rotationTranslation = "3";
           return true;
-        default:
-          rotationTranslation = null;
-          return false;
       }
+
+      rotationTranslation = null;
+      return false;
     }
 
     public Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
@@ -232,14 +186,12 @@ namespace System.Svg.Render.EPL
         if (!this.IsTransformationAllowed(svgTransformable,
                                           transformationType))
         {
-          LogTo.Error($"transformation {transformationType} is not allowed");
           continue;
         }
 
         var matrixToMultiply = transformation.Matrix;
         if (matrixToMultiply == null)
         {
-          LogTo.Error($"{nameof(transformation.Matrix)} is null");
           continue;
         }
 
@@ -288,7 +240,6 @@ namespace System.Svg.Render.EPL
       var typeY = y.Type;
       if (typeX != typeY)
       {
-        LogTo.Error($"types do not match: {typeX} - {typeY}");
         newX = SvgUnit.None;
         newY = SvgUnit.None;
         return false;
@@ -331,7 +282,6 @@ namespace System.Svg.Render.EPL
       var typeY1 = y1.Type;
       if (typeX1 != typeY1)
       {
-        LogTo.Error($"types do not match: {nameof(typeX1)} ({typeX1}) - {nameof(typeY1)} ({typeY1})");
         newX1 = SvgUnit.None;
         newY1 = SvgUnit.None;
         newX2 = SvgUnit.None;
@@ -343,7 +293,6 @@ namespace System.Svg.Render.EPL
       var typeY2 = y2.Type;
       if (typeX2 != typeY2)
       {
-        LogTo.Error($"types do not match: {nameof(typeX2)} ({typeX2}) - {nameof(typeY2)} ({typeY2})");
         newX1 = SvgUnit.None;
         newY1 = SvgUnit.None;
         newX2 = SvgUnit.None;
@@ -398,7 +347,6 @@ namespace System.Svg.Render.EPL
                                    targetDpi,
                                    out fontSize))
       {
-        LogTo.Error($"could not get device points for {nameof(fontSize)} ({svgTextBase.FontSize})");
         translation = null;
         return false;
       }
@@ -410,7 +358,6 @@ namespace System.Svg.Render.EPL
                                     out fontSelection,
                                     out multiplier))
       {
-        LogTo.Error($"could not get {nameof(fontSelection)} for {nameof(targetDpi)} {targetDpi}");
         translation = null;
         return false;
       }

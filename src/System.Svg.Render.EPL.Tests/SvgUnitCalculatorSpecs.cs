@@ -52,9 +52,14 @@ namespace System.Svg.Render.EPL.Tests
 
         var svgUnit1 = new SvgUnit(100f);
         var svgUnit2 = new SvgUnit(300f);
-        var svgUnit3 = this.SvgUnitCalculator.Add(svgUnit1,
-                                                  svgUnit2);
-        this.Actual = svgUnit3.Value;
+
+        SvgUnit result;
+        if (this.SvgUnitCalculator.TryAdd(svgUnit1,
+                                          svgUnit2,
+                                          out result))
+        {
+          this.Actual = result.Value;
+        }
       }
 
       [TestMethod]
@@ -62,28 +67,6 @@ namespace System.Svg.Render.EPL.Tests
       {
         Assert.AreEqual(this.Actual,
                         400f);
-      }
-    }
-
-    [TestClass]
-    public class when_two_svg_unit_instances_are_substracted : SvgUnitCalculatorSpecsContext
-    {
-      protected override void BecauseOf()
-      {
-        base.BecauseOf();
-
-        var svgUnit1 = new SvgUnit(300f);
-        var svgUnit2 = new SvgUnit(100f);
-        var svgUnit3 = this.SvgUnitCalculator.Substract(svgUnit1,
-                                                        svgUnit2);
-        this.Actual = svgUnit3.Value;
-      }
-
-      [TestMethod]
-      public void the_result_should_be_correct()
-      {
-        Assert.AreEqual(this.Actual,
-                        200f);
       }
     }
 

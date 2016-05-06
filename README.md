@@ -49,11 +49,6 @@ var translation = svgDocumentTranslator.Translate(svgDocument,
 - `stroke-width`
 - `visible`
 
-## Logging
-
-As barely any exceptions are thrown, it may be essential to attach a logging-suite and look for `error` messages.
-[LibLog](https://github.com/damianh/LibLog) is used for logging, which silently integrates into your concrete logging framework. Alternatively, you can create your own logger by deriving from `System.Svg.Render.EPL.Logging.ILogProvider`
-
 ## Installing [![NuGet Status](http://img.shields.io/nuget/v/System.Svg.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/System.Svg.Render.EPL/)
 
 tbd
