@@ -568,7 +568,7 @@ namespace System.Svg.Render.EPL
           }
 
           var height = fontDefinition.Height * possibleMultiplier;
-          if (height <= fontSize)
+          if (height > fontSize)
           {
             return true;
           }
