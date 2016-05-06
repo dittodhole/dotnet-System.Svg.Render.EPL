@@ -8,6 +8,8 @@ namespace System.Svg.Render.EPL
 {
   public class SvgTextTranslator : SvgElementTranslator<SvgText>
   {
+    // TODO translate dX and dY
+
     /// <exception cref="ArgumentNullException"><paramref name="svgUnitCalculator" /> is <see langword="null" />.</exception>
     public SvgTextTranslator(SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
