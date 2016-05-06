@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using Anotar.LibLog;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -29,8 +28,11 @@ namespace System.Svg.Render.EPL
                                                  out newEndX,
                                                  out newEndY))
       {
-        LogTo.Error($"could not apply matrix on start");
+#if DEBUG
+        return $"; could not apply matrix: {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       int startX;
@@ -38,8 +40,11 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out startX))
       {
-        LogTo.Error($"could not convert {nameof(newStartX)} ({newStartX}) to device points");
+#if DEBUG
+        return $"; could not get device points (startX): {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       int startY;
@@ -47,8 +52,11 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out startY))
       {
-        LogTo.Error($"could not convert {nameof(newStartY)} ({newStartY}) to device points");
+#if DEBUG
+        return $"; could not get device points (startY): {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       int endX;
@@ -56,8 +64,11 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out endX))
       {
-        LogTo.Error($"could not convert {nameof(newEndX)} ({newEndX}) to device points");
+#if DEBUG
+        return $"; could not get device points (endX): {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       int endY;
@@ -65,8 +76,11 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out endY))
       {
-        LogTo.Error($"could not convert {nameof(newEndY)} ({newEndY}) to device points");
+#if DEBUG
+        return $"; could not get device points (endY): {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       int strokeWidth;
@@ -74,8 +88,11 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out strokeWidth))
       {
-        LogTo.Error($"could not convert {instance.StrokeWidth} to device points");
+#if DEBUG
+        return $"; could not get device points (stroke): {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       if (startX > endX)

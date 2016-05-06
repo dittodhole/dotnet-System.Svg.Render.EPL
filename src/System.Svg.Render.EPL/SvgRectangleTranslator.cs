@@ -57,8 +57,11 @@ namespace System.Svg.Render.EPL
         if (!this.TryGetFillSvgLine(instance,
                                     out fillLine))
         {
-          LogTo.Error($"could not get line for filling");
+#if DEBUG
+          return $"; could not get filling line: {instance.GetXML()}";
+#else
           return null;
+#endif
         }
 
         SvgLine upperLine;
@@ -71,8 +74,11 @@ namespace System.Svg.Render.EPL
                                        out lowerLine,
                                        out leftLine))
         {
-          LogTo.Error($"could not get lines for borders");
+#if DEBUG
+          return $"; could not get border lines: {instance.GetXML()}";
+#else
           return null;
+#endif
         }
 
         if (fillLine == null

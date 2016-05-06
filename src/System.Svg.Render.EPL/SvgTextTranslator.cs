@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using Anotar.LibLog;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -63,29 +62,44 @@ namespace System.Svg.Render.EPL
       if (!this.SvgUnitCalculator.TryGetRotationTranslation(matrix,
                                                             out rotationTranslation))
       {
-        LogTo.Error($"could not calculate start point and rotation");
+#if DEBUG
+        return $"; could not get rotation translation: {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       if (instance.X == null)
       {
-        LogTo.Error($"{nameof(SvgTextBase.X)} is null");
+#if DEBUG
+        return $"; x is null: {instance.GetXML()}";
+#else
         return null;
+#endif
       }
       if (!instance.X.Any())
       {
-        LogTo.Error($"no values in {nameof(SvgTextBase.X)}");
+#if DEBUG
+        return $"; no x-coordinates: {instance.GetXML()}";
+#else
         return null;
+#endif
       }
       if (instance.Y == null)
       {
-        LogTo.Error($"{nameof(SvgTextBase.Y)} is null");
+#if DEBUG
+        return $"; y is null: {instance.GetXML()}";
+#else
         return null;
+#endif
       }
       if (!instance.Y.Any())
       {
-        LogTo.Error($"no values in {nameof(SvgTextBase.Y)}");
+#if DEBUG
+        return $"; no y-coordinates: {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       SvgUnit newX;
@@ -99,8 +113,11 @@ namespace System.Svg.Render.EPL
                                                  out newX,
                                                  out newY))
       {
-        LogTo.Error($"could not apply matrix");
+#if DEBUG
+        return $"; could not apply matrix on x and y: {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       int horizontalStart;
@@ -108,8 +125,11 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out horizontalStart))
       {
-        LogTo.Error($"could not translate {nameof(newX)} ({newX}) to device points");
+#if DEBUG
+        return $"; could not get device points (x): {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       int verticalStart;
@@ -117,8 +137,11 @@ namespace System.Svg.Render.EPL
                                                      targetDpi,
                                                      out verticalStart))
       {
-        LogTo.Error($"could not translate {nameof(newY)} ({newY}) to device points");
+#if DEBUG
+        return $"; could not get device points (y): {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       object fontTranslation;
@@ -127,8 +150,11 @@ namespace System.Svg.Render.EPL
                                                         targetDpi,
                                                         out fontTranslation))
       {
-        LogTo.Error($"could not get font translation");
+#if DEBUG
+        return $"; could not get font translation: {instance.GetXML()}";
+#else
         return null;
+#endif
       }
 
       string reverseImage;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
+using Anotar.LibLog;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -53,6 +54,9 @@ namespace System.Svg.Render.EPL
         // TODO consider performance here w/ the cast
         if (!svgVisualElement.Visible)
         {
+#if DEBUG
+          translations.Add($"; <{svgElement.ID} is hidden />");
+#endif
           return;
         }
       }
