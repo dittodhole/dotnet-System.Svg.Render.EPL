@@ -496,6 +496,8 @@ namespace System.Svg.Render.EPL
       fontSelection = null;
       multiplier = null;
 
+      // TODO take into account, that a smaller font w/ a bigger multiplier could be a better match than a bigger font w/ a smaller multiplier, or vice-versa
+
       foreach (var possibleMultiplier in new[]
                                          {
                                            1,
