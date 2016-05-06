@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Svg.Transforms;
 using JetBrains.Annotations;
 
@@ -342,8 +343,6 @@ namespace System.Svg.Render.EPL
                                       int targetDpi,
                                       out object translation)
     {
-      // TODO take scale-transformation in matrix into account
-
       int fontSize;
       if (!this.TryGetDevicePoints(svgTextBase.FontSize,
                                    targetDpi,
@@ -353,9 +352,12 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
+      var height = this.GetHeightOfFontSize(fontSize,
+                                            matrix);
+
       object fontSelection;
       object multiplier;
-      if (!this.TryGetFontSelection(fontSize,
+      if (!this.TryGetFontSelection(height,
                                     targetDpi,
                                     out fontSelection,
                                     out multiplier))
@@ -376,7 +378,7 @@ namespace System.Svg.Render.EPL
       public string Font { get; set; }
     }
 
-    private bool TryGetFontSelection(int fontSize,
+    private bool TryGetFontSelection(int height,
                                      int targetDpi,
                                      out object fontSelection,
                                      out object multiplier)
@@ -518,8 +520,8 @@ namespace System.Svg.Render.EPL
             fontSelection = fontDefinition.Font;
           }
 
-          var height = fontDefinition.Height * possibleMultiplier;
-          if (height > fontSize)
+          var actualHeight = fontDefinition.Height * possibleMultiplier;
+          if (actualHeight > height)
           {
             return true;
           }
@@ -529,6 +531,25 @@ namespace System.Svg.Render.EPL
       }
 
       return false;
+    }
+
+    private int GetHeightOfFontSize(int fontSize,
+                                    [NotNull] Matrix matrix)
+    {
+      var vector = new PointF(0f,
+                              fontSize);
+      var vectors = new[]
+                    {
+                      vector
+                    };
+      matrix.TransformVectors(vectors);
+      vector = vectors.First();
+
+      var result = Math.Sqrt(Math.Pow(vector.X,
+                                      2) + Math.Pow(vector.Y,
+                                                    2));
+
+      return (int) result;
     }
   }
 }
