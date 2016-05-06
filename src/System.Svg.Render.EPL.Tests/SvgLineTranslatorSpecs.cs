@@ -149,14 +149,15 @@ namespace System.Svg.Render.EPL.Tests
                          StartX = new SvgUnit(0f),
                          StartY = new SvgUnit(0f),
                          EndX = new SvgUnit(-10f),
-                         EndY = new SvgUnit(0f)
+                         EndY = new SvgUnit(0f),
+                         StrokeWidth = new SvgUnit(20f)
                        };
       }
 
       [TestMethod]
-      public void return_no_epl_code()
+      public void return_valid_epl_code()
       {
-        Assert.AreEqual(null,
+        Assert.AreEqual("LO-10,0,10,20",
                         this.Actual);
       }
     }
@@ -173,14 +174,15 @@ namespace System.Svg.Render.EPL.Tests
                          StartX = new SvgUnit(0f),
                          StartY = new SvgUnit(-10f),
                          EndX = new SvgUnit(-10f),
-                         EndY = new SvgUnit(0f)
+                         EndY = new SvgUnit(0f),
+                         StrokeWidth = new SvgUnit(20f)
                        };
       }
 
       [TestMethod]
-      public void return_no_epl_code()
+      public void return_valid_epl_code()
       {
-        Assert.AreEqual(null,
+        Assert.AreEqual("LS-10,-10,20,0,0",
                         this.Actual);
       }
     }
