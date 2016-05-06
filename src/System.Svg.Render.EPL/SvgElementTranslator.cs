@@ -6,8 +6,8 @@ namespace System.Svg.Render.EPL
 {
   public abstract class SvgElementTranslator
   {
-    internal abstract void TranslateUntyped(object untypedInstance,
-                                            Matrix matrix,
+    internal abstract void TranslateUntyped([NotNull] object untypedInstance,
+                                            [NotNull] Matrix matrix,
                                             int targetDpi,
                                             out Matrix newMatrix,
                                             out object translation);
@@ -29,20 +29,12 @@ namespace System.Svg.Render.EPL
 
     protected SvgUnitCalculator SvgUnitCalculator { get; }
 
-    internal override void TranslateUntyped(object untypedInstance,
-                                            Matrix matrix,
+    internal override void TranslateUntyped([NotNull] object untypedInstance,
+                                            [NotNull] Matrix matrix,
                                             int targetDpi,
                                             out Matrix newMatrix,
                                             out object translation)
     {
-      if (untypedInstance == null)
-      {
-        LogTo.Error($"{nameof(untypedInstance)} is null");
-        translation = null;
-        newMatrix = matrix;
-        return;
-      }
-
       var instance = untypedInstance as T;
       if (instance == null)
       {
@@ -59,28 +51,12 @@ namespace System.Svg.Render.EPL
                      out translation);
     }
 
-    public void Translate(T instance,
-                          Matrix matrix,
-                          int targetDpi,
-                          out Matrix newMatrix,
-                          out object translation)
+    private void Translate([NotNull] T instance,
+                           [NotNull] Matrix matrix,
+                           int targetDpi,
+                           out Matrix newMatrix,
+                           out object translation)
     {
-      if (instance == null)
-      {
-        LogTo.Error($"{nameof(instance)} is null");
-        translation = null;
-        newMatrix = null;
-        return;
-      }
-
-      if (matrix == null)
-      {
-        LogTo.Error($"{nameof(matrix)} is null");
-        translation = null;
-        newMatrix = null;
-        return;
-      }
-
       newMatrix = this.SvgUnitCalculator.MultiplyTransformationsIntoNewMatrix(instance,
                                                                               matrix);
 
