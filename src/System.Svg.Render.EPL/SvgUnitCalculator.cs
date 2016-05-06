@@ -342,6 +342,8 @@ namespace System.Svg.Render.EPL
                                       int targetDpi,
                                       out object translation)
     {
+      // TODO take scale-transformation in matrix into account
+
       int fontSize;
       if (!this.TryGetDevicePoints(svgTextBase.FontSize,
                                    targetDpi,
