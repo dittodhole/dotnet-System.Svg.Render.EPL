@@ -277,20 +277,12 @@ namespace System.Svg.Render.EPL
       return false;
     }
 
-    public virtual bool TryApplyMatrix(SvgUnit x,
-                                       SvgUnit y,
-                                       Matrix matrix,
-                                       out SvgUnit newX,
-                                       out SvgUnit newY)
+    public bool TryApplyMatrix(SvgUnit x,
+                               SvgUnit y,
+                               [NotNull] Matrix matrix,
+                               out SvgUnit newX,
+                               out SvgUnit newY)
     {
-      if (matrix == null)
-      {
-        LogTo.Error($"{nameof(matrix)} is null");
-        newX = SvgUnit.None;
-        newY = SvgUnit.None;
-        return false;
-      }
-
       var typeX = x.Type;
       var typeY = y.Type;
       if (typeX != typeY)
