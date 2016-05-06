@@ -118,12 +118,12 @@ namespace System.Svg.Render.EPL
       return translation;
     }
 
-    protected virtual object TranslateHorizontalOrVerticalLine(int startX,
-                                                               int startY,
-                                                               int endX,
-                                                               int endY,
-                                                               int strokeWidth,
-                                                               bool strokeShouldBeWhite)
+    private object TranslateHorizontalOrVerticalLine(int startX,
+                                                     int startY,
+                                                     int endX,
+                                                     int endY,
+                                                     int strokeWidth,
+                                                     bool strokeShouldBeWhite)
     {
       var horizontalStart = startX;
       var verticalStart = startY;
@@ -153,11 +153,11 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    protected virtual object TranslateDiagonal(int startX,
-                                               int startY,
-                                               int endX,
-                                               int endY,
-                                               int strokeWidth)
+    private object TranslateDiagonal(int startX,
+                                     int startY,
+                                     int endX,
+                                     int endY,
+                                     int strokeWidth)
     {
       var horizontalStart = startX;
       var verticalStart = startY;
