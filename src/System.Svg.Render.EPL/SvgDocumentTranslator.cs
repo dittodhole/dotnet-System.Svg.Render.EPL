@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -36,10 +37,13 @@ namespace System.Svg.Render.EPL
                                           targetDpi,
                                           translations);
 
-      var translation = string.Join(Environment.NewLine,
-                                    translations);
+      if (translations.Any())
+      {
+        return string.Join(Environment.NewLine,
+                           translations);
+      }
 
-      return translation;
+      return null;
     }
 
     private void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
@@ -76,10 +80,7 @@ namespace System.Svg.Render.EPL
       {
 #if DEBUG
         translations.Add($"; <{svgElement.ID}>");
-        if (translation != null)
-        {
-          translations.Add(translation);
-        }
+        translations.Add(translation ?? "; translation failed");
         translations.Add($"; </{svgElement.ID}>");
 #endif
         return;

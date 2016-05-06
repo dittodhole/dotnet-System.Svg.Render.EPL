@@ -33,8 +33,10 @@ namespace System.Svg.Render.EPL
           {
             return false;
           }
-
-          translations.Add(translation);
+          if (translation != null)
+          {
+            translations.Add(translation);
+          }
         }
 
         if (translations.Any())
