@@ -133,16 +133,9 @@ namespace System.Svg.Render.EPL
       Rotate270
     }
 
-    public virtual bool TryGetRotationTranslation(Matrix matrix,
-                                                  out object rotationTranslation)
+    public bool TryGetRotationTranslation([NotNull] Matrix matrix,
+                                          out object rotationTranslation)
     {
-      if (matrix == null)
-      {
-        LogTo.Error($"{nameof(matrix)} is null");
-        rotationTranslation = null;
-        return false;
-      }
-
       // TODO check with real scenarios
 
       var startPoint = new PointF(0f,
