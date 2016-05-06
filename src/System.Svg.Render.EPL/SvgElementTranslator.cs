@@ -1,5 +1,4 @@
 ﻿using System.Drawing.Drawing2D;
-using Anotar.LibLog;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -36,16 +35,7 @@ namespace System.Svg.Render.EPL
                                             out Matrix newMatrix,
                                             out object translation)
     {
-      var instance = untypedInstance as T;
-      if (instance == null)
-      {
-        LogTo.Error($"tried to translate {untypedInstance.GetType()} with {this.GetType()}");
-        translation = null;
-        newMatrix = matrix;
-        return;
-      }
-
-      this.Translate(instance,
+      this.Translate((T) untypedInstance,
                      matrix,
                      targetDpi,
                      out newMatrix,
