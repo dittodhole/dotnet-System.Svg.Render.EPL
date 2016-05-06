@@ -30,7 +30,6 @@ namespace System.Svg.Render.EPL
                                      [NotNull] Matrix matrix,
                                      int targetDpi)
     {
-      // TODO allow diagnoal rectangle ...
       // TODO fix calculation of stroke based on StrokeLineJoin
 
       object translation;
