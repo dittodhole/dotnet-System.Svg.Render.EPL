@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using Anotar.LibLog;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
