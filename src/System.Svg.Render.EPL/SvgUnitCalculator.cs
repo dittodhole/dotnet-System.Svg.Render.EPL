@@ -221,20 +221,9 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTransformable" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="matrix" /> is <see langword="null" />.</exception>
-    public virtual Matrix MultiplyTransformationsIntoNewMatrix(ISvgTransformable svgTransformable,
-                                                               Matrix matrix)
+    public Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
+                                                       [NotNull] Matrix matrix)
     {
-      if (svgTransformable == null)
-      {
-        throw new ArgumentNullException(nameof(svgTransformable));
-      }
-      if (matrix == null)
-      {
-        throw new ArgumentNullException(nameof(matrix));
-      }
-
       var result = default(Matrix);
       foreach (var transformation in svgTransformable.Transforms)
       {
