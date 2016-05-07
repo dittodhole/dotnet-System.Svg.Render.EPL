@@ -309,13 +309,6 @@ namespace System.Svg.Render.EPL
       return true;
     }
 
-    private class FontDefinition
-    {
-      public int Width { get; set; }
-      public int Height { get; set; }
-      public string Font { get; set; }
-    }
-
     private class FontDefinitionCandidate
     {
       public object FontSelection { get; set; }
@@ -358,76 +351,46 @@ namespace System.Svg.Render.EPL
       // horizontal multiplier: Accepted Values: 1–6, 8
       // vertical multiplier: Accepted Values: 1–9
 
-      FontDefinition[] fontDefinitions;
+      SortedList<int, string> fontDefinitions;
       if (targetDpi == 203)
       {
-        fontDefinitions = new[]
+        fontDefinitions = new SortedList<int, string>
                           {
-                            new FontDefinition
                             {
-                              Width = 8,
-                              Height = 12,
-                              Font = "1"
+                              12, "1"
                             },
-                            new FontDefinition
                             {
-                              Width = 10,
-                              Height = 16,
-                              Font = "2"
+                              16, "2"
                             },
-                            new FontDefinition
                             {
-                              Width = 12,
-                              Height = 20,
-                              Font = "3"
+                              20, "3"
                             },
-                            new FontDefinition
                             {
-                              Width = 14,
-                              Height = 24,
-                              Font = "4"
+                              24, "4"
                             },
-                            new FontDefinition
                             {
-                              Width = 32,
-                              Height = 48,
-                              Font = "5"
+                              48, "5"
                             }
                           };
       }
       else if (targetDpi == 300)
       {
-        fontDefinitions = new[]
+        fontDefinitions = new SortedList<int, string>
                           {
-                            new FontDefinition
                             {
-                              Width = 12,
-                              Height = 20,
-                              Font = "1"
+                              20, "1"
                             },
-                            new FontDefinition
                             {
-                              Width = 16,
-                              Height = 28,
-                              Font = "2"
+                              28, "2"
                             },
-                            new FontDefinition
                             {
-                              Width = 20,
-                              Height = 36,
-                              Font = "3"
+                              36, "3"
                             },
-                            new FontDefinition
                             {
-                              Width = 24,
-                              Height = 44,
-                              Font = "4"
+                              44, "4"
                             },
-                            new FontDefinition
                             {
-                              Width = 48,
-                              Height = 80,
-                              Font = "5"
+                              80, "5"
                             }
                           };
       }
@@ -438,10 +401,8 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      // TODO binary search tree
-      var fontDefinitionCandidates = new LinkedList<FontDefinitionCandidate>();
-
-      // TODO :athletic_shoe: ... go go go ... performance
+      var lowerFontDefinitionCandidate = default(FontDefinitionCandidate);
+      var upperFontDefinitionCandidate = default(FontDefinitionCandidate);
       foreach (var factor in new[]
                              {
                                1,
@@ -455,27 +416,79 @@ namespace System.Svg.Render.EPL
       {
         foreach (var fontDefinition in fontDefinitions)
         {
-          var fontDefinitionCandidate = new FontDefinitionCandidate
-                                        {
-                                          FontSelection = fontDefinition.Font,
-                                          Multiplier = factor,
-                                          ActualHeight = fontDefinition.Height * factor
-                                        };
-          fontDefinitionCandidates.AddLast(fontDefinitionCandidate);
+          var actualHeight = fontDefinition.Key * factor;
+          if (actualHeight == height)
+          {
+            fontSelection = fontDefinition.Value;
+            multiplier = factor;
+            return true;
+          }
+          if (actualHeight < height)
+          {
+            if (lowerFontDefinitionCandidate == null
+               || actualHeight > lowerFontDefinitionCandidate.ActualHeight)
+            {
+              lowerFontDefinitionCandidate = new FontDefinitionCandidate
+                                             {
+                                               FontSelection = fontDefinition.Value,
+                                               ActualHeight = actualHeight,
+                                               Multiplier = factor
+                                             };
+            }
+          }
+          else /*if (actualHeight > height)*/
+          {
+            if (upperFontDefinitionCandidate == null
+                || actualHeight < upperFontDefinitionCandidate.ActualHeight)
+            {
+              upperFontDefinitionCandidate = new FontDefinitionCandidate
+                                             {
+                                               FontSelection = fontDefinition.Value,
+                                               ActualHeight = actualHeight,
+                                               Multiplier = factor
+                                             };
+            }
+          }
         }
       }
 
-      var bestFontDefinitionCandidate = fontDefinitionCandidates.OrderBy(arg => Math.Abs(height - arg.ActualHeight))
-                                                                .FirstOrDefault();
-      if (bestFontDefinitionCandidate == null)
+      if (lowerFontDefinitionCandidate == null
+          && upperFontDefinitionCandidate == null)
       {
         fontSelection = null;
         multiplier = null;
         return false;
       }
 
-      fontSelection = bestFontDefinitionCandidate.FontSelection;
-      multiplier = bestFontDefinitionCandidate.Multiplier;
+      if (lowerFontDefinitionCandidate == null)
+      {
+        fontSelection = upperFontDefinitionCandidate.FontSelection;
+        multiplier = upperFontDefinitionCandidate.Multiplier;
+      }
+      else if (upperFontDefinitionCandidate == null)
+      {
+        fontSelection = lowerFontDefinitionCandidate.FontSelection;
+        multiplier = lowerFontDefinitionCandidate.Multiplier;
+      }
+      else
+      {
+        // :question: why dafuq are you doing it like this, and using no comparisons in the if-clause :question:
+        // reason: idk if lower or upper is better, so I am leveling the playing field here
+        // if I would add this to the if-clauses, the arithmetic behind it would be done
+        // twice for the worst case. with this solution, the cost is stable for all scenarios
+        var differenceLower = height - lowerFontDefinitionCandidate.ActualHeight;
+        var differenceUpper = upperFontDefinitionCandidate.ActualHeight - height;
+        if (differenceLower <= differenceUpper)
+        {
+          fontSelection = lowerFontDefinitionCandidate.FontSelection;
+          multiplier = lowerFontDefinitionCandidate.Multiplier;
+        }
+        else
+        {
+          fontSelection = upperFontDefinitionCandidate.FontSelection;
+          multiplier = upperFontDefinitionCandidate.Multiplier;
+        }
+      }
 
       return true;
     }
