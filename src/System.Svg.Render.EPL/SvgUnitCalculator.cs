@@ -435,7 +435,7 @@ namespace System.Svg.Render.EPL
                                              };
             }
           }
-          else /*if (actualHeight > height)*/
+          else
           {
             if (upperFontDefinitionCandidate == null
                 || actualHeight < upperFontDefinitionCandidate.ActualHeight)
@@ -447,6 +447,7 @@ namespace System.Svg.Render.EPL
                                                Multiplier = factor
                                              };
             }
+            break;
           }
         }
       }
