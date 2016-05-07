@@ -109,7 +109,7 @@ namespace System.Svg.Render.EPL
 
       var rotation = Math.Atan2(vector.Y,
                                 vector.X) / (2 * Math.PI);
-      var rotationTranslation = Math.Ceiling(rotation * 4);
+      var rotationTranslation = Math.Floor(rotation * 4);
 
       return rotationTranslation;
     }
