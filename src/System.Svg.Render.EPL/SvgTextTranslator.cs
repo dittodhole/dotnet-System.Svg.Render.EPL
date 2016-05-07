@@ -67,7 +67,11 @@ namespace System.Svg.Render.EPL
       var text = this.RemoveIllegalCharacters(instance.Text);
       if (string.IsNullOrWhiteSpace(text))
       {
+#if DEBUG
+        translation = $"; text is empty: {instance.GetXML()}";
+#else
         translation = null;
+#endif
         return true;
       }
 
