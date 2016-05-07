@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8F5C2455-87E7-41AD-9C37-A1F9F0D367FC}</ProjectGuid>
+    <ProjectGuid>{4A6DF492-DB86-4866-98A6-669DEAD6AC24}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.Svg.Render.EPL.Tests</RootNamespace>
-    <AssemblyName>System.Svg.Render.EPL.Tests</AssemblyName>
+    <RootNamespace>System.Svg.Render.Tests</RootNamespace>
+    <AssemblyName>System.Svg.Render.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -47,7 +47,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Svg, Version=2.1.0.34216, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Svg.0.0.2\lib\Net40\System.Svg.dll</HintPath>
       <Private>True</Private>
@@ -61,31 +60,24 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
-          <Private>False</Private>
-        </Reference>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
     <Compile Include="ContextSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SvgLineTranslatorSpecs.cs" />
-    <Compile Include="SvgRectangleTranslatorSpecs.cs" />
-    <Compile Include="SvgTextTranslatorSpecs.cs" />
+    <Compile Include="SvgUnitCalculator.cs" />
+    <Compile Include="SvgUnitCalculatorSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\System.Svg.Render.EPL\System.Svg.Render.EPL.csproj">
-      <Project>{9b74d70d-21f7-41da-b146-eff862672606}</Project>
-      <Name>System.Svg.Render.EPL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\System.Svg.Render\System.Svg.Render.csproj">
       <Project>{c4033e2e-4999-4728-a812-ba1a306de35e}</Project>
       <Name>System.Svg.Render</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

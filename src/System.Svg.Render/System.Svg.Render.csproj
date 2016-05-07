@@ -4,15 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9B74D70D-21F7-41DA-B146-EFF862672606}</ProjectGuid>
+    <ProjectGuid>{C4033E2E-4999-4728-A812-BA1A306DE35E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.Svg.Render.EPL</RootNamespace>
-    <AssemblyName>System.Svg.Render.EPL</AssemblyName>
+    <RootNamespace>System.Svg.Render</RootNamespace>
+    <AssemblyName>System.Svg.Render</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,24 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SvgDocumentTranslator.cs" />
-    <Compile Include="SvgElementTranslator.cs" />
-    <Compile Include="SvgGroupTranslator.cs" />
-    <Compile Include="SvgLineTranslator.cs" />
-    <Compile Include="SvgRectangleTranslator.cs" />
-    <Compile Include="SvgTextTranslator.cs" />
-    <Compile Include="SvgUnitCalculator.cs" />
+    <Compile Include="SvgElementTranslatorBase.cs" />
+    <Compile Include="SvgUnitCalculatorBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\System.Svg.Render\System.Svg.Render.csproj">
-      <Project>{c4033e2e-4999-4728-a812-ba1a306de35e}</Project>
-      <Name>System.Svg.Render</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

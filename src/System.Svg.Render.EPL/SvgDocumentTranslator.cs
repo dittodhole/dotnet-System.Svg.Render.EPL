@@ -13,7 +13,7 @@ namespace System.Svg.Render.EPL
 
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
-    private ConcurrentDictionary<Type, SvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, SvgElementTranslator>();
+    private ConcurrentDictionary<Type, SvgElementTranslatorBase> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, SvgElementTranslatorBase>();
 
     public string Translate(SvgDocument instance,
                             int targetDpi)
@@ -111,7 +111,7 @@ namespace System.Svg.Render.EPL
                                         out object translation)
     {
       var type = svgElement.GetType();
-      SvgElementTranslator svgElementTranslator;
+      SvgElementTranslatorBase svgElementTranslator;
       if (!this.SvgElementTranslators.TryGetValue(type,
                                                   out svgElementTranslator))
       {
@@ -127,7 +127,7 @@ namespace System.Svg.Render.EPL
                                                       out translation);
     }
 
-    public void RegisterTranslator<T>(SvgElementTranslator<T> svgElementTranslator) where T : SvgElement
+    public void RegisterTranslator<T>(SvgElementTranslatorBase<T> svgElementTranslator) where T : SvgElement
     {
       this.SvgElementTranslators[typeof(T)] = svgElementTranslator;
     }

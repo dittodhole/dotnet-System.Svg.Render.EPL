@@ -3,7 +3,7 @@ using UnitTest;
 
 // ReSharper disable InconsistentNaming
 
-namespace System.Svg.Render.EPL.Tests
+namespace System.Svg.Render.Tests
 {
   public static class SvgUnitCalculatorSpecs
   {
