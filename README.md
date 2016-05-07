@@ -2,18 +2,19 @@
 
 This project aims to provide a translation/compilation/transpilation of SVG to EPL. You can read *.svg*-files with `System.Svg.SvgDocument.Open(path:string)`.
 
-It references [System.Svg](https://github.com/dittodhole/dotnet-System.Svg), a fork of [SVG.NET](https://github.com/vvvv/SVG) without all the actual image-rendering bloat. Additionally, [ExCSS](https://github.com/TylerBrinks/ExCSS) and [Fizzler](https://code.google.com/archive/p/fizzler) are referenced instead.
+It references [System.Svg](https://github.com/dittodhole/dotnet-System.Svg), a fork of [SVG.NET](https://github.com/vvvv/SVG) without all the actual image-rendering bloat. Additionally, [ExCSS](https://github.com/TylerBrinks/ExCSS) and [Fizzler](https://code.google.com/archive/p/fizzler) are references instead.
 
 ## Getting started
 
 You can start by using the `System.Svg.Render.EPL.DefaultBootstrapper`:
 
 ```
-var sourceDpi = 90; // we are coming from Inkscape
-var targetDpi = 203; // basic dpi for most EPL printers
+var sourceDpi = 90; // default of Inkscape
+var targetDpi = 203; // default dpi for EPL printers
 var file = "";
 var svgDocument = System.Svg.SvgDocument.Open(file);
-var svgDocumentTranslator = System.Svg.Render.EPL.DefaultBootstrapper.Create(sourceDpi);
+var svgDocumentTranslator = System.Svg.Render.EPL.DefaultBootstrapper.Create(sourceDpi,
+                                                                             SvgUnitType.Pixel);
 var translation = svgDocumentTranslator.Translate(svgDocument,
                                                   targetDpi);
 // TADADADA
@@ -23,7 +24,7 @@ var translation = svgDocumentTranslator.Translate(svgDocument,
 
 ### Currently implemented elements
 
-- `<text>` and `<tspan>` (*No font-size and magnification-factor at the very moment ... :sad:*, with white stroke for inverting text)
+- `<text>` and `<tspan>` w/ white stroke for inverting text
 - `<group>` (to define a transformation for a whole group of elements)
 - `<rectangle>` (with white filling for inverting text)
 - `<line>`
