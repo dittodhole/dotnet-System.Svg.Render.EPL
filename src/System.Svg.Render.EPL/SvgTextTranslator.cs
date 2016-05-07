@@ -71,17 +71,7 @@ namespace System.Svg.Render.EPL
         return true;
       }
 
-      object rotationTranslation;
-      if (!this.SvgUnitCalculator.TryGetRotationTranslation(matrix,
-                                                            out rotationTranslation))
-      {
-#if DEBUG
-        translation = $"; could not get rotation translation: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(matrix);
 
       if (instance.X == null)
       {

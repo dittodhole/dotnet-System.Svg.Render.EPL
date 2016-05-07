@@ -96,8 +96,7 @@ namespace System.Svg.Render.EPL
       return true;
     }
 
-    public bool TryGetRotationTranslation([NotNull] Matrix matrix,
-                                          out object rotationTranslation)
+    public object GetRotationTranslation([NotNull] Matrix matrix)
     {
       var vector = new PointF(10f,
                               0f);
@@ -110,9 +109,9 @@ namespace System.Svg.Render.EPL
 
       var rotation = Math.Atan2(vector.Y,
                                 vector.X) / (2 * Math.PI);
-      rotationTranslation = Math.Ceiling(rotation * 4);
+      var rotationTranslation = Math.Ceiling(rotation * 4);
 
-      return true;
+      return rotationTranslation;
     }
 
     public Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
