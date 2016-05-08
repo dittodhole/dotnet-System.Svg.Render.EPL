@@ -19,7 +19,7 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    protected SvgLineTranslator SvgLineTranslator { get; }
+    private SvgLineTranslator SvgLineTranslator { get; }
 
     [NotNull]
     private SvgUnitCalculator SvgUnitCalculator { get; }
