@@ -69,7 +69,7 @@ namespace System.Svg.Render
         }
       }
 
-      var newMatrix = this.SvgUnitCalculator.MultiplyTransformationsIntoNewMatrix(svgElement,
+      matrix = this.SvgUnitCalculator.MultiplyTransformationsIntoNewMatrix(svgElement,
                                                                                   matrix);
 
       object translation;
@@ -101,7 +101,7 @@ namespace System.Svg.Render
         }
 
         this.TranslateSvgElementAndChildren(child,
-                                            newMatrix,
+                                            matrix,
                                             targetDpi,
                                             translations);
       }
