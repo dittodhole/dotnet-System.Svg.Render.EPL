@@ -65,7 +65,9 @@
     <Compile Include="SvgGroupTranslator.cs" />
     <Compile Include="SvgLineTranslator.cs" />
     <Compile Include="SvgRectangleTranslator.cs" />
+    <Compile Include="SvgTextSpanTranslator.cs" />
     <Compile Include="SvgTextTranslator.cs" />
+    <Compile Include="SvgTextTranslatorBase.cs" />
     <Compile Include="SvgUnitCalculator.cs" />
   </ItemGroup>
   <ItemGroup>

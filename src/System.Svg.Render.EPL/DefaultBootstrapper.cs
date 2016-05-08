@@ -20,12 +20,14 @@
                                                                 svgUnitCalculator);
 
         var svgTextTranslator = new SvgTextTranslator(svgUnitCalculator);
+        var svgTextSpanTranslator = new SvgTextSpanTranslator(svgUnitCalculator);
 
         var svgGroupTranslator = new SvgGroupTranslator(svgUnitCalculator);
 
         svgDocumentTranslator.RegisterTranslator(svgLineTranslator);
         svgDocumentTranslator.RegisterTranslator(svgRectangleTranslator);
         svgDocumentTranslator.RegisterTranslator(svgTextTranslator);
+        svgDocumentTranslator.RegisterTranslator(svgTextSpanTranslator);
         svgDocumentTranslator.RegisterTranslator(svgGroupTranslator);
         svgDocumentTranslator.RegisterTranslator(svgDocumentTranslator);
       }
