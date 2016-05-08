@@ -8,11 +8,11 @@ namespace System.Svg.Render
 {
   public abstract class SvgDocumentTranslatorBase : SvgElementTranslatorBase<SvgDocument>
   {
-    protected SvgDocumentTranslatorBase([NotNull] SvgUnitCalculatorBase svgUnitCalculator)
+    protected SvgDocumentTranslatorBase([NotNull] ISvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
 
     [NotNull]
-    private ConcurrentDictionary<Type, SvgElementTranslatorBase> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, SvgElementTranslatorBase>();
+    private ConcurrentDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, ISvgElementTranslator>();
 
     public string Translate(SvgDocument instance,
                             int targetDpi)
@@ -118,7 +118,8 @@ namespace System.Svg.Render
                                         out object translation)
     {
       var type = svgElement.GetType();
-      SvgElementTranslatorBase svgElementTranslator;
+
+      ISvgElementTranslator svgElementTranslator;
       if (!this.SvgElementTranslators.TryGetValue(type,
                                                   out svgElementTranslator))
       {

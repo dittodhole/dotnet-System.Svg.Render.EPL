@@ -5,7 +5,7 @@ namespace System.Svg.Render.EPL
 {
   public class SvgDocumentTranslator : SvgDocumentTranslatorBase
   {
-    public SvgDocumentTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
+    public SvgDocumentTranslator([NotNull] ISvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
 
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!

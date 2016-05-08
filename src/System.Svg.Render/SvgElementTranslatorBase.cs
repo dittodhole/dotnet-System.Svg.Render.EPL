@@ -3,31 +3,22 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render
 {
-  public abstract class SvgElementTranslatorBase
-  {
-    public abstract bool TryTranslateUntyped([NotNull] object untypedInstance,
-                                             [NotNull] Matrix matrix,
-                                             int targetDpi,
-                                             out Matrix newMatrix,
-                                             out object translation);
-  }
-
-  public abstract class SvgElementTranslatorBase<T> : SvgElementTranslatorBase
+  public abstract class SvgElementTranslatorBase<T> : ISvgElementTranslator
     where T : SvgElement
   {
-    protected SvgElementTranslatorBase([NotNull] SvgUnitCalculatorBase svgUnitCalculator)
+    protected SvgElementTranslatorBase([NotNull] ISvgUnitCalculator svgUnitCalculator)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
     }
 
     [NotNull]
-    private SvgUnitCalculatorBase SvgUnitCalculator { get; }
+    private ISvgUnitCalculator SvgUnitCalculator { get; }
 
-    public override bool TryTranslateUntyped([NotNull] object untypedInstance,
-                                             [NotNull] Matrix matrix,
-                                             int targetDpi,
-                                             out Matrix newMatrix,
-                                             out object translation)
+    public bool TryTranslateUntyped([NotNull] object untypedInstance,
+                                    [NotNull] Matrix matrix,
+                                    int targetDpi,
+                                    out Matrix newMatrix,
+                                    out object translation)
     {
       var success = this.Translate((T) untypedInstance,
                                    matrix,

@@ -6,14 +6,14 @@ namespace System.Svg.Render.EPL
 {
   public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>
   {
-    public SvgLineTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
+    public SvgLineTranslator([NotNull] ISvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
     }
 
     [NotNull]
-    private SvgUnitCalculator SvgUnitCalculator { get; }
+    private ISvgUnitCalculator SvgUnitCalculator { get; }
 
     public override bool TryTranslate([NotNull] SvgLine instance,
                                       [NotNull] Matrix matrix,

@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render
 {
-  public abstract class SvgUnitCalculatorBase
+  public abstract class SvgUnitCalculatorBase : ISvgUnitCalculator
   {
     public int SourceDpi { get; set; } = 72;
     public SvgUnitType UserUnitTypeSubstitution { get; set; } = SvgUnitType.Pixel;

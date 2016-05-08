@@ -56,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISvgElementTranslator.cs" />
+    <Compile Include="ISvgUnitCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SvgDocumentTranslatorBase.cs" />
     <Compile Include="SvgElementTranslatorBase.cs" />

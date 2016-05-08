@@ -11,7 +11,7 @@ namespace System.Svg.Render.EPL
     // TODO add documentation/quote: strokes are printed inside the rectangle (calculation stuff)
 
     public SvgRectangleTranslator([NotNull] SvgLineTranslator svgLineTranslator,
-                                  [NotNull] SvgUnitCalculator svgUnitCalculator)
+                                  [NotNull] ISvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator)
     {
       this.SvgLineTranslator = svgLineTranslator;
@@ -22,7 +22,7 @@ namespace System.Svg.Render.EPL
     private SvgLineTranslator SvgLineTranslator { get; }
 
     [NotNull]
-    private SvgUnitCalculator SvgUnitCalculator { get; }
+    private ISvgUnitCalculator SvgUnitCalculator { get; }
 
     public override bool TryTranslate([NotNull] SvgRectangle instance,
                                       [NotNull] Matrix matrix,
