@@ -9,6 +9,7 @@ namespace System.Svg.Render.EPL
     where T : SvgTextBase
   {
     // TODO translate dX and dY
+    // TODO translate rotation
 
     protected SvgTextTranslatorBase([NotNull] SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator)
