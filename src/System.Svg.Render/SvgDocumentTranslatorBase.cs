@@ -135,7 +135,7 @@ namespace System.Svg.Render
                                                       out translation);
     }
 
-    public void RegisterTranslator<T>(SvgElementTranslatorBase<T> svgElementTranslator) where T : SvgElement
+    public void RegisterTranslator<T>(ISvgElementTranslator<T> svgElementTranslator) where T : SvgElement
     {
       this.SvgElementTranslators[typeof(T)] = svgElementTranslator;
     }
