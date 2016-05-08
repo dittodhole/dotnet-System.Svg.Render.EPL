@@ -70,7 +70,7 @@ namespace System.Svg.Render
       }
 
       matrix = this.SvgUnitCalculator.MultiplyTransformationsIntoNewMatrix(svgElement,
-                                                                                  matrix);
+                                                                           matrix);
 
       object translation;
       if (!this.TryTranslateSvgElement(svgElement,
