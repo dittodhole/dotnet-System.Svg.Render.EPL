@@ -61,7 +61,6 @@
     <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="EPLRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SvgGroupTranslator.cs" />
     <Compile Include="SvgLineTranslator.cs" />
     <Compile Include="SvgRectangleTranslator.cs" />
     <Compile Include="SvgTextSpanTranslator.cs" />

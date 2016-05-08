@@ -22,13 +22,10 @@
         var svgTextTranslator = new SvgTextTranslator(svgUnitCalculator);
         var svgTextSpanTranslator = new SvgTextSpanTranslator(svgUnitCalculator);
 
-        var svgGroupTranslator = new SvgGroupTranslator(svgUnitCalculator);
-
         eplRenderer.RegisterTranslator(svgLineTranslator);
         eplRenderer.RegisterTranslator(svgRectangleTranslator);
         eplRenderer.RegisterTranslator(svgTextTranslator);
         eplRenderer.RegisterTranslator(svgTextSpanTranslator);
-        eplRenderer.RegisterTranslator(svgGroupTranslator);
       }
 
       return eplRenderer;
