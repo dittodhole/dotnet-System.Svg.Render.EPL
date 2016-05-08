@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgRectangleTranslator : SvgElementTranslator<SvgRectangle>
+  public class SvgRectangleTranslator : SvgElementTranslatorBase<SvgRectangle>
   {
     // TODO add documentation/quote: strokes are printed inside the rectangle (calculation stuff)
 
@@ -15,10 +15,14 @@ namespace System.Svg.Render.EPL
       : base(svgUnitCalculator)
     {
       this.SvgLineTranslator = svgLineTranslator;
+      this.SvgUnitCalculator = svgUnitCalculator;
     }
 
     [NotNull]
     protected SvgLineTranslator SvgLineTranslator { get; }
+
+    [NotNull]
+    private SvgUnitCalculator SvgUnitCalculator { get; }
 
     public override bool TryTranslate([NotNull] SvgRectangle instance,
                                       [NotNull] Matrix matrix,

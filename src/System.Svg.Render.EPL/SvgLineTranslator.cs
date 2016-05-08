@@ -4,10 +4,16 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgLineTranslator : SvgElementTranslator<SvgLine>
+  public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>
   {
-    public SvgLineTranslator([NotNull]SvgUnitCalculator svgUnitCalculator)
-      : base(svgUnitCalculator) {}
+    public SvgLineTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
+      : base(svgUnitCalculator)
+    {
+      this.SvgUnitCalculator = svgUnitCalculator;
+    }
+
+    [NotNull]
+    private SvgUnitCalculator SvgUnitCalculator { get; }
 
     public override bool TryTranslate([NotNull] SvgLine instance,
                                       [NotNull] Matrix matrix,
