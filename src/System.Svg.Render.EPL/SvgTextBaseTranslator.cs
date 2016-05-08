@@ -36,8 +36,6 @@ namespace System.Svg.Render.EPL
         return true;
       }
 
-      var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(matrix);
-
       if (instance.X == null)
       {
 #if DEBUG
@@ -122,6 +120,8 @@ namespace System.Svg.Render.EPL
 #endif
         return false;
       }
+
+      var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(matrix);
 
       object fontTranslation;
       if (!this.SvgUnitCalculator.TryGetFontTranslation(instance,
