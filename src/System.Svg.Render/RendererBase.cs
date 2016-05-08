@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -6,29 +6,27 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render
 {
-  public abstract class SvgDocumentTranslatorBase : SvgElementTranslatorBase<SvgDocument>
+  public abstract class RendererBase
   {
-    protected SvgDocumentTranslatorBase([NotNull] ISvgUnitCalculator svgUnitCalculator)
-      : base(svgUnitCalculator) {}
-
+    // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
     private ConcurrentDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, ISvgElementTranslator>();
 
-    public string Translate(SvgDocument instance,
-                            int targetDpi)
+    public string GetTranslation([NotNull] SvgDocument instance,
+                                 int targetDpi)
     {
-      var translation = this.Translate(instance,
-                                       new Matrix(),
-                                       targetDpi);
+      var translation = this.GetTranslation(instance,
+                                            new Matrix(),
+                                            targetDpi);
 
       return translation;
     }
 
-    public string Translate([NotNull] SvgDocument instance,
-                            [NotNull] Matrix matrix,
-                            int targetDpi)
+    public string GetTranslation([NotNull] SvgDocument instance,
+                                 [NotNull] Matrix matrix,
+                                 int targetDpi)
     {
-      ICollection<object> translations = new LinkedList<object>();
+      var translations = new LinkedList<object>();
 
       this.TranslateSvgElementAndChildren(instance,
                                           matrix,
@@ -100,17 +98,6 @@ namespace System.Svg.Render
       }
     }
 
-    protected abstract void AddTranslation(SvgElement svgElement,
-                                           ICollection<object> translations,
-                                           object translation);
-
-    protected abstract void AddFailedTranslation(SvgElement svgElement,
-                                                 ICollection<object> translations,
-                                                 object translation);
-
-    protected abstract void AddHiddenTranslation(SvgElement svgElement,
-                                                 ICollection<object> translations);
-
     private bool TryTranslateSvgElement([NotNull] SvgElement svgElement,
                                         [NotNull] Matrix matrix,
                                         int targetDpi,
@@ -139,5 +126,16 @@ namespace System.Svg.Render
     {
       this.SvgElementTranslators[typeof(T)] = svgElementTranslator;
     }
+
+    protected abstract void AddTranslation(SvgElement svgElement,
+                                           ICollection<object> translations,
+                                           object translation);
+
+    protected abstract void AddFailedTranslation(SvgElement svgElement,
+                                                 ICollection<object> translations,
+                                                 object translation);
+
+    protected abstract void AddHiddenTranslation(SvgElement svgElement,
+                                                 ICollection<object> translations);
   }
 }

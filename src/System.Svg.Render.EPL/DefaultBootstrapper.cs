@@ -2,7 +2,7 @@
 {
   public static class DefaultBootstrapper
   {
-    public static SvgDocumentTranslator Create(int sourceDpi,
+    public static EPLRenderer Create(int sourceDpi,
                                                SvgUnitType userUnitTypeSubstituion = SvgUnitType.Pixel)
     {
       var svgUnitCalculator = new SvgUnitCalculator
@@ -11,7 +11,7 @@
                                 UserUnitTypeSubstitution = userUnitTypeSubstituion
                               };
 
-      var svgDocumentTranslator = new SvgDocumentTranslator(svgUnitCalculator);
+      var eplRenderer = new EPLRenderer();
 
       {
         var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator);
@@ -24,15 +24,14 @@
 
         var svgGroupTranslator = new SvgGroupTranslator(svgUnitCalculator);
 
-        svgDocumentTranslator.RegisterTranslator(svgLineTranslator);
-        svgDocumentTranslator.RegisterTranslator(svgRectangleTranslator);
-        svgDocumentTranslator.RegisterTranslator(svgTextTranslator);
-        svgDocumentTranslator.RegisterTranslator(svgTextSpanTranslator);
-        svgDocumentTranslator.RegisterTranslator(svgGroupTranslator);
-        svgDocumentTranslator.RegisterTranslator(svgDocumentTranslator);
+        eplRenderer.RegisterTranslator(svgLineTranslator);
+        eplRenderer.RegisterTranslator(svgRectangleTranslator);
+        eplRenderer.RegisterTranslator(svgTextTranslator);
+        eplRenderer.RegisterTranslator(svgTextSpanTranslator);
+        eplRenderer.RegisterTranslator(svgGroupTranslator);
       }
 
-      return svgDocumentTranslator;
+      return eplRenderer;
     }
   }
 }

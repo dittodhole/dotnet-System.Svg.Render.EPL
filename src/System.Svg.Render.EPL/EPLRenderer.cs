@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgDocumentTranslator : SvgDocumentTranslatorBase
+  public class EPLRenderer : RendererBase
   {
-    public SvgDocumentTranslator([NotNull] ISvgUnitCalculator svgUnitCalculator)
-      : base(svgUnitCalculator) {}
-
-    // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
-
     protected override void AddTranslation(SvgElement svgElement,
                                            ICollection<object> translations,
                                            object translation)
