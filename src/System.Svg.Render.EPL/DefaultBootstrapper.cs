@@ -11,7 +11,7 @@
                                 UserUnitTypeSubstitution = userUnitTypeSubstituion
                               };
 
-      var eplRenderer = new EPLRenderer();
+      var eplRenderer = new EPLRenderer(svgUnitCalculator);
 
       {
         var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator);

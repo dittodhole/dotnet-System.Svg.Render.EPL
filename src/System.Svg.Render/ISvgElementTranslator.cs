@@ -8,7 +8,6 @@ namespace System.Svg.Render
     bool TryTranslateUntyped([NotNull] object untypedInstance,
                              [NotNull] Matrix matrix,
                              int targetDpi,
-                             out Matrix newMatrix,
                              out object translation);
   }
 

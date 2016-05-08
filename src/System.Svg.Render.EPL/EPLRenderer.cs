@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
@@ -31,5 +32,8 @@ namespace System.Svg.Render.EPL
     {
       translations.Add($"; <{svgElement.ID} is hidden />");
     }
+
+    public EPLRenderer([NotNull] ISvgUnitCalculator svgUnitCalculator)
+      : base(svgUnitCalculator) {}
   }
 }

@@ -17,29 +17,10 @@ namespace System.Svg.Render
     public bool TryTranslateUntyped([NotNull] object untypedInstance,
                                     [NotNull] Matrix matrix,
                                     int targetDpi,
-                                    out Matrix newMatrix,
                                     out object translation)
     {
-      var success = this.Translate((T) untypedInstance,
-                                   matrix,
-                                   targetDpi,
-                                   out newMatrix,
-                                   out translation);
-
-      return success;
-    }
-
-    private bool Translate([NotNull] T instance,
-                           [NotNull] Matrix matrix,
-                           int targetDpi,
-                           out Matrix newMatrix,
-                           out object translation)
-    {
-      newMatrix = this.SvgUnitCalculator.MultiplyTransformationsIntoNewMatrix(instance,
-                                                                              matrix);
-
-      var success = this.TryTranslate(instance,
-                                      newMatrix,
+      var success = this.TryTranslate((T) untypedInstance,
+                                      matrix,
                                       targetDpi,
                                       out translation);
 

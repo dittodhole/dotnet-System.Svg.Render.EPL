@@ -8,6 +8,14 @@ namespace System.Svg.Render
 {
   public abstract class RendererBase
   {
+    protected RendererBase([NotNull] ISvgUnitCalculator svgUnitCalculator)
+    {
+      this.SvgUnitCalculator = svgUnitCalculator;
+    }
+
+    [NotNull]
+    private ISvgUnitCalculator SvgUnitCalculator { get; }
+
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
     private ConcurrentDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, ISvgElementTranslator>();
@@ -61,12 +69,13 @@ namespace System.Svg.Render
         }
       }
 
+      var newMatrix = this.SvgUnitCalculator.MultiplyTransformationsIntoNewMatrix(svgElement,
+                                                                                  matrix);
+
       object translation;
-      Matrix newMatrix;
       if (!this.TryTranslateSvgElement(svgElement,
                                        matrix,
                                        targetDpi,
-                                       out newMatrix,
                                        out translation))
       {
 #if DEBUG
@@ -101,7 +110,6 @@ namespace System.Svg.Render
     private bool TryTranslateSvgElement([NotNull] SvgElement svgElement,
                                         [NotNull] Matrix matrix,
                                         int targetDpi,
-                                        out Matrix newMatrix,
                                         out object translation)
     {
       var type = svgElement.GetType();
@@ -110,7 +118,6 @@ namespace System.Svg.Render
       if (!this.SvgElementTranslators.TryGetValue(type,
                                                   out svgElementTranslator))
       {
-        newMatrix = matrix;
         translation = null;
         return true;
       }
@@ -118,7 +125,6 @@ namespace System.Svg.Render
       return svgElementTranslator.TryTranslateUntyped(svgElement,
                                                       matrix,
                                                       targetDpi,
-                                                      out newMatrix,
                                                       out translation);
     }
 
