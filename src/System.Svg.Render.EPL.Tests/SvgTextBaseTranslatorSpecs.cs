@@ -8,7 +8,7 @@ using UnitTest;
 
 namespace System.Svg.Render.EPL.Tests
 {
-  public static class SvgTextTranslatorSpecs
+  public static class SvgTextBaseTranslatorSpecs
   {
     public abstract class SvgTextTranslatorSpecsContext : ContextSpecification
     {
@@ -19,11 +19,11 @@ namespace System.Svg.Render.EPL.Tests
                                    UserUnitTypeSubstitution = SvgUnitType.Pixel,
                                    SourceDpi = 203
                                  };
-        this.SvgTextTranslator = new SvgTextTranslator(this.SvgUnitCalculator);
+        this.SvgTextTranslator = new SvgTextBaseTranslator<SvgText>(this.SvgUnitCalculator);
       }
 
       private SvgUnitCalculator SvgUnitCalculator { get; }
-      private SvgTextTranslator SvgTextTranslator { get; }
+      private SvgTextBaseTranslator<SvgText> SvgTextTranslator { get; }
       protected SvgText SvgText { get; set; }
       protected object Actual { get; set; }
 

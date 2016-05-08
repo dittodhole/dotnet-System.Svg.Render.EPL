@@ -19,8 +19,8 @@
         var svgRectangleTranslator = new SvgRectangleTranslator(svgLineTranslator,
                                                                 svgUnitCalculator);
 
-        var svgTextTranslator = new SvgTextTranslator(svgUnitCalculator);
-        var svgTextSpanTranslator = new SvgTextSpanTranslator(svgUnitCalculator);
+        var svgTextTranslator = new SvgTextBaseTranslator<SvgText>(svgUnitCalculator);
+        var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(svgUnitCalculator);
 
         eplRenderer.RegisterTranslator(svgLineTranslator);
         eplRenderer.RegisterTranslator(svgRectangleTranslator);
