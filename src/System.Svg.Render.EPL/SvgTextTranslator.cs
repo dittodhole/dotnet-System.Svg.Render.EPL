@@ -2,7 +2,7 @@
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgTextTranslator : SvgTextTranslatorBase<SvgText>
+  public class SvgTextTranslator : SvgTextBaseTranslator<SvgText>
   {
     public SvgTextTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator) {}
