@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render
 {
-  public abstract class SvgUnitCalculatorBase : ISvgUnitCalculator
+  public class SvgUnitCalculatorBase : ISvgUnitCalculator
   {
     public int SourceDpi { get; set; } = 72;
     public SvgUnitType UserUnitTypeSubstitution { get; set; } = SvgUnitType.Pixel;
@@ -91,37 +91,6 @@ namespace System.Svg.Render
       devicePoints = (int) (pixels / this.SourceDpi * targetDpi);
 
       return true;
-    }
-
-    public Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
-                                                       [NotNull] Matrix matrix)
-    {
-      var result = default(Matrix);
-      foreach (var transformation in svgTransformable.Transforms)
-      {
-        var transformationType = transformation.GetType();
-        if (!this.IsTransformationAllowed(svgTransformable,
-                                          transformationType))
-        {
-          continue;
-        }
-
-        var matrixToMultiply = transformation.Matrix;
-        if (matrixToMultiply == null)
-        {
-          continue;
-        }
-
-        if (result == null)
-        {
-          result = matrix.Clone();
-        }
-
-        result.Multiply(matrixToMultiply,
-                        MatrixOrder.Append);
-      }
-
-      return result ?? matrix;
     }
 
     public bool TryApplyMatrix(SvgUnit x,
@@ -230,8 +199,5 @@ namespace System.Svg.Render
 
       return true;
     }
-
-    protected abstract bool IsTransformationAllowed([NotNull] ISvgTransformable svgTransformable,
-                                                    [NotNull] Type type);
   }
 }

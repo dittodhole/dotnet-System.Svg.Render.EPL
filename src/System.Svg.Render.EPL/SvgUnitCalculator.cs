@@ -27,29 +27,6 @@ namespace System.Svg.Render.EPL
       return rotationTranslation;
     }
 
-    protected override bool IsTransformationAllowed([NotNull] ISvgTransformable svgTransformable,
-                                                    [NotNull] Type type)
-    {
-      if (type == typeof(SvgMatrix))
-      {
-        return true;
-      }
-      if (type == typeof(SvgRotate))
-      {
-        return true;
-      }
-      if (type == typeof(SvgScale))
-      {
-        return true;
-      }
-      if (type == typeof(SvgTranslate))
-      {
-        return true;
-      }
-
-      return false;
-    }
-
     public bool TryGetFontTranslation([NotNull] SvgTextBase svgTextBase,
                                       [NotNull] Matrix matrix,
                                       int targetDpi,

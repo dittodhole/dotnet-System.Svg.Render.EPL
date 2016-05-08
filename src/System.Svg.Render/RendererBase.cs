@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Svg.Transforms;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render
@@ -69,8 +70,8 @@ namespace System.Svg.Render
         }
       }
 
-      matrix = this.SvgUnitCalculator.MultiplyTransformationsIntoNewMatrix(svgElement,
-                                                                           matrix);
+      matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
+                                                         matrix);
 
       object translation;
       if (!this.TryTranslateSvgElement(svgElement,
@@ -105,6 +106,60 @@ namespace System.Svg.Render
                                             targetDpi,
                                             translations);
       }
+    }
+
+    private Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
+                                                        [NotNull] Matrix matrix)
+    {
+      var result = default(Matrix);
+      foreach (var transformation in svgTransformable.Transforms)
+      {
+        var transformationType = transformation.GetType();
+        if (!this.IsTransformationAllowed(svgTransformable,
+                                          transformationType))
+        {
+          continue;
+        }
+
+        var matrixToMultiply = transformation.Matrix;
+        if (matrixToMultiply == null)
+        {
+          continue;
+        }
+
+        if (result == null)
+        {
+          result = matrix.Clone();
+        }
+
+        result.Multiply(matrixToMultiply,
+                        MatrixOrder.Append);
+      }
+
+      return result ?? matrix;
+    }
+
+    protected virtual bool IsTransformationAllowed([NotNull] ISvgTransformable svgTransformable,
+                                                   [NotNull] Type type)
+    {
+      if (type == typeof(SvgMatrix))
+      {
+        return true;
+      }
+      if (type == typeof(SvgRotate))
+      {
+        return true;
+      }
+      if (type == typeof(SvgScale))
+      {
+        return true;
+      }
+      if (type == typeof(SvgTranslate))
+      {
+        return true;
+      }
+
+      return false;
     }
 
     private bool TryTranslateSvgElement([NotNull] SvgElement svgElement,

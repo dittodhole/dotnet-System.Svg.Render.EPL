@@ -15,9 +15,6 @@ namespace System.Svg.Render
                             int targetDpi,
                             out int devicePoints);
 
-    Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
-                                                [NotNull] Matrix matrix);
-
     bool TryApplyMatrix(SvgUnit x,
                         SvgUnit y,
                         [NotNull] Matrix matrix,
