@@ -5,12 +5,12 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgTextTranslatorBase<T> : Render.SvgTextTranslatorBase<T>
+  public abstract class SvgTextTranslatorBase<T> : Render.SvgTextTranslatorBase<T>
     where T : SvgTextBase
   {
     // TODO translate dX and dY
 
-    public SvgTextTranslatorBase([NotNull] SvgUnitCalculator svgUnitCalculator)
+    protected SvgTextTranslatorBase([NotNull] SvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
