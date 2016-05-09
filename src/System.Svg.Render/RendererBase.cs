@@ -78,7 +78,7 @@ namespace System.Svg.Render
 
       var matrix = viewMatrix.Clone();
       matrix.Multiply(parentMatrix,
-                      MatrixOrder.Append);
+                      MatrixOrder.Prepend);
 
       object translation;
       if (!this.TryTranslateSvgElement(svgElement,
