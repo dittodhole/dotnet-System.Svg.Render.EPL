@@ -76,6 +76,8 @@ namespace System.Svg.Render
       parentMatrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
                                                                parentMatrix);
 
+      // TODO write unit-test for dat shit :zzz:
+
       var matrix = viewMatrix.Clone();
       matrix.Multiply(parentMatrix,
                       MatrixOrder.Prepend);
