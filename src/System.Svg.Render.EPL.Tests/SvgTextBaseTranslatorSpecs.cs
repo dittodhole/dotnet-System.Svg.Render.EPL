@@ -66,7 +66,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual(@"A70,50,0,1,1,1,N,""hello""",
+        Assert.AreEqual(@"A70,50,1,1,1,1,N,""hello""",
                         this.Actual);
       }
     }
@@ -96,7 +96,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual(@"A70,50,0,1,1,1,R,""hello""",
+        Assert.AreEqual(@"A70,50,1,1,1,1,R,""hello""",
                         this.Actual);
       }
     }

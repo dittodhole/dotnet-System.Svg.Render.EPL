@@ -22,7 +22,8 @@ namespace System.Svg.Render.EPL
 
       var rotation = Math.Atan2(vector.Y,
                                 vector.X) / (2 * Math.PI);
-      var rotationTranslation = Math.Floor(rotation * 4);
+      rotation += 0.25d;
+      var rotationTranslation = Math.Floor(rotation * 4) % 4;
 
       return rotationTranslation;
     }
