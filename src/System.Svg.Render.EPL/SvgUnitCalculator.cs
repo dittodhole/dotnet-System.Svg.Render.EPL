@@ -9,11 +9,13 @@ namespace System.Svg.Render.EPL
   public class SvgUnitCalculator : SvgUnitCalculatorBase
   {
     protected int MaximumUpperFontSizeOverlap { get; } = 2;
+    public bool AdaptPointAccordingToPaperSize { get; set; } = true;
 
+    public PointF FontSizeHeightVector { get; set; } = new PointF(-10f,
+                                                                  0f);
     public object GetRotationTranslation([NotNull] Matrix matrix)
     {
-      var vector = new PointF(-10f,
-                              0f);
+      var vector = this.FontSizeHeightVector;
       var vectors = new[]
                     {
                       vector
@@ -273,7 +275,10 @@ namespace System.Svg.Render.EPL
 
       point = base.AdaptPoint(point);
 
-      point.X = 816 - point.X;
+      if (this.AdaptPointAccordingToPaperSize)
+      {
+        point.X = 816 - point.X;
+      }
 
       return point;
     }
