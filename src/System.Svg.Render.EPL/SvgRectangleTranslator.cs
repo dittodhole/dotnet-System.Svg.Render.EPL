@@ -1,26 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
+﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
   public class SvgRectangleTranslator : SvgElementTranslatorBase<SvgRectangle>
   {
-    // TODO add documentation/quote: strokes are printed inside the rectangle (calculation stuff)
-    // TODO arrrr .. there is X
-
-    public SvgRectangleTranslator([NotNull] SvgLineTranslator svgLineTranslator,
-                                  [NotNull] ISvgUnitCalculator svgUnitCalculator)
+    public SvgRectangleTranslator([NotNull] ISvgUnitCalculator svgUnitCalculator)
       : base(svgUnitCalculator)
     {
-      this.SvgLineTranslator = svgLineTranslator;
       this.SvgUnitCalculator = svgUnitCalculator;
     }
-
-    [NotNull]
-    private SvgLineTranslator SvgLineTranslator { get; }
 
     [NotNull]
     private ISvgUnitCalculator SvgUnitCalculator { get; }
@@ -30,281 +19,57 @@ namespace System.Svg.Render.EPL
                                       int targetDpi,
                                       out object translation)
     {
-      // TODO fix calculation of stroke based on StrokeLineJoin
+      // TODO implement filling
 
-      if (this.SvgUnitCalculator.IsValueZero(instance.Width)
-          && this.SvgUnitCalculator.IsValueZero(instance.Height))
-      {
-        var svgLine = new SvgLine
-                      {
-                        StartX = instance.X,
-                        StartY = instance.Y,
-                        EndX = instance.X,
-                        EndY = instance.Y,
-                        StrokeWidth = instance.StrokeWidth,
-                        Stroke = instance.Stroke
-                      };
-
-        var success = this.SvgLineTranslator.TryTranslate(svgLine,
-                                                          matrix,
-                                                          targetDpi,
-                                                          out translation);
-
-        return success;
-      }
-
-      SvgLine fillLine;
-      if (!this.TryGetFillSvgLine(instance,
-                                  out fillLine))
+      int horizontalStart;
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.X,
+                                                     targetDpi,
+                                                     out horizontalStart))
       {
 #if DEBUG
-        translation = $"; could not get filling line: {instance.GetXML()}";
+        translation = $"; could not get device points (startX): {instance.GetXML()}";
 #else
         translation = null;
 #endif
         return false;
       }
 
-      SvgLine upperLine;
-      SvgLine rightLine;
-      SvgLine lowerLine;
-      SvgLine leftLine;
-      if (!this.TryGetBorderSvgLines(instance,
-                                     out upperLine,
-                                     out rightLine,
-                                     out lowerLine,
-                                     out leftLine))
+      int verticalStart;
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.Y,
+                                                     targetDpi,
+                                                     out verticalStart))
       {
 #if DEBUG
-        translation = $"; could not get border lines: {instance.GetXML()}";
+        translation = $"; could not get device points (startY): {instance.GetXML()}";
 #else
         translation = null;
 #endif
         return false;
       }
 
-      ICollection<object> translations = new LinkedList<object>();
-      foreach (var line in new[]
-                           {
-                             upperLine,
-                             rightLine,
-                             lowerLine,
-                             leftLine,
-                             fillLine
-                           })
+      SvgUnit endX;
+      if (!this.SvgUnitCalculator.TryAdd(instance.X,
+                                         instance.Width,
+                                         out endX))
       {
-        if (line == null)
-        {
-          continue;
-        }
-
-        if (!this.SvgLineTranslator.TryTranslate(line,
-                                                 matrix,
-                                                 targetDpi,
-                                                 out translation))
-        {
-          return false;
-        }
-
-        translations.Add(translation);
-      }
-
-      if (translations.Any())
-      {
-        translation = string.Join(Environment.NewLine,
-                                  translations);
-      }
-      else
-      {
+#if DEBUG
+        translation = $"; could not add x and width: {instance.GetXML()}";
+#else
         translation = null;
-      }
-
-      return true;
-    }
-
-    private bool TryGetFillSvgLine([NotNull] SvgRectangle instance,
-                                   out SvgLine fillLine)
-    {
-      // TODO fix dat for every scenario - test cases!
-
-      var fillColor = (instance.Fill as SvgColourServer)?.Colour ?? Color.Empty;
-      if (fillColor == Color.Empty)
-      {
-        fillLine = null;
-        return true;
-      }
-
-      SvgUnit endX;
-      if (!this.SvgUnitCalculator.TryAdd(instance.X,
-                                         instance.Width,
-                                         out endX))
-      {
-        fillLine = null;
+#endif
         return false;
       }
 
-      fillLine = new SvgLine
-                 {
-                   StartX = instance.X,
-                   StartY = instance.Y,
-                   EndX = endX,
-                   EndY = instance.Y,
-                   StrokeWidth = instance.Height,
-                   Stroke = instance.Fill
-                 };
-
-      return true;
-    }
-
-    private bool TryGetBorderSvgLines([NotNull] SvgRectangle instance,
-                                      out SvgLine upperLine,
-                                      out SvgLine rightLine,
-                                      out SvgLine lowerLine,
-                                      out SvgLine leftLine)
-    {
-      var strokeColor = (instance.Stroke as SvgColourServer)?.Colour ?? Color.Empty;
-      if (strokeColor == Color.Empty)
+      int horizontalEnd;
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(endX,
+                                                     targetDpi,
+                                                     out horizontalEnd))
       {
-        upperLine = null;
-        rightLine = null;
-        lowerLine = null;
-        leftLine = null;
-        return true;
-      }
-
-      if (!this.TryGetUpperLine(instance,
-                                out upperLine))
-      {
-        upperLine = null;
-        rightLine = null;
-        lowerLine = null;
-        leftLine = null;
-        return false;
-      }
-
-      if (!this.TryGetRightLine(instance,
-                                out rightLine))
-      {
-        upperLine = null;
-        rightLine = null;
-        lowerLine = null;
-        leftLine = null;
-        return false;
-      }
-      if (!this.TryGetLowerLine(instance,
-                                out lowerLine))
-      {
-        upperLine = null;
-        rightLine = null;
-        lowerLine = null;
-        leftLine = null;
-        return false;
-      }
-
-      if (!this.TryGetLeftLine(instance,
-                               out leftLine))
-      {
-        upperLine = null;
-        rightLine = null;
-        lowerLine = null;
-        leftLine = null;
-        return false;
-      }
-
-      return true;
-    }
-
-    private bool TryGetUpperLine(SvgRectangle instance,
-                                 out SvgLine upperLine)
-    {
-      var startX = instance.X;
-      var y = instance.Y;
-
-      SvgUnit endX;
-      if (!this.SvgUnitCalculator.TryAdd(startX,
-                                         instance.Width,
-                                         out endX))
-      {
-        upperLine = null;
-        return false;
-      }
-
-      upperLine = new SvgLine
-                  {
-                    StartX = startX,
-                    StartY = y,
-                    EndX = endX,
-                    EndY = y,
-                    StrokeWidth = instance.StrokeWidth
-                  };
-
-      return true;
-    }
-
-    private bool TryGetRightLine(SvgRectangle instance,
-                                 out SvgLine rightLine)
-    {
-      SvgUnit startX;
-      if (!this.SvgUnitCalculator.TryAdd(instance.X,
-                                         instance.Width,
-                                         out startX))
-      {
-        rightLine = null;
-        return false;
-      }
-
-      var startY = instance.Y;
-
-      SvgUnit endX;
-      if (!this.SvgUnitCalculator.TryAdd(instance.X,
-                                         instance.Width,
-                                         out endX))
-      {
-        rightLine = null;
-        return false;
-      }
-
-      SvgUnit endY;
-      if (!this.SvgUnitCalculator.TryAdd(startY,
-                                         instance.Height,
-                                         out endY))
-      {
-        rightLine = null;
-        return false;
-      }
-
-      rightLine = new SvgLine
-                  {
-                    StartX = startX,
-                    StartY = startY,
-                    EndX = endX,
-                    EndY = endY,
-                    StrokeWidth = instance.StrokeWidth
-                  };
-
-      return true;
-    }
-
-    private bool TryGetLowerLine(SvgRectangle instance,
-                                 out SvgLine lowerLine)
-    {
-      var startX = instance.X;
-
-      SvgUnit startY;
-      if (!this.SvgUnitCalculator.TryAdd(instance.Y,
-                                         instance.Height,
-                                         out startY))
-      {
-        lowerLine = null;
-        return false;
-      }
-
-      SvgUnit endX;
-      if (!this.SvgUnitCalculator.TryAdd(startX,
-                                         instance.Width,
-                                         out endX))
-      {
-        lowerLine = null;
+#if DEBUG
+        translation = $"; could not get device points (endX): {instance.GetXML()}";
+#else
+        translation = null;
+#endif
         return false;
       }
 
@@ -313,45 +78,51 @@ namespace System.Svg.Render.EPL
                                          instance.Height,
                                          out endY))
       {
-        lowerLine = null;
+#if DEBUG
+        translation = $"; could not add y and height: {instance.GetXML()}";
+#else
+        translation = null;
+#endif
         return false;
       }
 
-      lowerLine = new SvgLine
-                  {
-                    StartX = startX,
-                    StartY = startY,
-                    EndX = endX,
-                    EndY = endY,
-                    StrokeWidth = instance.StrokeWidth
-                  };
-
-      return true;
-    }
-
-    private bool TryGetLeftLine(SvgRectangle instance,
-                                out SvgLine leftLine)
-    {
-      var x = instance.X;
-      var startY = instance.Y;
-
-      SvgUnit endY;
-      if (!this.SvgUnitCalculator.TryAdd(startY,
-                                         instance.Height,
-                                         out endY))
+      int verticalEnd;
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(endY,
+                                                     targetDpi,
+                                                     out verticalEnd))
       {
-        leftLine = null;
+#if DEBUG
+        translation = $"; could not get device points (endY): {instance.GetXML()}";
+#else
+        translation = null;
+#endif
         return false;
       }
 
-      leftLine = new SvgLine
-                 {
-                   StartX = x,
-                   StartY = startY,
-                   EndX = x,
-                   EndY = endY,
-                   StrokeWidth = instance.StrokeWidth
-                 };
+      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(horizontalStart,
+                                                       verticalStart,
+                                                       horizontalEnd,
+                                                       verticalEnd,
+                                                       matrix,
+                                                       out horizontalStart,
+                                                       out verticalStart,
+                                                       out horizontalEnd,
+                                                       out verticalEnd);
+
+      int lineThickness;
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StrokeWidth,
+                                                     targetDpi,
+                                                     out lineThickness))
+      {
+#if DEBUG
+        translation = $"; could not get device points (stroke): {instance.GetXML()}";
+#else
+        translation = null;
+#endif
+        return false;
+      }
+
+      translation = $"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}";
 
       return true;
     }
