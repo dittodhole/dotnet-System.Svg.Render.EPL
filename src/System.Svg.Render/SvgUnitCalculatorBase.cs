@@ -125,7 +125,7 @@ namespace System.Svg.Render
                                           out int newY2)
     {
       var originalPoint1 = new Point(x1,
-                                     x2);
+                                     y1);
       var originalPoint2 = new Point(x2,
                                      y2);
 
@@ -137,17 +137,17 @@ namespace System.Svg.Render
       matrix.TransformPoints(points);
 
       {
-        var transformedPoint1 = points[0];
-        transformedPoint1 = this.AdaptPoint(transformedPoint1);
-        newX1 = transformedPoint1.X;
-        newY1 = transformedPoint1.Y;
+        var point = points[0];
+        point = this.AdaptPoint(point);
+        newX1 = point.X;
+        newY1 = point.Y;
       }
 
       {
-        var transformedPoint2 = points[1];
-        transformedPoint2 = this.AdaptPoint(transformedPoint2);
-        newX2 = transformedPoint2.X;
-        newY2 = transformedPoint2.Y;
+        var point = points[1];
+        point = this.AdaptPoint(point);
+        newX2 = point.X;
+        newY2 = point.Y;
       }
     }
 
