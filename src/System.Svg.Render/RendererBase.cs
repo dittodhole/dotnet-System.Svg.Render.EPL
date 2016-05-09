@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Svg.Transforms;
@@ -10,18 +9,13 @@ namespace System.Svg.Render
 {
   public abstract class RendererBase
   {
-    protected RendererBase([NotNull] ISvgUnitCalculator svgUnitCalculator,
-                           Point origin)
+    protected RendererBase([NotNull] ISvgUnitCalculator svgUnitCalculator)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
-      this.Origin = origin;
     }
 
     [NotNull]
     private ISvgUnitCalculator SvgUnitCalculator { get; }
-
-    [NotNull]
-    private Point Origin { get; }
 
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
@@ -38,13 +32,15 @@ namespace System.Svg.Render
     }
 
     public string GetTranslation([NotNull] SvgDocument instance,
-                                 [NotNull] Matrix matrix,
+                                 [NotNull] Matrix viewMatrix,
                                  int targetDpi)
     {
       var translations = new LinkedList<object>();
 
+      var parentMatrix = new Matrix();
       this.TranslateSvgElementAndChildren(instance,
-                                          matrix,
+                                          parentMatrix,
+                                          viewMatrix,
                                           targetDpi,
                                           translations);
 
@@ -58,7 +54,8 @@ namespace System.Svg.Render
     }
 
     private void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
-                                                [NotNull] Matrix matrix,
+                                                [NotNull] Matrix parentMatrix,
+                                                [NotNull] Matrix viewMatrix,
                                                 int targetDpi,
                                                 [NotNull] ICollection<object> translations)
     {
@@ -76,8 +73,12 @@ namespace System.Svg.Render
         }
       }
 
-      matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
-                                                         matrix);
+      parentMatrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
+                                                               parentMatrix);
+
+      var matrix = viewMatrix.Clone();
+      matrix.Multiply(parentMatrix,
+                      MatrixOrder.Append);
 
       object translation;
       if (!this.TryTranslateSvgElement(svgElement,
@@ -108,7 +109,8 @@ namespace System.Svg.Render
         }
 
         this.TranslateSvgElementAndChildren(child,
-                                            matrix,
+                                            parentMatrix,
+                                            viewMatrix,
                                             targetDpi,
                                             translations);
       }
@@ -185,7 +187,6 @@ namespace System.Svg.Render
 
       return svgElementTranslator.TryTranslateUntyped(svgElement,
                                                       matrix,
-                                                      this.Origin,
                                                       targetDpi,
                                                       out translation);
     }

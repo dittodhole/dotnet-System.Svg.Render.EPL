@@ -57,7 +57,6 @@ namespace System.Svg.Render.EPL.Tests
         object translation;
         if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
                                                      new Matrix(),
-                                                     new Point(),
                                                      this.SvgUnitCalculator.SourceDpi,
                                                      out translation))
         {
@@ -143,7 +142,6 @@ namespace System.Svg.Render.EPL.Tests
         object translation;
         if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
                                                      new Matrix(),
-                                                     new Point(),
                                                      this.SvgUnitCalculator.SourceDpi,
                                                      out translation))
         {
@@ -185,7 +183,6 @@ namespace System.Svg.Render.EPL.Tests
         object translation;
         if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
                                                      new Matrix(),
-                                                     new Point(),
                                                      this.SvgUnitCalculator.SourceDpi,
                                                      out translation))
         {
@@ -227,7 +224,6 @@ namespace System.Svg.Render.EPL.Tests
         object translation;
         if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
                                                      new Matrix(),
-                                                     new Point(),
                                                      this.SvgUnitCalculator.SourceDpi,
                                                      out translation))
         {

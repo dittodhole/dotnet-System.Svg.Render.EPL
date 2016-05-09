@@ -34,7 +34,6 @@ namespace System.Svg.Render.EPL.Tests
         object translation;
         if (this.SvgTextTranslator.TryTranslate(this.SvgText,
                                                 new Matrix(),
-                                                new Point(),
                                                 this.SvgUnitCalculator.SourceDpi,
                                                 out translation))
         {

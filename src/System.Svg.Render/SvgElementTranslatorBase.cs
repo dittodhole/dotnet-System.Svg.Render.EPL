@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render
@@ -17,13 +16,11 @@ namespace System.Svg.Render
 
     public bool TryTranslateUntyped([NotNull] object untypedInstance,
                                     [NotNull] Matrix matrix,
-                                    Point origin,
                                     int targetDpi,
                                     out object translation)
     {
       var success = this.TryTranslate((T) untypedInstance,
                                       matrix,
-                                      origin,
                                       targetDpi,
                                       out translation);
 
@@ -32,7 +29,6 @@ namespace System.Svg.Render
 
     public virtual bool TryTranslate([NotNull] T instance,
                                      [NotNull] Matrix matrix,
-                                     Point origin,
                                      int targetDpi,
                                      out object translation)
     {

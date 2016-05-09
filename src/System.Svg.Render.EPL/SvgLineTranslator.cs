@@ -17,7 +17,6 @@ namespace System.Svg.Render.EPL
 
     public override bool TryTranslate([NotNull] SvgLine instance,
                                       [NotNull] Matrix matrix,
-                                      Point origin,
                                       int targetDpi,
                                       out object translation)
     {
@@ -72,11 +71,6 @@ namespace System.Svg.Render.EPL
 #endif
         return false;
       }
-
-      startX += origin.X;
-      startY += origin.Y;
-      endX += origin.X;
-      endY += origin.Y;
 
       this.SvgUnitCalculator.ApplyMatrixToDevicePoints(startX,
                                                        startY,

@@ -27,7 +27,6 @@ namespace System.Svg.Render.EPL
 
     public override bool TryTranslate([NotNull] SvgRectangle instance,
                                       [NotNull] Matrix matrix,
-                                      Point origin,
                                       int targetDpi,
                                       out object translation)
     {
@@ -48,7 +47,6 @@ namespace System.Svg.Render.EPL
 
         var success = this.SvgLineTranslator.TryTranslate(svgLine,
                                                           matrix,
-                                                          origin,
                                                           targetDpi,
                                                           out translation);
 
@@ -102,7 +100,6 @@ namespace System.Svg.Render.EPL
 
         if (!this.SvgLineTranslator.TryTranslate(line,
                                                  matrix,
-                                                 origin,
                                                  targetDpi,
                                                  out translation))
         {
