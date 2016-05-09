@@ -16,7 +16,8 @@ namespace System.Svg.Render.EPL.Tests
       {
         this.SvgUnitCalculator = new SvgUnitCalculator
                                  {
-                                   UserUnitTypeSubstitution = SvgUnitType.Pixel
+                                   UserUnitTypeSubstitution = SvgUnitType.Pixel,
+                                   AdaptPointAccordingToPaperSize = false
                                  };
         this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator);
       }

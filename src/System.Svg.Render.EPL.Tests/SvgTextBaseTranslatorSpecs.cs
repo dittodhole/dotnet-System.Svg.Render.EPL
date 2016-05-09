@@ -17,7 +17,10 @@ namespace System.Svg.Render.EPL.Tests
         this.SvgUnitCalculator = new SvgUnitCalculator
                                  {
                                    UserUnitTypeSubstitution = SvgUnitType.Pixel,
-                                   SourceDpi = 203
+                                   SourceDpi = 203,
+                                   AdaptPointAccordingToPaperSize = false,
+                                   FontSizeHeightVector = new PointF(0f,
+                                                                     10f)
                                  };
         this.SvgTextTranslator = new SvgTextBaseTranslator<SvgText>(this.SvgUnitCalculator);
       }
@@ -66,7 +69,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual(@"A70,50,1,1,1,1,N,""hello""",
+        Assert.AreEqual(@"A50,70,1,1,1,1,N,""hello""",
                         this.Actual);
       }
     }
@@ -96,7 +99,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual(@"A70,50,1,1,1,1,R,""hello""",
+        Assert.AreEqual(@"A50,70,1,1,1,1,R,""hello""",
                         this.Actual);
       }
     }
