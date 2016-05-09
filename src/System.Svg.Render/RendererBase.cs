@@ -78,13 +78,10 @@ namespace System.Svg.Render
 
       // TODO write unit-test for dat shit :zzz:
 
-      var matrix = viewMatrix.Clone();
-      matrix.Multiply(parentMatrix,
-                      MatrixOrder.Prepend);
-
       object translation;
       if (!this.TryTranslateSvgElement(svgElement,
-                                       matrix,
+                                       parentMatrix,
+                                       viewMatrix,
                                        targetDpi,
                                        out translation))
       {
@@ -173,7 +170,8 @@ namespace System.Svg.Render
     }
 
     private bool TryTranslateSvgElement([NotNull] SvgElement svgElement,
-                                        [NotNull] Matrix matrix,
+                                        [NotNull] Matrix parentMatrix,
+                                        [NotNull] Matrix viewMatrix,
                                         int targetDpi,
                                         out object translation)
     {
@@ -186,6 +184,10 @@ namespace System.Svg.Render
         translation = null;
         return true;
       }
+
+      var matrix = viewMatrix.Clone();
+      matrix.Multiply(parentMatrix,
+                      MatrixOrder.Prepend);
 
       return svgElementTranslator.TryTranslateUntyped(svgElement,
                                                       matrix,
