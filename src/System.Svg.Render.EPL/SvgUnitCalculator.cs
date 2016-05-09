@@ -272,5 +272,16 @@ namespace System.Svg.Render.EPL
 
       return (int) result;
     }
+
+    protected override Point AdaptPoint(Point point)
+    {
+      // TODO clarify: can this be done w/ matrix?
+
+      point = base.AdaptPoint(point);
+
+      point.X = 805 - point.X;
+
+      return point;
+    }
   }
 }

@@ -109,6 +109,7 @@ namespace System.Svg.Render
       matrix.TransformPoints(points);
 
       var transformedPoint = points[0];
+      transformedPoint = this.AdaptPoint(transformedPoint);
       newX = transformedPoint.X;
       newY = transformedPoint.Y;
     }
@@ -137,15 +138,22 @@ namespace System.Svg.Render
 
       {
         var transformedPoint1 = points[0];
+        transformedPoint1 = this.AdaptPoint(transformedPoint1);
         newX1 = transformedPoint1.X;
         newY1 = transformedPoint1.Y;
       }
 
       {
         var transformedPoint2 = points[1];
+        transformedPoint2 = this.AdaptPoint(transformedPoint2);
         newX2 = transformedPoint2.X;
         newY2 = transformedPoint2.Y;
       }
+    }
+
+    protected virtual Point AdaptPoint(Point point)
+    {
+      return point;
     }
   }
 }
