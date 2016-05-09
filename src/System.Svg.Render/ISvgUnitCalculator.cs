@@ -9,8 +9,6 @@ namespace System.Svg.Render
                 SvgUnit svgUnit2,
                 out SvgUnit result);
 
-    bool IsValueZero(SvgUnit svgUnit);
-
     bool TryGetDevicePoints(SvgUnit svgUnit,
                             int targetDpi,
                             out int devicePoints);

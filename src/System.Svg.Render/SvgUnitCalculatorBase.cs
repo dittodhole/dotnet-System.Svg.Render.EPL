@@ -30,12 +30,6 @@ namespace System.Svg.Render
       return true;
     }
 
-    public bool IsValueZero(SvgUnit svgUnit)
-    {
-      // TODO find a good TOLERANCE
-      return Math.Abs(svgUnit.Value) < 0.5f;
-    }
-
     public bool TryGetDevicePoints(SvgUnit svgUnit,
                                    int targetDpi,
                                    out int devicePoints)
