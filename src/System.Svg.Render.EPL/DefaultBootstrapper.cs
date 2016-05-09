@@ -3,7 +3,7 @@
   public static class DefaultBootstrapper
   {
     public static EPLRenderer Create(int sourceDpi,
-                                               SvgUnitType userUnitTypeSubstituion = SvgUnitType.Pixel)
+                                     SvgUnitType userUnitTypeSubstituion = SvgUnitType.Pixel)
     {
       var svgUnitCalculator = new SvgUnitCalculator
                               {
