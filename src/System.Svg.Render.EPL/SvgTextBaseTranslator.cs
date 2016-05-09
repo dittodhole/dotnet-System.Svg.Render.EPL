@@ -96,12 +96,12 @@ namespace System.Svg.Render.EPL
       }
 
       int horizontalStart;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(newX,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(newY,
                                                      targetDpi,
                                                      out horizontalStart))
       {
 #if DEBUG
-        translation = $"; could not get device points (x): {instance.GetXML()}";
+        translation = $"; could not get device points (y): {instance.GetXML()}";
 #else
         translation = null;
 #endif
@@ -109,12 +109,12 @@ namespace System.Svg.Render.EPL
       }
 
       int verticalStart;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(newY,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(newX,
                                                      targetDpi,
                                                      out verticalStart))
       {
 #if DEBUG
-        translation = $"; could not get device points (y): {instance.GetXML()}";
+        translation = $"; could not get device points (x): {instance.GetXML()}";
 #else
         translation = null;
 #endif

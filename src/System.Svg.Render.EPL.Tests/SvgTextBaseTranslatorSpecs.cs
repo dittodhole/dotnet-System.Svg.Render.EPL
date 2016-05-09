@@ -53,11 +53,11 @@ namespace System.Svg.Render.EPL.Tests
                        {
                          X = new SvgUnitCollection
                              {
-                               new SvgUnit(100f)
+                               new SvgUnit(50f)
                              },
                          Y = new SvgUnitCollection
                              {
-                               new SvgUnit(100f)
+                               new SvgUnit(70f)
                              },
                          FontSize = new SvgUnit(12f)
                        };
@@ -66,7 +66,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual(@"A100,100,0,1,1,1,N,""hello""",
+        Assert.AreEqual(@"A70,50,0,1,1,1,N,""hello""",
                         this.Actual);
       }
     }
@@ -82,11 +82,11 @@ namespace System.Svg.Render.EPL.Tests
                        {
                          X = new SvgUnitCollection
                              {
-                               new SvgUnit(100f)
+                               new SvgUnit(50f)
                              },
                          Y = new SvgUnitCollection
                              {
-                               new SvgUnit(100f)
+                               new SvgUnit(70f)
                              },
                          Fill = new SvgColourServer(Color.White),
                          FontSize = new SvgUnit(12f)
@@ -96,7 +96,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual(@"A100,100,0,1,1,1,R,""hello""",
+        Assert.AreEqual(@"A70,50,0,1,1,1,R,""hello""",
                         this.Actual);
       }
     }
