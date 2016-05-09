@@ -14,7 +14,7 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected SvgTextTranslatorSpecsContext()
       {
-        this.SvgUnitCalculator = new SvgUnitCalculator
+        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None)
                                  {
                                    UserUnitTypeSubstitution = SvgUnitType.Pixel,
                                    SourceDpi = 203

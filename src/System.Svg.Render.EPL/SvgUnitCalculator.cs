@@ -8,14 +8,50 @@ namespace System.Svg.Render.EPL
 {
   public class SvgUnitCalculator : SvgUnitCalculatorBase
   {
-    // TODO currently only ZT orientation is implemented - implement ZB
+    public SvgUnitCalculator(PrintDirection printDirection = PrintDirection.Top)
+    {
+      this.PrintDirection = printDirection;
+    }
+
+    public SvgUnitCalculator(PrintDirection printDirection,
+                             int labelWithInDevicePoints,
+                             int labelHeightInDevicePoints)
+      : this(printDirection)
+    {
+      this.LabelWidthInDevicePoints = labelWithInDevicePoints;
+      this.LabelHeightInDevicePoints = labelHeightInDevicePoints;
+    }
 
     protected int MaximumUpperFontSizeOverlap { get; } = 2;
+    public int LabelWidthInDevicePoints { get; set; } = 1296;
+    public int LabelHeightInDevicePoints { get; set; } = 816;
+    private PrintDirection PrintDirection { get; }
+
+    private PointF GetFontHeightVector()
+    {
+      PointF fontHeightVector;
+      if (this.PrintDirection == PrintDirection.Top)
+      {
+        fontHeightVector = new PointF(-10f,
+                                     0f);
+      }
+      else if (this.PrintDirection == PrintDirection.None)
+      {
+        fontHeightVector = new PointF(0f,
+                                      10f);
+      }
+      else
+      {
+        // TODO
+        throw new NotImplementedException();
+      }
+
+      return fontHeightVector;
+    }
 
     public object GetRotationTranslation([NotNull] Matrix matrix)
     {
-      var vector = new PointF(-10f,
-                              0f);
+      var vector = this.GetFontHeightVector();
       var vectors = new[]
                     {
                       vector
@@ -275,7 +311,10 @@ namespace System.Svg.Render.EPL
 
       point = base.AdaptPoint(point);
 
-      point.X = 816 - point.X;
+      if (this.PrintDirection == PrintDirection.Top)
+      {
+        point.X = this.LabelWidthInDevicePoints - point.X;
+      }
 
       return point;
     }

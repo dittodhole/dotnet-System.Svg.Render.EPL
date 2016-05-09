@@ -15,7 +15,7 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected SvgRectangleTranslatorSpecsContext()
       {
-        this.SvgUnitCalculator = new SvgUnitCalculator
+        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None)
                                  {
                                    UserUnitTypeSubstitution = SvgUnitType.Pixel
                                  };
