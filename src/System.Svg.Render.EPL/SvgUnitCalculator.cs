@@ -8,14 +8,14 @@ namespace System.Svg.Render.EPL
 {
   public class SvgUnitCalculator : SvgUnitCalculatorBase
   {
-    protected int MaximumUpperFontSizeOverlap { get; } = 2;
-    public bool AdaptPointAccordingToPaperSize { get; set; } = true;
+    // TODO currently only ZT orientation is implemented - implement ZB
 
-    public PointF FontSizeHeightVector { get; set; } = new PointF(-10f,
-                                                                  0f);
+    protected int MaximumUpperFontSizeOverlap { get; } = 2;
+
     public object GetRotationTranslation([NotNull] Matrix matrix)
     {
-      var vector = this.FontSizeHeightVector;
+      var vector = new PointF(-10f,
+                              0f);
       var vectors = new[]
                     {
                       vector
@@ -275,10 +275,7 @@ namespace System.Svg.Render.EPL
 
       point = base.AdaptPoint(point);
 
-      if (this.AdaptPointAccordingToPaperSize)
-      {
-        point.X = 816 - point.X;
-      }
+      point.X = 816 - point.X;
 
       return point;
     }

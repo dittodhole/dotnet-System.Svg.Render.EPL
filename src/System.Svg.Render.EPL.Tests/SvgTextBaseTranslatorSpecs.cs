@@ -17,10 +17,7 @@ namespace System.Svg.Render.EPL.Tests
         this.SvgUnitCalculator = new SvgUnitCalculator
                                  {
                                    UserUnitTypeSubstitution = SvgUnitType.Pixel,
-                                   SourceDpi = 203,
-                                   AdaptPointAccordingToPaperSize = false,
-                                   FontSizeHeightVector = new PointF(0f,
-                                                                     10f)
+                                   SourceDpi = 203
                                  };
         this.SvgTextTranslator = new SvgTextBaseTranslator<SvgText>(this.SvgUnitCalculator);
       }
