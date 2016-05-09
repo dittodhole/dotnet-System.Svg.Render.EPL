@@ -20,30 +20,8 @@ namespace System.Svg.Render.EPL
                                       int targetDpi,
                                       out object translation)
     {
-      SvgUnit newStartX;
-      SvgUnit newStartY;
-      SvgUnit newEndX;
-      SvgUnit newEndY;
-      if (!this.SvgUnitCalculator.TryApplyMatrix(instance.StartX,
-                                                 instance.StartY,
-                                                 instance.EndX,
-                                                 instance.EndY,
-                                                 matrix,
-                                                 out newStartX,
-                                                 out newStartY,
-                                                 out newEndX,
-                                                 out newEndY))
-      {
-#if DEBUG
-        translation = $"; could not apply matrix: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
-
       int startX;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(newStartX,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StartX,
                                                      targetDpi,
                                                      out startX))
       {
@@ -56,7 +34,7 @@ namespace System.Svg.Render.EPL
       }
 
       int startY;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(newStartY,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StartY,
                                                      targetDpi,
                                                      out startY))
       {
@@ -69,7 +47,7 @@ namespace System.Svg.Render.EPL
       }
 
       int endX;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(newEndX,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.EndX,
                                                      targetDpi,
                                                      out endX))
       {
@@ -82,7 +60,7 @@ namespace System.Svg.Render.EPL
       }
 
       int endY;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(newEndY,
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.EndY,
                                                      targetDpi,
                                                      out endY))
       {
@@ -93,6 +71,16 @@ namespace System.Svg.Render.EPL
 #endif
         return false;
       }
+
+      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(startX,
+                                                       startY,
+                                                       endX,
+                                                       endY,
+                                                       matrix,
+                                                       out startX,
+                                                       out startY,
+                                                       out endX,
+                                                       out endY);
 
       int strokeWidth;
       if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StrokeWidth,

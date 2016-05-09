@@ -76,29 +76,10 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      SvgUnit newX;
-      SvgUnit newY;
-
-      var x = instance.X.First();
-      var y = instance.Y.First();
-      if (!this.SvgUnitCalculator.TryApplyMatrix(x,
-                                                 y,
-                                                 matrix,
-                                                 out newX,
-                                                 out newY))
-      {
-#if DEBUG
-        translation = $"; could not apply matrix on x and y: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
-
-      int horizontalStart;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(newY,
+      int x;
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.X.First(),
                                                      targetDpi,
-                                                     out horizontalStart))
+                                                     out x))
       {
 #if DEBUG
         translation = $"; could not get device points (y): {instance.GetXML()}";
@@ -108,10 +89,10 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      int verticalStart;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(newX,
+      int y;
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.Y.First(),
                                                      targetDpi,
-                                                     out verticalStart))
+                                                     out y))
       {
 #if DEBUG
         translation = $"; could not get device points (x): {instance.GetXML()}";
@@ -120,6 +101,12 @@ namespace System.Svg.Render.EPL
 #endif
         return false;
       }
+
+      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(x,
+                                                       y,
+                                                       matrix,
+                                                       out x,
+                                                       out y);
 
       var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(matrix);
 
@@ -147,7 +134,7 @@ namespace System.Svg.Render.EPL
         reverseImage = "N";
       }
 
-      translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
+      translation = $@"A{x},{y},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
 
       return true;
     }

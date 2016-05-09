@@ -93,25 +93,14 @@ namespace System.Svg.Render
       return true;
     }
 
-    public bool TryApplyMatrix(SvgUnit x,
-                               SvgUnit y,
-                               [NotNull] Matrix matrix,
-                               out SvgUnit newX,
-                               out SvgUnit newY)
+    public void ApplyMatrixToDevicePoints(int x,
+                                          int y,
+                                          [NotNull] Matrix matrix,
+                                          out int newX,
+                                          out int newY)
     {
-      var typeX = x.Type;
-      var typeY = y.Type;
-      if (typeX != typeY)
-      {
-        newX = SvgUnit.None;
-        newY = SvgUnit.None;
-        return false;
-      }
-
-      var originalX = x.Value;
-      var originalY = y.Value;
-      var originalPoint = new PointF(originalX,
-                                     originalY);
+      var originalPoint = new Point(x,
+                                    y);
 
       var points = new[]
                    {
@@ -120,53 +109,24 @@ namespace System.Svg.Render
       matrix.TransformPoints(points);
 
       var transformedPoint = points[0];
-      var transformedX = transformedPoint.X;
-      var transformedY = transformedPoint.Y;
-
-      newX = new SvgUnit(typeX,
-                         transformedX);
-      newY = new SvgUnit(typeY,
-                         transformedY);
-
-      return true;
+      newX = transformedPoint.X;
+      newY = transformedPoint.Y;
     }
 
-    public bool TryApplyMatrix(SvgUnit x1,
-                               SvgUnit y1,
-                               SvgUnit x2,
-                               SvgUnit y2,
-                               [NotNull] Matrix matrix,
-                               out SvgUnit newX1,
-                               out SvgUnit newY1,
-                               out SvgUnit newX2,
-                               out SvgUnit newY2)
+    public void ApplyMatrixToDevicePoints(int x1,
+                                          int y1,
+                                          int x2,
+                                          int y2,
+                                          [NotNull] Matrix matrix,
+                                          out int newX1,
+                                          out int newY1,
+                                          out int newX2,
+                                          out int newY2)
     {
-      var typeX1 = x1.Type;
-      var typeY1 = y1.Type;
-      if (typeX1 != typeY1)
-      {
-        newX1 = SvgUnit.None;
-        newY1 = SvgUnit.None;
-        newX2 = SvgUnit.None;
-        newY2 = SvgUnit.None;
-        return false;
-      }
-
-      var typeX2 = x2.Type;
-      var typeY2 = y2.Type;
-      if (typeX2 != typeY2)
-      {
-        newX1 = SvgUnit.None;
-        newY1 = SvgUnit.None;
-        newX2 = SvgUnit.None;
-        newY2 = SvgUnit.None;
-        return false;
-      }
-
-      var originalPoint1 = new PointF(x1.Value,
-                                      y1.Value);
-      var originalPoint2 = new PointF(x2.Value,
-                                      y2.Value);
+      var originalPoint1 = new Point(x1,
+                                     x2);
+      var originalPoint2 = new Point(x2,
+                                     y2);
 
       var points = new[]
                    {
@@ -177,27 +137,15 @@ namespace System.Svg.Render
 
       {
         var transformedPoint1 = points[0];
-        var transformedX1 = transformedPoint1.X;
-        var transformedY1 = transformedPoint1.Y;
-
-        newX1 = new SvgUnit(typeX1,
-                            transformedX1);
-        newY1 = new SvgUnit(typeY1,
-                            transformedY1);
+        newX1 = transformedPoint1.X;
+        newY1 = transformedPoint1.Y;
       }
 
       {
         var transformedPoint2 = points[1];
-        var transformedX2 = transformedPoint2.X;
-        var transformedY2 = transformedPoint2.Y;
-
-        newX2 = new SvgUnit(typeX2,
-                            transformedX2);
-        newY2 = new SvgUnit(typeY2,
-                            transformedY2);
+        newX2 = transformedPoint2.X;
+        newY2 = transformedPoint2.Y;
       }
-
-      return true;
     }
   }
 }

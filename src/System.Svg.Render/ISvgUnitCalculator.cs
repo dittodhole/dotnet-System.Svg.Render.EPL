@@ -15,20 +15,20 @@ namespace System.Svg.Render
                             int targetDpi,
                             out int devicePoints);
 
-    bool TryApplyMatrix(SvgUnit x,
-                        SvgUnit y,
-                        [NotNull] Matrix matrix,
-                        out SvgUnit newX,
-                        out SvgUnit newY);
+    void ApplyMatrixToDevicePoints(int x,
+                                   int y,
+                                   [NotNull] Matrix matrix,
+                                   out int newX,
+                                   out int newY);
 
-    bool TryApplyMatrix(SvgUnit x1,
-                        SvgUnit y1,
-                        SvgUnit x2,
-                        SvgUnit y2,
-                        [NotNull] Matrix matrix,
-                        out SvgUnit newX1,
-                        out SvgUnit newY1,
-                        out SvgUnit newX2,
-                        out SvgUnit newY2);
+    void ApplyMatrixToDevicePoints(int x1,
+                                   int y1,
+                                   int x2,
+                                   int y2,
+                                   [NotNull] Matrix matrix,
+                                   out int newX1,
+                                   out int newY1,
+                                   out int newX2,
+                                   out int newY2);
   }
 }
