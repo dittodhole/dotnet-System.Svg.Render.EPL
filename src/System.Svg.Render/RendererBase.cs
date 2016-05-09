@@ -21,8 +21,8 @@ namespace System.Svg.Render
     [NotNull]
     private ConcurrentDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, ISvgElementTranslator>();
 
-    public string GetTranslation([NotNull] SvgDocument instance,
-                                 int targetDpi)
+    public virtual string GetTranslation([NotNull] SvgDocument instance,
+                                         int targetDpi)
     {
       var translation = this.GetTranslation(instance,
                                             new Matrix(),
