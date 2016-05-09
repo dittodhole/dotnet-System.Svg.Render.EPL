@@ -74,11 +74,13 @@ namespace System.Svg.Render.EPL
 
       this.SvgUnitCalculator.ApplyMatrixToDevicePoints(startX,
                                                        startY,
-                                                       endX,
-                                                       endY,
                                                        matrix,
                                                        out startX,
-                                                       out startY,
+                                                       out startY);
+
+      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(endX,
+                                                       endY,
+                                                       matrix,
                                                        out endX,
                                                        out endY);
 

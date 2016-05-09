@@ -101,11 +101,13 @@ namespace System.Svg.Render.EPL
 
       this.SvgUnitCalculator.ApplyMatrixToDevicePoints(horizontalStart,
                                                        verticalStart,
-                                                       horizontalEnd,
-                                                       verticalEnd,
                                                        matrix,
                                                        out horizontalStart,
-                                                       out verticalStart,
+                                                       out verticalStart);
+
+      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(horizontalEnd,
+                                                       verticalEnd,
+                                                       matrix,
                                                        out horizontalEnd,
                                                        out verticalEnd);
 

@@ -108,43 +108,6 @@ namespace System.Svg.Render
       newY = transformedPoint.Y;
     }
 
-    public void ApplyMatrixToDevicePoints(int x1,
-                                          int y1,
-                                          int x2,
-                                          int y2,
-                                          [NotNull] Matrix matrix,
-                                          out int newX1,
-                                          out int newY1,
-                                          out int newX2,
-                                          out int newY2)
-    {
-      var originalPoint1 = new Point(x1,
-                                     y1);
-      var originalPoint2 = new Point(x2,
-                                     y2);
-
-      var points = new[]
-                   {
-                     originalPoint1,
-                     originalPoint2
-                   };
-      matrix.TransformPoints(points);
-
-      {
-        var point = points[0];
-        point = this.AdaptPoint(point);
-        newX1 = point.X;
-        newY1 = point.Y;
-      }
-
-      {
-        var point = points[1];
-        point = this.AdaptPoint(point);
-        newX2 = point.X;
-        newY2 = point.Y;
-      }
-    }
-
     protected virtual Point AdaptPoint(Point point)
     {
       return point;
