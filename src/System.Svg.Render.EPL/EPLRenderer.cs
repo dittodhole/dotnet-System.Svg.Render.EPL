@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -34,6 +35,21 @@ namespace System.Svg.Render.EPL
                                                  ICollection<object> translations)
     {
       translations.Add($"; <{svgElement.ID} is hidden />");
+    }
+
+    public override string GetTranslation(SvgDocument instance,
+                                          int targetDpi)
+    {
+      var viewMatrix = new Matrix(0f,
+                                  1f,
+                                  1f,
+                                  0f,
+                                  0f,
+                                  0f);
+
+      return this.GetTranslation(instance,
+                                 viewMatrix,
+                                 targetDpi);
     }
   }
 }
