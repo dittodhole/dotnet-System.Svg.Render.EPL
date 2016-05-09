@@ -9,6 +9,7 @@ namespace System.Svg.Render.EPL
   public class SvgRectangleTranslator : SvgElementTranslatorBase<SvgRectangle>
   {
     // TODO add documentation/quote: strokes are printed inside the rectangle (calculation stuff)
+    // TODO arrrr .. there is X
 
     public SvgRectangleTranslator([NotNull] SvgLineTranslator svgLineTranslator,
                                   [NotNull] ISvgUnitCalculator svgUnitCalculator)
