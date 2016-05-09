@@ -2,13 +2,14 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Svg.Transforms;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
   public class SvgUnitCalculator : SvgUnitCalculatorBase
   {
+    protected int MaximumUpperFontSizeOverlap { get; } = 2;
+
     public object GetRotationTranslation([NotNull] Matrix matrix)
     {
       var vector = new PointF(-10f,
@@ -67,13 +68,6 @@ namespace System.Svg.Render.EPL
       translation = $"{fontSelection},{multiplier},{multiplier}";
 
       return true;
-    }
-
-    private class FontDefinitionCandidate
-    {
-      public object FontSelection { get; set; }
-      public int ActualHeight { get; set; }
-      public object Multiplier { get; set; }
     }
 
     private bool TryGetFontSelection(int height,
@@ -196,7 +190,7 @@ namespace System.Svg.Render.EPL
                                              };
             }
           }
-          else
+          else if (actualHeight <= height + this.MaximumUpperFontSizeOverlap)
           {
             if (upperFontDefinitionCandidate == null
                 || actualHeight < upperFontDefinitionCandidate.ActualHeight)
@@ -282,6 +276,13 @@ namespace System.Svg.Render.EPL
       point.X = 816 - point.X;
 
       return point;
+    }
+
+    private class FontDefinitionCandidate
+    {
+      public object FontSelection { get; set; }
+      public int ActualHeight { get; set; }
+      public object Multiplier { get; set; }
     }
   }
 }
