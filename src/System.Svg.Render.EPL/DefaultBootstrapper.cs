@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace System.Svg.Render.EPL
+﻿namespace System.Svg.Render.EPL
 {
   public static class DefaultBootstrapper
   {
