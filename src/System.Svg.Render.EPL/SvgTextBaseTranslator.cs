@@ -22,6 +22,7 @@ namespace System.Svg.Render.EPL
 
     public override bool TryTranslate([NotNull] T instance,
                                       [NotNull] Matrix matrix,
+                                      Point origin,
                                       int targetDpi,
                                       out object translation)
     {
@@ -101,6 +102,9 @@ namespace System.Svg.Render.EPL
 #endif
         return false;
       }
+
+      x += origin.X;
+      y += origin.Y;
 
       this.SvgUnitCalculator.ApplyMatrixToDevicePoints(x,
                                                        y,

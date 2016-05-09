@@ -11,7 +11,7 @@ namespace System.Svg.Render.EPL
   {
     public object GetRotationTranslation([NotNull] Matrix matrix)
     {
-      var vector = new PointF(10f,
+      var vector = new PointF(-10f,
                               0f);
       var vectors = new[]
                     {
@@ -22,8 +22,8 @@ namespace System.Svg.Render.EPL
 
       var rotation = Math.Atan2(vector.Y,
                                 vector.X) / (2 * Math.PI);
-      rotation += 0.25d;
-      var rotationTranslation = Math.Floor(rotation * 4) % 4;
+      var rotationTranslation = Math.Floor(rotation * 4);
+      rotationTranslation = Math.Abs(rotationTranslation);
 
       return rotationTranslation;
     }

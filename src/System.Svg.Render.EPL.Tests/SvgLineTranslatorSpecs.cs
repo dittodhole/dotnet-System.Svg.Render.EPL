@@ -33,6 +33,7 @@ namespace System.Svg.Render.EPL.Tests
         object translation;
         if (this.SvgLineTranslator.TryTranslate(this.SvgLine,
                                                 new Matrix(),
+                                                new Point(),
                                                 this.SvgUnitCalculator.SourceDpi,
                                                 out translation))
         {

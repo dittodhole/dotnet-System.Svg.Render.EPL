@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Svg.Transforms;
@@ -9,13 +10,18 @@ namespace System.Svg.Render
 {
   public abstract class RendererBase
   {
-    protected RendererBase([NotNull] ISvgUnitCalculator svgUnitCalculator)
+    protected RendererBase([NotNull] ISvgUnitCalculator svgUnitCalculator,
+                           Point origin)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
+      this.Origin = origin;
     }
 
     [NotNull]
     private ISvgUnitCalculator SvgUnitCalculator { get; }
+
+    [NotNull]
+    private Point Origin { get; }
 
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
@@ -179,6 +185,7 @@ namespace System.Svg.Render
 
       return svgElementTranslator.TryTranslateUntyped(svgElement,
                                                       matrix,
+                                                      this.Origin,
                                                       targetDpi,
                                                       out translation);
     }

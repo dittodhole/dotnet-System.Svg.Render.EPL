@@ -1,8 +1,11 @@
-﻿namespace System.Svg.Render.EPL
+﻿using System.Drawing;
+
+namespace System.Svg.Render.EPL
 {
   public static class DefaultBootstrapper
   {
     public static EPLRenderer Create(int sourceDpi,
+                                     Point origin,
                                      SvgUnitType userUnitTypeSubstituion = SvgUnitType.Pixel)
     {
       var svgUnitCalculator = new SvgUnitCalculator
@@ -11,7 +14,8 @@
                                 UserUnitTypeSubstitution = userUnitTypeSubstituion
                               };
 
-      var eplRenderer = new EPLRenderer(svgUnitCalculator);
+      var eplRenderer = new EPLRenderer(svgUnitCalculator,
+                                        origin);
 
       {
         var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator);

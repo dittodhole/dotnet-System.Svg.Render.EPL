@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
   public class EPLRenderer : RendererBase
   {
+    public EPLRenderer([NotNull] ISvgUnitCalculator svgUnitCalculator,
+                       Point origin)
+      : base(svgUnitCalculator,
+             origin) {}
+
     protected override void AddTranslation(SvgElement svgElement,
                                            ICollection<object> translations,
                                            object translation)
@@ -32,8 +38,5 @@ namespace System.Svg.Render.EPL
     {
       translations.Add($"; <{svgElement.ID} is hidden />");
     }
-
-    public EPLRenderer([NotNull] ISvgUnitCalculator svgUnitCalculator)
-      : base(svgUnitCalculator) {}
   }
 }
