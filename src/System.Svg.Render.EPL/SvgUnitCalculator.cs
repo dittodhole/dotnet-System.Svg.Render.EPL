@@ -313,7 +313,7 @@ namespace System.Svg.Render.EPL
 
       if (this.PrintDirection == PrintDirection.Top)
       {
-        point.X = this.LabelWidthInDevicePoints - point.X;
+        point.X = this.LabelHeightInDevicePoints - point.X;
       }
 
       return point;
