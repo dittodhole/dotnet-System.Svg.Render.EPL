@@ -279,7 +279,7 @@ namespace System.Svg.Render.EPL
 
       point = base.AdaptPoint(point);
 
-      point.X = 805 - point.X;
+      point.X = 816 - point.X;
 
       return point;
     }
