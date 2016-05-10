@@ -34,12 +34,21 @@ namespace System.Svg.Render.EPL
                                              targetDpi,
                                              out translation);
       }
-      else
+      else if (instance.Stroke != SvgPaintServer.None)
       {
         success = this.TryTranslateBox(instance,
                                        matrix,
                                        targetDpi,
                                        out translation);
+      }
+      else
+      {
+#if DEBUG
+        translation = $"; could not translate rectangle (neither stroke nor fill): {instance.GetXML()}";
+#else
+        translation = null;
+#endif
+        success = false;
       }
 
       return success;
