@@ -25,52 +25,69 @@ namespace System.Svg.Render.EPL
                                       int targetDpi,
                                       out object translation)
     {
-      if ((instance.Stroke as SvgColourServer)?.Colour != Color.Empty)
+      bool success;
+      if (instance.Fill != SvgPaintServer.None
+        && (instance.Fill as SvgColourServer)?.Colour != Color.White)
       {
-        var success = this.TryTranslateBox(instance,
-                                           matrix,
-                                           targetDpi,
-                                           out translation);
-        return success;
+        success = this.TryTranslateFilledBox(instance,
+                                             matrix,
+                                             targetDpi,
+                                             out translation);
+      }
+      else
+      {
+        success = this.TryTranslateBox(instance,
+                                       matrix,
+                                       targetDpi,
+                                       out translation);
       }
 
-      if ((instance.Fill as SvgColourServer)?.Colour == Color.Black)
+      return success;
+    }
+
+    private bool TryTranslateFilledBox(SvgRectangle instance,
+                                       Matrix matrix,
+                                       int targetDpi,
+                                       out object translation)
+    {
+      SvgUnit endX;
+      if (!this.SvgUnitCalculator.TryAdd(instance.X,
+                                         instance.Width,
+                                         out endX))
       {
-        SvgUnit endX;
-        if (!this.SvgUnitCalculator.TryAdd(instance.X,
-                                           instance.Width,
-                                           out endX))
-        {
 #if DEBUG
-          translation = "; could not get endX (fill) : {instance.GetXML()}";
+        translation = "; could not get endX (fill) : {instance.GetXML()}";
 #endif
-          translation = null;
-          return false;
-        }
-
-        var svgLine = new SvgLine
-                      {
-                        StartX = instance.X,
-                        StartY = instance.Y,
-                        EndX = endX,
-                        EndY = instance.Y,
-                        StrokeWidth = instance.Height,
-                        Transforms = instance.Transforms
-                      };
-        var success = this.SvgLineTranslator.TryTranslate(svgLine,
-                                                          matrix,
-                                                          targetDpi,
-                                                          out translation);
-
-        return success;
+        translation = null;
+        return false;
       }
 
+      SvgUnit startY;
+      if (!this.SvgUnitCalculator.TryAdd(instance.Y,
+                                         instance.Height,
+                                         out startY))
+      {
 #if DEBUG
-      translation = "; could not translate rectangle to either box or fill: {instance.GetXML()}";
+        translation = "; could not get startY (fill) : {instance.GetXML()}";
 #endif
-      translation = null;
+        translation = null;
+        return false;
+      }
 
-      return false;
+      var svgLine = new SvgLine
+                    {
+                      StartX = instance.X,
+                      StartY = startY,
+                      EndX = endX,
+                      EndY = startY,
+                      StrokeWidth = instance.Height
+                    };
+      var success = this.SvgLineTranslator.TryTranslate(svgLine,
+                                                        matrix,
+                                                        targetDpi,
+                                                        out translation);
+
+      return success;
     }
 
     private bool TryTranslateBox(SvgRectangle instance,

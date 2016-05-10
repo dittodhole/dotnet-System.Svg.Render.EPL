@@ -124,7 +124,7 @@ namespace System.Svg.Render.EPL.Tests
                               Y = new SvgUnit(50f),
                               Width = new SvgUnit(100f),
                               Height = new SvgUnit(50f),
-                              Stroke = new SvgColourServer(Color.Empty),
+                              Stroke = SvgPaintServer.None,
                               Fill = new SvgColourServer(Color.Black)
                             };
       }
