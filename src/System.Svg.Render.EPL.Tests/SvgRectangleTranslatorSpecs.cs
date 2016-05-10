@@ -151,48 +151,5 @@ namespace System.Svg.Render.EPL.Tests
       }
     }
     */
-
-    /*
-    [TestClass]
-    public class when_svg_rectangle_with_white_fill_is_translated : SvgRectangleTranslatorSpecsContext
-    {
-      protected override void Context()
-      {
-        base.Context();
-
-        this.SvgRectangle = new SvgRectangle
-                            {
-                              X = new SvgUnit(10f),
-                              Y = new SvgUnit(10f),
-                              Width = new SvgUnit(100f),
-                              Height = new SvgUnit(50f),
-                              //StrokeWidth = new SvgUnit(20f),
-                              Stroke = new SvgColourServer(Color.Empty),
-                              Fill = new SvgColourServer(Color.White)
-                            };
-      }
-
-      protected override void BecauseOf()
-      {
-        base.BecauseOf();
-
-        object translation;
-        if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
-                                                     new Matrix(),
-                                                     this.SvgUnitCalculator.SourceDpi,
-                                                     out translation))
-        {
-          this.Actual = translation;
-        }
-      }
-
-      [TestMethod]
-      public void return_valid_epl_code()
-      {
-        Assert.AreEqual("LW10,10,100,50",
-                        this.Actual);
-      }
-    }
-    */
   }
 }
