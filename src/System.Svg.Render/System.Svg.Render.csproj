@@ -61,7 +61,6 @@
     <Compile Include="ISvgUnitCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SvgElementTranslatorBase.cs" />
-    <Compile Include="SvgTextTranslatorBase.cs" />
     <Compile Include="SvgUnitCalculatorBase.cs" />
   </ItemGroup>
   <ItemGroup>

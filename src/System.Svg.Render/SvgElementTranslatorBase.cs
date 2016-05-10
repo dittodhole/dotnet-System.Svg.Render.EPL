@@ -6,30 +6,17 @@ namespace System.Svg.Render
   public abstract class SvgElementTranslatorBase<T> : ISvgElementTranslator<T>
     where T : SvgElement
   {
-    protected SvgElementTranslatorBase([NotNull] ISvgUnitCalculator svgUnitCalculator)
+    public void TranslateUntyped([NotNull] object untypedInstance,
+                                 [NotNull] Matrix matrix,
+                                 out object translation)
     {
-      this.SvgUnitCalculator = svgUnitCalculator;
+      this.Translate((T) untypedInstance,
+                     matrix,
+                     out translation);
     }
 
-    [NotNull]
-    private ISvgUnitCalculator SvgUnitCalculator { get; }
-
-    public bool TryTranslateUntyped([NotNull] object untypedInstance,
-                                    [NotNull] Matrix matrix,
-                                    int targetDpi,
-                                    out object translation)
-    {
-      var success = this.TryTranslate((T) untypedInstance,
-                                      matrix,
-                                      targetDpi,
-                                      out translation);
-
-      return success;
-    }
-
-    public abstract bool TryTranslate([NotNull] T instance,
-                                      [NotNull] Matrix matrix,
-                                      int targetDpi,
-                                      out object translation);
+    public abstract void Translate([NotNull] T instance,
+                                   [NotNull] Matrix matrix,
+                                   out object translation);
   }
 }

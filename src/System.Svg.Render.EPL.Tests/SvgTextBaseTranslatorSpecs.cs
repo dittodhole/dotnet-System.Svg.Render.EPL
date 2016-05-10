@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
@@ -14,20 +15,25 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected SvgTextTranslatorSpecsContext()
       {
-        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None)
-                                 {
-                                   UserUnitTypeSubstitution = SvgUnitType.Pixel,
-                                   SourceDpi = 203
-                                 };
+        this.Matrix = new Matrix();
+        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
         this.SvgTextTranslator = new SvgTextBaseTranslator<SvgText>(this.SvgUnitCalculator)
                                  {
                                    LineHeightFactor = 1f
                                  };
       }
 
+      [NotNull]
+      private Matrix Matrix { get; }
+
+      [NotNull]
       private SvgUnitCalculator SvgUnitCalculator { get; }
+
+      [NotNull]
       private SvgTextBaseTranslator<SvgText> SvgTextTranslator { get; }
+
       protected SvgText SvgText { get; set; }
+
       protected object Actual { get; set; }
 
       protected override void BecauseOf()
@@ -35,13 +41,11 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         object translation;
-        if (this.SvgTextTranslator.TryTranslate(this.SvgText,
-                                                new Matrix(),
-                                                this.SvgUnitCalculator.SourceDpi,
-                                                out translation))
-        {
-          this.Actual = translation;
-        }
+        this.SvgTextTranslator.Translate(this.SvgText,
+                                         this.Matrix,
+                                         out translation);
+
+        this.Actual = translation;
       }
     }
 

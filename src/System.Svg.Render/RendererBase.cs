@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Svg.Transforms;
 using JetBrains.Annotations;
 
@@ -21,19 +20,16 @@ namespace System.Svg.Render
     [NotNull]
     private ConcurrentDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, ISvgElementTranslator>();
 
-    public virtual string GetTranslation([NotNull] SvgDocument instance,
-                                         int targetDpi)
+    public virtual string GetTranslation([NotNull] SvgDocument instance)
     {
       var translation = this.GetTranslation(instance,
-                                            new Matrix(),
-                                            targetDpi);
+                                            new Matrix());
 
       return translation;
     }
 
     public string GetTranslation([NotNull] SvgDocument instance,
-                                 [NotNull] Matrix viewMatrix,
-                                 int targetDpi)
+                                 [NotNull] Matrix viewMatrix)
     {
       var translations = new LinkedList<object>();
 
@@ -41,22 +37,16 @@ namespace System.Svg.Render
       this.TranslateSvgElementAndChildren(instance,
                                           parentMatrix,
                                           viewMatrix,
-                                          targetDpi,
                                           translations);
 
-      if (translations.Any())
-      {
-        return string.Join(Environment.NewLine,
-                           translations);
-      }
-
-      return null;
+      var result = string.Join(Environment.NewLine,
+                               translations);
+      return result;
     }
 
     private void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
                                                 [NotNull] Matrix parentMatrix,
                                                 [NotNull] Matrix viewMatrix,
-                                                int targetDpi,
                                                 [NotNull] ICollection<object> translations)
     {
       var svgVisualElement = svgElement as SvgVisualElement;
@@ -79,19 +69,10 @@ namespace System.Svg.Render
       // TODO write unit-test for dat shit :zzz:
 
       object translation;
-      if (!this.TryTranslateSvgElement(svgElement,
-                                       parentMatrix,
-                                       viewMatrix,
-                                       targetDpi,
-                                       out translation))
-      {
-#if DEBUG
-        this.AddFailedTranslation(svgElement,
-                                  translations,
-                                  translation);
-#endif
-        return;
-      }
+      this.TranslateSvgElement(svgElement,
+                               parentMatrix,
+                               viewMatrix,
+                               out translation);
 
       if (translation != null)
       {
@@ -110,7 +91,6 @@ namespace System.Svg.Render
         this.TranslateSvgElementAndChildren(child,
                                             parentMatrix,
                                             viewMatrix,
-                                            targetDpi,
                                             translations);
       }
     }
@@ -169,11 +149,10 @@ namespace System.Svg.Render
       return false;
     }
 
-    private bool TryTranslateSvgElement([NotNull] SvgElement svgElement,
-                                        [NotNull] Matrix parentMatrix,
-                                        [NotNull] Matrix viewMatrix,
-                                        int targetDpi,
-                                        out object translation)
+    private void TranslateSvgElement([NotNull] SvgElement svgElement,
+                                     [NotNull] Matrix parentMatrix,
+                                     [NotNull] Matrix viewMatrix,
+                                     out object translation)
     {
       var type = svgElement.GetType();
 
@@ -182,17 +161,16 @@ namespace System.Svg.Render
                                                   out svgElementTranslator))
       {
         translation = null;
-        return true;
+        return;
       }
 
       var matrix = viewMatrix.Clone();
       matrix.Multiply(parentMatrix,
                       MatrixOrder.Prepend);
 
-      return svgElementTranslator.TryTranslateUntyped(svgElement,
-                                                      matrix,
-                                                      targetDpi,
-                                                      out translation);
+      svgElementTranslator.TranslateUntyped(svgElement,
+                                            matrix,
+                                            out translation);
     }
 
     public void RegisterTranslator<T>(ISvgElementTranslator<T> svgElementTranslator) where T : SvgElement
@@ -200,15 +178,11 @@ namespace System.Svg.Render
       this.SvgElementTranslators[typeof(T)] = svgElementTranslator;
     }
 
-    protected abstract void AddTranslation(SvgElement svgElement,
-                                           ICollection<object> translations,
-                                           object translation);
+    protected abstract void AddTranslation([NotNull] SvgElement svgElement,
+                                           [NotNull] ICollection<object> translations,
+                                           [NotNull] object translation);
 
-    protected abstract void AddFailedTranslation(SvgElement svgElement,
-                                                 ICollection<object> translations,
-                                                 object translation);
-
-    protected abstract void AddHiddenTranslation(SvgElement svgElement,
-                                                 ICollection<object> translations);
+    protected abstract void AddHiddenTranslation([NotNull] SvgElement svgElement,
+                                                 [NotNull] ICollection<object> translations);
   }
 }

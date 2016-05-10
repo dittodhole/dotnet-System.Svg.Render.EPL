@@ -5,18 +5,16 @@ namespace System.Svg.Render
 {
   public interface ISvgElementTranslator
   {
-    bool TryTranslateUntyped([NotNull] object untypedInstance,
-                             [NotNull] Matrix matrix,
-                             int targetDpi,
-                             out object translation);
+    void TranslateUntyped([NotNull] object untypedInstance,
+                          [NotNull] Matrix matrix,
+                          out object translation);
   }
 
   public interface ISvgElementTranslator<T> : ISvgElementTranslator
     where T : SvgElement
   {
-    bool TryTranslate([NotNull] T instance,
-                      [NotNull] Matrix matrix,
-                      int targetDpi,
-                      out object translation);
+    void Translate([NotNull] T instance,
+                   [NotNull] Matrix matrix,
+                   out object translation);
   }
 }

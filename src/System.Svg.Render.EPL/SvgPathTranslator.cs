@@ -9,9 +9,7 @@ namespace System.Svg.Render.EPL
   public class SvgPathTranslator : SvgElementTranslatorBase<SvgPath>
 
   {
-    public SvgPathTranslator([NotNull] ISvgUnitCalculator svgUnitCalculator,
-                             [NotNull] SvgLineTranslator svgLineTranslator)
-      : base(svgUnitCalculator)
+    public SvgPathTranslator([NotNull] SvgLineTranslator svgLineTranslator)
     {
       this.SvgLineTranslator = svgLineTranslator;
     }
@@ -19,10 +17,9 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private SvgLineTranslator SvgLineTranslator { get; }
 
-    public override bool TryTranslate([NotNull] SvgPath instance,
-                                      [NotNull] Matrix matrix,
-                                      int targetDpi,
-                                      out object translation)
+    public override void Translate([NotNull] SvgPath instance,
+                                   [NotNull] Matrix matrix,
+                                   out object translation)
     {
       // TODO translate C (curveto)
       // TODO translate S (smooth curveto)
@@ -46,13 +43,10 @@ namespace System.Svg.Render.EPL
                         EndX = new SvgUnit(svgLineSegment.End.X),
                         EndY = new SvgUnit(svgLineSegment.End.Y)
                       };
-        if (!this.SvgLineTranslator.TryTranslate(svgLine,
-                                                 matrix,
-                                                 targetDpi,
-                                                 out translation))
-        {
-          return false;
-        }
+
+        this.SvgLineTranslator.Translate(svgLine,
+                                         matrix,
+                                         out translation);
 
         translations.Add(translation);
       }
@@ -66,8 +60,6 @@ namespace System.Svg.Render.EPL
       {
         translation = null;
       }
-
-      return true;
     }
   }
 }

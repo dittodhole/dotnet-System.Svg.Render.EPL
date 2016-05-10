@@ -3,15 +3,14 @@
   public static class DefaultBootstrapper
   {
     public static EPLRenderer Create(int sourceDpi,
-                                     SvgUnitType userUnitTypeSubstituion = SvgUnitType.Pixel)
+                                     int targetDpi)
     {
-      var svgUnitCalculator = new SvgUnitCalculator
-                              {
-                                SourceDpi = sourceDpi,
-                                UserUnitTypeSubstitution = userUnitTypeSubstituion
-                              };
+      var svgUnitCalculator = new SvgUnitCalculator();
 
-      var eplRenderer = new EPLRenderer(svgUnitCalculator);
+      var viewMatrix = SvgUnitCalculator.CreateViewMatrix(sourceDpi,
+                                                          targetDpi);
+      var eplRenderer = new EPLRenderer(svgUnitCalculator,
+                                        viewMatrix);
 
       {
         var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator);
@@ -22,8 +21,7 @@
         var svgTextTranslator = new SvgTextBaseTranslator<SvgText>(svgUnitCalculator);
         var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(svgUnitCalculator);
 
-        var svgPathTranslator = new SvgPathTranslator(svgUnitCalculator,
-                                                      svgLineTranslator);
+        var svgPathTranslator = new SvgPathTranslator(svgLineTranslator);
 
         eplRenderer.RegisterTranslator(svgLineTranslator);
         eplRenderer.RegisterTranslator(svgRectangleTranslator);

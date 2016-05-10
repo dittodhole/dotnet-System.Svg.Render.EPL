@@ -6,12 +6,19 @@ namespace System.Svg.Render.EPL
 {
   public class EPLRenderer : RendererBase
   {
-    public EPLRenderer([NotNull] ISvgUnitCalculator svgUnitCalculator)
-      : base(svgUnitCalculator) {}
+    public EPLRenderer([NotNull] ISvgUnitCalculator svgUnitCalculator,
+                       [NotNull] Matrix viewMatrix)
+      : base(svgUnitCalculator)
+    {
+      this.ViewMatrix = viewMatrix;
+    }
 
-    protected override void AddTranslation(SvgElement svgElement,
-                                           ICollection<object> translations,
-                                           object translation)
+    [NotNull]
+    private Matrix ViewMatrix { get; }
+
+    protected override void AddTranslation([NotNull] SvgElement svgElement,
+                                           [NotNull] ICollection<object> translations,
+                                           [NotNull] object translation)
     {
 #if DEBUG
       translations.Add($"; <{svgElement.ID}>");
@@ -22,34 +29,16 @@ namespace System.Svg.Render.EPL
 #endif
     }
 
-    protected override void AddFailedTranslation(SvgElement svgElement,
-                                                 ICollection<object> translations,
-                                                 object translation)
-    {
-      translations.Add($"; <{svgElement.ID}>");
-      translations.Add(translation ?? "; translation failed");
-      translations.Add($"; </{svgElement.ID}>");
-    }
-
-    protected override void AddHiddenTranslation(SvgElement svgElement,
-                                                 ICollection<object> translations)
+    protected override void AddHiddenTranslation([NotNull] SvgElement svgElement,
+                                                 [NotNull] ICollection<object> translations)
     {
       translations.Add($"; <{svgElement.ID} is hidden />");
     }
 
-    public override string GetTranslation(SvgDocument instance,
-                                          int targetDpi)
+    public override string GetTranslation([NotNull] SvgDocument instance)
     {
-      var viewMatrix = new Matrix(0f,
-                                  1f,
-                                  1f,
-                                  0f,
-                                  0f,
-                                  0f);
-
       return this.GetTranslation(instance,
-                                 viewMatrix,
-                                 targetDpi);
+                                 this.ViewMatrix);
     }
   }
 }

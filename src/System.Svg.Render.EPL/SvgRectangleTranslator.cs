@@ -6,82 +6,52 @@ namespace System.Svg.Render.EPL
 {
   public class SvgRectangleTranslator : SvgElementTranslatorBase<SvgRectangle>
   {
-    public SvgRectangleTranslator([NotNull] ISvgUnitCalculator svgUnitCalculator,
+    public SvgRectangleTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
                                   [NotNull] SvgLineTranslator svgLineTranslator)
-      : base(svgUnitCalculator)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
       this.SvgLineTranslator = svgLineTranslator;
     }
 
     [NotNull]
-    private ISvgUnitCalculator SvgUnitCalculator { get; }
+    private SvgUnitCalculator SvgUnitCalculator { get; }
 
     [NotNull]
     private SvgLineTranslator SvgLineTranslator { get; }
 
-    public override bool TryTranslate([NotNull] SvgRectangle instance,
-                                      [NotNull] Matrix matrix,
-                                      int targetDpi,
-                                      out object translation)
+    public override void Translate([NotNull] SvgRectangle instance,
+                                   [NotNull] Matrix matrix,
+                                   out object translation)
     {
-      bool success;
       if (instance.Fill != SvgPaintServer.None
-        && (instance.Fill as SvgColourServer)?.Colour != Color.White)
+          && (instance.Fill as SvgColourServer)?.Colour != Color.White)
       {
-        success = this.TryTranslateFilledBox(instance,
-                                             matrix,
-                                             targetDpi,
-                                             out translation);
+        this.TranslateFilledBox(instance,
+                                matrix,
+                                out translation);
       }
       else if (instance.Stroke != SvgPaintServer.None)
       {
-        success = this.TryTranslateBox(instance,
-                                       matrix,
-                                       targetDpi,
-                                       out translation);
+        this.TranslateBox(instance,
+                          matrix,
+                          out translation);
       }
       else
       {
 #if DEBUG
-        translation = $"; could not translate rectangle (neither stroke nor fill): {instance.GetXML()}";
+        translation = $"; could not translate {nameof(SvgRectangle)}: {instance.GetXML()}";
 #else
         translation = null;
 #endif
-        success = false;
       }
-
-      return success;
     }
 
-    private bool TryTranslateFilledBox(SvgRectangle instance,
-                                       Matrix matrix,
-                                       int targetDpi,
-                                       out object translation)
+    private void TranslateFilledBox(SvgRectangle instance,
+                                    Matrix matrix,
+                                    out object translation)
     {
-      SvgUnit endX;
-      if (!this.SvgUnitCalculator.TryAdd(instance.X,
-                                         instance.Width,
-                                         out endX))
-      {
-#if DEBUG
-        translation = "; could not get endX (fill) : {instance.GetXML()}";
-#endif
-        translation = null;
-        return false;
-      }
-
-      SvgUnit startY;
-      if (!this.SvgUnitCalculator.TryAdd(instance.Y,
-                                         instance.Height,
-                                         out startY))
-      {
-#if DEBUG
-        translation = "; could not get startY (fill) : {instance.GetXML()}";
-#endif
-        translation = null;
-        return false;
-      }
+      var endX = this.SvgUnitCalculator.GetValue(instance.X) + this.SvgUnitCalculator.GetValue(instance.Width);
+      var startY = this.SvgUnitCalculator.GetValue(instance.Y) + this.SvgUnitCalculator.GetValue(instance.Height);
 
       var svgLine = new SvgLine
                     {
@@ -91,130 +61,44 @@ namespace System.Svg.Render.EPL
                       EndY = startY,
                       StrokeWidth = instance.Height
                     };
-      var success = this.SvgLineTranslator.TryTranslate(svgLine,
-                                                        matrix,
-                                                        targetDpi,
-                                                        out translation);
 
-      return success;
+      this.SvgLineTranslator.Translate(svgLine,
+                                       matrix,
+                                       out translation);
     }
 
-    private bool TryTranslateBox(SvgRectangle instance,
-                                 Matrix matrix,
-                                 int targetDpi,
-                                 out object translation)
+    private void TranslateBox(SvgRectangle instance,
+                              Matrix matrix,
+                              out object translation)
     {
-      int horizontalStart;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.X,
-                                                     targetDpi,
-                                                     out horizontalStart))
-      {
-#if DEBUG
-        translation = $"; could not get device points (startX): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      var horizontalStart = this.SvgUnitCalculator.GetValue(instance.X);
+      var verticalStart = this.SvgUnitCalculator.GetValue(instance.Y);
+      var horizontalEnd = this.SvgUnitCalculator.GetValue(instance.X) + this.SvgUnitCalculator.GetValue(instance.Width);
+      var verticalEnd = this.SvgUnitCalculator.GetValue(instance.Y) + this.SvgUnitCalculator.GetValue(instance.Height);
+      var lineThickness = this.SvgUnitCalculator.GetValue(instance.StrokeWidth);
 
-      int verticalStart;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.Y,
-                                                     targetDpi,
-                                                     out verticalStart))
-      {
-#if DEBUG
-        translation = $"; could not get device points (startY): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      horizontalStart -= lineThickness / 2f;
+      verticalStart -= lineThickness / 2f;
+      horizontalEnd += lineThickness / 2f;
+      verticalEnd += lineThickness / 2f;
 
-      SvgUnit endX;
-      if (!this.SvgUnitCalculator.TryAdd(instance.X,
-                                         instance.Width,
-                                         out endX))
-      {
-#if DEBUG
-        translation = $"; could not add x and width: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      this.SvgUnitCalculator.ApplyMatrix(horizontalStart,
+                                         verticalStart,
+                                         matrix,
+                                         out horizontalStart,
+                                         out verticalStart);
 
-      int horizontalEnd;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(endX,
-                                                     targetDpi,
-                                                     out horizontalEnd))
-      {
-#if DEBUG
-        translation = $"; could not get device points (endX): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      this.SvgUnitCalculator.ApplyMatrix(horizontalEnd,
+                                         verticalEnd,
+                                         matrix,
+                                         out horizontalEnd,
+                                         out verticalEnd);
 
-      SvgUnit endY;
-      if (!this.SvgUnitCalculator.TryAdd(instance.Y,
-                                         instance.Height,
-                                         out endY))
-      {
-#if DEBUG
-        translation = $"; could not add y and height: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
-
-      int verticalEnd;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(endY,
-                                                     targetDpi,
-                                                     out verticalEnd))
-      {
-#if DEBUG
-        translation = $"; could not get device points (endY): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
-
-      int lineThickness;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StrokeWidth,
-                                                     targetDpi,
-                                                     out lineThickness))
-      {
-#if DEBUG
-        translation = $"; could not get device points (stroke): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
-
-      horizontalStart -= (int) Math.Ceiling(lineThickness / 2f);
-      verticalStart -= (int) Math.Ceiling(lineThickness / 2f);
-      horizontalEnd += (int) Math.Ceiling(lineThickness / 2f);
-      verticalEnd += (int) Math.Ceiling(lineThickness / 2f);
-
-      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(horizontalStart,
-                                                       verticalStart,
-                                                       matrix,
-                                                       out horizontalStart,
-                                                       out verticalStart);
-
-      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(horizontalEnd,
-                                                       verticalEnd,
-                                                       matrix,
-                                                       out horizontalEnd,
-                                                       out verticalEnd);
+      this.SvgUnitCalculator.ApplyMatrix(lineThickness,
+                                         matrix,
+                                         out lineThickness);
 
       translation = $"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}";
-
-      return true;
     }
   }
 }

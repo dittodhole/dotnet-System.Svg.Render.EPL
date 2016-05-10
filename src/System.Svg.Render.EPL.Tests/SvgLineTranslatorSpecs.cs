@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
@@ -14,15 +15,20 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected SvgLineTranslatorSpecsContext()
       {
-        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None)
-                                 {
-                                   UserUnitTypeSubstitution = SvgUnitType.Pixel
-                                 };
+        this.Matrix = new Matrix();
+        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
         this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator);
       }
 
+      [NotNull]
+      private Matrix Matrix { get; }
+
+      [NotNull]
       private SvgUnitCalculator SvgUnitCalculator { get; }
+
+      [NotNull]
       private SvgLineTranslator SvgLineTranslator { get; }
+
       protected SvgLine SvgLine { get; set; }
       protected object Actual { get; set; }
 
@@ -31,13 +37,11 @@ namespace System.Svg.Render.EPL.Tests
         base.BecauseOf();
 
         object translation;
-        if (this.SvgLineTranslator.TryTranslate(this.SvgLine,
-                                                new Matrix(),
-                                                this.SvgUnitCalculator.SourceDpi,
-                                                out translation))
-        {
-          this.Actual = translation;
-        }
+        this.SvgLineTranslator.Translate(this.SvgLine,
+                                         new Matrix(),
+                                         out translation);
+
+        this.Actual = translation;
       }
     }
 
@@ -151,10 +155,10 @@ namespace System.Svg.Render.EPL.Tests
 
         this.SvgLine = new SvgLine
                        {
-                         StartX = new SvgUnit(0f),
-                         StartY = new SvgUnit(0f),
-                         EndX = new SvgUnit(-10f),
-                         EndY = new SvgUnit(0f),
+                         StartX = new SvgUnit(10f),
+                         StartY = new SvgUnit(20f),
+                         EndX = new SvgUnit(60f),
+                         EndY = new SvgUnit(30f),
                          StrokeWidth = new SvgUnit(20f)
                        };
       }
@@ -162,7 +166,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LO-10,0,10,20",
+        Assert.AreEqual("LS10,20,20,60,30",
                         this.Actual);
       }
     }
@@ -176,10 +180,10 @@ namespace System.Svg.Render.EPL.Tests
 
         this.SvgLine = new SvgLine
                        {
-                         StartX = new SvgUnit(0f),
-                         StartY = new SvgUnit(-10f),
-                         EndX = new SvgUnit(-10f),
-                         EndY = new SvgUnit(0f),
+                         StartX = new SvgUnit(90f),
+                         StartY = new SvgUnit(60f),
+                         EndX = new SvgUnit(30f),
+                         EndY = new SvgUnit(50f),
                          StrokeWidth = new SvgUnit(20f)
                        };
       }
@@ -187,7 +191,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LS-10,-10,20,0,0",
+        Assert.AreEqual("LS90,60,20,30,50",
                         this.Actual);
       }
     }

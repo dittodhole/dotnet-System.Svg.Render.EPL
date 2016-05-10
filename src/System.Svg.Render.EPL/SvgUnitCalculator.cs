@@ -1,13 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
   public class SvgUnitCalculator : SvgUnitCalculatorBase
   {
+    public SvgUnitCalculator(PrintDirection printDirection = PrintDirection.TopOrBottom)
+    {
+      this.PrintDirection = printDirection;
+    }
+
+    public SvgUnitCalculator(PrintDirection printDirection,
+                             int labelWithInDevicePoints,
+                             int labelHeightInDevicePoints)
+      : this(printDirection)
+    {
+      this.LabelWidthInDevicePoints = labelWithInDevicePoints;
+      this.LabelHeightInDevicePoints = labelHeightInDevicePoints;
+    }
+
+    protected int MaximumUpperFontSizeOverlap { get; } = 2;
+    public int LabelWidthInDevicePoints { get; set; } = 1296;
+    public int LabelHeightInDevicePoints { get; set; } = 816;
+    private PrintDirection PrintDirection { get; }
+
     public static Matrix CreateViewMatrix(int sourceDpi,
                                           int targetDpi)
     {
@@ -31,57 +48,9 @@ namespace System.Svg.Render.EPL
 
       return matrix;
     }
-    public SvgUnitCalculator(PrintDirection printDirection = PrintDirection.Top)
+
+    public object GetRotationTranslation(PointF vector)
     {
-      this.PrintDirection = printDirection;
-    }
-
-    public SvgUnitCalculator(PrintDirection printDirection,
-                             int labelWithInDevicePoints,
-                             int labelHeightInDevicePoints)
-      : this(printDirection)
-    {
-      this.LabelWidthInDevicePoints = labelWithInDevicePoints;
-      this.LabelHeightInDevicePoints = labelHeightInDevicePoints;
-    }
-
-    protected int MaximumUpperFontSizeOverlap { get; } = 2;
-    public int LabelWidthInDevicePoints { get; set; } = 1296;
-    public int LabelHeightInDevicePoints { get; set; } = 816;
-    private PrintDirection PrintDirection { get; }
-
-    private PointF GetFontHeightVector()
-    {
-      PointF fontHeightVector;
-      if (this.PrintDirection == PrintDirection.Top)
-      {
-        fontHeightVector = new PointF(-10f,
-                                     0f);
-      }
-      else if (this.PrintDirection == PrintDirection.None)
-      {
-        fontHeightVector = new PointF(0f,
-                                      10f);
-      }
-      else
-      {
-        // TODO
-        throw new NotImplementedException();
-      }
-
-      return fontHeightVector;
-    }
-
-    public object GetRotationTranslation([NotNull] Matrix matrix)
-    {
-      var vector = this.GetFontHeightVector();
-      var vectors = new[]
-                    {
-                      vector
-                    };
-      matrix.TransformVectors(vectors);
-      vector = vectors.First();
-
       var rotation = Math.Atan2(vector.Y,
                                 vector.X) / (2 * Math.PI);
       var rotationTranslation = Math.Floor(rotation * 4);
@@ -90,38 +59,9 @@ namespace System.Svg.Render.EPL
       return rotationTranslation;
     }
 
-    public bool TryGetFontTranslation(int fontSize,
-                                      [NotNull] Matrix matrix,
-                                      int targetDpi,
-                                      out object translation)
-    {
-      var height = this.GetHeightOfFontSize(fontSize,
-                                            matrix);
-
-      object fontSelection;
-      object multiplier;
-      if (!this.TryGetFontSelection(height,
-                                    targetDpi,
-                                    out fontSelection,
-                                    out multiplier))
-      {
-#if DEBUG
-        translation = $"; could not get font selection from {nameof(fontSize)} ({fontSize}) in {nameof(targetDpi)} of {targetDpi}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
-
-      translation = $"{fontSelection},{multiplier},{multiplier}";
-
-      return true;
-    }
-
-    private bool TryGetFontSelection(int height,
-                                     int targetDpi,
-                                     out object fontSelection,
-                                     out object multiplier)
+    public virtual void GetFontSelection(float fontSize,
+                                         out object fontSelection,
+                                         out object multiplier)
     {
       // VALUE    203dpi        300dpi
       // ==================================
@@ -153,49 +93,21 @@ namespace System.Svg.Render.EPL
       // horizontal multiplier: Accepted Values: 1–6, 8
       // vertical multiplier: Accepted Values: 1–9
 
-      SortedList<int, string> fontDefinitions;
-      if (targetDpi == 203)
-      {
-        fontDefinitions = new SortedList<int, string>
-                          {
+      var fontDefinitions = new SortedList<int, string>
                             {
-                              12, "1"
-                            },
-                            {
-                              16, "2"
-                            },
-                            {
-                              20, "3"
-                            },
-                            {
-                              24, "4"
-                            }
-                          };
-      }
-      else if (targetDpi == 300)
-      {
-        fontDefinitions = new SortedList<int, string>
-                          {
-                            {
-                              20, "1"
-                            },
-                            {
-                              28, "2"
-                            },
-                            {
-                              36, "3"
-                            },
-                            {
-                              44, "4"
-                            }
-                          };
-      }
-      else
-      {
-        fontSelection = null;
-        multiplier = null;
-        return false;
-      }
+                              {
+                                12, "1"
+                              },
+                              {
+                                16, "2"
+                              },
+                              {
+                                20, "3"
+                              },
+                              {
+                                24, "4"
+                              }
+                            };
 
       var lowerFontDefinitionCandidate = default(FontDefinitionCandidate);
       var upperFontDefinitionCandidate = default(FontDefinitionCandidate);
@@ -212,35 +124,38 @@ namespace System.Svg.Render.EPL
       {
         foreach (var fontDefinition in fontDefinitions)
         {
-          var actualHeight = fontDefinition.Key * factor;
-          if (actualHeight == height)
+          var actualFontSize = fontDefinition.Key * factor;
+
+          // TODO find a good TOLERANCE
+          if (Math.Abs(actualFontSize - fontSize) < 0.5f)
           {
             fontSelection = fontDefinition.Value;
             multiplier = factor;
-            return true;
+            return;
           }
-          if (actualHeight < height)
+
+          if (actualFontSize < fontSize)
           {
             if (lowerFontDefinitionCandidate == null
-                || actualHeight > lowerFontDefinitionCandidate.ActualHeight)
+                || actualFontSize > lowerFontDefinitionCandidate.ActualHeight)
             {
               lowerFontDefinitionCandidate = new FontDefinitionCandidate
                                              {
                                                FontSelection = fontDefinition.Value,
-                                               ActualHeight = actualHeight,
+                                               ActualHeight = actualFontSize,
                                                Multiplier = factor
                                              };
             }
           }
-          else if (actualHeight <= height + this.MaximumUpperFontSizeOverlap)
+          else if (actualFontSize <= fontSize + this.MaximumUpperFontSizeOverlap)
           {
             if (upperFontDefinitionCandidate == null
-                || actualHeight < upperFontDefinitionCandidate.ActualHeight)
+                || actualFontSize < upperFontDefinitionCandidate.ActualHeight)
             {
               upperFontDefinitionCandidate = new FontDefinitionCandidate
                                              {
                                                FontSelection = fontDefinition.Value,
-                                               ActualHeight = actualHeight,
+                                               ActualHeight = actualFontSize,
                                                Multiplier = factor
                                              };
             }
@@ -252,9 +167,10 @@ namespace System.Svg.Render.EPL
       if (lowerFontDefinitionCandidate == null
           && upperFontDefinitionCandidate == null)
       {
+        // this should never happen :beers:
         fontSelection = null;
         multiplier = null;
-        return false;
+        return;
       }
 
       if (lowerFontDefinitionCandidate == null)
@@ -273,8 +189,8 @@ namespace System.Svg.Render.EPL
         // reason: idk if lower or upper is better, so I am leveling the playing field here
         // if I would add this to the if-clauses, the arithmetic behind it would be done
         // twice for the worst case. with this solution, the cost is stable for all scenarios
-        var differenceLower = height - lowerFontDefinitionCandidate.ActualHeight;
-        var differenceUpper = upperFontDefinitionCandidate.ActualHeight - height;
+        var differenceLower = fontSize - lowerFontDefinitionCandidate.ActualHeight;
+        var differenceUpper = upperFontDefinitionCandidate.ActualHeight - fontSize;
         if (differenceLower <= differenceUpper)
         {
           fontSelection = lowerFontDefinitionCandidate.FontSelection;
@@ -286,36 +202,15 @@ namespace System.Svg.Render.EPL
           multiplier = upperFontDefinitionCandidate.Multiplier;
         }
       }
-
-      return true;
     }
 
-    private int GetHeightOfFontSize(int fontSize,
-                                    [NotNull] Matrix matrix)
-    {
-      var vector = new PointF(0f,
-                              fontSize);
-      var vectors = new[]
-                    {
-                      vector
-                    };
-      matrix.TransformVectors(vectors);
-      vector = vectors.First();
-
-      var result = Math.Sqrt(Math.Pow(vector.X,
-                                      2) + Math.Pow(vector.Y,
-                                                    2));
-
-      return (int) result;
-    }
-
-    protected override Point AdaptPoint(Point point)
+    protected override PointF AdaptPoint(PointF point)
     {
       // TODO clarify: can this be done w/ matrix?
 
       point = base.AdaptPoint(point);
 
-      if (this.PrintDirection == PrintDirection.Top)
+      if (this.PrintDirection == PrintDirection.TopOrBottom)
       {
         point.X = this.LabelHeightInDevicePoints - point.X;
       }

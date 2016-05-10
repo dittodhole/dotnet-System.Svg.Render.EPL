@@ -5,14 +5,12 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgTextBaseTranslator<T> : SvgTextTranslatorBase<T>
+  public class SvgTextBaseTranslator<T> : SvgElementTranslatorBase<T>
     where T : SvgTextBase
   {
     // TODO translate dX and dY
-    // TODO translate rotation
 
     public SvgTextBaseTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
-      : base(svgUnitCalculator)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
     }
@@ -22,10 +20,9 @@ namespace System.Svg.Render.EPL
 
     public float LineHeightFactor { get; set; } = 1.25f;
 
-    public override bool TryTranslate([NotNull] T instance,
-                                      [NotNull] Matrix matrix,
-                                      int targetDpi,
-                                      out object translation)
+    public override void Translate([NotNull] T instance,
+                                   [NotNull] Matrix matrix,
+                                   out object translation)
     {
       var text = this.RemoveIllegalCharacters(instance.Text);
       if (string.IsNullOrWhiteSpace(text))
@@ -35,111 +32,36 @@ namespace System.Svg.Render.EPL
 #else
         translation = null;
 #endif
-        return true;
+        return;
       }
 
-      if (instance.X == null)
-      {
-#if DEBUG
-        translation = $"; x is null: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      var x = this.SvgUnitCalculator.GetValue(instance.X.First());
+      var y = this.SvgUnitCalculator.GetValue(instance.Y.First());
+      var fontSize = this.SvgUnitCalculator.GetValue(instance.FontSize);
 
-      if (!instance.X.Any())
-      {
-#if DEBUG
-        translation = $"; no x-coordinates: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      y -= fontSize / this.LineHeightFactor;
 
-      if (instance.Y == null)
-      {
-#if DEBUG
-        translation = $"; y is null: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      this.SvgUnitCalculator.ApplyMatrix(x,
+                                         y,
+                                         matrix,
+                                         out x,
+                                         out y);
 
-      if (!instance.Y.Any())
-      {
-#if DEBUG
-        translation = $"; no y-coordinates: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      var fontSizeVector = new PointF(0f,
+                                      fontSize);
+      this.SvgUnitCalculator.ApplyMatrix(fontSizeVector,
+                                         matrix,
+                                         out fontSizeVector);
 
-      int x;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.X.First(),
-                                                     targetDpi,
-                                                     out x))
-      {
-#if DEBUG
-        translation = $"; could not get device points (y): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(fontSizeVector);
 
-      int y;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.Y.First(),
-                                                     targetDpi,
-                                                     out y))
-      {
-#if DEBUG
-        translation = $"; could not get device points (x): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      object fontSelection;
+      object multiplier;
+      this.SvgUnitCalculator.GetFontSelection(fontSize,
+                                              out fontSelection,
+                                              out multiplier);
 
-      int fontSize;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.FontSize,
-                                                     targetDpi,
-                                                     out fontSize))
-      {
-#if DEBUG
-        translation = $"; could not get device points (fontSize): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
-
-      y -= (int) Math.Ceiling(fontSize / this.LineHeightFactor);
-
-      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(x,
-                                                       y,
-                                                       matrix,
-                                                       out x,
-                                                       out y);
-
-      var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(matrix);
-
-      object fontTranslation;
-      if (!this.SvgUnitCalculator.TryGetFontTranslation(fontSize,
-                                                        matrix,
-                                                        targetDpi,
-                                                        out fontTranslation))
-      {
-#if DEBUG
-        translation = $"; could not get font translation: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      var fontTranslation = $"{fontSelection},{multiplier},{multiplier}";
 
       string reverseImage;
       if ((instance.Fill as SvgColourServer)?.Colour == Color.White)
@@ -152,8 +74,6 @@ namespace System.Svg.Render.EPL
       }
 
       translation = $@"A{x},{y},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
-
-      return true;
     }
 
     private string RemoveIllegalCharacters(string text)

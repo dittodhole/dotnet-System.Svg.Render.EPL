@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
@@ -5,18 +6,22 @@ namespace System.Svg.Render
 {
   public interface ISvgUnitCalculator
   {
-    bool TryAdd(SvgUnit svgUnit1,
-                SvgUnit svgUnit2,
-                out SvgUnit result);
+    void ApplyMatrix(float x,
+                     float y,
+                     [NotNull] Matrix matrix,
+                     out float newX,
+                     out float newY);
 
-    bool TryGetDevicePoints(SvgUnit svgUnit,
-                            int targetDpi,
-                            out int devicePoints);
+    float GetLengthOfVector(PointF vector);
 
-    void ApplyMatrixToDevicePoints(int x,
-                                   int y,
-                                   [NotNull] Matrix matrix,
-                                   out int newX,
-                                   out int newY);
+    float GetValue(SvgUnit svgUnit);
+
+    void ApplyMatrix(PointF vector,
+                     [NotNull] Matrix matrix,
+                     out PointF newVector);
+
+    void ApplyMatrix(float length,
+                     [NotNull] Matrix matrix,
+                     out float newLength);
   }
 }

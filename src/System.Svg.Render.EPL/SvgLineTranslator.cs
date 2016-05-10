@@ -6,186 +6,86 @@ namespace System.Svg.Render.EPL
 {
   public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>
   {
-    public SvgLineTranslator([NotNull] ISvgUnitCalculator svgUnitCalculator)
-      : base(svgUnitCalculator)
+    public SvgLineTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
     }
 
     [NotNull]
-    private ISvgUnitCalculator SvgUnitCalculator { get; }
+    private SvgUnitCalculator SvgUnitCalculator { get; }
 
-    public override bool TryTranslate([NotNull] SvgLine instance,
-                                      [NotNull] Matrix matrix,
-                                      int targetDpi,
-                                      out object translation)
+    public override void Translate([NotNull] SvgLine instance,
+                                   [NotNull] Matrix matrix,
+                                   out object translation)
     {
-      int startX;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StartX,
-                                                     targetDpi,
-                                                     out startX))
-      {
-#if DEBUG
-        translation = $"; could not get device points (startX): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      var startX = this.SvgUnitCalculator.GetValue(instance.StartX);
+      var startY = this.SvgUnitCalculator.GetValue(instance.StartY);
+      var endX = this.SvgUnitCalculator.GetValue(instance.EndX);
+      var endY = this.SvgUnitCalculator.GetValue(instance.EndY);
+      var strokeWidth = this.SvgUnitCalculator.GetValue(instance.StrokeWidth);
 
-      int startY;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StartY,
-                                                     targetDpi,
-                                                     out startY))
-      {
-#if DEBUG
-        translation = $"; could not get device points (startY): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      // TODO apply matrix!
 
-      int endX;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.EndX,
-                                                     targetDpi,
-                                                     out endX))
-      {
-#if DEBUG
-        translation = $"; could not get device points (endX): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      this.SvgUnitCalculator.ApplyMatrix(startX,
+                                         startY,
+                                         matrix,
+                                         out startX,
+                                         out startY);
 
-      int endY;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.EndY,
-                                                     targetDpi,
-                                                     out endY))
-      {
-#if DEBUG
-        translation = $"; could not get device points (endY): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
+      this.SvgUnitCalculator.ApplyMatrix(endX,
+                                         endY,
+                                         matrix,
+                                         out endX,
+                                         out endY);
 
-      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(startX,
-                                                       startY,
-                                                       matrix,
-                                                       out startX,
-                                                       out startY);
+      this.SvgUnitCalculator.ApplyMatrix(strokeWidth,
+                                         matrix,
+                                         out strokeWidth);
 
-      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(endX,
-                                                       endY,
-                                                       matrix,
-                                                       out endX,
-                                                       out endY);
-
-      int strokeWidth;
-      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StrokeWidth,
-                                                     targetDpi,
-                                                     out strokeWidth))
-      {
-#if DEBUG
-        translation = $"; could not get device points (stroke): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
-
-      if (startX > endX)
-      {
-        // no .. i won't go down two-variable-way - compiler galore
-        var temp = endX;
-        endX = startX;
-        startX = temp;
-      }
-
-      if (startY > endY)
-      {
-        // no .. i won't go down two-variable-way - compiler galore
-        var temp = endY;
-        endY = startY;
-        startY = temp;
-      }
-
-      if (startY == endY
-          || startX == endX)
+      // TODO find a good TOLERANCE
+      if (Math.Abs(startY - endY) < 0.5f
+          || Math.Abs(startX - endX) < 0.5f)
       {
         var strokeShouldBeWhite = (instance.Stroke as SvgColourServer)?.Colour == Color.White;
-        translation = this.TranslateHorizontalOrVerticalLine(startX,
-                                                             startY,
-                                                             endX,
-                                                             endY,
-                                                             strokeWidth,
-                                                             strokeShouldBeWhite);
+        var horizontalStart = (int) startX;
+        var verticalStart = (int) startY;
+        var horizontalLength = (int) endX - (int) startX;
+        if (horizontalLength == 0)
+        {
+          horizontalLength = (int) strokeWidth;
+        }
+        var verticalLength = (int) endY - (int) startY;
+        if (verticalLength == 0)
+        {
+          verticalLength = (int) strokeWidth;
+        }
+
+        string command;
+        if (strokeShouldBeWhite)
+        {
+          command = "LW";
+        }
+        else
+        {
+          command = "LO";
+        }
+
+        var result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+
+        translation = result;
       }
       else
       {
-        translation = this.TranslateDiagonal(startX,
-                                             startY,
-                                             endX,
-                                             endY,
-                                             strokeWidth);
+        var horizontalStart = (int) startX;
+        var verticalStart = (int) startY;
+        var horizontalLength = (int) strokeWidth;
+        var verticalLength = (int) endX;
+        var verticalEnd = (int) endY;
+
+        var result = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
+
+        translation = result;
       }
-
-      return true;
-    }
-
-    private object TranslateHorizontalOrVerticalLine(int startX,
-                                                     int startY,
-                                                     int endX,
-                                                     int endY,
-                                                     int strokeWidth,
-                                                     bool strokeShouldBeWhite)
-    {
-      var horizontalStart = startX;
-      var verticalStart = startY;
-      var horizontalLength = endX - startX;
-      if (horizontalLength == 0)
-      {
-        horizontalLength = strokeWidth;
-      }
-      var verticalLength = endY - startY;
-      if (verticalLength == 0)
-      {
-        verticalLength = strokeWidth;
-      }
-
-      string command;
-      if (strokeShouldBeWhite)
-      {
-        command = "LW";
-      }
-      else
-      {
-        command = "LO";
-      }
-
-      var result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
-
-      return result;
-    }
-
-    private object TranslateDiagonal(int startX,
-                                     int startY,
-                                     int endX,
-                                     int endY,
-                                     int strokeWidth)
-    {
-      var horizontalStart = startX;
-      var verticalStart = startY;
-      var horizontalLength = strokeWidth;
-      var verticalLength = endX;
-      var verticalEnd = endY;
-
-      var result = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
-
-      return result;
     }
   }
 }

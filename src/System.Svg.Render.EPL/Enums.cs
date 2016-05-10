@@ -3,8 +3,6 @@
   public enum PrintDirection
   {
     None,
-    Top,
-    // TODO implement Bottom
-    //Bottom
+    TopOrBottom
   }
 }

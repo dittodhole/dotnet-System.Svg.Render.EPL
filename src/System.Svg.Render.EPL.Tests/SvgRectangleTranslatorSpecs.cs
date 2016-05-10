@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
+using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
 
@@ -15,19 +15,39 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected SvgRectangleTranslatorSpecsContext()
       {
-        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None)
-                                 {
-                                   UserUnitTypeSubstitution = SvgUnitType.Pixel
-                                 };
-        var svgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator);
+        this.Matrix = new Matrix();
+        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
+        this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator);
         this.SvgRectangleTranslator = new SvgRectangleTranslator(this.SvgUnitCalculator,
-                                                                 svgLineTranslator);
+                                                                 this.SvgLineTranslator);
       }
 
-      protected SvgUnitCalculator SvgUnitCalculator { get; }
-      protected SvgRectangleTranslator SvgRectangleTranslator { get; }
+      [NotNull]
+      private Matrix Matrix { get; }
+
+      [NotNull]
+      private SvgUnitCalculator SvgUnitCalculator { get; }
+
+      [NotNull]
+      private SvgLineTranslator SvgLineTranslator { get; }
+
+      [NotNull]
+      private SvgRectangleTranslator SvgRectangleTranslator { get; }
+
       protected SvgRectangle SvgRectangle { get; set; }
       protected object Actual { get; set; }
+
+      protected override void BecauseOf()
+      {
+        base.BecauseOf();
+
+        object translation;
+        this.SvgRectangleTranslator.Translate(this.SvgRectangle,
+                                              this.Matrix,
+                                              out translation);
+
+        this.Actual = translation;
+      }
     }
 
     [TestClass]
@@ -47,20 +67,6 @@ namespace System.Svg.Render.EPL.Tests
                               Stroke = new SvgColourServer(Color.Black),
                               Fill = SvgPaintServer.None
                             };
-      }
-
-      protected override void BecauseOf()
-      {
-        base.BecauseOf();
-
-        object translation;
-        if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
-                                                     new Matrix(),
-                                                     this.SvgUnitCalculator.SourceDpi,
-                                                     out translation))
-        {
-          this.Actual = translation;
-        }
       }
 
       [TestMethod]
@@ -89,20 +95,6 @@ namespace System.Svg.Render.EPL.Tests
                             };
       }
 
-      protected override void BecauseOf()
-      {
-        base.BecauseOf();
-
-        object translation;
-        if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
-                                                     new Matrix(),
-                                                     this.SvgUnitCalculator.SourceDpi,
-                                                     out translation))
-        {
-          this.Actual = translation;
-        }
-      }
-
       [TestMethod]
       public void return_valid_epl_code()
       {
@@ -127,20 +119,6 @@ namespace System.Svg.Render.EPL.Tests
                               Stroke = SvgPaintServer.None,
                               Fill = new SvgColourServer(Color.Black)
                             };
-      }
-
-      protected override void BecauseOf()
-      {
-        base.BecauseOf();
-
-        object translation;
-        if (this.SvgRectangleTranslator.TryTranslate(this.SvgRectangle,
-                                                     new Matrix(),
-                                                     this.SvgUnitCalculator.SourceDpi,
-                                                     out translation))
-        {
-          this.Actual = translation;
-        }
       }
 
       [TestMethod]

@@ -6,95 +6,14 @@ namespace System.Svg.Render
 {
   public class SvgUnitCalculatorBase : ISvgUnitCalculator
   {
-    public int SourceDpi { get; set; } = 72;
-    public SvgUnitType UserUnitTypeSubstitution { get; set; } = SvgUnitType.Pixel;
-
-    public bool TryAdd(SvgUnit svgUnit1,
-                       SvgUnit svgUnit2,
-                       out SvgUnit result)
+    public void ApplyMatrix(float x,
+                            float y,
+                            [NotNull] Matrix matrix,
+                            out float newX,
+                            out float newY)
     {
-      var svgUnitType = svgUnit1.Type;
-      if (svgUnitType != svgUnit2.Type)
-      {
-        result = SvgUnit.None;
-        return false;
-      }
-
-      var val1 = svgUnit1.Value;
-      var val2 = svgUnit2.Value;
-      var value = val1 + val2;
-
-      result = new SvgUnit(svgUnitType,
-                           value);
-
-      return true;
-    }
-
-    public bool TryGetDevicePoints(SvgUnit svgUnit,
-                                   int targetDpi,
-                                   out int devicePoints)
-    {
-      var value = svgUnit.Value;
-      var svgUnitType = svgUnit.Type;
-      if (svgUnitType == SvgUnitType.User)
-      {
-        svgUnitType = this.UserUnitTypeSubstitution;
-      }
-
-      float? inches;
-      if (svgUnitType == SvgUnitType.Inch)
-      {
-        inches = value;
-      }
-      else if (svgUnitType == SvgUnitType.Centimeter)
-      {
-        inches = value / 2.54f;
-      }
-      else if (svgUnitType == SvgUnitType.Millimeter)
-      {
-        inches = value / 10f / 2.54f;
-      }
-      else if (svgUnitType == SvgUnitType.Point)
-      {
-        inches = value / 72f;
-      }
-      else if (svgUnitType == SvgUnitType.Pica)
-      {
-        inches = value / 10f / 72f;
-      }
-      else
-      {
-        inches = null;
-      }
-
-      float pixels;
-      if (svgUnitType == SvgUnitType.Pixel)
-      {
-        pixels = value;
-      }
-      else if (inches.HasValue)
-      {
-        pixels = inches.Value * this.SourceDpi;
-      }
-      else
-      {
-        devicePoints = 0;
-        return false;
-      }
-
-      devicePoints = (int) (pixels / this.SourceDpi * targetDpi);
-
-      return true;
-    }
-
-    public void ApplyMatrixToDevicePoints(int x,
-                                          int y,
-                                          [NotNull] Matrix matrix,
-                                          out int newX,
-                                          out int newY)
-    {
-      var originalPoint = new Point(x,
-                                    y);
+      var originalPoint = new PointF(x,
+                                     y);
 
       var points = new[]
                    {
@@ -108,9 +27,54 @@ namespace System.Svg.Render
       newY = transformedPoint.Y;
     }
 
-    protected virtual Point AdaptPoint(Point point)
+    protected virtual PointF AdaptPoint(PointF point)
     {
       return point;
+    }
+
+    public float GetLengthOfVector(PointF vector)
+    {
+      var result = Math.Sqrt(Math.Pow(vector.X,
+                                      2) + Math.Pow(vector.Y,
+                                                    2));
+
+      return (int) result;
+    }
+
+    public float GetValue(SvgUnit svgUnit)
+    {
+      // TODO we asome that we are working with pixels all the way
+      var result = svgUnit.Value;
+
+      return result;
+    }
+
+    public void ApplyMatrix(PointF vector,
+                            Matrix matrix,
+                            out PointF newVector)
+    {
+      var vectors = new[]
+                    {
+                      vector
+                    };
+
+      matrix.TransformVectors(vectors);
+
+      newVector = vectors[0];
+    }
+
+    public void ApplyMatrix(float length,
+                            Matrix matrix,
+                            out float newLength)
+    {
+      var vector = new PointF(length,
+                              0f);
+
+      this.ApplyMatrix(vector,
+                       matrix,
+                       out vector);
+
+      newLength = this.GetLengthOfVector(vector);
     }
   }
 }
