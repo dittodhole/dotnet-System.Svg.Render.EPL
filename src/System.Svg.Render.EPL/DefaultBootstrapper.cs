@@ -16,7 +16,8 @@
       {
         var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator);
 
-        var svgRectangleTranslator = new SvgRectangleTranslator(svgUnitCalculator);
+        var svgRectangleTranslator = new SvgRectangleTranslator(svgUnitCalculator,
+                                                                svgLineTranslator);
 
         var svgTextTranslator = new SvgTextBaseTranslator<SvgText>(svgUnitCalculator);
         var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(svgUnitCalculator);

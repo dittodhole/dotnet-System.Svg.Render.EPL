@@ -19,7 +19,9 @@ namespace System.Svg.Render.EPL.Tests
                                  {
                                    UserUnitTypeSubstitution = SvgUnitType.Pixel
                                  };
-        this.SvgRectangleTranslator = new SvgRectangleTranslator(this.SvgUnitCalculator);
+        var svgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator);
+        this.SvgRectangleTranslator = new SvgRectangleTranslator(this.SvgUnitCalculator,
+                                                                 svgLineTranslator);
       }
 
       protected SvgUnitCalculator SvgUnitCalculator { get; }
@@ -109,7 +111,6 @@ namespace System.Svg.Render.EPL.Tests
       }
     }
 
-    /*
     [TestClass]
     public class when_svg_rectangle_with_black_fill_is_translated : SvgRectangleTranslatorSpecsContext
     {
@@ -119,11 +120,10 @@ namespace System.Svg.Render.EPL.Tests
 
         this.SvgRectangle = new SvgRectangle
                             {
-                              X = new SvgUnit(10f),
-                              Y = new SvgUnit(10f),
+                              X = new SvgUnit(30f),
+                              Y = new SvgUnit(50f),
                               Width = new SvgUnit(100f),
                               Height = new SvgUnit(50f),
-                              //StrokeWidth = new SvgUnit(20f),
                               Stroke = new SvgColourServer(Color.Empty),
                               Fill = new SvgColourServer(Color.Black)
                             };
@@ -146,10 +146,9 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LO10,10,100,50",
+        Assert.AreEqual("LO30,50,100,50",
                         this.Actual);
       }
     }
-    */
   }
 }
