@@ -27,13 +27,9 @@ namespace System.Svg.Render
       return success;
     }
 
-    public virtual bool TryTranslate([NotNull] T instance,
-                                     [NotNull] Matrix matrix,
-                                     int targetDpi,
-                                     out object translation)
-    {
-      translation = null;
-      return true;
-    }
+    public abstract bool TryTranslate([NotNull] T instance,
+                                      [NotNull] Matrix matrix,
+                                      int targetDpi,
+                                      out object translation);
   }
 }
