@@ -53,7 +53,6 @@ namespace System.Svg.Render.EPL
                                          matrix,
                                          out fontSizeVector);
       fontSize = this.SvgUnitCalculator.GetLengthOfVector(fontSizeVector);
-
       var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(fontSizeVector);
 
       object fontSelection;

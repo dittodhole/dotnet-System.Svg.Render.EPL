@@ -24,8 +24,6 @@ namespace System.Svg.Render.EPL
       var endY = this.SvgUnitCalculator.GetValue(instance.EndY);
       var strokeWidth = this.SvgUnitCalculator.GetValue(instance.StrokeWidth);
 
-      // TODO apply matrix!
-
       this.SvgUnitCalculator.ApplyMatrix(startX,
                                          startY,
                                          matrix,

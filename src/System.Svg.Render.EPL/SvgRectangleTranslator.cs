@@ -46,8 +46,8 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    private void TranslateFilledBox(SvgRectangle instance,
-                                    Matrix matrix,
+    private void TranslateFilledBox([NotNull] SvgRectangle instance,
+                                    [NotNull] Matrix matrix,
                                     out object translation)
     {
       var endX = this.SvgUnitCalculator.GetValue(instance.X) + this.SvgUnitCalculator.GetValue(instance.Width);
@@ -67,8 +67,8 @@ namespace System.Svg.Render.EPL
                                        out translation);
     }
 
-    private void TranslateBox(SvgRectangle instance,
-                              Matrix matrix,
+    private void TranslateBox([NotNull] SvgRectangle instance,
+                              [NotNull] Matrix matrix,
                               out object translation)
     {
       var horizontalStart = this.SvgUnitCalculator.GetValue(instance.X);

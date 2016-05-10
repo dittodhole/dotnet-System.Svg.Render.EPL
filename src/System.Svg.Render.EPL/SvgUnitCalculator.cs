@@ -52,11 +52,11 @@ namespace System.Svg.Render.EPL
     public object GetRotationTranslation(PointF vector)
     {
       var rotation = Math.Atan2(vector.Y,
-                                vector.X) / (2 * Math.PI);
-      var rotationTranslation = Math.Floor(rotation * 4);
-      rotationTranslation = Math.Abs(rotationTranslation);
+                                vector.X) / (2 * Math.PI) * 4;
 
-      return rotationTranslation;
+      // 0 -
+
+      return rotation;
     }
 
     public virtual void GetFontSelection(float fontSize,
