@@ -146,9 +146,6 @@ namespace System.Svg.Render.EPL
                             },
                             {
                               24, "4"
-                            },
-                            {
-                              48, "5"
                             }
                           };
       }
@@ -167,9 +164,6 @@ namespace System.Svg.Render.EPL
                             },
                             {
                               44, "4"
-                            },
-                            {
-                              80, "5"
                             }
                           };
       }
