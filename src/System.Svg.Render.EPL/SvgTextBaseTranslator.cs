@@ -20,6 +20,8 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private SvgUnitCalculator SvgUnitCalculator { get; }
 
+    public float LineHeightFactor { get; set; } = 1.25f;
+
     public override bool TryTranslate([NotNull] T instance,
                                       [NotNull] Matrix matrix,
                                       int targetDpi,
@@ -115,7 +117,7 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      y -= fontSize;
+      y -= (int) Math.Ceiling(fontSize / this.LineHeightFactor);
 
       this.SvgUnitCalculator.ApplyMatrixToDevicePoints(x,
                                                        y,
