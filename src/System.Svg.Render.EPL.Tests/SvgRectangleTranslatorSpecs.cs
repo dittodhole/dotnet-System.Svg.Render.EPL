@@ -45,7 +45,7 @@ namespace System.Svg.Render.EPL.Tests
                               Height = new SvgUnit(100f),
                               StrokeWidth = new SvgUnit(20f),
                               Stroke = new SvgColourServer(Color.Black),
-                              Fill = new SvgColourServer(Color.Empty)
+                              Fill = SvgPaintServer.None
                             };
       }
 
@@ -85,7 +85,7 @@ namespace System.Svg.Render.EPL.Tests
                               Width = new SvgUnit(0f),
                               Height = new SvgUnit(0f),
                               StrokeWidth = new SvgUnit(20f),
-                              Fill = new SvgColourServer(Color.Empty)
+                              Fill = SvgPaintServer.None
                             };
       }
 
@@ -146,7 +146,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LO30,50,100,50",
+        Assert.AreEqual("LO30,100,100,50",
                         this.Actual);
       }
     }

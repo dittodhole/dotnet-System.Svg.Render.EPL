@@ -67,24 +67,11 @@ namespace System.Svg.Render.EPL
       return rotationTranslation;
     }
 
-    public bool TryGetFontTranslation([NotNull] SvgTextBase svgTextBase,
+    public bool TryGetFontTranslation(int fontSize,
                                       [NotNull] Matrix matrix,
                                       int targetDpi,
                                       out object translation)
     {
-      int fontSize;
-      if (!this.TryGetDevicePoints(svgTextBase.FontSize,
-                                   targetDpi,
-                                   out fontSize))
-      {
-#if DEBUG
-        translation = $"; could not get device points (fontSize): {svgTextBase.GetXML()}";
-#else
-        translation = null;
-#endif
-        return false;
-      }
-
       var height = this.GetHeightOfFontSize(fontSize,
                                             matrix);
 

@@ -102,6 +102,21 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
+      int fontSize;
+      if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.FontSize,
+                                                     targetDpi,
+                                                     out fontSize))
+      {
+#if DEBUG
+        translation = $"; could not get device points (fontSize): {instance.GetXML()}";
+#else
+        translation = null;
+#endif
+        return false;
+      }
+
+      y -= fontSize;
+
       this.SvgUnitCalculator.ApplyMatrixToDevicePoints(x,
                                                        y,
                                                        matrix,
@@ -111,7 +126,7 @@ namespace System.Svg.Render.EPL
       var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(matrix);
 
       object fontTranslation;
-      if (!this.SvgUnitCalculator.TryGetFontTranslation(instance,
+      if (!this.SvgUnitCalculator.TryGetFontTranslation(fontSize,
                                                         matrix,
                                                         targetDpi,
                                                         out fontTranslation))
