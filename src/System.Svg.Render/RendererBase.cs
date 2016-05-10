@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Svg.Transforms;
 using JetBrains.Annotations;
@@ -55,10 +56,8 @@ namespace System.Svg.Render
         // TODO consider performance here w/ the cast
         if (!svgVisualElement.Visible)
         {
-#if DEBUG
           this.AddHiddenTranslation(svgElement,
                                     translations);
-#endif
           return;
         }
       }
@@ -182,6 +181,7 @@ namespace System.Svg.Render
                                            [NotNull] ICollection<object> translations,
                                            [NotNull] object translation);
 
+    [Conditional("DEBUG")]
     protected abstract void AddHiddenTranslation([NotNull] SvgElement svgElement,
                                                  [NotNull] ICollection<object> translations);
   }
