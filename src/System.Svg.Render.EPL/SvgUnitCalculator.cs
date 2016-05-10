@@ -83,7 +83,7 @@ namespace System.Svg.Render.EPL
                                     out multiplier))
       {
 #if DEBUG
-        translation = $"; could not get font selection: {svgTextBase.GetXML()}";
+        translation = $"; could not get font selection from {nameof(fontSize)} ({fontSize}) in {nameof(targetDpi)} of {targetDpi}";
 #else
         translation = null;
 #endif
