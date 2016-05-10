@@ -98,7 +98,7 @@ namespace System.Svg.Render.EPL
                                          matrix,
                                          out lineThickness);
 
-      translation = $"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}";
+      translation = $"X{(int) horizontalStart},{(int) verticalStart},{(int) lineThickness},{(int) horizontalEnd},{(int) verticalEnd}";
     }
   }
 }

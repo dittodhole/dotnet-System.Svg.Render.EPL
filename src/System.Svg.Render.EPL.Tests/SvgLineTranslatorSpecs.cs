@@ -38,7 +38,7 @@ namespace System.Svg.Render.EPL.Tests
 
         object translation;
         this.SvgLineTranslator.Translate(this.SvgLine,
-                                         new Matrix(),
+                                         this.Matrix,
                                          out translation);
 
         this.Actual = translation;

@@ -21,13 +21,7 @@ namespace System.Svg.Render
     [NotNull]
     private ConcurrentDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, ISvgElementTranslator>();
 
-    public virtual string GetTranslation([NotNull] SvgDocument instance)
-    {
-      var translation = this.GetTranslation(instance,
-                                            new Matrix());
-
-      return translation;
-    }
+    public abstract string GetTranslation([NotNull] SvgDocument instance);
 
     public string GetTranslation([NotNull] SvgDocument instance,
                                  [NotNull] Matrix viewMatrix)
@@ -62,14 +56,14 @@ namespace System.Svg.Render
         }
       }
 
-      parentMatrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
-                                                               parentMatrix);
+      var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
+                                                             parentMatrix);
 
       // TODO write unit-test for dat shit :zzz:
 
       object translation;
       this.TranslateSvgElement(svgElement,
-                               parentMatrix,
+                               matrix,
                                viewMatrix,
                                out translation);
 
@@ -88,7 +82,7 @@ namespace System.Svg.Render
         }
 
         this.TranslateSvgElementAndChildren(child,
-                                            parentMatrix,
+                                            matrix,
                                             viewMatrix,
                                             translations);
       }
@@ -149,7 +143,7 @@ namespace System.Svg.Render
     }
 
     private void TranslateSvgElement([NotNull] SvgElement svgElement,
-                                     [NotNull] Matrix parentMatrix,
+                                     [NotNull] Matrix matrix,
                                      [NotNull] Matrix viewMatrix,
                                      out object translation)
     {
@@ -163,9 +157,9 @@ namespace System.Svg.Render
         return;
       }
 
-      var matrix = viewMatrix.Clone();
-      matrix.Multiply(parentMatrix,
-                      MatrixOrder.Prepend);
+      matrix = matrix.Clone();
+      matrix.Multiply(viewMatrix,
+                      MatrixOrder.Append);
 
       svgElementTranslator.TranslateUntyped(svgElement,
                                             matrix,

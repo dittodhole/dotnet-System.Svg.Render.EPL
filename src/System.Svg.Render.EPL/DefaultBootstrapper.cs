@@ -2,8 +2,8 @@
 {
   public static class DefaultBootstrapper
   {
-    public static EPLRenderer Create(int sourceDpi,
-                                     int targetDpi)
+    public static EPLRenderer Create(float sourceDpi,
+                                     float targetDpi)
     {
       var svgUnitCalculator = new SvgUnitCalculator();
 

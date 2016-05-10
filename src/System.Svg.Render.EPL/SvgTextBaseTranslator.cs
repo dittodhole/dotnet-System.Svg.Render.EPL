@@ -52,6 +52,7 @@ namespace System.Svg.Render.EPL
       this.SvgUnitCalculator.ApplyMatrix(fontSizeVector,
                                          matrix,
                                          out fontSizeVector);
+      fontSize = this.SvgUnitCalculator.GetLengthOfVector(fontSizeVector);
 
       var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(fontSizeVector);
 
@@ -73,7 +74,10 @@ namespace System.Svg.Render.EPL
         reverseImage = "N";
       }
 
-      translation = $@"A{x},{y},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
+      var horizontalStart = (int) x;
+      var verticalStart = (int) y;
+
+      translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
     }
 
     private string RemoveIllegalCharacters(string text)

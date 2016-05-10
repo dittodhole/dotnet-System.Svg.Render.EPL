@@ -25,8 +25,8 @@ namespace System.Svg.Render.EPL
     public int LabelHeightInDevicePoints { get; set; } = 816;
     private PrintDirection PrintDirection { get; }
 
-    public static Matrix CreateViewMatrix(int sourceDpi,
-                                          int targetDpi)
+    public static Matrix CreateViewMatrix(float sourceDpi,
+                                          float targetDpi)
     {
       var magnificationFactor = targetDpi / sourceDpi;
 
