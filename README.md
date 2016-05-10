@@ -9,14 +9,11 @@ It references [System.Svg](https://github.com/dittodhole/dotnet-System.Svg), a f
 You can start by using the `System.Svg.Render.EPL.DefaultBootstrapper`:
 
 ```
-var sourceDpi = 90; // default of Inkscape
-var targetDpi = 203; // default dpi for EPL printers
 var file = "";
 var svgDocument = System.Svg.SvgDocument.Open(file);
-var svgDocumentTranslator = System.Svg.Render.EPL.DefaultBootstrapper.Create(sourceDpi,
-                                                                             SvgUnitType.Pixel);
-var translation = svgDocumentTranslator.Translate(svgDocument,
-                                                  targetDpi);
+var eplRenderer = System.Svg.Render.EPL.DefaultBootstrapper.Create(90,
+                                                                   203);
+var translation = eplRenderer.Translate(svgDocument);
 // TADADADA
 ```
 
@@ -25,10 +22,9 @@ var translation = svgDocumentTranslator.Translate(svgDocument,
 ### Currently implemented elements
 
 - `<text>` and `<tspan>` w/ white stroke for inverting text
-- `<group>` (to define a transformation for a whole group of elements)
 - `<rectangle>` (with white filling for inverting text)
 - `<line>`
-- `<svg>` (if any transformation exists on the root)
+- `<path>` (only L supported at the moment)
 
 ### Currently implemented attributes
 
