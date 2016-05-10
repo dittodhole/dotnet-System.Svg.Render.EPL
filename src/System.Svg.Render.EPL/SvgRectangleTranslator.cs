@@ -173,18 +173,6 @@ namespace System.Svg.Render.EPL
         return false;
       }
 
-      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(horizontalStart,
-                                                       verticalStart,
-                                                       matrix,
-                                                       out horizontalStart,
-                                                       out verticalStart);
-
-      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(horizontalEnd,
-                                                       verticalEnd,
-                                                       matrix,
-                                                       out horizontalEnd,
-                                                       out verticalEnd);
-
       int lineThickness;
       if (!this.SvgUnitCalculator.TryGetDevicePoints(instance.StrokeWidth,
                                                      targetDpi,
@@ -197,6 +185,23 @@ namespace System.Svg.Render.EPL
 #endif
         return false;
       }
+
+      horizontalStart -= (int) Math.Ceiling(lineThickness / 2f);
+      verticalStart -= (int) Math.Ceiling(lineThickness / 2f);
+      horizontalEnd += (int) Math.Ceiling(lineThickness / 2f);
+      verticalEnd += (int) Math.Ceiling(lineThickness / 2f);
+
+      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(horizontalStart,
+                                                       verticalStart,
+                                                       matrix,
+                                                       out horizontalStart,
+                                                       out verticalStart);
+
+      this.SvgUnitCalculator.ApplyMatrixToDevicePoints(horizontalEnd,
+                                                       verticalEnd,
+                                                       matrix,
+                                                       out horizontalEnd,
+                                                       out verticalEnd);
 
       translation = $"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}";
 

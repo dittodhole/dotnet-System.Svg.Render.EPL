@@ -39,10 +39,10 @@ namespace System.Svg.Render.EPL.Tests
 
         this.SvgRectangle = new SvgRectangle
                             {
-                              X = new SvgUnit(10f),
-                              Y = new SvgUnit(10f),
+                              X = new SvgUnit(70f),
+                              Y = new SvgUnit(40f),
                               Width = new SvgUnit(100f),
-                              Height = new SvgUnit(100f),
+                              Height = new SvgUnit(130f),
                               StrokeWidth = new SvgUnit(20f),
                               Stroke = new SvgColourServer(Color.Black),
                               Fill = SvgPaintServer.None
@@ -66,7 +66,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void returns_valid_epl_code()
       {
-        Assert.AreEqual("X10,10,20,110,110",
+        Assert.AreEqual("X60,30,20,180,180",
                         this.Actual);
       }
     }
@@ -80,8 +80,8 @@ namespace System.Svg.Render.EPL.Tests
 
         this.SvgRectangle = new SvgRectangle
                             {
-                              X = new SvgUnit(10f),
-                              Y = new SvgUnit(10f),
+                              X = new SvgUnit(50f),
+                              Y = new SvgUnit(90f),
                               Width = new SvgUnit(0f),
                               Height = new SvgUnit(0f),
                               StrokeWidth = new SvgUnit(20f),
@@ -106,7 +106,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("X10,10,20,10,10",
+        Assert.AreEqual("X40,80,20,60,100",
                         this.Actual);
       }
     }
