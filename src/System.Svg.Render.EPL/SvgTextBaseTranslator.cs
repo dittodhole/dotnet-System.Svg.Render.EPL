@@ -47,8 +47,8 @@ namespace System.Svg.Render.EPL
                                          out x,
                                          out y);
 
-      var fontSizeVector = new PointF(0f,
-                                      fontSize);
+      var fontSizeVector = new PointF(fontSize * -1,
+                                      0f);
       this.SvgUnitCalculator.ApplyMatrix(fontSizeVector,
                                          matrix,
                                          out fontSizeVector);

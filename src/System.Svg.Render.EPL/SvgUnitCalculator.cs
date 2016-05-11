@@ -54,7 +54,7 @@ namespace System.Svg.Render.EPL
       var rotation = Math.Atan2(vector.Y,
                                 vector.X) / (2 * Math.PI) * 4;
 
-      // 0 -
+      rotation = Math.Abs(rotation);
 
       return rotation;
     }
