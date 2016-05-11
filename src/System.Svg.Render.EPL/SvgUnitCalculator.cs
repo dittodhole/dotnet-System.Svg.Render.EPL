@@ -49,14 +49,14 @@ namespace System.Svg.Render.EPL
       return matrix;
     }
 
-    public object GetRotationTranslation(PointF vector)
+    public int GetRotationTranslation(PointF vector)
     {
       var rotation = Math.Atan2(vector.Y,
                                 vector.X) / (2 * Math.PI) * 4;
 
-      rotation = Math.Abs(rotation);
+      var rotationTranslation = (int) Math.Abs(rotation) % 4;
 
-      return rotation;
+      return rotationTranslation;
     }
 
     public virtual void GetFontSelection(float fontSize,

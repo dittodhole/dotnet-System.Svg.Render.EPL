@@ -19,29 +19,25 @@ namespace System.Svg.Render.EPL
                                    [NotNull] Matrix matrix,
                                    out object translation)
     {
-      using (var image = instance.GetImage() as Image)
-      {
-        if (image == null)
-        {
-#if DEBUG
-          translation = $"; could not translate image (no content): {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-          return;
-        }
-      }
-
       var startX = this.SvgUnitCalculator.GetValue(instance.X);
       var startY = this.SvgUnitCalculator.GetValue(instance.Y);
-      var endX = startX + this.SvgUnitCalculator.GetValue(instance.Width);
-      var endY = startY + this.SvgUnitCalculator.GetValue(instance.Height);
+      var originalWidth = this.SvgUnitCalculator.GetValue(instance.Width);
+      var originalHeight = this.SvgUnitCalculator.GetValue(instance.Height);
+      var endX = startX + originalWidth;
+      var endY = startY + originalHeight;
 
       this.SvgUnitCalculator.ApplyMatrix(startX,
                                          startY,
                                          matrix,
                                          out startX,
                                          out startY);
+
+      this.SvgUnitCalculator.ApplyMatrix(originalWidth,
+                                         matrix,
+                                         out originalWidth);
+      this.SvgUnitCalculator.ApplyMatrix(originalHeight,
+                                         matrix,
+                                         out originalHeight);
 
       this.SvgUnitCalculator.ApplyMatrix(endX,
                                          endY,
@@ -57,19 +53,79 @@ namespace System.Svg.Render.EPL
       horizontalStart -= width;
 
       var bytes = (width >> 3) + 1;
-      var stringBuilder = new StringBuilder();
-      stringBuilder.AppendLine($"GW{horizontalStart},{verticalStart},{bytes},{height}");
-      for (var line = 0;
-           line < height;
-           line++)
-      {
-        var fillChar = (char) (0 << 8);
-        var lineTranslation = new string(fillChar,
-                                         bytes);
-        stringBuilder.Append(lineTranslation);
-      }
 
-      translation = stringBuilder;
+      using (var image = instance.GetImage() as Image)
+      {
+        if (image == null)
+        {
+#if DEBUG
+          translation = $"; could not translate image (no content): {instance.GetXML()}";
+#else
+        translation = null;
+#endif
+          return;
+        }
+
+        var stringBuilder = new StringBuilder();
+        stringBuilder.AppendLine($"GW{horizontalStart},{verticalStart},{bytes},{height}");
+
+        var heightVector = new PointF(image.Height * -1f,
+                                      0f);
+        this.SvgUnitCalculator.ApplyMatrix(heightVector,
+                                           matrix,
+                                           out heightVector);
+        var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(heightVector);
+
+        using (var destinationBitmap = new Bitmap(image,
+                                                  (int) originalWidth,
+                                                  (int) originalHeight))
+        {
+          var rotateFlipType = (RotateFlipType) rotationTranslation;
+          destinationBitmap.RotateFlip(rotateFlipType);
+
+          // TODO fix the algorithm
+
+          for (var y = 0;
+               y < height;
+               y++)
+          {
+            for (var octett = 0;
+                 octett <= bytes;
+                 octett++)
+            {
+              var lowerBound = octett << 3;
+              var upperBound = octett + 1 << 3;
+
+              var result = 0;
+              for (int x = lowerBound,
+                       i = 0;
+                   x < upperBound;
+                   x++, i++)
+              {
+                if (x >= width)
+                {
+                  continue;
+                }
+
+                var color = destinationBitmap.GetPixel(x,
+                                                       y);
+                if (color.A < 0x32
+                    || color.R < 0x32
+                    || color.G < 0x32
+                    || color.B < 0.32)
+                {
+                  result |= 1 << 7 - i;
+                }
+              }
+
+              var fillChar = (char) result;
+              stringBuilder.Append(fillChar);
+            }
+          }
+        }
+
+        translation = stringBuilder;
+      }
     }
   }
 }
