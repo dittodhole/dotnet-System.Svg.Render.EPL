@@ -23,8 +23,8 @@ namespace System.Svg.Render
 
     public abstract string GetTranslation([NotNull] SvgDocument instance);
 
-    public string GetTranslation([NotNull] SvgDocument instance,
-                                 [NotNull] Matrix viewMatrix)
+    protected string GetTranslation([NotNull] SvgDocument instance,
+                                    [NotNull] Matrix viewMatrix)
     {
       var translations = new LinkedList<object>();
 
@@ -36,6 +36,7 @@ namespace System.Svg.Render
 
       var result = string.Join(Environment.NewLine,
                                translations);
+
       return result;
     }
 

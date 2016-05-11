@@ -37,8 +37,16 @@ namespace System.Svg.Render.EPL
 
     public override string GetTranslation([NotNull] SvgDocument instance)
     {
-      return this.GetTranslation(instance,
-                                 this.ViewMatrix);
+      var translation = this.GetTranslation(instance,
+                                            this.ViewMatrix);
+
+      translation = $@"R0,0
+ZT
+{translation}
+P1
+";
+
+      return translation;
     }
   }
 }
