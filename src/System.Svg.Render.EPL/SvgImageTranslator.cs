@@ -52,7 +52,7 @@ namespace System.Svg.Render.EPL
 
       horizontalStart -= width;
 
-      var bytes = (width >> 3) + 1;
+      var octetts = (width >> 3) + 1;
 
       using (var image = instance.GetImage() as Image)
       {
@@ -67,7 +67,7 @@ namespace System.Svg.Render.EPL
         }
 
         var stringBuilder = new StringBuilder();
-        stringBuilder.AppendLine($"GW{horizontalStart},{verticalStart},{bytes},{height}");
+        stringBuilder.AppendLine($"GW{horizontalStart},{verticalStart},{octetts},{height}");
 
         var heightVector = new PointF(image.Height * -1f,
                                       0f);
@@ -89,36 +89,38 @@ namespace System.Svg.Render.EPL
                y < height;
                y++)
           {
-            for (var octett = 0;
-                 octett <= bytes;
-                 octett++)
+            var alignedWidth = octetts * 8;
+            var result = 0;
+            char fillChar;
+            for (var x = 0;
+                 x < alignedWidth;
+                 x++)
             {
-              var lowerBound = octett << 3;
-              var upperBound = octett + 1 << 3;
-
-              var result = 0;
-              for (int x = lowerBound,
-                       i = 0;
-                   x < upperBound;
-                   x++, i++)
+              if (x > 0
+                  && x % 8 == 0)
               {
-                if (x >= width)
-                {
-                  continue;
-                }
-
-                var color = destinationBitmap.GetPixel(x,
-                                                       y);
-                if (color.A < 0x32
-                    || color.R < 0x32
-                    || color.G < 0x32
-                    || color.B < 0.32)
-                {
-                  result |= 1 << 7 - i;
-                }
+                fillChar = (char) result;
+                stringBuilder.Append(fillChar);
+                result = 0;
               }
 
-              var fillChar = (char) result;
+              if (x >= width)
+              {
+                continue;
+              }
+
+              var color = destinationBitmap.GetPixel(x,
+                                                     y);
+              if (color.A < 0x32
+                  || color.R > 0xDC && color.G > 0xDC && color.B > 0xDC)
+              {
+                result |= 1 << 7 - x;
+              }
+            }
+
+            if (alignedWidth != width)
+            {
+              fillChar = (char) result;
               stringBuilder.Append(fillChar);
             }
           }
