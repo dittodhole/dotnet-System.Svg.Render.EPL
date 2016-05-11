@@ -23,11 +23,14 @@
 
         var svgPathTranslator = new SvgPathTranslator(svgLineTranslator);
 
+        var svgImageTranslator = new SvgImageTranslator(svgUnitCalculator);
+
         eplRenderer.RegisterTranslator(svgLineTranslator);
         eplRenderer.RegisterTranslator(svgRectangleTranslator);
         eplRenderer.RegisterTranslator(svgTextTranslator);
         eplRenderer.RegisterTranslator(svgTextSpanTranslator);
         eplRenderer.RegisterTranslator(svgPathTranslator);
+        eplRenderer.RegisterTranslator(svgImageTranslator);
       }
 
       return eplRenderer;
