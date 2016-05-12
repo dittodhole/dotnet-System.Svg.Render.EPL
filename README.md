@@ -12,7 +12,9 @@ You can start by using the `System.Svg.Render.EPL.DefaultBootstrapper`:
 var file = "";
 var svgDocument = System.Svg.SvgDocument.Open(file);
 var eplRenderer = System.Svg.Render.EPL.DefaultBootstrapper.Create(90,
-                                                                   203);
+                                                                   203,
+                                                                   PrinterCodepage.Dos850,
+                                                                   850);
 var translation = eplRenderer.Translate(svgDocument);
 // TADADADA
 ```
@@ -25,6 +27,7 @@ var translation = eplRenderer.Translate(svgDocument);
 - `<rectangle>` (with white filling for inverting text)
 - `<line>`
 - `<path>` (only L supported at the moment)
+- `<image>` (if image is attached as a base64 encoded string)
 
 ### Currently implemented attributes
 
