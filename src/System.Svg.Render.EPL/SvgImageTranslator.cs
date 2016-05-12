@@ -52,7 +52,7 @@ namespace System.Svg.Render.EPL
 
       horizontalStart -= width;
 
-      var octetts = (width >> 3) + 1;
+      var octetts = (int) Math.Ceiling(width / 8f);
 
       using (var image = instance.GetImage() as Image)
       {
@@ -61,7 +61,7 @@ namespace System.Svg.Render.EPL
 #if DEBUG
           translation = $"; could not translate image (no content): {instance.GetXML()}";
 #else
-        translation = null;
+          translation = null;
 #endif
           return;
         }
@@ -85,43 +85,33 @@ namespace System.Svg.Render.EPL
 
           // TODO fix the algorithm
 
+          var alignedWidth = octetts * 8;
           for (var y = 0;
                y < height;
                y++)
           {
-            var alignedWidth = octetts * 8;
-            var result = 0;
-            char fillChar;
+            var result = byte.MinValue;
             for (var x = 0;
                  x < alignedWidth;
                  x++)
             {
-              if (x > 0
-                  && x % 8 == 0)
+              var bitPosition = 7 - x % 8;
+              if (x < width)
               {
-                fillChar = (char) result;
-                stringBuilder.Append(fillChar);
-                result = 0;
+                var color = destinationBitmap.GetPixel(x,
+                                                       y);
+                if (color.A < 0x32
+                    || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
+                {
+                  result |= (byte) (1 << bitPosition);
+                }
               }
 
-              if (x >= width)
+              if (bitPosition == 0)
               {
-                continue;
+                stringBuilder.Append((char) result);
+                result = byte.MinValue;
               }
-
-              var color = destinationBitmap.GetPixel(x,
-                                                     y);
-              if (color.A < 0x32
-                  || color.R > 0xDC && color.G > 0xDC && color.B > 0xDC)
-              {
-                result |= 1 << 7 - x;
-              }
-            }
-
-            if (alignedWidth != width)
-            {
-              fillChar = (char) result;
-              stringBuilder.Append(fillChar);
             }
           }
         }
