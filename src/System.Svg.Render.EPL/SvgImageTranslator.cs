@@ -71,6 +71,10 @@ namespace System.Svg.Render.EPL
         {
           result.AddLast(@byte);
         }
+        foreach (var @byte in this.GetBytes(Environment.NewLine))
+        {
+          result.AddLast(@byte);
+        }
 
         var heightVector = new PointF(image.Height * -1f,
                                       0f);
@@ -86,34 +90,32 @@ namespace System.Svg.Render.EPL
           var rotateFlipType = (RotateFlipType) rotationTranslation;
           destinationBitmap.RotateFlip(rotateFlipType);
 
-          // TODO fix the algorithm
-
           var alignedWidth = octetts * 8;
           for (var y = 0;
                y < height;
                y++)
           {
-            var octett = byte.MinValue;
+            var octett = (1 << 8) - 1;
             for (var x = 0;
                  x < alignedWidth;
                  x++)
             {
-              var bitPosition = 7 - x % 8;
+              var bitIndex = 7 - x % 8;
               if (x < width)
               {
                 var color = destinationBitmap.GetPixel(x,
                                                        y);
-                if (color.A < 0x32
+                if (color.A > 0x32
                     || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
                 {
-                  octett |= (byte) (1 << bitPosition);
+                  octett &= ~(1 << bitIndex);
                 }
               }
 
-              if (bitPosition == 0)
+              if (bitIndex == 0)
               {
-                result.AddLast(octett);
-                octett = byte.MinValue;
+                result.AddLast((byte) octett);
+                octett = byte.MaxValue;
               }
             }
           }
