@@ -3,14 +3,18 @@
   public static class DefaultBootstrapper
   {
     public static EPLRenderer Create(float sourceDpi,
-                                     float targetDpi)
+                                     float targetDpi,
+                                     PrinterCodepage printerCodepage,
+                                     int countryCode)
     {
       var svgUnitCalculator = new SvgUnitCalculator();
 
       var viewMatrix = SvgUnitCalculator.CreateViewMatrix(sourceDpi,
                                                           targetDpi);
       var eplRenderer = new EPLRenderer(svgUnitCalculator,
-                                        viewMatrix);
+                                        viewMatrix,
+                                        printerCodepage,
+                                        countryCode);
 
       var encoding = eplRenderer.Encoding;
 

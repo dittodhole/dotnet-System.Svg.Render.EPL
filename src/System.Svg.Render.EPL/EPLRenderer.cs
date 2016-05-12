@@ -10,8 +10,8 @@ namespace System.Svg.Render.EPL
   {
     public EPLRenderer([NotNull] ISvgUnitCalculator svgUnitCalculator,
                        [NotNull] Matrix viewMatrix,
-                       PrinterCodepage printerCodepage = PrinterCodepage.Dos347,
-                       int countryCode = 1)
+                       PrinterCodepage printerCodepage,
+                       int countryCode)
       : base(svgUnitCalculator)
     {
       this.ViewMatrix = viewMatrix;
