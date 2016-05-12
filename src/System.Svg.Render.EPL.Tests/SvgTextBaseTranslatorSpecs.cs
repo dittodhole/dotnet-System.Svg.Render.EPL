@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Text;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
@@ -17,7 +18,8 @@ namespace System.Svg.Render.EPL.Tests
       {
         this.Matrix = new Matrix();
         this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
-        this.SvgTextTranslator = new SvgTextBaseTranslator<SvgText>(this.SvgUnitCalculator)
+        this.SvgTextTranslator = new SvgTextBaseTranslator<SvgText>(this.SvgUnitCalculator,
+                                                                    Encoding.Default)
                                  {
                                    LineHeightFactor = 1f
                                  };
@@ -40,12 +42,10 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        object translation;
-        this.SvgTextTranslator.Translate(this.SvgText,
-                                         this.Matrix,
-                                         out translation);
+        var translation = this.SvgTextTranslator.Translate(this.SvgText,
+                                                           this.Matrix);
 
-        this.Actual = translation;
+        this.Actual = this.SvgTextTranslator.GetString(translation);
       }
     }
 
@@ -73,7 +73,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual(@"A50,58,1,1,1,1,N,""hello""",
+        Assert.AreEqual(@"A50,58,2,1,1,1,N,""hello""",
                         this.Actual);
       }
     }
@@ -103,7 +103,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual(@"A50,58,1,1,1,1,R,""hello""",
+        Assert.AreEqual(@"A50,58,2,1,1,1,R,""hello""",
                         this.Actual);
       }
     }

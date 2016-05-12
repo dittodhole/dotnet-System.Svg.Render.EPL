@@ -1,16 +1,20 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgTextBaseTranslator<T> : SvgElementTranslatorBase<T>
+  public class SvgTextBaseTranslator<T> : SvgElementTranslatorWithEncoding<T>
     where T : SvgTextBase
   {
     // TODO translate dX and dY
 
-    public SvgTextBaseTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
+    public SvgTextBaseTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
+                                 [NotNull] Encoding encoding)
+      : base(encoding)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
     }
@@ -20,19 +24,13 @@ namespace System.Svg.Render.EPL
 
     public float LineHeightFactor { get; set; } = 1.25f;
 
-    public override void Translate([NotNull] T instance,
-                                   [NotNull] Matrix matrix,
-                                   out object translation)
+    public override IEnumerable<byte> Translate([NotNull] T instance,
+                                                [NotNull] Matrix matrix)
     {
       var text = this.RemoveIllegalCharacters(instance.Text);
       if (string.IsNullOrWhiteSpace(text))
       {
-#if DEBUG
-        translation = $"; text is empty: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-        return;
+        return Enumerable.Empty<byte>();
       }
 
       var x = this.SvgUnitCalculator.GetValue(instance.X.First());
@@ -53,7 +51,7 @@ namespace System.Svg.Render.EPL
                                          matrix,
                                          out fontSizeVector);
       fontSize = this.SvgUnitCalculator.GetLengthOfVector(fontSizeVector);
-      var rotationTranslation = (int) this.SvgUnitCalculator.GetRotationTranslation(fontSizeVector);
+      var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(fontSizeVector);
 
       object fontSelection;
       object multiplier;
@@ -76,7 +74,10 @@ namespace System.Svg.Render.EPL
       var horizontalStart = (int) x;
       var verticalStart = (int) y;
 
-      translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
+      var translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
+      var result = this.GetBytes(translation);
+
+      return result;
     }
 
     private string RemoveIllegalCharacters(string text)

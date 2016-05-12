@@ -1,13 +1,17 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgImageTranslator : SvgElementTranslatorBase<SvgImage>
+  public class SvgImageTranslator : SvgElementTranslatorWithEncoding<SvgImage>
   {
-    public SvgImageTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
+    public SvgImageTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
+                              [NotNull] Encoding encoding)
+      : base(encoding)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
     }
@@ -15,9 +19,8 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private SvgUnitCalculator SvgUnitCalculator { get; }
 
-    public override void Translate([NotNull] SvgImage instance,
-                                   [NotNull] Matrix matrix,
-                                   out object translation)
+    public override IEnumerable<byte> Translate([NotNull] SvgImage instance,
+                                                [NotNull] Matrix matrix)
     {
       var startX = this.SvgUnitCalculator.GetValue(instance.X);
       var startY = this.SvgUnitCalculator.GetValue(instance.Y);
@@ -58,16 +61,16 @@ namespace System.Svg.Render.EPL
       {
         if (image == null)
         {
-#if DEBUG
-          translation = $"; could not translate image (no content): {instance.GetXML()}";
-#else
-          translation = null;
-#endif
-          return;
+          return Enumerable.Empty<byte>();
         }
 
-        var stringBuilder = new StringBuilder();
-        stringBuilder.AppendLine($"GW{horizontalStart},{verticalStart},{octetts},{height}");
+        var result = new LinkedList<byte>();
+
+        var translation = $"GW{horizontalStart},{verticalStart},{octetts},{height}";
+        foreach (var @byte in this.GetBytes(translation))
+        {
+          result.AddLast(@byte);
+        }
 
         var heightVector = new PointF(image.Height * -1f,
                                       0f);
@@ -90,7 +93,7 @@ namespace System.Svg.Render.EPL
                y < height;
                y++)
           {
-            var result = byte.MinValue;
+            var octett = byte.MinValue;
             for (var x = 0;
                  x < alignedWidth;
                  x++)
@@ -103,20 +106,20 @@ namespace System.Svg.Render.EPL
                 if (color.A < 0x32
                     || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
                 {
-                  result |= (byte) (1 << bitPosition);
+                  octett |= (byte) (1 << bitPosition);
                 }
               }
 
               if (bitPosition == 0)
               {
-                stringBuilder.Append((char) result);
-                result = byte.MinValue;
+                result.AddLast(octett);
+                octett = byte.MinValue;
               }
             }
           }
         }
 
-        translation = stringBuilder;
+        return result;
       }
     }
   }

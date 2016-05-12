@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Text;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTest;
@@ -17,7 +18,8 @@ namespace System.Svg.Render.EPL.Tests
       {
         this.Matrix = new Matrix();
         this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
-        this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator);
+        this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator,
+                                                       Encoding.Default);
       }
 
       [NotNull]
@@ -36,12 +38,10 @@ namespace System.Svg.Render.EPL.Tests
       {
         base.BecauseOf();
 
-        object translation;
-        this.SvgLineTranslator.Translate(this.SvgLine,
-                                         this.Matrix,
-                                         out translation);
+        var translation = this.SvgLineTranslator.Translate(this.SvgLine,
+                                                           this.Matrix);
 
-        this.Actual = translation;
+        this.Actual = this.SvgLineTranslator.GetString(translation);
       }
     }
 

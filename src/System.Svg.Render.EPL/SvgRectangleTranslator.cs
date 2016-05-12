@@ -1,13 +1,18 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgRectangleTranslator : SvgElementTranslatorBase<SvgRectangle>
+  public class SvgRectangleTranslator : SvgElementTranslatorWithEncoding<SvgRectangle>
   {
     public SvgRectangleTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
-                                  [NotNull] SvgLineTranslator svgLineTranslator)
+                                  [NotNull] SvgLineTranslator svgLineTranslator,
+                                  [NotNull] Encoding encoding)
+      : base(encoding)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
       this.SvgLineTranslator = svgLineTranslator;
@@ -19,36 +24,26 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private SvgLineTranslator SvgLineTranslator { get; }
 
-    public override void Translate([NotNull] SvgRectangle instance,
-                                   [NotNull] Matrix matrix,
-                                   out object translation)
+    public override IEnumerable<byte> Translate([NotNull] SvgRectangle instance,
+                                                [NotNull] Matrix matrix)
     {
       if (instance.Fill != SvgPaintServer.None
           && (instance.Fill as SvgColourServer)?.Colour != Color.White)
       {
-        this.TranslateFilledBox(instance,
-                                matrix,
-                                out translation);
+        return this.TranslateFilledBox(instance,
+                                       matrix);
       }
-      else if (instance.Stroke != SvgPaintServer.None)
+      if (instance.Stroke != SvgPaintServer.None)
       {
-        this.TranslateBox(instance,
-                          matrix,
-                          out translation);
+        return this.TranslateBox(instance,
+                                 matrix);
       }
-      else
-      {
-#if DEBUG
-        translation = $"; could not translate {nameof(SvgRectangle)}: {instance.GetXML()}";
-#else
-        translation = null;
-#endif
-      }
+
+      return Enumerable.Empty<byte>();
     }
 
-    private void TranslateFilledBox([NotNull] SvgRectangle instance,
-                                    [NotNull] Matrix matrix,
-                                    out object translation)
+    private IEnumerable<byte> TranslateFilledBox([NotNull] SvgRectangle instance,
+                                                 [NotNull] Matrix matrix)
     {
       var endX = this.SvgUnitCalculator.GetValue(instance.X) + this.SvgUnitCalculator.GetValue(instance.Width);
       var startY = this.SvgUnitCalculator.GetValue(instance.Y) + this.SvgUnitCalculator.GetValue(instance.Height);
@@ -62,14 +57,14 @@ namespace System.Svg.Render.EPL
                       StrokeWidth = instance.Height
                     };
 
-      this.SvgLineTranslator.Translate(svgLine,
-                                       matrix,
-                                       out translation);
+      var result = this.SvgLineTranslator.Translate(svgLine,
+                                                    matrix);
+
+      return result;
     }
 
-    private void TranslateBox([NotNull] SvgRectangle instance,
-                              [NotNull] Matrix matrix,
-                              out object translation)
+    private IEnumerable<byte> TranslateBox([NotNull] SvgRectangle instance,
+                                           [NotNull] Matrix matrix)
     {
       var horizontalStart = this.SvgUnitCalculator.GetValue(instance.X);
       var verticalStart = this.SvgUnitCalculator.GetValue(instance.Y);
@@ -98,7 +93,10 @@ namespace System.Svg.Render.EPL
                                          matrix,
                                          out lineThickness);
 
-      translation = $"X{(int) horizontalStart},{(int) verticalStart},{(int) lineThickness},{(int) horizontalEnd},{(int) verticalEnd}";
+      var translation = $"X{(int) horizontalStart},{(int) verticalStart},{(int) lineThickness},{(int) horizontalEnd},{(int) verticalEnd}";
+      var result = this.GetBytes(translation);
+
+      return result;
     }
   }
 }

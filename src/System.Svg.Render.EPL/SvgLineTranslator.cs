@@ -1,12 +1,16 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Text;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>
+  public class SvgLineTranslator : SvgElementTranslatorWithEncoding<SvgLine>
   {
-    public SvgLineTranslator([NotNull] SvgUnitCalculator svgUnitCalculator)
+    public SvgLineTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
+                             [NotNull] Encoding encoding)
+      : base(encoding)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
     }
@@ -14,9 +18,8 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private SvgUnitCalculator SvgUnitCalculator { get; }
 
-    public override void Translate([NotNull] SvgLine instance,
-                                   [NotNull] Matrix matrix,
-                                   out object translation)
+    public override IEnumerable<byte> Translate([NotNull] SvgLine instance,
+                                                [NotNull] Matrix matrix)
     {
       var startX = this.SvgUnitCalculator.GetValue(instance.StartX);
       var startY = this.SvgUnitCalculator.GetValue(instance.StartY);
@@ -39,6 +42,8 @@ namespace System.Svg.Render.EPL
       this.SvgUnitCalculator.ApplyMatrix(strokeWidth,
                                          matrix,
                                          out strokeWidth);
+
+      string translation;
 
       // TODO find a good TOLERANCE
       if (Math.Abs(startY - endY) < 0.5f
@@ -68,9 +73,7 @@ namespace System.Svg.Render.EPL
           command = "LO";
         }
 
-        var result = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
-
-        translation = result;
+        translation = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
       }
       else
       {
@@ -80,10 +83,12 @@ namespace System.Svg.Render.EPL
         var verticalLength = (int) endX;
         var verticalEnd = (int) endY;
 
-        var result = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
-
-        translation = result;
+        translation = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
       }
+
+      var result = this.GetBytes(translation);
+
+      return result;
     }
   }
 }

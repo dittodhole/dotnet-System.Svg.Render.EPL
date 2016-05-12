@@ -12,18 +12,26 @@
       var eplRenderer = new EPLRenderer(svgUnitCalculator,
                                         viewMatrix);
 
+      var encoding = eplRenderer.Encoding;
+
       {
-        var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator);
+        var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator,
+                                                      encoding);
 
         var svgRectangleTranslator = new SvgRectangleTranslator(svgUnitCalculator,
-                                                                svgLineTranslator);
+                                                                svgLineTranslator,
+                                                                encoding);
 
-        var svgTextTranslator = new SvgTextBaseTranslator<SvgText>(svgUnitCalculator);
-        var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(svgUnitCalculator);
+        var svgTextTranslator = new SvgTextBaseTranslator<SvgText>(svgUnitCalculator,
+                                                                   encoding);
+        var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(svgUnitCalculator,
+                                                                           encoding);
 
-        var svgPathTranslator = new SvgPathTranslator(svgLineTranslator);
+        var svgPathTranslator = new SvgPathTranslator(svgLineTranslator,
+                                                      encoding);
 
-        var svgImageTranslator = new SvgImageTranslator(svgUnitCalculator);
+        var svgImageTranslator = new SvgImageTranslator(svgUnitCalculator,
+                                                        encoding);
 
         eplRenderer.RegisterTranslator(svgLineTranslator);
         eplRenderer.RegisterTranslator(svgRectangleTranslator);

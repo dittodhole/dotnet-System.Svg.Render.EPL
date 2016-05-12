@@ -2,14 +2,16 @@
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Svg.Pathing;
+using System.Text;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgPathTranslator : SvgElementTranslatorBase<SvgPath>
-
+  public class SvgPathTranslator : SvgElementTranslatorWithEncoding<SvgPath>
   {
-    public SvgPathTranslator([NotNull] SvgLineTranslator svgLineTranslator)
+    public SvgPathTranslator([NotNull] SvgLineTranslator svgLineTranslator,
+                             [NotNull] Encoding encoding)
+      : base(encoding)
     {
       this.SvgLineTranslator = svgLineTranslator;
     }
@@ -17,9 +19,8 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private SvgLineTranslator SvgLineTranslator { get; }
 
-    public override void Translate([NotNull] SvgPath instance,
-                                   [NotNull] Matrix matrix,
-                                   out object translation)
+    public override IEnumerable<byte> Translate([NotNull] SvgPath instance,
+                                                [NotNull] Matrix matrix)
     {
       // TODO translate C (curveto)
       // TODO translate S (smooth curveto)
@@ -29,37 +30,21 @@ namespace System.Svg.Render.EPL
       // TODO translate Z (closepath)
       // TODO add test cases
 
-      ICollection<object> translations = new LinkedList<object>();
+      var result = instance.PathData.OfType<SvgLineSegment>()
+                           .Select(svgLineSegment => new SvgLine
+                                                     {
+                                                       Color = instance.Color,
+                                                       Stroke = instance.Stroke,
+                                                       StrokeWidth = instance.StrokeWidth,
+                                                       StartX = new SvgUnit(svgLineSegment.Start.X),
+                                                       StartY = new SvgUnit(svgLineSegment.Start.Y),
+                                                       EndX = new SvgUnit(svgLineSegment.End.X),
+                                                       EndY = new SvgUnit(svgLineSegment.End.Y)
+                                                     })
+                           .SelectMany(svgLine => this.SvgLineTranslator.Translate(svgLine,
+                                                                                   matrix));
 
-      foreach (var svgLineSegment in instance.PathData.OfType<SvgLineSegment>())
-      {
-        var svgLine = new SvgLine
-                      {
-                        Color = instance.Color,
-                        Stroke = instance.Stroke,
-                        StrokeWidth = instance.StrokeWidth,
-                        StartX = new SvgUnit(svgLineSegment.Start.X),
-                        StartY = new SvgUnit(svgLineSegment.Start.Y),
-                        EndX = new SvgUnit(svgLineSegment.End.X),
-                        EndY = new SvgUnit(svgLineSegment.End.Y)
-                      };
-
-        this.SvgLineTranslator.Translate(svgLine,
-                                         matrix,
-                                         out translation);
-
-        translations.Add(translation);
-      }
-
-      if (translations.Any())
-      {
-        translation = string.Join(Environment.NewLine,
-                                  translations);
-      }
-      else
-      {
-        translation = null;
-      }
+      return result;
     }
   }
 }
