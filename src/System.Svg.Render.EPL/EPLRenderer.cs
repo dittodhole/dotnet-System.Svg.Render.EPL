@@ -7,14 +7,24 @@ namespace System.Svg.Render.EPL
   public class EPLRenderer : RendererBase
   {
     public EPLRenderer([NotNull] ISvgUnitCalculator svgUnitCalculator,
-                       [NotNull] Matrix viewMatrix)
+                       [NotNull] Matrix viewMatrix,
+                       PrinterCodepage printerCodepage = PrinterCodepage.Dos347,
+                       int countryCode = 1)
       : base(svgUnitCalculator)
     {
       this.ViewMatrix = viewMatrix;
+      this.PrinterCodepage = printerCodepage;
+      this.CountryCode = countryCode;
     }
 
     [NotNull]
     private Matrix ViewMatrix { get; }
+
+    [NotNull]
+    private PrinterCodepage PrinterCodepage { get; }
+
+    [NotNull]
+    private int CountryCode { get; }
 
     protected override void AddTranslation([NotNull] SvgElement svgElement,
                                            [NotNull] ICollection<object> translations,
