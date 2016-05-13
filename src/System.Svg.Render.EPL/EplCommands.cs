@@ -52,7 +52,7 @@ namespace System.Svg.Render.EPL
       var height = bitmap.Height;
       var octetts = (int) Math.Ceiling(bitmap.Width / 8f);
       var fileSize = height * octetts;
-      var translation = $@"GM""{name}""{fileSize + 128}";
+      var translation = $@"GM""{name}"",{fileSize + 128}";
       foreach (var @byte in this.GetBytes(translation))
       {
         yield return @byte;
