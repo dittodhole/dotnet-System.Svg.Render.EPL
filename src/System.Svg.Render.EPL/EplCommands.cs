@@ -26,12 +26,7 @@ namespace System.Svg.Render.EPL
                                                 int horizontalStart,
                                                 int verticalStart)
     {
-      var width = bitmap.Width;
-      var height = bitmap.Height;
-      var octetts = (int) Math.Ceiling(width / 8f);
-      var alignedWidth = octetts * 8;
-
-      var translation = $"GW{horizontalStart},{verticalStart},{octetts},{height}";
+      var translation = $"GW{horizontalStart},{verticalStart},{Math.Ceiling(bitmap.Width / 8f)},{bitmap.Height}";
       foreach (var @byte in this.GetBytes(translation))
       {
         yield return @byte;
@@ -39,6 +34,25 @@ namespace System.Svg.Render.EPL
       foreach (var @byte in this.GetBytes(Environment.NewLine))
       {
         yield return @byte;
+      }
+
+      var rawBinaryData = this.GetRawBinaryData(bitmap);
+      foreach (var @byte in rawBinaryData)
+      {
+        yield return @byte;
+      }
+    }
+
+    public IEnumerable<byte> GetRawBinaryData(Bitmap bitmap)
+    {
+      var height = bitmap.Height;
+      var width = bitmap.Width;
+      var alignedWidth = width;
+
+      var mod = width % 8;
+      if (mod >= 0)
+      {
+        alignedWidth += (8 - mod);
       }
 
       for (var y = 0;
