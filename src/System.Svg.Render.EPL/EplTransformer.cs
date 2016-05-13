@@ -26,8 +26,8 @@ namespace System.Svg.Render.EPL
     }
 
     protected int MaximumUpperFontSizeOverlap { get; } = 2;
-    public int LabelWidthInDevicePoints { get; set; } = 1296;
-    public int LabelHeightInDevicePoints { get; set; } = 816;
+    public int LabelHeightInDevicePoints { get; set; } = 1296;
+    public int LabelWidthInDevicePoints { get; set; } = 816;
     private PrintDirection PrintDirection { get; }
 
     [NotNull]
@@ -249,7 +249,7 @@ namespace System.Svg.Render.EPL
     {
       if (this.PrintDirection == PrintDirection.TopOrBottom)
       {
-        x = this.LabelHeightInDevicePoints - x;
+        x = this.LabelWidthInDevicePoints - x;
       }
 
       return x;
@@ -298,8 +298,10 @@ namespace System.Svg.Render.EPL
       startX = this.AdaptXAxis(startX);
       endX = this.AdaptXAxis(endX);
 
-      startX = startX - Math.Abs(startX - endX);
-      endX = endX - Math.Abs(startX - endX);
+      var width = Math.Abs(startX - endX);
+
+      startX = startX - width;
+      endX = endX - width;
     }
 
     public override void Transform(SvgLine svgLine,
@@ -318,10 +320,10 @@ namespace System.Svg.Render.EPL
                      out endY,
                      out strokeWidth);
 
-      var width = Math.Abs(endX - startX);
-
       startX = this.AdaptXAxis(startX);
       endX = this.AdaptXAxis(endX);
+
+      var width = Math.Abs(endX - startX);
 
       startX -= width;
       endX -= width;

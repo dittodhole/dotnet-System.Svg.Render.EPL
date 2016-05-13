@@ -28,18 +28,18 @@ namespace System.Svg.Render.EPL
       float startY;
       float endX;
       float endY;
-      float width;
-      float height;
+      float sourceAlignmentWidth;
+      float sourceAlignmentHeight;
       this.EplTransformer.Transform(instance,
                                     matrix,
                                     out startX,
                                     out startY,
                                     out endX,
                                     out endY,
-                                    out width,
-                                    out height);
+                                    out sourceAlignmentWidth,
+                                    out sourceAlignmentHeight);
 
-      var horizontalStart = (int) (startX - Math.Abs(startX - endX));
+      var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
 
       using (var image = instance.GetImage() as Image)
@@ -51,14 +51,15 @@ namespace System.Svg.Render.EPL
 
         var rotationTranslation = this.EplTransformer.GetRotation(matrix);
 
-        using (var destinationBitmap = new Bitmap(image,
-                                                  (int) width,
-                                                  (int) height))
+        using (var bitmap = new Bitmap(image,
+                                       (int) sourceAlignmentWidth,
+                                       (int) sourceAlignmentHeight))
         {
           var rotateFlipType = (RotateFlipType) rotationTranslation;
-          destinationBitmap.RotateFlip(rotateFlipType);
+          bitmap.RotateFlip(rotateFlipType);
 
-          var result = this.EplCommands.GraphicDirectWrite(destinationBitmap,
+
+          var result = this.EplCommands.GraphicDirectWrite(bitmap,
                                                            horizontalStart,
                                                            verticalStart)
                            .ToArray();
