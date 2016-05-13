@@ -26,7 +26,8 @@ namespace System.Svg.Render.EPL
                                                 int horizontalStart,
                                                 int verticalStart)
     {
-      var translation = $"GW{horizontalStart},{verticalStart},{Math.Ceiling(bitmap.Width / 8f)},{bitmap.Height}";
+      var octetts = (int) Math.Ceiling(bitmap.Width / 8f);
+      var translation = $"GW{horizontalStart},{verticalStart},{octetts},{bitmap.Height}";
       foreach (var @byte in this.GetBytes(translation))
       {
         yield return @byte;
@@ -36,53 +37,133 @@ namespace System.Svg.Render.EPL
         yield return @byte;
       }
 
-      var rawBinaryData = this.GetRawBinaryData(bitmap);
+      var rawBinaryData = this.GetRawBinaryData(bitmap,
+                                                octetts);
       foreach (var @byte in rawBinaryData)
       {
         yield return @byte;
       }
     }
 
-    public IEnumerable<byte> GetRawBinaryData(Bitmap bitmap)
+    [NotNull]
+    public IEnumerable<byte> StoreGraphics([NotNull] Bitmap bitmap,
+                                           [NotNull] string name)
+    {
+      var height = bitmap.Height;
+      var octetts = (int) Math.Ceiling(bitmap.Width / 8f);
+      var fileSize = height * octetts;
+      var translation = $@"GM""{name}""{fileSize + 128}";
+      foreach (var @byte in this.GetBytes(translation))
+      {
+        yield return @byte;
+      }
+      foreach (var @byte in this.GetBytes(Environment.NewLine))
+      {
+        yield return @byte;
+      }
+
+      // header start
+      /* 00+00 */ yield return 0x0A; // PCX File
+      /* 01+00 */ yield return 0x05; // Version 5
+      /* 02+00 */ yield return 0x00; // no compression
+      /* 03+00 */ yield return 0x01; // 1 bit per pixel
+      /* 04+00 */ yield return 0x00; // xmin
+      /* 05+00 */ yield return 0x00; // xmin
+      /* 06+00 */ yield return 0x00; // ymin
+      /* 07+00 */ yield return 0x00; // ymin
+      /* 00+08 */ yield return (byte) (bitmap.Width - 1 & 0xFF); // xmax
+      /* 01+08 */ yield return (byte) (bitmap.Width - 1 >> 8); // xmax
+      /* 02+08 */ yield return (byte) (bitmap.Height - 1 & 0xFF); // ymax
+      /* 03+08 */ yield return (byte) (bitmap.Height - 1 >> 8); // ymax
+      /* 04+08 */ yield return (byte) bitmap.HorizontalResolution; // horizontal dpi
+      /* 05+08 */ yield return 0x00; // horizontal dpi
+      /* 06+08 */ yield return (byte) bitmap.VerticalResolution; // vertical dpi
+      /* 07+08 */ yield return 0x00; // vertical dpi
+      /* 00+16 - 07+56 */ // 48-byte EGA palette info
+      for (var i = 15;
+           i >= 0;
+           i--)
+      {
+        yield return (byte) i;
+        yield return (byte) i;
+        yield return (byte) i;
+      }
+      /* 00+64 */ yield return 0x00; // Reserved byte, always 0x00
+      /* 01+64 */ yield return 0x01; // 1 bit plane
+      /* 02+64 */ yield return (byte) (octetts & 0xFF); // high nibble of bytes per line
+      /* 03+64 */ yield return (byte) (octetts >> 8); // low nibble of bytes per line
+      /* 04+64 */ yield return 0x01; // palette
+      /* 05+64 */ yield return 0x00; // palette
+      /* 06+64 */ yield return 0x00; // high nibble width
+      /* 07+64 */ yield return 0x00; // low nibble width
+      /* 00+72 */ yield return 0x00; // high nibble height
+      /* 01+72 */ yield return 0x00; // low nibble height
+      /* 02+72 - 07+120 */ // filler
+      for (var i = 0;
+           i < 54;
+           i++)
+      {
+        yield return 0x00;
+      }
+      // header end
+
+      var rawBinaryData = this.GetRawBinaryData(bitmap,
+                                                octetts);
+      foreach (var @byte in rawBinaryData)
+      {
+        yield return @byte;
+      }
+    }
+
+    [NotNull]
+    public IEnumerable<byte> GetRawBinaryData(Bitmap bitmap,
+                                              int octetts)
     {
       var height = bitmap.Height;
       var width = bitmap.Width;
-      var alignedWidth = width;
-
-      var mod = width % 8;
-      if (mod >= 0)
-      {
-        alignedWidth += (8 - mod);
-      }
 
       for (var y = 0;
            y < height;
            y++)
       {
-        var octett = (1 << 8) - 1;
-        for (var x = 0;
-             x < alignedWidth;
-             x++)
+        for (var octett = 0;
+             octett < octetts;
+             octett++)
         {
-          var bitIndex = 7 - x % 8;
-          if (x < width)
+          var value = (int) byte.MaxValue;
+
+          for (var i = 0;
+               i < 8;
+               i++)
           {
-            var color = bitmap.GetPixel(x,
-                                        y);
-            if (color.A > 0x32
-                || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
+            var x = octett * 8 + i;
+            var bitIndex = 7 - i;
+            if (x < width)
             {
-              octett &= ~(1 << bitIndex);
+              var color = bitmap.GetPixel(x,
+                                          y);
+              if (color.A > 0x32
+                  || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
+              {
+                value &= ~(1 << bitIndex);
+              }
             }
           }
 
-          if (bitIndex == 0)
-          {
-            yield return (byte) octett;
-            octett = (1 << 8) - 1;
-          }
+          yield return (byte) value;
         }
       }
+    }
+
+    [NotNull]
+    public IEnumerable<byte> PrintGraphics(int horizontalStart,
+                                           int verticalStart,
+                                           [NotNull] string name)
+    {
+      var translation = $@"GG{horizontalStart},{verticalStart},""{name}""";
+      var result = this.GetBytes(translation);
+
+      return result;
     }
 
     [NotNull]
