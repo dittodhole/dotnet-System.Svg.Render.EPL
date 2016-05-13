@@ -12,21 +12,17 @@ namespace System.Svg.Render.EPL.Tests
 {
   public static class SvgRectangleTranslatorSpecs
   {
-    public abstract class SvgRectangleTranslatorSpecsContext : ContextSpecification
+    public abstract class SvgRectangleTranslatorSpecsContext : SvgElementBaseTranslatorContext
     {
       protected SvgRectangleTranslatorSpecsContext()
       {
-        this.Matrix = new Matrix();
         this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
         this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator,
-                                                       Encoding.Default);
+                                                       this.EplCommands);
         this.SvgRectangleTranslator = new SvgRectangleTranslator(this.SvgUnitCalculator,
                                                                  this.SvgLineTranslator,
                                                                  Encoding.Default);
       }
-
-      [NotNull]
-      private Matrix Matrix { get; }
 
       [NotNull]
       private SvgUnitCalculator SvgUnitCalculator { get; }

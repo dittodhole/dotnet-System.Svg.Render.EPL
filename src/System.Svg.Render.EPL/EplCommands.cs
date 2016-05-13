@@ -67,5 +67,39 @@ namespace System.Svg.Render.EPL
         }
       }
     }
+
+    public IEnumerable<byte> LineDrawBlack(int horizontalStart,
+                                           int verticalStart,
+                                           int horizontalLength,
+                                           int verticalLength)
+    {
+      var translation = $"LO{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+      var result = this.GetBytes(translation);
+
+      return result;
+    }
+
+    public IEnumerable<byte> LineDrawWhite(int horizontalStart,
+                                           int verticalStart,
+                                           int horizontalLength,
+                                           int verticalLength)
+    {
+      var translation = $"LW{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+      var result = this.GetBytes(translation);
+
+      return result;
+    }
+
+    public IEnumerable<byte> LineDrawDiagonal(int horizontalStart,
+                                              int verticalStart,
+                                              int horizontalLength,
+                                              int verticalLength,
+                                              int verticalEnd)
+    {
+      var translation = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
+      var result = this.GetBytes(translation);
+
+      return result;
+    }
   }
 }

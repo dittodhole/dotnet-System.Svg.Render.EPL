@@ -22,7 +22,7 @@
 
       {
         var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator,
-                                                      encoding);
+                                                      eplCommands);
 
         var svgRectangleTranslator = new SvgRectangleTranslator(svgUnitCalculator,
                                                                 svgLineTranslator,

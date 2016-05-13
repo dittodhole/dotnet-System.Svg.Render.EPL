@@ -1,22 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgLineTranslator : SvgElementTranslatorWithEncoding<SvgLine>
+  public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>
   {
     public SvgLineTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
-                             [NotNull] Encoding encoding)
-      : base(encoding)
+                             [NotNull] EplCommands eplCommands)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
+      this.EplCommands = eplCommands;
     }
 
     [NotNull]
     private SvgUnitCalculator SvgUnitCalculator { get; }
+
+    [NotNull]
+    private EplCommands EplCommands { get; }
 
     public override IEnumerable<byte> Translate([NotNull] SvgLine instance,
                                                 [NotNull] Matrix matrix)
@@ -43,7 +45,7 @@ namespace System.Svg.Render.EPL
                                          matrix,
                                          out strokeWidth);
 
-      string translation;
+      IEnumerable<byte> result;
 
       // TODO find a good TOLERANCE
       if (Math.Abs(startY - endY) < 0.5f
@@ -63,17 +65,20 @@ namespace System.Svg.Render.EPL
           verticalLength = (int) strokeWidth;
         }
 
-        string command;
         if (strokeShouldBeWhite)
         {
-          command = "LW";
+          result = this.EplCommands.LineDrawWhite(horizontalStart,
+                                                  verticalStart,
+                                                  horizontalLength,
+                                                  verticalLength);
         }
         else
         {
-          command = "LO";
+          result = this.EplCommands.LineDrawBlack(horizontalStart,
+                                                  verticalStart,
+                                                  horizontalLength,
+                                                  verticalLength);
         }
-
-        translation = $"{command}{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
       }
       else
       {
@@ -83,10 +88,12 @@ namespace System.Svg.Render.EPL
         var verticalLength = (int) endX;
         var verticalEnd = (int) endY;
 
-        translation = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
+        result = this.EplCommands.LineDrawDiagonal(horizontalStart,
+                                                   verticalStart,
+                                                   horizontalLength,
+                                                   verticalLength,
+                                                   verticalEnd);
       }
-
-      var result = this.GetBytes(translation);
 
       return result;
     }

@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="ContextSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SvgElementBaseTranslatorContext.cs" />
     <Compile Include="SvgLineTranslatorSpecs.cs" />
     <Compile Include="SvgRectangleTranslatorSpecs.cs" />
     <Compile Include="SvgTextBaseTranslatorSpecs.cs" />
