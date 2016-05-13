@@ -352,8 +352,8 @@ namespace System.Svg.Render.EPL
       endY += strokeWidth / 2f;
     }
 
-    public override void Transform(SvgTextBase svgTextBase,
-                                   Matrix matrix,
+    public override void Transform([NotNull] SvgTextBase svgTextBase,
+                                   [NotNull] Matrix matrix,
                                    out float x,
                                    out float y,
                                    out float fontSize)
