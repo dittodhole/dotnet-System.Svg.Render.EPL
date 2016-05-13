@@ -304,8 +304,8 @@ namespace System.Svg.Render.EPL
       endX -= width;
     }
 
-    public override void Transform(SvgLine svgLine,
-                                   Matrix matrix,
+    public override void Transform([NotNull] SvgLine svgLine,
+                                   [NotNull] Matrix matrix,
                                    out float startX,
                                    out float startY,
                                    out float endX,
@@ -329,8 +329,8 @@ namespace System.Svg.Render.EPL
       endX -= width;
     }
 
-    public override void Transform(SvgRectangle svgRectangle,
-                                   Matrix matrix,
+    public override void Transform([NotNull] SvgRectangle svgRectangle,
+                                   [NotNull] Matrix matrix,
                                    out float startX,
                                    out float startY,
                                    out float endX,
@@ -371,6 +371,7 @@ namespace System.Svg.Render.EPL
 
     private class FontDefinitionCandidate
     {
+      [NotNull]
       public string FontSelection { get; set; }
       public int ActualHeight { get; set; }
       public int Multiplier { get; set; }
