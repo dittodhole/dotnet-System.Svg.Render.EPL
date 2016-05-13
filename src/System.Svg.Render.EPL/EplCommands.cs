@@ -16,7 +16,7 @@ namespace System.Svg.Render.EPL
     private Encoding Encoding { get; }
 
     [NotNull]
-    private IEnumerable<byte> GetBytes(string s)
+    private IEnumerable<byte> GetBytes([NotNull] string s)
     {
       return this.Encoding.GetBytes(s);
     }
