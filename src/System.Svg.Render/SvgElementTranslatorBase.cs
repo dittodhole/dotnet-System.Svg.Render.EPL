@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render
 {
-  public abstract class SvgElementTranslatorBase<T> : ISvgElementTranslator<T>
+  public abstract class SvgElementTranslatorBase<T> : ISvgElementTranslator
     where T : SvgElement
   {
     [NotNull]
