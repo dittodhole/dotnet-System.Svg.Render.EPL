@@ -300,8 +300,8 @@ namespace System.Svg.Render.EPL
 
       var width = Math.Abs(startX - endX);
 
-      startX = startX - width;
-      endX = endX - width;
+      startX -= width;
+      endX -= width;
     }
 
     public override void Transform(SvgLine svgLine,
