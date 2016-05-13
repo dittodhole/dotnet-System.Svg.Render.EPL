@@ -17,16 +17,11 @@ namespace System.Svg.Render
 
     public float LineHeightFactor { get; set; } = 1.25f;
 
-    protected virtual PointF AdaptPoint(PointF point)
-    {
-      return point;
-    }
-
-    protected void ApplyMatrixAndAdaptPoint(float x,
-                                            float y,
-                                            [NotNull] Matrix matrix,
-                                            out float newX,
-                                            out float newY)
+    protected void ApplyMatrix(float x,
+                               float y,
+                               [NotNull] Matrix matrix,
+                               out float newX,
+                               out float newY)
     {
       var originalPoint = new PointF(x,
                                      y);
@@ -38,7 +33,6 @@ namespace System.Svg.Render
       matrix.TransformPoints(points);
 
       var transformedPoint = points[0];
-      transformedPoint = this.AdaptPoint(transformedPoint);
       newX = transformedPoint.X;
       newY = transformedPoint.Y;
     }
@@ -94,17 +88,17 @@ namespace System.Svg.Render
       endY = this.SvgUnitReader.GetValue(svgLine.EndY);
       strokeWidth = this.SvgUnitReader.GetValue(svgLine.StrokeWidth);
 
-      this.ApplyMatrixAndAdaptPoint(startX,
-                                    startY,
-                                    matrix,
-                                    out startX,
-                                    out startY);
+      this.ApplyMatrix(startX,
+                       startY,
+                       matrix,
+                       out startX,
+                       out startY);
 
-      this.ApplyMatrixAndAdaptPoint(endX,
-                                    endY,
-                                    matrix,
-                                    out endX,
-                                    out endY);
+      this.ApplyMatrix(endX,
+                       endY,
+                       matrix,
+                       out endX,
+                       out endY);
 
       this.ApplyMatrix(strokeWidth,
                        matrix,
@@ -127,11 +121,11 @@ namespace System.Svg.Render
       endX = startX + sourceAlignmentWidth;
       endY = startY + sourceAlignmentHeight;
 
-      this.ApplyMatrixAndAdaptPoint(startX,
-                                    startY,
-                                    matrix,
-                                    out startX,
-                                    out startY);
+      this.ApplyMatrix(startX,
+                       startY,
+                       matrix,
+                       out startX,
+                       out startY);
 
       this.ApplyMatrix(sourceAlignmentWidth,
                        matrix,
@@ -140,11 +134,11 @@ namespace System.Svg.Render
                        matrix,
                        out sourceAlignmentHeight);
 
-      this.ApplyMatrixAndAdaptPoint(endX,
-                                    endY,
-                                    matrix,
-                                    out endX,
-                                    out endY);
+      this.ApplyMatrix(endX,
+                       endY,
+                       matrix,
+                       out endX,
+                       out endY);
     }
 
     public virtual void Transform([NotNull] SvgRectangle svgRectangle,
@@ -161,28 +155,28 @@ namespace System.Svg.Render
       endY = startY + this.SvgUnitReader.GetValue(svgRectangle.Height);
       strokeWidth = this.SvgUnitReader.GetValue(svgRectangle.StrokeWidth);
 
-      this.ApplyMatrixAndAdaptPoint(startX,
-                                    startY,
-                                    matrix,
-                                    out startX,
-                                    out startY);
+      this.ApplyMatrix(startX,
+                       startY,
+                       matrix,
+                       out startX,
+                       out startY);
 
-      this.ApplyMatrixAndAdaptPoint(endX,
-                                    endY,
-                                    matrix,
-                                    out endX,
-                                    out endY);
+      this.ApplyMatrix(endX,
+                       endY,
+                       matrix,
+                       out endX,
+                       out endY);
 
       this.ApplyMatrix(strokeWidth,
                        matrix,
                        out strokeWidth);
     }
 
-    public void Transform([NotNull] SvgTextBase svgTextBase,
-                          [NotNull] Matrix matrix,
-                          out float x,
-                          out float y,
-                          out float fontSize)
+    public virtual void Transform([NotNull] SvgTextBase svgTextBase,
+                                  [NotNull] Matrix matrix,
+                                  out float x,
+                                  out float y,
+                                  out float fontSize)
     {
       x = this.SvgUnitReader.GetValue(svgTextBase.X.First());
       y = this.SvgUnitReader.GetValue(svgTextBase.Y.First());
@@ -190,11 +184,11 @@ namespace System.Svg.Render
 
       y -= fontSize / this.LineHeightFactor;
 
-      this.ApplyMatrixAndAdaptPoint(x,
-                                    y,
-                                    matrix,
-                                    out x,
-                                    out y);
+      this.ApplyMatrix(x,
+                       y,
+                       matrix,
+                       out x,
+                       out y);
     }
   }
 }

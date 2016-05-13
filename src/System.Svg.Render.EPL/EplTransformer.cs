@@ -245,18 +245,14 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    protected override PointF AdaptPoint(PointF point)
+    private float AdaptXAxis(float x)
     {
-      // TODO clarify: can this be done w/ matrix?
-
-      point = base.AdaptPoint(point);
-
       if (this.PrintDirection == PrintDirection.TopOrBottom)
       {
-        point.X = this.LabelHeightInDevicePoints - point.X;
+        x = this.LabelHeightInDevicePoints - x;
       }
 
-      return point;
+      return x;
     }
 
     public void Transform([NotNull] SvgTextBase svgTextBase,
@@ -271,6 +267,8 @@ namespace System.Svg.Render.EPL
                      out x,
                      out y,
                      out fontSize);
+
+      x = this.AdaptXAxis(x);
 
       float linearScalingFactor;
       rotation = this.GetRotation(matrix,
@@ -297,6 +295,9 @@ namespace System.Svg.Render.EPL
                      out sourceAlignmentWidth,
                      out sourceAlignmentHeight);
 
+      startX = this.AdaptXAxis(startX);
+      endX = this.AdaptXAxis(endX);
+
       startX = startX - Math.Abs(startX - endX);
       endX = endX - Math.Abs(startX - endX);
     }
@@ -319,6 +320,9 @@ namespace System.Svg.Render.EPL
 
       var width = Math.Abs(endX - startX);
 
+      startX = this.AdaptXAxis(startX);
+      endX = this.AdaptXAxis(endX);
+
       startX -= width;
       endX -= width;
     }
@@ -339,10 +343,28 @@ namespace System.Svg.Render.EPL
                      out endY,
                      out strokeWidth);
 
+      startX = this.AdaptXAxis(startX);
+      endX = this.AdaptXAxis(endX);
+
       startX += strokeWidth / 2f;
       startY -= strokeWidth / 2f;
       endX -= strokeWidth / 2f;
       endY += strokeWidth / 2f;
+    }
+
+    public override void Transform(SvgTextBase svgTextBase,
+                                   Matrix matrix,
+                                   out float x,
+                                   out float y,
+                                   out float fontSize)
+    {
+      base.Transform(svgTextBase,
+                     matrix,
+                     out x,
+                     out y,
+                     out fontSize);
+
+      x = this.AdaptXAxis(x);
     }
 
     private class FontDefinitionCandidate
