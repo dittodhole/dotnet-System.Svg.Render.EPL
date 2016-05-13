@@ -80,13 +80,13 @@ namespace System.Svg.Render
       newVector = vectors[0];
     }
 
-    public void Transform([NotNull] SvgLine svgLine,
-                          [NotNull] Matrix matrix,
-                          out float startX,
-                          out float startY,
-                          out float endX,
-                          out float endY,
-                          out float strokeWidth)
+    public virtual void Transform([NotNull] SvgLine svgLine,
+                                  [NotNull] Matrix matrix,
+                                  out float startX,
+                                  out float startY,
+                                  out float endX,
+                                  out float endY,
+                                  out float strokeWidth)
     {
       startX = this.SvgUnitReader.GetValue(svgLine.StartX);
       startY = this.SvgUnitReader.GetValue(svgLine.StartY);
@@ -147,28 +147,19 @@ namespace System.Svg.Render
                                     out endY);
     }
 
-    public void Transform([NotNull] SvgRectangle svgRectangle,
-                          [NotNull] Matrix matrix,
-                          bool outerPoints,
-                          out float startX,
-                          out float startY,
-                          out float endX,
-                          out float endY,
-                          out float strokeWidth)
+    public virtual void Transform([NotNull] SvgRectangle svgRectangle,
+                                  [NotNull] Matrix matrix,
+                                  out float startX,
+                                  out float startY,
+                                  out float endX,
+                                  out float endY,
+                                  out float strokeWidth)
     {
       startX = this.SvgUnitReader.GetValue(svgRectangle.X);
       endX = startX + this.SvgUnitReader.GetValue(svgRectangle.Width);
       startY = this.SvgUnitReader.GetValue(svgRectangle.Y);
       endY = startY + this.SvgUnitReader.GetValue(svgRectangle.Height);
       strokeWidth = this.SvgUnitReader.GetValue(svgRectangle.StrokeWidth);
-
-      if (outerPoints)
-      {
-        startX -= strokeWidth / 2f;
-        startY -= strokeWidth / 2f;
-        endX += strokeWidth / 2f;
-        endY += strokeWidth / 2f;
-      }
 
       this.ApplyMatrixAndAdaptPoint(startX,
                                     startY,

@@ -55,7 +55,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LO50,200,400,20",
+        Assert.AreEqual("LO-350,200,400,20",
                         this.Actual);
       }
     }
@@ -105,7 +105,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LS10,10,20,200,200",
+        Assert.AreEqual("LS-180,10,20,10,200",
                         this.Actual);
       }
     }
@@ -131,7 +131,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LW10,10,20,200",
+        Assert.AreEqual("LW-10,10,20,200",
                         this.Actual);
       }
     }
@@ -156,7 +156,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LS10,20,20,60,30",
+        Assert.AreEqual("LS-40,20,20,10,30",
                         this.Actual);
       }
     }
@@ -181,7 +181,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LS90,60,20,30,50",
+        Assert.AreEqual("LS30,60,20,-30,50",
                         this.Actual);
       }
     }

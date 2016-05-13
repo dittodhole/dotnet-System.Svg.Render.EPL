@@ -301,6 +301,50 @@ namespace System.Svg.Render.EPL
       endX = endX - Math.Abs(startX - endX);
     }
 
+    public override void Transform(SvgLine svgLine,
+                                   Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float endX,
+                                   out float endY,
+                                   out float strokeWidth)
+    {
+      base.Transform(svgLine,
+                     matrix,
+                     out startX,
+                     out startY,
+                     out endX,
+                     out endY,
+                     out strokeWidth);
+
+      var width = Math.Abs(endX - startX);
+
+      startX -= width;
+      endX -= width;
+    }
+
+    public override void Transform(SvgRectangle svgRectangle,
+                                   Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float endX,
+                                   out float endY,
+                                   out float strokeWidth)
+    {
+      base.Transform(svgRectangle,
+                     matrix,
+                     out startX,
+                     out startY,
+                     out endX,
+                     out endY,
+                     out strokeWidth);
+
+      startX += strokeWidth / 2f;
+      startY -= strokeWidth / 2f;
+      endX -= strokeWidth / 2f;
+      endY += strokeWidth / 2f;
+    }
+
     private class FontDefinitionCandidate
     {
       public string FontSelection { get; set; }

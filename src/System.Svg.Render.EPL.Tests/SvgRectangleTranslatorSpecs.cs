@@ -15,7 +15,8 @@ namespace System.Svg.Render.EPL.Tests
       protected SvgRectangleTranslatorSpecsContext()
       {
         this.SvgRectangleTranslator = new SvgRectangleTranslator(this.EplTransformer,
-                                                                 this.EplCommands);
+                                                                 this.EplCommands,
+                                                                 this.SvgUnitReader);
       }
 
       [NotNull]
@@ -57,7 +58,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void returns_valid_epl_code()
       {
-        Assert.AreEqual("X60,30,20,180,180",
+        Assert.AreEqual("X80,30,20,160,180",
                         this.Actual);
       }
     }
@@ -84,7 +85,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LO30,70,100,50",
+        Assert.AreEqual("LO-70,70,100,50",
                         this.Actual);
       }
     }

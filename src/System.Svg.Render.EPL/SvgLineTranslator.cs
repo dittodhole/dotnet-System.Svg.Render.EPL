@@ -7,15 +7,15 @@ namespace System.Svg.Render.EPL
 {
   public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>
   {
-    public SvgLineTranslator([NotNull] Transformer transformer,
+    public SvgLineTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)
     {
-      this.Transformer = transformer;
+      this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
     }
 
     [NotNull]
-    private Transformer Transformer { get; }
+    private EplTransformer EplTransformer { get; }
 
     [NotNull]
     private EplCommands EplCommands { get; }
@@ -29,14 +29,13 @@ namespace System.Svg.Render.EPL
       float endX;
       float endY;
       float strokeWidth;
-
-      this.Transformer.Transform(instance,
-                                 matrix,
-                                 out startX,
-                                 out startY,
-                                 out endX,
-                                 out endY,
-                                 out strokeWidth);
+      this.EplTransformer.Transform(instance,
+                                    matrix,
+                                    out startX,
+                                    out startY,
+                                    out endX,
+                                    out endY,
+                                    out strokeWidth);
 
       IEnumerable<byte> result;
 
@@ -47,12 +46,12 @@ namespace System.Svg.Render.EPL
         var strokeShouldBeWhite = (instance.Stroke as SvgColourServer)?.Colour == Color.White;
         var horizontalStart = (int) startX;
         var verticalStart = (int) startY;
-        var horizontalLength = (int) endX - (int) startX;
+        var horizontalLength = (int) Math.Abs(endX - startX);
         if (horizontalLength == 0)
         {
           horizontalLength = (int) strokeWidth;
         }
-        var verticalLength = (int) endY - (int) startY;
+        var verticalLength = (int) Math.Abs(endY - startY);
         if (verticalLength == 0)
         {
           verticalLength = (int) strokeWidth;

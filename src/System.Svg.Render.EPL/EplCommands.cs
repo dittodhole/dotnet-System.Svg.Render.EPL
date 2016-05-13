@@ -184,6 +184,8 @@ namespace System.Svg.Render.EPL
                                            int horizontalLength,
                                            int verticalLength)
     {
+      horizontalStart -= horizontalLength;
+
       var translation = $"LW{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
       var result = this.GetBytes(translation);
 

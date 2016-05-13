@@ -8,15 +8,15 @@ namespace System.Svg.Render.EPL
 {
   public class SvgPathTranslator : SvgElementTranslatorBase<SvgPath>
   {
-    public SvgPathTranslator([NotNull] Transformer transformer,
+    public SvgPathTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)
     {
-      this.Transformer = transformer;
+      this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
     }
 
     [NotNull]
-    private Transformer Transformer { get; }
+    private EplTransformer EplTransformer { get; }
 
     [NotNull]
     private EplCommands EplCommands { get; }
@@ -62,24 +62,23 @@ namespace System.Svg.Render.EPL
       float endX;
       float endY;
       float strokeWidth;
-
-      this.Transformer.Transform(svgLine,
-                                 matrix,
-                                 out startX,
-                                 out startY,
-                                 out endX,
-                                 out endY,
-                                 out strokeWidth);
+      this.EplTransformer.Transform(svgLine,
+                                    matrix,
+                                    out startX,
+                                    out startY,
+                                    out endX,
+                                    out endY,
+                                    out strokeWidth);
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
-      var horizontalLength = (int) (endX - startX);
+      var horizontalLength = (int) Math.Abs(endX - startX);
       if (horizontalLength == 0)
       {
         horizontalLength = (int) strokeWidth;
       }
 
-      var verticalLength = (int) (endY - startY);
+      var verticalLength = (int) Math.Abs(endY - startY);
       if (verticalLength == 0)
       {
         verticalLength = (int) strokeWidth;

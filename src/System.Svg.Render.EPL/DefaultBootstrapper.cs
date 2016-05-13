@@ -27,7 +27,8 @@ namespace System.Svg.Render.EPL
                                                       eplCommands);
 
         var svgRectangleTranslator = new SvgRectangleTranslator(eplTransformer,
-                                                                eplCommands);
+                                                                eplCommands,
+                                                                svgUnitReader);
 
         var svgTextTranslator = new SvgTextBaseTranslator<SvgText>(eplTransformer,
                                                                    eplCommands);
