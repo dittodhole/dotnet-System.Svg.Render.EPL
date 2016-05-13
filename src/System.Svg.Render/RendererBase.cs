@@ -114,7 +114,6 @@ namespace System.Svg.Render
       return false;
     }
 
-    [NotNull]
     protected virtual IEnumerable<byte> TranslateSvgElement([NotNull] SvgElement svgElement,
                                                             [NotNull] Matrix matrix,
                                                             [NotNull] Matrix viewMatrix)
@@ -125,7 +124,7 @@ namespace System.Svg.Render
       if (!this.SvgElementTranslators.TryGetValue(type,
                                                   out svgElementTranslator))
       {
-        return Enumerable.Empty<byte>();
+        return null;
       }
 
       matrix = matrix.Clone();

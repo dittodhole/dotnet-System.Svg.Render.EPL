@@ -7,7 +7,6 @@ namespace System.Svg.Render
   public abstract class SvgElementTranslatorBase<T> : ISvgElementTranslator<T>
     where T : SvgElement
   {
-    [NotNull]
     public IEnumerable<byte> TranslateUntyped([NotNull] object untypedInstance,
                                               [NotNull] Matrix matrix)
     {
@@ -17,7 +16,6 @@ namespace System.Svg.Render
       return result;
     }
 
-    [NotNull]
     public abstract IEnumerable<byte> Translate([NotNull] T instance,
                                                 [NotNull] Matrix matrix);
   }

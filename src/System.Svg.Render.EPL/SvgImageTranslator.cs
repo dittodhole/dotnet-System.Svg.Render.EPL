@@ -21,7 +21,6 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
-    [NotNull]
     public override IEnumerable<byte> Translate([NotNull] SvgImage instance,
                                                 [NotNull] Matrix matrix)
     {
@@ -47,7 +46,7 @@ namespace System.Svg.Render.EPL
       {
         if (image == null)
         {
-          return Enumerable.Empty<byte>();
+          return null;
         }
 
         var rotationTranslation = this.EplTransformer.GetRotation(matrix);

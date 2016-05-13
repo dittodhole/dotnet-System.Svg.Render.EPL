@@ -24,14 +24,13 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
-    [NotNull]
     public override IEnumerable<byte> Translate([NotNull] T instance,
                                                 [NotNull] Matrix matrix)
     {
       var text = this.RemoveIllegalCharacters(instance.Text);
       if (string.IsNullOrWhiteSpace(text))
       {
-        return Enumerable.Empty<byte>();
+        return null;
       }
 
       float x;

@@ -21,7 +21,6 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
-    [NotNull]
     public override IEnumerable<byte> Translate([NotNull] SvgRectangle instance,
                                                 [NotNull] Matrix matrix)
     {
@@ -37,7 +36,7 @@ namespace System.Svg.Render.EPL
                                  matrix);
       }
 
-      return Enumerable.Empty<byte>();
+      return null;
     }
 
     [NotNull]

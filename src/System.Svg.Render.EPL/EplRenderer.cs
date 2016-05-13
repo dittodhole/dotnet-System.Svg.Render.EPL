@@ -59,8 +59,12 @@ namespace System.Svg.Render.EPL
     {
       var result = base.TranslateSvgElement(svgElement,
                                             matrix,
-                                            viewMatrix)
-                       .Concat(this.Encoding.GetBytes(Environment.NewLine));
+                                            viewMatrix);
+      if (result == null)
+      {
+        return Enumerable.Empty<byte>();
+      }
+      result = result.Concat(this.Encoding.GetBytes(Environment.NewLine));
 
       return result;
     }
