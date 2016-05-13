@@ -84,8 +84,8 @@ namespace System.Svg.Render.EPL
                                     true,
                                     out startX,
                                     out startY,
-                                    out endY,
                                     out endX,
+                                    out endY,
                                     out strokeWidth);
 
       var horizontalStart = (int) startX;

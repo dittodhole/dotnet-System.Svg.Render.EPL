@@ -91,7 +91,7 @@ namespace System.Svg.Render.EPL
                        matrix,
                        out vector);
 
-      linearScalingFactor = Math.Abs(10 / this.GetLengthOfVector(vector));
+      linearScalingFactor = Math.Abs(this.GetLengthOfVector(vector) / 10);
 
       var rotation = Math.Atan2(vector.Y,
                                 vector.X) / (2 * Math.PI) * 4;
@@ -277,6 +277,28 @@ namespace System.Svg.Render.EPL
                                   out linearScalingFactor);
 
       fontSize = fontSize * linearScalingFactor;
+    }
+
+    public override void Transform([NotNull] SvgImage svgImage,
+                                   [NotNull] Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float endX,
+                                   out float endY,
+                                   out float sourceAlignmentWidth,
+                                   out float sourceAlignmentHeight)
+    {
+      base.Transform(svgImage,
+                     matrix,
+                     out startX,
+                     out startY,
+                     out endX,
+                     out endY,
+                     out sourceAlignmentWidth,
+                     out sourceAlignmentHeight);
+
+      startX = startX - Math.Abs(startX - endX);
+      endX = endX - Math.Abs(startX - endX);
     }
 
     private class FontDefinitionCandidate

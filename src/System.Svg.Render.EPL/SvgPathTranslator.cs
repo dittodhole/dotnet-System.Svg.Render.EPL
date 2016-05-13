@@ -74,7 +74,16 @@ namespace System.Svg.Render.EPL
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
       var horizontalLength = (int) (endX - startX);
+      if (horizontalLength == 0)
+      {
+        horizontalLength = (int) strokeWidth;
+      }
+
       var verticalLength = (int) (endY - startY);
+      if (verticalLength == 0)
+      {
+        verticalLength = (int) strokeWidth;
+      }
 
       var result = this.EplCommands.LineDrawBlack(horizontalStart,
                                                   verticalStart,

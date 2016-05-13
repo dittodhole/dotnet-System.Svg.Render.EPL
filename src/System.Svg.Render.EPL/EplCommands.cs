@@ -45,7 +45,7 @@ namespace System.Svg.Render.EPL
            y < height;
            y++)
       {
-        var octett = byte.MaxValue;
+        var octett = (1 << 8) - 1;
         for (var x = 0;
              x < alignedWidth;
              x++)
@@ -58,14 +58,14 @@ namespace System.Svg.Render.EPL
             if (color.A > 0x32
                 || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
             {
-              octett = (byte) (octett & ~(1 << bitIndex));
+              octett &= ~(1 << bitIndex);
             }
           }
 
           if (bitIndex == 0)
           {
-            yield return octett;
-            octett = byte.MaxValue;
+            yield return (byte) octett;
+            octett = (1 << 8) - 1;
           }
         }
       }

@@ -111,21 +111,21 @@ namespace System.Svg.Render
                        out strokeWidth);
     }
 
-    public void Transform([NotNull] SvgImage svgImage,
-                          [NotNull] Matrix matrix,
-                          out float startX,
-                          out float startY,
-                          out float endX,
-                          out float endY,
-                          out float originalWidth,
-                          out float originalHeight)
+    public virtual void Transform([NotNull] SvgImage svgImage,
+                                  [NotNull] Matrix matrix,
+                                  out float startX,
+                                  out float startY,
+                                  out float endX,
+                                  out float endY,
+                                  out float sourceAlignmentWidth,
+                                  out float sourceAlignmentHeight)
     {
       startX = this.SvgUnitReader.GetValue(svgImage.X);
       startY = this.SvgUnitReader.GetValue(svgImage.Y);
-      originalWidth = this.SvgUnitReader.GetValue(svgImage.Width);
-      originalHeight = this.SvgUnitReader.GetValue(svgImage.Height);
-      endX = startX + originalWidth;
-      endY = startY + originalHeight;
+      sourceAlignmentWidth = this.SvgUnitReader.GetValue(svgImage.Width);
+      sourceAlignmentHeight = this.SvgUnitReader.GetValue(svgImage.Height);
+      endX = startX + sourceAlignmentWidth;
+      endY = startY + sourceAlignmentHeight;
 
       this.ApplyMatrixAndAdaptPoint(startX,
                                     startY,
@@ -133,12 +133,12 @@ namespace System.Svg.Render
                                     out startX,
                                     out startY);
 
-      this.ApplyMatrix(originalWidth,
+      this.ApplyMatrix(sourceAlignmentWidth,
                        matrix,
-                       out originalWidth);
-      this.ApplyMatrix(originalHeight,
+                       out sourceAlignmentWidth);
+      this.ApplyMatrix(sourceAlignmentHeight,
                        matrix,
-                       out originalHeight);
+                       out sourceAlignmentHeight);
 
       this.ApplyMatrixAndAdaptPoint(endX,
                                     endY,
