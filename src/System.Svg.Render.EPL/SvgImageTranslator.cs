@@ -8,47 +8,37 @@ namespace System.Svg.Render.EPL
 {
   public class SvgImageTranslator : SvgElementTranslatorBase<SvgImage>
   {
-    public SvgImageTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
+    public SvgImageTranslator([NotNull] EplTransformer eplTransformer,
                               [NotNull] EplCommands eplCommands)
     {
-      this.SvgUnitCalculator = svgUnitCalculator;
+      this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
     }
 
     [NotNull]
-    private SvgUnitCalculator SvgUnitCalculator { get; }
+    private EplTransformer EplTransformer { get; }
 
     [NotNull]
     private EplCommands EplCommands { get; }
 
+    [NotNull]
     public override IEnumerable<byte> Translate([NotNull] SvgImage instance,
                                                 [NotNull] Matrix matrix)
     {
-      var startX = this.SvgUnitCalculator.GetValue(instance.X);
-      var startY = this.SvgUnitCalculator.GetValue(instance.Y);
-      var originalWidth = this.SvgUnitCalculator.GetValue(instance.Width);
-      var originalHeight = this.SvgUnitCalculator.GetValue(instance.Height);
-      var endX = startX + originalWidth;
-      var endY = startY + originalHeight;
-
-      this.SvgUnitCalculator.ApplyMatrix(startX,
-                                         startY,
-                                         matrix,
-                                         out startX,
-                                         out startY);
-
-      this.SvgUnitCalculator.ApplyMatrix(originalWidth,
-                                         matrix,
-                                         out originalWidth);
-      this.SvgUnitCalculator.ApplyMatrix(originalHeight,
-                                         matrix,
-                                         out originalHeight);
-
-      this.SvgUnitCalculator.ApplyMatrix(endX,
-                                         endY,
-                                         matrix,
-                                         out endX,
-                                         out endY);
+      float startX;
+      float startY;
+      float endX;
+      float endY;
+      float originalWidth;
+      float originalHeight;
+      this.EplTransformer.Transform(instance,
+                                    matrix,
+                                    out startX,
+                                    out startY,
+                                    out endX,
+                                    out endY,
+                                    out originalWidth,
+                                    out originalHeight);
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
@@ -60,12 +50,7 @@ namespace System.Svg.Render.EPL
           return Enumerable.Empty<byte>();
         }
 
-        var heightVector = new PointF(image.Height * -1f,
-                                      0f);
-        this.SvgUnitCalculator.ApplyMatrix(heightVector,
-                                           matrix,
-                                           out heightVector);
-        var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(heightVector);
+        var rotationTranslation = this.EplTransformer.GetRotation(matrix);
 
         using (var destinationBitmap = new Bitmap(image,
                                                   (int) originalWidth,

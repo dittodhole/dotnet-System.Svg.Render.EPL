@@ -2,28 +2,29 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgTextBaseTranslator<T> : SvgElementTranslatorWithEncoding<T>
+  public class SvgTextBaseTranslator<T> : SvgElementTranslatorBase<T>
     where T : SvgTextBase
   {
     // TODO translate dX and dY
 
-    public SvgTextBaseTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
-                                 [NotNull] Encoding encoding)
-      : base(encoding)
+    public SvgTextBaseTranslator([NotNull] EplTransformer eplTransformer,
+                                 [NotNull] EplCommands eplCommands)
     {
-      this.SvgUnitCalculator = svgUnitCalculator;
+      this.EplTransformer = eplTransformer;
+      this.EplCommands = eplCommands;
     }
 
     [NotNull]
-    private SvgUnitCalculator SvgUnitCalculator { get; }
+    private EplTransformer EplTransformer { get; }
 
-    public float LineHeightFactor { get; set; } = 1.25f;
+    [NotNull]
+    private EplCommands EplCommands { get; }
 
+    [NotNull]
     public override IEnumerable<byte> Translate([NotNull] T instance,
                                                 [NotNull] Matrix matrix)
     {
@@ -33,33 +34,22 @@ namespace System.Svg.Render.EPL
         return Enumerable.Empty<byte>();
       }
 
-      var x = this.SvgUnitCalculator.GetValue(instance.X.First());
-      var y = this.SvgUnitCalculator.GetValue(instance.Y.First());
-      var fontSize = this.SvgUnitCalculator.GetValue(instance.FontSize);
+      float x;
+      float y;
+      float fontSize;
+      int rotation;
+      this.EplTransformer.Transform(instance,
+                                    matrix,
+                                    out x,
+                                    out y,
+                                    out fontSize,
+                                    out rotation);
 
-      y -= fontSize / this.LineHeightFactor;
-
-      this.SvgUnitCalculator.ApplyMatrix(x,
-                                         y,
-                                         matrix,
-                                         out x,
-                                         out y);
-
-      var fontSizeVector = new PointF(fontSize * -1f,
-                                      0f);
-      this.SvgUnitCalculator.ApplyMatrix(fontSizeVector,
-                                         matrix,
-                                         out fontSizeVector);
-      fontSize = this.SvgUnitCalculator.GetLengthOfVector(fontSizeVector);
-      var rotationTranslation = this.SvgUnitCalculator.GetRotationTranslation(fontSizeVector);
-
-      object fontSelection;
-      object multiplier;
-      this.SvgUnitCalculator.GetFontSelection(fontSize,
-                                              out fontSelection,
-                                              out multiplier);
-
-      var fontTranslation = $"{fontSelection},{multiplier},{multiplier}";
+      string fontSelection;
+      int multiplier;
+      this.EplTransformer.GetFontSelection(fontSize,
+                                           out fontSelection,
+                                           out multiplier);
 
       string reverseImage;
       if ((instance.Fill as SvgColourServer)?.Colour == Color.White)
@@ -74,8 +64,14 @@ namespace System.Svg.Render.EPL
       var horizontalStart = (int) x;
       var verticalStart = (int) y;
 
-      var translation = $@"A{horizontalStart},{verticalStart},{rotationTranslation},{fontTranslation},{reverseImage},""{text}""";
-      var result = this.GetBytes(translation);
+      var result = this.EplCommands.AsciiText(horizontalStart,
+                                              verticalStart,
+                                              rotation,
+                                              fontSelection,
+                                              multiplier,
+                                              multiplier,
+                                              reverseImage,
+                                              text);
 
       return result;
     }

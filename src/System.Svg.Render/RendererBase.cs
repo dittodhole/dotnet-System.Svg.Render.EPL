@@ -9,20 +9,14 @@ namespace System.Svg.Render
 {
   public abstract class RendererBase
   {
-    protected RendererBase([NotNull] ISvgUnitCalculator svgUnitCalculator)
-    {
-      this.SvgUnitCalculator = svgUnitCalculator;
-    }
-
-    [NotNull]
-    private ISvgUnitCalculator SvgUnitCalculator { get; }
-
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
     private ConcurrentDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, ISvgElementTranslator>();
 
+    [NotNull]
     public abstract IEnumerable<byte> GetTranslation([NotNull] SvgDocument instance);
 
+    [NotNull]
     protected IEnumerable<byte> GetTranslation([NotNull] SvgDocument instance,
                                                [NotNull] Matrix viewMatrix)
     {
@@ -34,6 +28,7 @@ namespace System.Svg.Render
       return result;
     }
 
+    [NotNull]
     private IEnumerable<byte> TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
                                                              [NotNull] Matrix parentMatrix,
                                                              [NotNull] Matrix viewMatrix)
@@ -64,6 +59,7 @@ namespace System.Svg.Render
       return result;
     }
 
+    [NotNull]
     private Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
                                                         [NotNull] Matrix matrix)
     {
@@ -118,6 +114,7 @@ namespace System.Svg.Render
       return false;
     }
 
+    [NotNull]
     protected virtual IEnumerable<byte> TranslateSvgElement([NotNull] SvgElement svgElement,
                                                             [NotNull] Matrix matrix,
                                                             [NotNull] Matrix viewMatrix)
@@ -139,7 +136,7 @@ namespace System.Svg.Render
                                                    matrix);
     }
 
-    public void RegisterTranslator<T>(ISvgElementTranslator<T> svgElementTranslator) where T : SvgElement
+    public void RegisterTranslator<T>([NotNull] ISvgElementTranslator<T> svgElementTranslator) where T : SvgElement
     {
       this.SvgElementTranslators[typeof(T)] = svgElementTranslator;
     }

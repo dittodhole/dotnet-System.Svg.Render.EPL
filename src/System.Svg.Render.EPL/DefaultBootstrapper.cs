@@ -1,43 +1,43 @@
-﻿namespace System.Svg.Render.EPL
+﻿using JetBrains.Annotations;
+
+namespace System.Svg.Render.EPL
 {
   public static class DefaultBootstrapper
   {
-    public static EPLRenderer Create(float sourceDpi,
+    [NotNull]
+    public static EplRenderer Create(float sourceDpi,
                                      float targetDpi,
                                      PrinterCodepage printerCodepage,
                                      int countryCode)
     {
-      var svgUnitCalculator = new SvgUnitCalculator();
-      var transformer = new Transformer(svgUnitCalculator);
-
-      var viewMatrix = SvgUnitCalculator.CreateViewMatrix(sourceDpi,
-                                                          targetDpi);
-      var eplRenderer = new EPLRenderer(svgUnitCalculator,
-                                        viewMatrix,
+      var svgUnitReader = new SvgUnitReader();
+      var eplTransformer = new EplTransformer(svgUnitReader);
+      var viewMatrix = eplTransformer.CreateViewMatrix(sourceDpi,
+                                                       targetDpi);
+      var eplRenderer = new EplRenderer(viewMatrix,
                                         printerCodepage,
                                         countryCode);
 
-      var encoding = eplRenderer.Encoding;
+      var encoding = eplRenderer.GetEncoding();
 
       var eplCommands = new EplCommands(encoding);
 
       {
-        var svgLineTranslator = new SvgLineTranslator(transformer,
+        var svgLineTranslator = new SvgLineTranslator(eplTransformer,
                                                       eplCommands);
 
-        var svgRectangleTranslator = new SvgRectangleTranslator(svgUnitCalculator,
-                                                                svgLineTranslator,
-                                                                encoding);
+        var svgRectangleTranslator = new SvgRectangleTranslator(eplTransformer,
+                                                                eplCommands);
 
-        var svgTextTranslator = new SvgTextBaseTranslator<SvgText>(svgUnitCalculator,
-                                                                   encoding);
-        var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(svgUnitCalculator,
-                                                                           encoding);
+        var svgTextTranslator = new SvgTextBaseTranslator<SvgText>(eplTransformer,
+                                                                   eplCommands);
+        var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(eplTransformer,
+                                                                           eplCommands);
 
-        var svgPathTranslator = new SvgPathTranslator(transformer,
+        var svgPathTranslator = new SvgPathTranslator(eplTransformer,
                                                       eplCommands);
 
-        var svgImageTranslator = new SvgImageTranslator(svgUnitCalculator,
+        var svgImageTranslator = new SvgImageTranslator(eplTransformer,
                                                         eplCommands);
 
         eplRenderer.RegisterTranslator(svgLineTranslator);

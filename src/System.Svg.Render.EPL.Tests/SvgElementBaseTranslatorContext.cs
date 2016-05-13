@@ -9,12 +9,19 @@ namespace System.Svg.Render.EPL.Tests
   {
     protected SvgElementBaseTranslatorContext()
     {
+      this.SvgUnitReader = new SvgUnitReader();
       this.Encoding = Encoding.Default;
       this.EplCommands = new EplCommands(this.Encoding);
-      this.Matrix = new Matrix();
-      this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
-      this.Transformer = new Transformer(this.SvgUnitCalculator);
+      this.EplTransformer = new EplTransformer(this.SvgUnitReader,
+                                               PrintDirection.None)
+                            {
+                              LineHeightFactor = 1f
+                            };
+      this.Matrix = this.EplTransformer.CreateViewMatrix();
     }
+
+    [NotNull]
+    protected SvgUnitReader SvgUnitReader { get; }
 
     [NotNull]
     protected Encoding Encoding { get; }
@@ -23,12 +30,9 @@ namespace System.Svg.Render.EPL.Tests
     protected EplCommands EplCommands { get; }
 
     [NotNull]
+    protected EplTransformer EplTransformer { get; set; }
+
+    [NotNull]
     protected Matrix Matrix { get; }
-
-    [NotNull]
-    protected SvgUnitCalculator SvgUnitCalculator { get; set; }
-
-    [NotNull]
-    protected Transformer Transformer { get; set; }
   }
 }

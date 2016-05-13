@@ -21,6 +21,7 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
+    [NotNull]
     public override IEnumerable<byte> Translate([NotNull] SvgPath instance,
                                                 [NotNull] Matrix matrix)
     {
@@ -40,6 +41,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    [NotNull]
     private IEnumerable<byte> TranslateSvgLineSegment([NotNull] SvgPath instance,
                                                       [NotNull] SvgLineSegment svgLineSegment,
                                                       [NotNull] Matrix matrix)
@@ -49,10 +51,10 @@ namespace System.Svg.Render.EPL
                       Color = instance.Color,
                       Stroke = instance.Stroke,
                       StrokeWidth = instance.StrokeWidth,
-                      StartX = new SvgUnit(svgLineSegment.Start.X),
-                      StartY = new SvgUnit(svgLineSegment.Start.Y),
-                      EndX = new SvgUnit(svgLineSegment.End.X),
-                      EndY = new SvgUnit(svgLineSegment.End.Y)
+                      StartX = svgLineSegment.Start.X,
+                      StartY = svgLineSegment.Start.Y,
+                      EndX = svgLineSegment.End.X,
+                      EndY = svgLineSegment.End.Y
                     };
 
       float startX;

@@ -12,13 +12,16 @@ namespace System.Svg.Render.EPL
       this.Encoding = encoding;
     }
 
+    [NotNull]
     private Encoding Encoding { get; }
 
+    [NotNull]
     private IEnumerable<byte> GetBytes(string s)
     {
       return this.Encoding.GetBytes(s);
     }
 
+    [NotNull]
     public IEnumerable<byte> GraphicDirectWrite([NotNull] Bitmap bitmap,
                                                 int horizontalStart,
                                                 int verticalStart)
@@ -42,7 +45,7 @@ namespace System.Svg.Render.EPL
            y < height;
            y++)
       {
-        var octett = (1 << 8) - 1;
+        var octett = byte.MaxValue;
         for (var x = 0;
              x < alignedWidth;
              x++)
@@ -55,19 +58,20 @@ namespace System.Svg.Render.EPL
             if (color.A > 0x32
                 || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
             {
-              octett &= ~(1 << bitIndex);
+              octett = (byte) (octett & ~(1 << bitIndex));
             }
           }
 
           if (bitIndex == 0)
           {
-            yield return (byte) octett;
+            yield return octett;
             octett = byte.MaxValue;
           }
         }
       }
     }
 
+    [NotNull]
     public IEnumerable<byte> LineDrawBlack(int horizontalStart,
                                            int verticalStart,
                                            int horizontalLength,
@@ -79,6 +83,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    [NotNull]
     public IEnumerable<byte> LineDrawWhite(int horizontalStart,
                                            int verticalStart,
                                            int horizontalLength,
@@ -90,6 +95,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    [NotNull]
     public IEnumerable<byte> LineDrawDiagonal(int horizontalStart,
                                               int verticalStart,
                                               int horizontalLength,
@@ -97,6 +103,35 @@ namespace System.Svg.Render.EPL
                                               int verticalEnd)
     {
       var translation = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
+      var result = this.GetBytes(translation);
+
+      return result;
+    }
+
+    [NotNull]
+    public IEnumerable<byte> DrawBox(int horizontalStart,
+                                     int verticalStart,
+                                     int lineThickness,
+                                     int horizontalEnd,
+                                     int verticalEnd)
+    {
+      var translation = $"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}";
+      var result = this.GetBytes(translation);
+
+      return result;
+    }
+
+    [NotNull]
+    public IEnumerable<byte> AsciiText(int horizontalStart,
+                                       int verticalStart,
+                                       int rotation,
+                                       string fontSelection,
+                                       int horizontalMulitplier,
+                                       int verticalMulitplier,
+                                       string reverseImage,
+                                       string text)
+    {
+      var translation = $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""";
       var result = this.GetBytes(translation);
 
       return result;

@@ -6,13 +6,11 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class EPLRenderer : RendererBase
+  public class EplRenderer : RendererBase
   {
-    public EPLRenderer([NotNull] ISvgUnitCalculator svgUnitCalculator,
-                       [NotNull] Matrix viewMatrix,
+    public EplRenderer([NotNull] Matrix viewMatrix,
                        PrinterCodepage printerCodepage,
                        int countryCode)
-      : base(svgUnitCalculator)
     {
       this.ViewMatrix = viewMatrix;
       this.PrinterCodepage = printerCodepage;
@@ -26,11 +24,18 @@ namespace System.Svg.Render.EPL
     private PrinterCodepage PrinterCodepage { get; }
 
     [NotNull]
-    public Encoding Encoding { get; }
+    private Encoding Encoding { get; }
 
     [NotNull]
     private int CountryCode { get; }
 
+    [NotNull]
+    public Encoding GetEncoding()
+    {
+      return this.Encoding;
+    }
+
+    [NotNull]
     public override IEnumerable<byte> GetTranslation([NotNull] SvgDocument instance)
     {
       var translation = this.GetTranslation(instance,
@@ -47,6 +52,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    [NotNull]
     protected override IEnumerable<byte> TranslateSvgElement(SvgElement svgElement,
                                                              Matrix matrix,
                                                              Matrix viewMatrix)
@@ -59,6 +65,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    [NotNull]
     private Encoding CreateEncoding()
     {
       switch (this.PrinterCodepage)

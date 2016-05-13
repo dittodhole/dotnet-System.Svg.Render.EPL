@@ -1,9 +1,7 @@
 ﻿using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using UnitTest;
+using System.Svg.Render.EPL.ExtensionMethods;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ExceptionNotDocumented
@@ -12,24 +10,13 @@ namespace System.Svg.Render.EPL.Tests
 {
   public static class SvgTextBaseTranslatorSpecs
   {
-    public abstract class SvgTextTranslatorSpecsContext : ContextSpecification
+    public abstract class SvgTextTranslatorSpecsContext : SvgElementBaseTranslatorContext
     {
       protected SvgTextTranslatorSpecsContext()
       {
-        this.Matrix = new Matrix();
-        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
-        this.SvgTextTranslator = new SvgTextBaseTranslator<SvgText>(this.SvgUnitCalculator,
-                                                                    Encoding.Default)
-                                 {
-                                   LineHeightFactor = 1f
-                                 };
+        this.SvgTextTranslator = new SvgTextBaseTranslator<SvgText>(this.EplTransformer,
+                                                                    this.EplCommands);
       }
-
-      [NotNull]
-      private Matrix Matrix { get; }
-
-      [NotNull]
-      private SvgUnitCalculator SvgUnitCalculator { get; }
 
       [NotNull]
       private SvgTextBaseTranslator<SvgText> SvgTextTranslator { get; }
@@ -45,7 +32,7 @@ namespace System.Svg.Render.EPL.Tests
         var translation = this.SvgTextTranslator.Translate(this.SvgText,
                                                            this.Matrix);
 
-        this.Actual = this.SvgTextTranslator.GetString(translation);
+        this.Actual = this.Encoding.GetString(translation);
       }
     }
 

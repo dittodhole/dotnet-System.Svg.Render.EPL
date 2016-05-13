@@ -14,7 +14,7 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected SvgLineTranslatorSpecsContext()
       {
-        this.SvgLineTranslator = new SvgLineTranslator(this.Transformer,
+        this.SvgLineTranslator = new SvgLineTranslator(this.EplTransformer,
                                                        this.EplCommands);
       }
 

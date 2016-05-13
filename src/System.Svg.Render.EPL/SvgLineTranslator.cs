@@ -20,6 +20,7 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
+    [NotNull]
     public override IEnumerable<byte> Translate([NotNull] SvgLine instance,
                                                 [NotNull] Matrix matrix)
     {
