@@ -1,9 +1,7 @@
 ﻿using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using UnitTest;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ExceptionNotDocumented
@@ -16,19 +14,12 @@ namespace System.Svg.Render.EPL.Tests
     {
       protected SvgRectangleTranslatorSpecsContext()
       {
-        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
-        this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator,
-                                                       this.EplCommands);
+        var svgLineTranslator = new SvgLineTranslator(this.Transformer,
+                                                      this.EplCommands);
         this.SvgRectangleTranslator = new SvgRectangleTranslator(this.SvgUnitCalculator,
-                                                                 this.SvgLineTranslator,
+                                                                 svgLineTranslator,
                                                                  Encoding.Default);
       }
-
-      [NotNull]
-      private SvgUnitCalculator SvgUnitCalculator { get; }
-
-      [NotNull]
-      private SvgLineTranslator SvgLineTranslator { get; }
 
       [NotNull]
       private SvgRectangleTranslator SvgRectangleTranslator { get; }

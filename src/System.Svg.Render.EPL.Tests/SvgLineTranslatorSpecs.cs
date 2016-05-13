@@ -1,10 +1,7 @@
 ﻿using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
+using System.Svg.Render.EPL.ExtensionMethods;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using UnitTest;
-using System.Svg.Render.EPL.ExtensionMethods;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ExceptionNotDocumented
@@ -13,32 +10,16 @@ namespace System.Svg.Render.EPL.Tests
 {
   public static class SvgLineTranslatorSpecs
   {
-    public abstract class SvgLineTranslatorSpecsContext : ContextSpecification
+    public abstract class SvgLineTranslatorSpecsContext : SvgElementBaseTranslatorContext
     {
       protected SvgLineTranslatorSpecsContext()
       {
-        this.Encoding = Encoding.Default;
-        this.EplCommands = new EplCommands(this.Encoding);
-        this.Matrix = new Matrix();
-        this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
-        this.SvgLineTranslator = new SvgLineTranslator(this.SvgUnitCalculator,
+        this.SvgLineTranslator = new SvgLineTranslator(this.Transformer,
                                                        this.EplCommands);
       }
 
       [NotNull]
-      private Encoding Encoding { get; }
-
-      [NotNull]
-      private Matrix Matrix { get; }
-
-      [NotNull]
-      private SvgUnitCalculator SvgUnitCalculator { get; }
-
-      [NotNull]
       private SvgLineTranslator SvgLineTranslator { get; }
-
-      [NotNull]
-      private EplCommands EplCommands { get; }
 
       protected SvgLine SvgLine { get; set; }
       protected object Actual { get; set; }

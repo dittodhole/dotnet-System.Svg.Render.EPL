@@ -7,15 +7,15 @@ namespace System.Svg.Render.EPL
 {
   public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>
   {
-    public SvgLineTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
+    public SvgLineTranslator([NotNull] Transformer transformer,
                              [NotNull] EplCommands eplCommands)
     {
-      this.SvgUnitCalculator = svgUnitCalculator;
+      this.Transformer = transformer;
       this.EplCommands = eplCommands;
     }
 
     [NotNull]
-    private SvgUnitCalculator SvgUnitCalculator { get; }
+    private Transformer Transformer { get; }
 
     [NotNull]
     private EplCommands EplCommands { get; }
@@ -23,27 +23,19 @@ namespace System.Svg.Render.EPL
     public override IEnumerable<byte> Translate([NotNull] SvgLine instance,
                                                 [NotNull] Matrix matrix)
     {
-      var startX = this.SvgUnitCalculator.GetValue(instance.StartX);
-      var startY = this.SvgUnitCalculator.GetValue(instance.StartY);
-      var endX = this.SvgUnitCalculator.GetValue(instance.EndX);
-      var endY = this.SvgUnitCalculator.GetValue(instance.EndY);
-      var strokeWidth = this.SvgUnitCalculator.GetValue(instance.StrokeWidth);
+      float startX;
+      float startY;
+      float endX;
+      float endY;
+      float strokeWidth;
 
-      this.SvgUnitCalculator.ApplyMatrix(startX,
-                                         startY,
-                                         matrix,
-                                         out startX,
-                                         out startY);
-
-      this.SvgUnitCalculator.ApplyMatrix(endX,
-                                         endY,
-                                         matrix,
-                                         out endX,
-                                         out endY);
-
-      this.SvgUnitCalculator.ApplyMatrix(strokeWidth,
-                                         matrix,
-                                         out strokeWidth);
+      this.Transformer.Transform(instance,
+                                 matrix,
+                                 out startX,
+                                 out startY,
+                                 out endX,
+                                 out endY,
+                                 out strokeWidth);
 
       IEnumerable<byte> result;
 

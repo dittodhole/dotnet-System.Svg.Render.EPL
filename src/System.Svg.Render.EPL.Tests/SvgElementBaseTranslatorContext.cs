@@ -12,6 +12,8 @@ namespace System.Svg.Render.EPL.Tests
       this.Encoding = Encoding.Default;
       this.EplCommands = new EplCommands(this.Encoding);
       this.Matrix = new Matrix();
+      this.SvgUnitCalculator = new SvgUnitCalculator(PrintDirection.None);
+      this.Transformer = new Transformer(this.SvgUnitCalculator);
     }
 
     [NotNull]
@@ -22,5 +24,11 @@ namespace System.Svg.Render.EPL.Tests
 
     [NotNull]
     protected Matrix Matrix { get; }
+
+    [NotNull]
+    protected SvgUnitCalculator SvgUnitCalculator { get; set; }
+
+    [NotNull]
+    protected Transformer Transformer { get; set; }
   }
 }

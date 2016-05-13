@@ -8,6 +8,7 @@
                                      int countryCode)
     {
       var svgUnitCalculator = new SvgUnitCalculator();
+      var transformer = new Transformer(svgUnitCalculator);
 
       var viewMatrix = SvgUnitCalculator.CreateViewMatrix(sourceDpi,
                                                           targetDpi);
@@ -21,7 +22,7 @@
       var eplCommands = new EplCommands(encoding);
 
       {
-        var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator,
+        var svgLineTranslator = new SvgLineTranslator(transformer,
                                                       eplCommands);
 
         var svgRectangleTranslator = new SvgRectangleTranslator(svgUnitCalculator,
@@ -33,8 +34,8 @@
         var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(svgUnitCalculator,
                                                                            encoding);
 
-        var svgPathTranslator = new SvgPathTranslator(svgLineTranslator,
-                                                      encoding);
+        var svgPathTranslator = new SvgPathTranslator(transformer,
+                                                      eplCommands);
 
         var svgImageTranslator = new SvgImageTranslator(svgUnitCalculator,
                                                         eplCommands);
