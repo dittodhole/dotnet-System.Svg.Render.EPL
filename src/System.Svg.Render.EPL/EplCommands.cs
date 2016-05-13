@@ -116,7 +116,7 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public IEnumerable<byte> GetRawBinaryData(Bitmap bitmap,
+    public IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
                                               int octetts)
     {
       var height = bitmap.Height;
@@ -220,11 +220,11 @@ namespace System.Svg.Render.EPL
     public IEnumerable<byte> AsciiText(int horizontalStart,
                                        int verticalStart,
                                        int rotation,
-                                       string fontSelection,
+                                       [NotNull] string fontSelection,
                                        int horizontalMulitplier,
                                        int verticalMulitplier,
-                                       string reverseImage,
-                                       string text)
+                                       [NotNull] string reverseImage,
+                                       [NotNull] string text)
     {
       var translation = $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""";
       var result = this.GetBytes(translation);
