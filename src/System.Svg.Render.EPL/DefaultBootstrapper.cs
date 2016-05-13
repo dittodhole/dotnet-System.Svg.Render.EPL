@@ -18,6 +18,8 @@
 
       var encoding = eplRenderer.Encoding;
 
+      var eplCommands = new EplCommands(encoding);
+
       {
         var svgLineTranslator = new SvgLineTranslator(svgUnitCalculator,
                                                       encoding);
@@ -35,7 +37,7 @@
                                                       encoding);
 
         var svgImageTranslator = new SvgImageTranslator(svgUnitCalculator,
-                                                        encoding);
+                                                        eplCommands);
 
         eplRenderer.RegisterTranslator(svgLineTranslator);
         eplRenderer.RegisterTranslator(svgRectangleTranslator);

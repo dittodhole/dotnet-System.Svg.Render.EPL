@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="EplCommands.cs" />
     <Compile Include="EPLRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SvgElementTranslatorWithEncoding.cs" />

@@ -2,22 +2,24 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgImageTranslator : SvgElementTranslatorWithEncoding<SvgImage>
+  public class SvgImageTranslator : SvgElementTranslatorBase<SvgImage>
   {
     public SvgImageTranslator([NotNull] SvgUnitCalculator svgUnitCalculator,
-                              [NotNull] Encoding encoding)
-      : base(encoding)
+                              [NotNull] EplCommands eplCommands)
     {
       this.SvgUnitCalculator = svgUnitCalculator;
+      this.EplCommands = eplCommands;
     }
 
     [NotNull]
     private SvgUnitCalculator SvgUnitCalculator { get; }
+
+    [NotNull]
+    private EplCommands EplCommands { get; }
 
     public override IEnumerable<byte> Translate([NotNull] SvgImage instance,
                                                 [NotNull] Matrix matrix)
@@ -50,30 +52,12 @@ namespace System.Svg.Render.EPL
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
-      var width = (int) Math.Abs(endX - startX);
-      var height = (int) Math.Abs(endY - startY);
-
-      horizontalStart -= width;
-
-      var octetts = (int) Math.Ceiling(width / 8f);
 
       using (var image = instance.GetImage() as Image)
       {
         if (image == null)
         {
           return Enumerable.Empty<byte>();
-        }
-
-        var result = new LinkedList<byte>();
-
-        var translation = $"GW{horizontalStart},{verticalStart},{octetts},{height}";
-        foreach (var @byte in this.GetBytes(translation))
-        {
-          result.AddLast(@byte);
-        }
-        foreach (var @byte in this.GetBytes(Environment.NewLine))
-        {
-          result.AddLast(@byte);
         }
 
         var heightVector = new PointF(image.Height * -1f,
@@ -90,38 +74,12 @@ namespace System.Svg.Render.EPL
           var rotateFlipType = (RotateFlipType) rotationTranslation;
           destinationBitmap.RotateFlip(rotateFlipType);
 
-          var alignedWidth = octetts * 8;
-          for (var y = 0;
-               y < height;
-               y++)
-          {
-            var octett = (1 << 8) - 1;
-            for (var x = 0;
-                 x < alignedWidth;
-                 x++)
-            {
-              var bitIndex = 7 - x % 8;
-              if (x < width)
-              {
-                var color = destinationBitmap.GetPixel(x,
-                                                       y);
-                if (color.A > 0x32
-                    || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
-                {
-                  octett &= ~(1 << bitIndex);
-                }
-              }
+          var result = this.EplCommands.GraphicDirectWrite(destinationBitmap,
+                                                           horizontalStart,
+                                                           verticalStart);
 
-              if (bitIndex == 0)
-              {
-                result.AddLast((byte) octett);
-                octett = byte.MaxValue;
-              }
-            }
-          }
+          return result;
         }
-
-        return result;
       }
     }
   }
