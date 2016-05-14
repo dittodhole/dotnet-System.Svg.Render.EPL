@@ -13,6 +13,7 @@ namespace System.Svg.Render.EPL
     {
       this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
+      this.IdToVariableNameMap = new Dictionary<string, string>();
     }
 
     [NotNull]
@@ -20,6 +21,9 @@ namespace System.Svg.Render.EPL
 
     [NotNull]
     private EplCommands EplCommands { get; }
+
+    [NotNull]
+    private IDictionary<string, string> IdToVariableNameMap { get; }
 
     public override IEnumerable<byte> Translate([NotNull] SvgImage instance,
                                                 [NotNull] Matrix matrix)
@@ -37,6 +41,17 @@ namespace System.Svg.Render.EPL
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
+
+      string variableName;
+      if (this.IdToVariableNameMap.TryGetValue(instance.ID,
+                                               out variableName))
+      {
+        var result = this.EplCommands.PrintGraphics(horizontalStart,
+                                                    verticalStart,
+                                                    variableName);
+
+        return result;
+      }
 
       using (var image = instance.GetImage() as Image)
       {
