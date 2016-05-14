@@ -8,7 +8,8 @@ namespace System.Svg.Render.EPL
     public static EplRenderer Create(float sourceDpi,
                                      float targetDpi,
                                      PrinterCodepage printerCodepage,
-                                     int countryCode)
+                                     int countryCode,
+                                     bool assumeStoredInInternalMemory = false)
     {
       var svgUnitReader = new SvgUnitReader();
       var eplTransformer = new EplTransformer(svgUnitReader);
@@ -39,7 +40,10 @@ namespace System.Svg.Render.EPL
                                                       eplCommands);
 
         var svgImageTranslator = new SvgImageTranslator(eplTransformer,
-                                                        eplCommands);
+                                                        eplCommands)
+                                 {
+                                   AssumeStoredInInternalMemory = assumeStoredInInternalMemory
+                                 };
 
         eplRenderer.RegisterTranslator(svgLineTranslator);
         eplRenderer.RegisterTranslator(svgRectangleTranslator);

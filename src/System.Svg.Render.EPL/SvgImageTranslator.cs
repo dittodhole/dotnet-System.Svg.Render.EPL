@@ -57,8 +57,16 @@ namespace System.Svg.Render.EPL
       var imageIdentifier = this.GetImageIdentifier(instance);
 
       string variableName;
-      if (this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
-                                                            out variableName))
+      if (this.AssumeStoredInInternalMemory)
+      {
+        variableName = this.GetVariableName(imageIdentifier);
+
+        result = this.EplCommands.PrintGraphics(horizontalStart,
+                                                verticalStart,
+                                                variableName);
+      }
+      else if (this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
+                                                                 out variableName))
       {
         result = this.EplCommands.PrintGraphics(horizontalStart,
                                                 verticalStart,
@@ -79,6 +87,23 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    private string GetVariableName([NotNull] string imageIdentifier)
+    {
+      // TODO this is magic
+      // on purpose: the imageIdentifier should be hashed to 8 chars
+      // long, and should always be the same for the same imageIdentifier
+      // thus going for this pile of shit ...
+      var variableName = Math.Abs(imageIdentifier.GetHashCode())
+                             .ToString();
+      if (variableName.Length > 8)
+      {
+        variableName = variableName.Substring(0,
+                                              8);
+      }
+
+      return variableName;
+    }
+
     public override IEnumerable<byte> TranslateForStoring([NotNull] SvgImage instance,
                                                           [NotNull] Matrix matrix)
     {
@@ -95,17 +120,7 @@ namespace System.Svg.Render.EPL
 
       var imageIdentifier = this.GetImageIdentifier(instance);
 
-      // TODO this is magic
-      // on purpose: the imageIdentifier should be hashed to 8 chars
-      // long, and should always be the same for the same imageIdentifier
-      // thus going for this pile of shit ...
-      var variableName = Math.Abs(imageIdentifier.GetHashCode())
-                             .ToString();
-      if (variableName.Length > 8)
-      {
-        variableName = variableName.Substring(0,
-                                              8);
-      }
+      var variableName = this.GetVariableName(imageIdentifier);
 
       this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
 

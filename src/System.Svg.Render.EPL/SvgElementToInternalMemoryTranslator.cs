@@ -11,6 +11,8 @@ namespace System.Svg.Render.EPL
     public abstract IEnumerable<byte> TranslateForStoring([NotNull] T instance,
                                                           [NotNull] Matrix matrix);
 
+    public bool AssumeStoredInInternalMemory { get; set; }
+
     public IEnumerable<byte> TranslateUntypedForStoring([NotNull] object untypedInstance,
                                                         [NotNull] Matrix matrix)
     {
