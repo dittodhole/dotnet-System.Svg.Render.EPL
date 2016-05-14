@@ -113,10 +113,6 @@ namespace System.Svg.Render.EPL
       {
         yield return @byte;
       }
-      foreach (var @byte in this.GetBytes(Environment.NewLine))
-      {
-        yield return @byte;
-      }
     }
 
     [NotNull]

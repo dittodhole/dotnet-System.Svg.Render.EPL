@@ -66,6 +66,7 @@ namespace System.Svg.Render.EPL
                                                                 concreteMatrix);
         if (translation != null)
         {
+          translation = translation.Concat(this.Encoding.GetBytes(Environment.NewLine));
           yield return translation;
         }
       }
