@@ -36,10 +36,60 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    public IEnumerable<IEnumerable<byte>> GetInternalMemoryTranslation([NotNull] SvgDocument instance)
+    {
+      var parentMatrix = new Matrix();
+      var translations = this.TranslateForInternalMemory(instance,
+                                                         parentMatrix,
+                                                         this.ViewMatrix);
+
+      return translations;
+    }
+
+    [NotNull]
+    private IEnumerable<IEnumerable<byte>> TranslateForInternalMemory([NotNull] SvgElement svgElement,
+                                                                      [NotNull] Matrix parentMatrix,
+                                                                      [NotNull] Matrix viewMatrix)
+    {
+      var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
+                                                             parentMatrix);
+
+      var type = svgElement.GetType();
+      var translator = this.GetTranslator<ISvgElementToInternalMemoryTranslator>(type);
+      if (translator != null)
+      {
+        var concreteMatrix = matrix.Clone();
+        concreteMatrix.Multiply(viewMatrix,
+                                MatrixOrder.Append);
+
+        var translation = translator.TranslateUntypedForStoring(svgElement,
+                                                                concreteMatrix);
+        if (translation != null)
+        {
+          yield return translation;
+        }
+      }
+
+      foreach (var child in svgElement.Children)
+      {
+        var translations = this.TranslateForInternalMemory(child,
+                                                           matrix,
+                                                           viewMatrix);
+
+        foreach (var translation in translations)
+        {
+          yield return translation;
+        }
+      }
+    }
+
+    [NotNull]
     public override IEnumerable<byte> GetTranslation([NotNull] SvgDocument instance)
     {
-      var translation = this.GetTranslation(instance,
-                                            this.ViewMatrix);
+      var parentMatrix = new Matrix();
+      var translation = this.TranslateSvgElementAndChildren(instance,
+                                                            parentMatrix,
+                                                            this.ViewMatrix);
       var result = this.Encoding.GetBytes("R0,0")
                        .Concat(this.Encoding.GetBytes(Environment.NewLine))
                        .Concat(this.Encoding.GetBytes("ZT"))
@@ -64,6 +114,7 @@ namespace System.Svg.Render.EPL
       {
         return Enumerable.Empty<byte>();
       }
+
       result = result.Concat(this.Encoding.GetBytes(Environment.NewLine));
 
       return result;

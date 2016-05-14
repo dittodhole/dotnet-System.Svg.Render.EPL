@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class SvgImageTranslator : SvgElementTranslatorBase<SvgImage>
+  public class SvgImageTranslator : SvgElementToInternalMemoryTranslator<SvgImage>
   {
     public SvgImageTranslator([NotNull] EplTransformer eplTransformer,
                               [NotNull] EplCommands eplCommands)
@@ -63,6 +63,46 @@ namespace System.Svg.Render.EPL
                                                                                      verticalStart)
                                                      .ToArray());
       }
+
+      return result;
+    }
+
+    public override IEnumerable<byte> TranslateForStoring([NotNull] SvgImage instance,
+                                                          [NotNull] Matrix matrix)
+    {
+      float startX;
+      float startY;
+      float sourceAlignmentWidth;
+      float sourceAlignmentHeight;
+      this.EplTransformer.Transform(instance,
+                                    matrix,
+                                    out startX,
+                                    out startY,
+                                    out sourceAlignmentWidth,
+                                    out sourceAlignmentHeight);
+
+      var variableName = Convert.ToBase64String(Guid.NewGuid()
+                                                    .ToByteArray())
+                                .Substring(0,
+                                           8);
+
+      // TODO evaluate the best option ... :smoking:
+      /*
+                         Guid.NewGuid()
+                             .ToString("N")
+                             .Substring(0,
+                                        8);
+      */
+
+      this.IdToVariableNameMap[instance.ID] = variableName;
+
+      var result = this.TranslateGeneric(instance,
+                                         matrix,
+                                         (int) sourceAlignmentWidth,
+                                         (int) sourceAlignmentHeight,
+                                         bitmap => this.EplCommands.StoreGraphics(bitmap,
+                                                                                  variableName)
+                                                       .ToArray());
 
       return result;
     }

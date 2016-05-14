@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -11,27 +10,15 @@ namespace System.Svg.Render
   {
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
-    private ConcurrentDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new ConcurrentDictionary<Type, ISvgElementTranslator>();
+    private IDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new Dictionary<Type, ISvgElementTranslator>();
 
     [NotNull]
     public abstract IEnumerable<byte> GetTranslation([NotNull] SvgDocument instance);
 
     [NotNull]
-    protected IEnumerable<byte> GetTranslation([NotNull] SvgDocument instance,
-                                               [NotNull] Matrix viewMatrix)
-    {
-      var parentMatrix = new Matrix();
-      var result = this.TranslateSvgElementAndChildren(instance,
-                                                       parentMatrix,
-                                                       viewMatrix);
-
-      return result;
-    }
-
-    [NotNull]
-    private IEnumerable<byte> TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
-                                                             [NotNull] Matrix parentMatrix,
-                                                             [NotNull] Matrix viewMatrix)
+    protected IEnumerable<byte> TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
+                                                               [NotNull] Matrix parentMatrix,
+                                                               [NotNull] Matrix viewMatrix)
     {
       var svgVisualElement = svgElement as SvgVisualElement;
       if (svgVisualElement != null)
@@ -60,8 +47,8 @@ namespace System.Svg.Render
     }
 
     [NotNull]
-    private Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
-                                                        [NotNull] Matrix matrix)
+    protected Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
+                                                          [NotNull] Matrix matrix)
     {
       var result = default(Matrix);
       foreach (var transformation in svgTransformable.Transforms)
@@ -133,6 +120,20 @@ namespace System.Svg.Render
 
       return svgElementTranslator.TranslateUntyped(svgElement,
                                                    matrix);
+    }
+
+    protected T GetTranslator<T>([NotNull] Type type) where T : class, ISvgElementTranslator
+    {
+      ISvgElementTranslator svgElementTranslator;
+      if (!this.SvgElementTranslators.TryGetValue(type,
+                                                  out svgElementTranslator))
+      {
+        return default(T);
+      }
+
+      var translator = svgElementTranslator as T;
+
+      return translator;
     }
 
     public void RegisterTranslator<T>([NotNull] ISvgElementTranslator<T> svgElementTranslator) where T : SvgElement

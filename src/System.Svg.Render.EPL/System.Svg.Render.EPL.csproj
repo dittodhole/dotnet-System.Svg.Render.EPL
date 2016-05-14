@@ -64,7 +64,9 @@
     <Compile Include="EplRenderer.cs" />
     <Compile Include="EplTransformer.cs" />
     <Compile Include="ExtensionMethods\EncodingExtensions.cs" />
+    <Compile Include="ISvgElementToInternalMemoryTranslator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SvgElementToInternalMemoryTranslator.cs" />
     <Compile Include="SvgImageTranslator.cs" />
     <Compile Include="SvgLineTranslator.cs" />
     <Compile Include="SvgPathTranslator.cs" />
