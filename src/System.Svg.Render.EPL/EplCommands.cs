@@ -51,8 +51,8 @@ namespace System.Svg.Render.EPL
     {
       var height = bitmap.Height;
       var octetts = (int) Math.Ceiling(bitmap.Width / 8f);
-      var fileSize = height * octetts;
-      var translation = $@"GM""{name}"",{fileSize + 128}";
+      var fileSize = height * octetts + 128;
+      var translation = $@"GM""{name}""{fileSize}";
       foreach (var @byte in this.GetBytes(translation))
       {
         yield return @byte;
@@ -62,7 +62,7 @@ namespace System.Svg.Render.EPL
         yield return @byte;
       }
 
-      // header start
+      // header start 128 bytes
       /* 00+00 */ yield return 0x0A; // PCX File
       /* 01+00 */ yield return 0x05; // Version 5
       /* 02+00 */ yield return 0x00; // no compression
@@ -110,6 +110,10 @@ namespace System.Svg.Render.EPL
       var rawBinaryData = this.GetRawBinaryData(bitmap,
                                                 octetts);
       foreach (var @byte in rawBinaryData)
+      {
+        yield return @byte;
+      }
+      foreach (var @byte in this.GetBytes(Environment.NewLine))
       {
         yield return @byte;
       }
