@@ -42,17 +42,37 @@ namespace System.Svg.Render.EPL
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
 
+      IEnumerable<byte> result;
+
       string variableName;
       if (this.IdToVariableNameMap.TryGetValue(instance.ID,
                                                out variableName))
       {
-        var result = this.EplCommands.PrintGraphics(horizontalStart,
-                                                    verticalStart,
-                                                    variableName);
-
-        return result;
+        result = this.EplCommands.PrintGraphics(horizontalStart,
+                                                verticalStart,
+                                                variableName);
+      }
+      else
+      {
+        result = this.TranslateGeneric(instance,
+                                       matrix,
+                                       (int) sourceAlignmentWidth,
+                                       (int) sourceAlignmentHeight,
+                                       bitmap => this.EplCommands.GraphicDirectWrite(bitmap,
+                                                                                     horizontalStart,
+                                                                                     verticalStart)
+                                                     .ToArray());
       }
 
+      return result;
+    }
+
+    private IEnumerable<byte> TranslateGeneric([NotNull] SvgImage instance,
+                                               [NotNull] Matrix matrix,
+                                               int sourceAlignmentWidth,
+                                               int sourceAlignmentHeight,
+                                               [NotNull] Func<Bitmap, byte[]> translationFn)
+    {
       using (var image = instance.GetImage() as Image)
       {
         if (image == null)
@@ -63,16 +83,13 @@ namespace System.Svg.Render.EPL
         var rotationTranslation = this.EplTransformer.GetRotation(matrix);
 
         using (var bitmap = new Bitmap(image,
-                                       (int) sourceAlignmentWidth,
-                                       (int) sourceAlignmentHeight))
+                                       sourceAlignmentWidth,
+                                       sourceAlignmentHeight))
         {
           var rotateFlipType = (RotateFlipType) rotationTranslation;
           bitmap.RotateFlip(rotateFlipType);
 
-          var result = this.EplCommands.GraphicDirectWrite(bitmap,
-                                                           horizontalStart,
-                                                           verticalStart)
-                           .ToArray();
+          var result = translationFn.Invoke(bitmap);
 
           return result;
         }
