@@ -257,18 +257,18 @@ namespace System.Svg.Render.EPL
 
     public void Transform([NotNull] SvgTextBase svgTextBase,
                           [NotNull] Matrix matrix,
-                          out float x,
-                          out float y,
+                          out float startX,
+                          out float startY,
                           out float fontSize,
                           out int rotation)
     {
       base.Transform(svgTextBase,
                      matrix,
-                     out x,
-                     out y,
+                     out startX,
+                     out startY,
                      out fontSize);
 
-      x = this.AdaptXAxis(x);
+      startX = this.AdaptXAxis(startX);
 
       float linearScalingFactor;
       rotation = this.GetRotation(matrix,
@@ -277,15 +277,15 @@ namespace System.Svg.Render.EPL
       fontSize = fontSize * linearScalingFactor;
     }
 
-    public override void Transform([NotNull] SvgImage svgImage,
-                                   [NotNull] Matrix matrix,
-                                   out float startX,
-                                   out float startY,
-                                   out float endX,
-                                   out float endY,
-                                   out float sourceAlignmentWidth,
-                                   out float sourceAlignmentHeight)
+    public void Transform([NotNull] SvgImage svgImage,
+                          [NotNull] Matrix matrix,
+                          out float startX,
+                          out float startY,
+                          out float sourceAlignmentWidth,
+                          out float sourceAlignmentHeight)
     {
+      float endX;
+      float endY;
       base.Transform(svgImage,
                      matrix,
                      out startX,
@@ -354,25 +354,11 @@ namespace System.Svg.Render.EPL
       endY += strokeWidth / 2f;
     }
 
-    public override void Transform([NotNull] SvgTextBase svgTextBase,
-                                   [NotNull] Matrix matrix,
-                                   out float x,
-                                   out float y,
-                                   out float fontSize)
-    {
-      base.Transform(svgTextBase,
-                     matrix,
-                     out x,
-                     out y,
-                     out fontSize);
-
-      x = this.AdaptXAxis(x);
-    }
-
     private class FontDefinitionCandidate
     {
       [NotNull]
       public string FontSelection { get; set; }
+
       public int ActualHeight { get; set; }
       public int Multiplier { get; set; }
     }

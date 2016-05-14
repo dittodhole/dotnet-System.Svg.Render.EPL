@@ -105,14 +105,14 @@ namespace System.Svg.Render
                        out strokeWidth);
     }
 
-    public virtual void Transform([NotNull] SvgImage svgImage,
-                                  [NotNull] Matrix matrix,
-                                  out float startX,
-                                  out float startY,
-                                  out float endX,
-                                  out float endY,
-                                  out float sourceAlignmentWidth,
-                                  out float sourceAlignmentHeight)
+    protected void Transform([NotNull] SvgImage svgImage,
+                             [NotNull] Matrix matrix,
+                             out float startX,
+                             out float startY,
+                             out float endX,
+                             out float endY,
+                             out float sourceAlignmentWidth,
+                             out float sourceAlignmentHeight)
     {
       startX = this.SvgUnitReader.GetValue(svgImage.X);
       startY = this.SvgUnitReader.GetValue(svgImage.Y);
@@ -172,23 +172,23 @@ namespace System.Svg.Render
                        out strokeWidth);
     }
 
-    public virtual void Transform([NotNull] SvgTextBase svgTextBase,
-                                  [NotNull] Matrix matrix,
-                                  out float x,
-                                  out float y,
-                                  out float fontSize)
+    protected void Transform([NotNull] SvgTextBase svgTextBase,
+                             [NotNull] Matrix matrix,
+                             out float startX,
+                             out float startY,
+                             out float fontSize)
     {
-      x = this.SvgUnitReader.GetValue(svgTextBase.X.First());
-      y = this.SvgUnitReader.GetValue(svgTextBase.Y.First());
+      startX = this.SvgUnitReader.GetValue(svgTextBase.X.First());
+      startY = this.SvgUnitReader.GetValue(svgTextBase.Y.First());
       fontSize = this.SvgUnitReader.GetValue(svgTextBase.FontSize);
 
-      y -= fontSize / this.LineHeightFactor;
+      startY -= fontSize / this.LineHeightFactor;
 
-      this.ApplyMatrix(x,
-                       y,
+      this.ApplyMatrix(startX,
+                       startY,
                        matrix,
-                       out x,
-                       out y);
+                       out startX,
+                       out startY);
     }
   }
 }
