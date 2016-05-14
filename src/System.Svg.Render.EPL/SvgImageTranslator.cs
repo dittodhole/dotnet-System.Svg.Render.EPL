@@ -13,7 +13,7 @@ namespace System.Svg.Render.EPL
     {
       this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
-      this.IdToVariableNameMap = new Dictionary<string, string>();
+      this.ImageIdentifierToVariableNameMap = new Dictionary<string, string>();
     }
 
     [NotNull]
@@ -23,7 +23,17 @@ namespace System.Svg.Render.EPL
     private EplCommands EplCommands { get; }
 
     [NotNull]
-    private IDictionary<string, string> IdToVariableNameMap { get; }
+    private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; }
+
+    [NotNull]
+    private string GetImageIdentifier([NotNull] SvgImage svgImage)
+    {
+      var result = string.Concat(svgImage.OwnerDocument.ID,
+                                 "::",
+                                 svgImage.ID);
+
+      return result;
+    }
 
     public override IEnumerable<byte> Translate([NotNull] SvgImage instance,
                                                 [NotNull] Matrix matrix)
@@ -44,9 +54,11 @@ namespace System.Svg.Render.EPL
 
       IEnumerable<byte> result;
 
+      var imageIdentifier = this.GetImageIdentifier(instance);
+
       string variableName;
-      if (this.IdToVariableNameMap.TryGetValue(instance.ID,
-                                               out variableName))
+      if (this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
+                                                            out variableName))
       {
         result = this.EplCommands.PrintGraphics(horizontalStart,
                                                 verticalStart,
@@ -81,20 +93,21 @@ namespace System.Svg.Render.EPL
                                     out sourceAlignmentWidth,
                                     out sourceAlignmentHeight);
 
-      var variableName = Convert.ToBase64String(Guid.NewGuid()
-                                                    .ToByteArray())
-                                .Substring(0,
-                                           8);
+      var imageIdentifier = this.GetImageIdentifier(instance);
 
-      // TODO evaluate the best option ... :smoking:
-      /*
-                         Guid.NewGuid()
-                             .ToString("N")
-                             .Substring(0,
-                                        8);
-      */
+      // TODO this is magic
+      // on purpose: the imageIdentifier should be hashed to 8 chars
+      // long, and should always be the same for the same imageIdentifier
+      // thus going for this pile of shit ...
+      var variableName = Math.Abs(imageIdentifier.GetHashCode())
+                             .ToString();
+      if (variableName.Length > 8)
+      {
+        variableName = variableName.Substring(0,
+                                              8);
+      }
 
-      this.IdToVariableNameMap[instance.ID] = variableName;
+      this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
 
       var result = this.TranslateGeneric(instance,
                                          matrix,
