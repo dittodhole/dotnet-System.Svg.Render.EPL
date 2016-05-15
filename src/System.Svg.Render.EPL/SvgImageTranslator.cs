@@ -158,8 +158,11 @@ namespace System.Svg.Render.EPL
 
       if (eplStream != null)
       {
-        container.Add(this.EplCommands.DeleteGraphics(variableName));
-        container.Add(eplStream);
+        if (!eplStream.IsEmpty)
+        {
+          container.Add(this.EplCommands.DeleteGraphics(variableName));
+          container.Add(eplStream);
+        }
       }
     }
 
