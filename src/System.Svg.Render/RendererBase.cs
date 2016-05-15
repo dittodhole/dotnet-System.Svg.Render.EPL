@@ -118,8 +118,8 @@ namespace System.Svg.Render
       matrix.Multiply(viewMatrix,
                       MatrixOrder.Append);
 
-      return svgElementTranslator.TranslateUntyped(svgElement,
-                                                   matrix);
+      return svgElementTranslator.Translate(svgElement,
+                                            matrix);
     }
 
     protected T GetTranslator<T>([NotNull] Type type) where T : class, ISvgElementTranslator

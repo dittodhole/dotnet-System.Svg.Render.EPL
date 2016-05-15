@@ -62,8 +62,8 @@ namespace System.Svg.Render.EPL
         concreteMatrix.Multiply(viewMatrix,
                                 MatrixOrder.Append);
 
-        var translation = translator.TranslateUntypedForStoring(svgElement,
-                                                                concreteMatrix);
+        var translation = translator.TranslateForStoring(svgElement,
+                                                         concreteMatrix);
         if (translation != null)
         {
           translation = translation.Concat(this.Encoding.GetBytes(Environment.NewLine));

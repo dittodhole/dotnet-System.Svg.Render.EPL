@@ -8,13 +8,13 @@ namespace System.Svg.Render.EPL
                                                                   ISvgElementToInternalMemoryTranslator<T>
     where T : SvgElement
   {
+    public bool AssumeStoredInInternalMemory { get; set; }
+
     public abstract IEnumerable<byte> TranslateForStoring([NotNull] T svgElement,
                                                           [NotNull] Matrix matrix);
 
-    public bool AssumeStoredInInternalMemory { get; set; }
-
-    public IEnumerable<byte> TranslateUntypedForStoring([NotNull] SvgElement svgElement,
-                                                        [NotNull] Matrix matrix)
+    IEnumerable<byte> ISvgElementToInternalMemoryTranslator.TranslateForStoring([NotNull] SvgElement svgElement,
+                                                                                [NotNull] Matrix matrix)
     {
       var result = this.TranslateForStoring((T) svgElement,
                                             matrix);

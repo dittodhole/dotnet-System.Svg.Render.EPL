@@ -6,8 +6,8 @@ namespace System.Svg.Render
 {
   public interface ISvgElementTranslator
   {
-    IEnumerable<byte> TranslateUntyped([NotNull] SvgElement svgElement,
-                                       [NotNull] Matrix matrix);
+    IEnumerable<byte> Translate([NotNull] SvgElement svgElement,
+                                [NotNull] Matrix matrix);
   }
 
   public interface ISvgElementTranslator<T> : ISvgElementTranslator

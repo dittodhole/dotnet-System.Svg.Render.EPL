@@ -7,8 +7,8 @@ namespace System.Svg.Render
   public abstract class SvgElementTranslatorBase<T> : ISvgElementTranslator<T>
     where T : SvgElement
   {
-    public IEnumerable<byte> TranslateUntyped([NotNull] SvgElement svgElement,
-                                              [NotNull] Matrix matrix)
+    IEnumerable<byte> ISvgElementTranslator.Translate([NotNull] SvgElement svgElement,
+                                                      [NotNull] Matrix matrix)
     {
       var result = this.Translate((T) svgElement,
                                   matrix);
