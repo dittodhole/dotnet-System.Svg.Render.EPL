@@ -24,6 +24,7 @@ Following NuGet packages will be restored:
   - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
   - [Fizzler](https://www.nuget.org/packages/Fizzler)
 - [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
+- [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
 
 A fully working demo is available in the `demo`-branch.
 
