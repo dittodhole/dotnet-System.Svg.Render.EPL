@@ -68,7 +68,6 @@
     <Compile Include="EplRenderer.cs" />
     <Compile Include="EplStream.cs" />
     <Compile Include="EplTransformer.cs" />
-    <Compile Include="ExtensionMethods\EncodingExtensions.cs" />
     <Compile Include="ISvgElementToInternalMemoryTranslator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SvgElementToInternalMemoryTranslator.cs" />
@@ -88,6 +87,7 @@
       <Name>System.Svg.Render</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,5 +1,4 @@
 ﻿using System.Drawing.Drawing2D;
-using System.Text;
 using JetBrains.Annotations;
 using UnitTest;
 

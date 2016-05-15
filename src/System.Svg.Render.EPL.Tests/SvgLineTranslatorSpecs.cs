@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Svg.Render.EPL.ExtensionMethods;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
