@@ -105,7 +105,7 @@ namespace System.Svg.Render.EPL
       var svgElementToInternalMemoryTranslator = this.GetTranslator(type) as ISvgElementToInternalMemoryTranslator;
       if (svgElementToInternalMemoryTranslator == null)
       {
-        return null;
+        return container;
       }
 
       matrix = matrix.Clone();
