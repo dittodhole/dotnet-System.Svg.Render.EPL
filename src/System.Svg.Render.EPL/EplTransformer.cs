@@ -231,22 +231,6 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    [NotNull]
-    public virtual string GetReverseImage([NotNull] SvgTextBase svgTextBase)
-    {
-      string reverseImage;
-      if ((svgTextBase.Fill as SvgColourServer)?.Colour == Color.White)
-      {
-        reverseImage = "R";
-      }
-      else
-      {
-        reverseImage = "N";
-      }
-
-      return reverseImage;
-    }
-
     protected virtual float AdaptXAxis(float x)
     {
       x = this.LabelWidthInDevicePoints - x;

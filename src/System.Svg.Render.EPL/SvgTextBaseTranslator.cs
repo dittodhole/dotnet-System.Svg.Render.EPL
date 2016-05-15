@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -56,10 +57,10 @@ namespace System.Svg.Render.EPL
                                            out fontSelection,
                                            out multiplier);
 
-      var reverseImage = this.EplTransformer.GetReverseImage(svgElement);
-
       var horizontalStart = (int) x;
       var verticalStart = (int) y;
+
+      var invert = (svgElement.Fill as SvgColourServer)?.Colour == Color.White;
 
       var eplStream = this.EplCommands.AsciiText(horizontalStart,
                                                  verticalStart,
@@ -67,7 +68,7 @@ namespace System.Svg.Render.EPL
                                                  fontSelection,
                                                  multiplier,
                                                  multiplier,
-                                                 reverseImage,
+                                                 invert,
                                                  text);
       if (!eplStream.IsEmpty)
       {

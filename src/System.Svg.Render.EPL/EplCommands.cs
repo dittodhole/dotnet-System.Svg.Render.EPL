@@ -188,9 +188,19 @@ namespace System.Svg.Render.EPL
                                        int fontSelection,
                                        int horizontalMulitplier,
                                        int verticalMulitplier,
-                                       [NotNull] string reverseImage,
+                                       bool invert,
                                        [NotNull] string text)
     {
+      string reverseImage;
+      if (invert)
+      {
+        reverseImage = "R";
+      }
+      else
+      {
+        reverseImage = "N";
+      }
+
       var eplStream = this.CreateEplStream();
       eplStream.Add($@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""");
 
