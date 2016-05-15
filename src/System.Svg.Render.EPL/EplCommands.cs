@@ -211,7 +211,7 @@ namespace System.Svg.Render.EPL
     public virtual EplStream BarCode(int horizontalStart,
                                      int verticalStart,
                                      int rotation,
-                                     [NotNull] string barcodeSelection,
+                                     [NotNull] string barCodeSelection,
                                      int narrowBarWidth,
                                      int wideBarWidth,
                                      int height,
@@ -229,7 +229,7 @@ namespace System.Svg.Render.EPL
       }
 
       var eplStream = this.CreateEplStream();
-      eplStream.Add($@"B{horizontalStart},{verticalStart},{rotation},{barcodeSelection},{narrowBarWidth},{wideBarWidth},{height},{printHumanReadable},""{content}""");
+      eplStream.Add($@"B{horizontalStart},{verticalStart},{rotation},{barCodeSelection},{narrowBarWidth},{wideBarWidth},{height},{printHumanReadable},""{content}""");
 
       return eplStream;
     }
