@@ -8,9 +8,9 @@ namespace System.Svg.Render.EPL
   public class EplCommands
   {
     [NotNull]
-    public EplStream GraphicDirectWrite([NotNull] Bitmap bitmap,
-                                        int horizontalStart,
-                                        int verticalStart)
+    public virtual EplStream GraphicDirectWrite([NotNull] Bitmap bitmap,
+                                                int horizontalStart,
+                                                int verticalStart)
     {
       var eplStream = new EplStream();
       var octetts = (int) Math.Ceiling(bitmap.Width / 8f);
@@ -22,8 +22,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
-                                              int octetts)
+    public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
+                                                      int octetts)
     {
       // TODO merge with MagickImage, as we are having different thresholds here
 
@@ -64,7 +64,7 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public EplStream DeleteGraphics([NotNull] string name)
+    public virtual EplStream DeleteGraphics([NotNull] string name)
     {
       var eplStream = new EplStream();
       eplStream.Add($@"GK""{name}""");
@@ -73,8 +73,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public EplStream StoreGraphics([NotNull] Bitmap bitmap,
-                                   [NotNull] string name)
+    public virtual EplStream StoreGraphics([NotNull] Bitmap bitmap,
+                                           [NotNull] string name)
     {
       MagickImage magickImage;
 
@@ -118,9 +118,9 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public EplStream PrintGraphics(int horizontalStart,
-                                   int verticalStart,
-                                   [NotNull] string name)
+    public virtual EplStream PrintGraphics(int horizontalStart,
+                                           int verticalStart,
+                                           [NotNull] string name)
     {
       var eplStream = new EplStream();
       eplStream.Add($@"GG{horizontalStart},{verticalStart},""{name}""");
@@ -129,10 +129,10 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public EplStream LineDrawBlack(int horizontalStart,
-                                   int verticalStart,
-                                   int horizontalLength,
-                                   int verticalLength)
+    public virtual EplStream LineDrawBlack(int horizontalStart,
+                                           int verticalStart,
+                                           int horizontalLength,
+                                           int verticalLength)
     {
       var eplStream = new EplStream();
       eplStream.Add($"LO{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}");
@@ -141,10 +141,10 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public EplStream LineDrawWhite(int horizontalStart,
-                                   int verticalStart,
-                                   int horizontalLength,
-                                   int verticalLength)
+    public virtual EplStream LineDrawWhite(int horizontalStart,
+                                           int verticalStart,
+                                           int horizontalLength,
+                                           int verticalLength)
     {
       var eplStream = new EplStream();
       eplStream.Add($"LW{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}");
@@ -153,11 +153,11 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public EplStream LineDrawDiagonal(int horizontalStart,
-                                      int verticalStart,
-                                      int horizontalLength,
-                                      int verticalLength,
-                                      int verticalEnd)
+    public virtual EplStream LineDrawDiagonal(int horizontalStart,
+                                              int verticalStart,
+                                              int horizontalLength,
+                                              int verticalLength,
+                                              int verticalEnd)
     {
       var eplStream = new EplStream();
       eplStream.Add($"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}");
@@ -166,11 +166,11 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public EplStream DrawBox(int horizontalStart,
-                             int verticalStart,
-                             int lineThickness,
-                             int horizontalEnd,
-                             int verticalEnd)
+    public virtual EplStream DrawBox(int horizontalStart,
+                                     int verticalStart,
+                                     int lineThickness,
+                                     int horizontalEnd,
+                                     int verticalEnd)
     {
       var eplStream = new EplStream();
       eplStream.Add($"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}");
@@ -179,14 +179,14 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public EplStream AsciiText(int horizontalStart,
-                               int verticalStart,
-                               int rotation,
-                               [NotNull] string fontSelection,
-                               int horizontalMulitplier,
-                               int verticalMulitplier,
-                               [NotNull] string reverseImage,
-                               [NotNull] string text)
+    public virtual EplStream AsciiText(int horizontalStart,
+                                       int verticalStart,
+                                       int rotation,
+                                       [NotNull] string fontSelection,
+                                       int horizontalMulitplier,
+                                       int verticalMulitplier,
+                                       [NotNull] string reverseImage,
+                                       [NotNull] string text)
     {
       var eplStream = new EplStream();
       eplStream.Add($@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""");

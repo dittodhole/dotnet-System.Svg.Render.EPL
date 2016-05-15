@@ -20,15 +20,15 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    private Matrix ViewMatrix { get; }
+    protected Matrix ViewMatrix { get; }
 
-    private PrinterCodepage PrinterCodepage { get; }
+    protected PrinterCodepage PrinterCodepage { get; }
 
     [NotNull]
     private Encoding Encoding { get; }
 
     [NotNull]
-    private int CountryCode { get; }
+    protected int CountryCode { get; }
 
     [NotNull]
     public Encoding GetEncoding()
@@ -37,7 +37,7 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public IEnumerable<EplStream> GetInternalMemoryTranslation([NotNull] SvgDocument svgDocument)
+    public virtual IEnumerable<EplStream> GetInternalMemoryTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = new Matrix();
       var translations = this.TranslaveSvgElementAndChildrenForStoring(svgDocument,
@@ -48,9 +48,9 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    private IEnumerable<EplStream> TranslaveSvgElementAndChildrenForStoring([NotNull] SvgElement svgElement,
-                                                                            [NotNull] Matrix parentMatrix,
-                                                                            [NotNull] Matrix viewMatrix)
+    protected virtual IEnumerable<EplStream> TranslaveSvgElementAndChildrenForStoring([NotNull] SvgElement svgElement,
+                                                                                      [NotNull] Matrix parentMatrix,
+                                                                                      [NotNull] Matrix viewMatrix)
     {
       var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
                                                              parentMatrix);
@@ -90,9 +90,9 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    private EplStream TranslateSvgElementForStoring([NotNull] SvgElement svgElement,
-                                                    [NotNull] Matrix matrix,
-                                                    [NotNull] Matrix viewMatrix)
+    protected virtual EplStream TranslateSvgElementForStoring([NotNull] SvgElement svgElement,
+                                                              [NotNull] Matrix matrix,
+                                                              [NotNull] Matrix viewMatrix)
     {
       var type = svgElement.GetType();
 

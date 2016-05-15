@@ -15,10 +15,10 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    private EplTransformer EplTransformer { get; }
+    protected EplTransformer EplTransformer { get; }
 
     [NotNull]
-    private EplCommands EplCommands { get; }
+    protected EplCommands EplCommands { get; }
 
     public override void Translate([NotNull] SvgPath svgElement,
                                    [NotNull] Matrix matrix,
@@ -39,15 +39,18 @@ namespace System.Svg.Render.EPL
                                                      matrix);
         if (eplStream != null)
         {
-          container.Add(eplStream);
+          if (!eplStream.IsEmpty)
+          {
+            container.Add(eplStream);
+          }
         }
       }
     }
 
     [NotNull]
-    private EplStream TranslateSvgLineSegment([NotNull] SvgPath instance,
-                                              [NotNull] SvgLineSegment svgLineSegment,
-                                              [NotNull] Matrix matrix)
+    protected virtual EplStream TranslateSvgLineSegment([NotNull] SvgPath instance,
+                                                        [NotNull] SvgLineSegment svgLineSegment,
+                                                        [NotNull] Matrix matrix)
     {
       var svgLine = new SvgLine
                     {

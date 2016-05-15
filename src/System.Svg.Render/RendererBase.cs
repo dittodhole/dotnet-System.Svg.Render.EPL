@@ -69,7 +69,7 @@ namespace System.Svg.Render
     [NotNull]
     private IDictionary<Type, ISvgElementTranslator<TContainer>> SvgElementTranslators { get; } = new Dictionary<Type, ISvgElementTranslator<TContainer>>();
 
-    protected ISvgElementTranslator<TContainer> GetTranslator([NotNull] Type type)
+    protected virtual ISvgElementTranslator<TContainer> GetTranslator([NotNull] Type type)
     {
       ISvgElementTranslator<TContainer> svgElementTranslator;
       if (!this.SvgElementTranslators.TryGetValue(type,
@@ -81,7 +81,7 @@ namespace System.Svg.Render
       return svgElementTranslator;
     }
 
-    public void RegisterTranslator<TSvgElement>([NotNull] ISvgElementTranslator<TContainer, TSvgElement> svgElementTranslator) where TSvgElement : SvgElement
+    public virtual void RegisterTranslator<TSvgElement>([NotNull] ISvgElementTranslator<TContainer, TSvgElement> svgElementTranslator) where TSvgElement : SvgElement
     {
       this.SvgElementTranslators[typeof(TSvgElement)] = svgElementTranslator;
     }
@@ -89,10 +89,10 @@ namespace System.Svg.Render
     [NotNull]
     public abstract TContainer GetTranslation([NotNull] SvgDocument svgDocument);
 
-    protected void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
-                                                  [NotNull] Matrix parentMatrix,
-                                                  [NotNull] Matrix viewMatrix,
-                                                  [NotNull] TContainer container)
+    protected virtual void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
+                                                          [NotNull] Matrix parentMatrix,
+                                                          [NotNull] Matrix viewMatrix,
+                                                          [NotNull] TContainer container)
     {
       var svgVisualElement = svgElement as SvgVisualElement;
       if (svgVisualElement != null)
@@ -121,10 +121,10 @@ namespace System.Svg.Render
       }
     }
 
-    private void TranslateSvgElement([NotNull] SvgElement svgElement,
-                                     [NotNull] Matrix matrix,
-                                     [NotNull] Matrix viewMatrix,
-                                     [NotNull] TContainer container)
+    protected virtual void TranslateSvgElement([NotNull] SvgElement svgElement,
+                                               [NotNull] Matrix matrix,
+                                               [NotNull] Matrix viewMatrix,
+                                               [NotNull] TContainer container)
     {
       var type = svgElement.GetType();
 

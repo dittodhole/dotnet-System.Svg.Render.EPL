@@ -15,13 +15,16 @@ namespace System.Svg.Render
     [NotNull]
     protected SvgUnitReader SvgUnitReader { get; }
 
-    public float LineHeightFactor { get; set; } = 1.25f;
+    protected virtual float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase)
+    {
+      return 1.25f;
+    }
 
-    protected void ApplyMatrix(float x,
-                               float y,
-                               [NotNull] Matrix matrix,
-                               out float newX,
-                               out float newY)
+    protected virtual void ApplyMatrix(float x,
+                                       float y,
+                                       [NotNull] Matrix matrix,
+                                       out float newX,
+                                       out float newY)
     {
       var originalPoint = new PointF(x,
                                      y);
@@ -37,7 +40,7 @@ namespace System.Svg.Render
       newY = transformedPoint.Y;
     }
 
-    protected float GetLengthOfVector(PointF vector)
+    protected virtual float GetLengthOfVector(PointF vector)
     {
       var result = Math.Sqrt(Math.Pow(vector.X,
                                       2) + Math.Pow(vector.Y,
@@ -46,9 +49,9 @@ namespace System.Svg.Render
       return (int) result;
     }
 
-    protected void ApplyMatrix(float length,
-                               [NotNull] Matrix matrix,
-                               out float newLength)
+    protected virtual void ApplyMatrix(float length,
+                                       [NotNull] Matrix matrix,
+                                       out float newLength)
     {
       var vector = new PointF(length,
                               0f);
@@ -60,9 +63,9 @@ namespace System.Svg.Render
       newLength = this.GetLengthOfVector(vector);
     }
 
-    protected void ApplyMatrix(PointF vector,
-                               [NotNull] Matrix matrix,
-                               out PointF newVector)
+    protected virtual void ApplyMatrix(PointF vector,
+                                       [NotNull] Matrix matrix,
+                                       out PointF newVector)
     {
       var vectors = new[]
                     {
@@ -82,11 +85,16 @@ namespace System.Svg.Render
                                   out float endY,
                                   out float strokeWidth)
     {
-      startX = this.SvgUnitReader.GetValue(svgLine.StartX);
-      startY = this.SvgUnitReader.GetValue(svgLine.StartY);
-      endX = this.SvgUnitReader.GetValue(svgLine.EndX);
-      endY = this.SvgUnitReader.GetValue(svgLine.EndY);
-      strokeWidth = this.SvgUnitReader.GetValue(svgLine.StrokeWidth);
+      startX = this.SvgUnitReader.GetValue(svgLine,
+                                           svgLine.StartX);
+      startY = this.SvgUnitReader.GetValue(svgLine,
+                                           svgLine.StartY);
+      endX = this.SvgUnitReader.GetValue(svgLine,
+                                         svgLine.EndX);
+      endY = this.SvgUnitReader.GetValue(svgLine,
+                                         svgLine.EndY);
+      strokeWidth = this.SvgUnitReader.GetValue(svgLine,
+                                                svgLine.StrokeWidth);
 
       this.ApplyMatrix(startX,
                        startY,
@@ -105,19 +113,23 @@ namespace System.Svg.Render
                        out strokeWidth);
     }
 
-    protected void Transform([NotNull] SvgImage svgImage,
-                             [NotNull] Matrix matrix,
-                             out float startX,
-                             out float startY,
-                             out float endX,
-                             out float endY,
-                             out float sourceAlignmentWidth,
-                             out float sourceAlignmentHeight)
+    protected virtual void Transform([NotNull] SvgImage svgImage,
+                                     [NotNull] Matrix matrix,
+                                     out float startX,
+                                     out float startY,
+                                     out float endX,
+                                     out float endY,
+                                     out float sourceAlignmentWidth,
+                                     out float sourceAlignmentHeight)
     {
-      startX = this.SvgUnitReader.GetValue(svgImage.X);
-      startY = this.SvgUnitReader.GetValue(svgImage.Y);
-      sourceAlignmentWidth = this.SvgUnitReader.GetValue(svgImage.Width);
-      sourceAlignmentHeight = this.SvgUnitReader.GetValue(svgImage.Height);
+      startX = this.SvgUnitReader.GetValue(svgImage,
+                                           svgImage.X);
+      startY = this.SvgUnitReader.GetValue(svgImage,
+                                           svgImage.Y);
+      sourceAlignmentWidth = this.SvgUnitReader.GetValue(svgImage,
+                                                         svgImage.Width);
+      sourceAlignmentHeight = this.SvgUnitReader.GetValue(svgImage,
+                                                          svgImage.Height);
       endX = startX + sourceAlignmentWidth;
       endY = startY + sourceAlignmentHeight;
 
@@ -149,11 +161,16 @@ namespace System.Svg.Render
                                   out float endY,
                                   out float strokeWidth)
     {
-      startX = this.SvgUnitReader.GetValue(svgRectangle.X);
-      endX = startX + this.SvgUnitReader.GetValue(svgRectangle.Width);
-      startY = this.SvgUnitReader.GetValue(svgRectangle.Y);
-      endY = startY + this.SvgUnitReader.GetValue(svgRectangle.Height);
-      strokeWidth = this.SvgUnitReader.GetValue(svgRectangle.StrokeWidth);
+      startX = this.SvgUnitReader.GetValue(svgRectangle,
+                                           svgRectangle.X);
+      endX = startX + this.SvgUnitReader.GetValue(svgRectangle,
+                                                  svgRectangle.Width);
+      startY = this.SvgUnitReader.GetValue(svgRectangle,
+                                           svgRectangle.Y);
+      endY = startY + this.SvgUnitReader.GetValue(svgRectangle,
+                                                  svgRectangle.Height);
+      strokeWidth = this.SvgUnitReader.GetValue(svgRectangle,
+                                                svgRectangle.StrokeWidth);
 
       this.ApplyMatrix(startX,
                        startY,
@@ -172,17 +189,20 @@ namespace System.Svg.Render
                        out strokeWidth);
     }
 
-    protected void Transform([NotNull] SvgTextBase svgTextBase,
-                             [NotNull] Matrix matrix,
-                             out float startX,
-                             out float startY,
-                             out float fontSize)
+    protected virtual void Transform([NotNull] SvgTextBase svgTextBase,
+                                     [NotNull] Matrix matrix,
+                                     out float startX,
+                                     out float startY,
+                                     out float fontSize)
     {
-      startX = this.SvgUnitReader.GetValue(svgTextBase.X.First());
-      startY = this.SvgUnitReader.GetValue(svgTextBase.Y.First());
-      fontSize = this.SvgUnitReader.GetValue(svgTextBase.FontSize);
+      startX = this.SvgUnitReader.GetValue(svgTextBase,
+                                           svgTextBase.X.First());
+      startY = this.SvgUnitReader.GetValue(svgTextBase,
+                                           svgTextBase.Y.First());
+      fontSize = this.SvgUnitReader.GetValue(svgTextBase,
+                                             svgTextBase.FontSize);
 
-      startY -= fontSize / this.LineHeightFactor;
+      startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
 
       this.ApplyMatrix(startX,
                        startY,

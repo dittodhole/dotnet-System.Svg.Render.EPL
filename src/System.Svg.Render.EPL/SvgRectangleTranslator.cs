@@ -16,13 +16,13 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    private EplTransformer EplTransformer { get; }
+    protected EplTransformer EplTransformer { get; }
 
     [NotNull]
-    private EplCommands EplCommands { get; }
+    protected EplCommands EplCommands { get; }
 
     [NotNull]
-    private SvgUnitReader SvgUnitReader { get; }
+    protected SvgUnitReader SvgUnitReader { get; }
 
     public override void Translate([NotNull] SvgRectangle svgElement,
                                    [NotNull] Matrix matrix,
@@ -48,18 +48,25 @@ namespace System.Svg.Render.EPL
 
       if (eplStream != null)
       {
-        container.Add(eplStream);
+        if (!eplStream.IsEmpty)
+        {
+          container.Add(eplStream);
+        }
       }
     }
 
     [NotNull]
-    private EplStream TranslateFilledBox([NotNull] SvgRectangle instance,
-                                         [NotNull] Matrix matrix)
+    protected virtual EplStream TranslateFilledBox([NotNull] SvgRectangle instance,
+                                                   [NotNull] Matrix matrix)
     {
-      var startX = this.SvgUnitReader.GetValue(instance.X);
-      var startY = this.SvgUnitReader.GetValue(instance.Y);
-      var endX = startX + this.SvgUnitReader.GetValue(instance.Width);
-      var endY = startY + this.SvgUnitReader.GetValue(instance.Height);
+      var startX = this.SvgUnitReader.GetValue(instance,
+                                               instance.X);
+      var startY = this.SvgUnitReader.GetValue(instance,
+                                               instance.Y);
+      var endX = startX + this.SvgUnitReader.GetValue(instance,
+                                                      instance.Width);
+      var endY = startY + this.SvgUnitReader.GetValue(instance,
+                                                      instance.Height);
 
       var svgLine = new SvgLine
                     {
@@ -94,8 +101,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    private EplStream TranslateBox([NotNull] SvgRectangle instance,
-                                   [NotNull] Matrix matrix)
+    protected virtual EplStream TranslateBox([NotNull] SvgRectangle instance,
+                                             [NotNull] Matrix matrix)
     {
       float startX;
       float endX;

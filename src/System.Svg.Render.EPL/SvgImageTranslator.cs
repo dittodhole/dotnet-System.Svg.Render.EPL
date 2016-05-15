@@ -18,22 +18,28 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    private EplTransformer EplTransformer { get; }
+    protected EplTransformer EplTransformer { get; }
 
     [NotNull]
-    private EplCommands EplCommands { get; }
+    protected EplCommands EplCommands { get; }
 
     [NotNull]
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; }
 
     [NotNull]
-    private string GetImageIdentifier([NotNull] SvgImage svgImage)
+    protected virtual string GetImageIdentifier([NotNull] SvgImage svgImage)
     {
       var result = string.Concat(svgImage.OwnerDocument.ID,
                                  "::",
                                  svgImage.ID);
 
       return result;
+    }
+
+    protected virtual void StoreVariableNameForImageIdentifier(string imageIdentifier,
+                                                               string variableName)
+    {
+      this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
     }
 
     public override void Translate([NotNull] SvgImage svgElement,
@@ -97,11 +103,14 @@ namespace System.Svg.Render.EPL
 
       if (eplStream != null)
       {
-        container.Add(eplStream);
+        if (!eplStream.IsEmpty)
+        {
+          container.Add(eplStream);
+        }
       }
     }
 
-    private string GetVariableName([NotNull] string imageIdentifier)
+    protected virtual string GetVariableName([NotNull] string imageIdentifier)
     {
       // TODO this is magic
       // on purpose: the imageIdentifier should be hashed to 8 chars
@@ -137,7 +146,8 @@ namespace System.Svg.Render.EPL
 
       var variableName = this.GetVariableName(imageIdentifier);
 
-      this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
+      this.StoreVariableNameForImageIdentifier(imageIdentifier,
+                                               variableName);
 
       EplStream eplStream;
       using (var bitmap = this.ConvertToBitmap(svgElement,
@@ -161,15 +171,16 @@ namespace System.Svg.Render.EPL
         if (!eplStream.IsEmpty)
         {
           container.Add(this.EplCommands.DeleteGraphics(variableName));
+          container.Add(this.EplCommands.DeleteGraphics(variableName));
           container.Add(eplStream);
         }
       }
     }
 
-    private Bitmap ConvertToBitmap([NotNull] SvgImage svgElement,
-                                   [NotNull] Matrix matrix,
-                                   int sourceAlignmentWidth,
-                                   int sourceAlignmentHeight)
+    protected virtual Bitmap ConvertToBitmap([NotNull] SvgImage svgElement,
+                                             [NotNull] Matrix matrix,
+                                             int sourceAlignmentWidth,
+                                             int sourceAlignmentHeight)
     {
       using (var image = svgElement.GetImage() as Image)
       {

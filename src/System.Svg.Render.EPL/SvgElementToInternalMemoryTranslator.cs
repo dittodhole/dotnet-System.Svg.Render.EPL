@@ -7,7 +7,7 @@ namespace System.Svg.Render.EPL
                                                                             ISvgElementToInternalMemoryTranslator<TSvgElement>
     where TSvgElement : SvgElement
   {
-    public bool AssumeStoredInInternalMemory { get; set; }
+    public bool AssumeStoredInInternalMemory { get; set; } = false;
 
     public abstract void TranslateForStoring([NotNull] TSvgElement svgElement,
                                              [NotNull] Matrix matrix,

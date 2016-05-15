@@ -14,10 +14,10 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    private EplTransformer EplTransformer { get; }
+    protected EplTransformer EplTransformer { get; }
 
     [NotNull]
-    private EplCommands EplCommands { get; }
+    protected EplCommands EplCommands { get; }
 
     public override void Translate([NotNull] SvgLine svgElement,
                                    [NotNull] Matrix matrix,
@@ -89,7 +89,10 @@ namespace System.Svg.Render.EPL
 
       if (eplStream != null)
       {
-        container.Add(eplStream);
+        if (!eplStream.IsEmpty)
+        {
+          container.Add(eplStream);
+        }
       }
     }
   }

@@ -12,10 +12,7 @@ namespace System.Svg.Render.EPL.Tests
       this.SvgUnitReader = new SvgUnitReader();
       this.EplCommands = new EplCommands();
       this.EplTransformer = new EplTransformer(this.SvgUnitReader,
-                                               PrintDirection.None)
-                            {
-                              LineHeightFactor = 1f
-                            };
+                                               PrintDirection.None);
       this.Matrix = this.EplTransformer.CreateViewMatrix();
     }
 

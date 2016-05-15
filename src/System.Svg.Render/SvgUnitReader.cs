@@ -2,7 +2,8 @@
 {
   public class SvgUnitReader
   {
-    public float GetValue(SvgUnit svgUnit)
+    public virtual float GetValue(SvgElement svgElement,
+                                  SvgUnit svgUnit)
     {
       var result = svgUnit.Value;
 

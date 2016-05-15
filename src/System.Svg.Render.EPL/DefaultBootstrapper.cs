@@ -1,55 +1,108 @@
-﻿using JetBrains.Annotations;
+﻿using System.Drawing.Drawing2D;
+using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public static class DefaultBootstrapper
+  public class DefaultBootstrapper
   {
     [NotNull]
-    public static EplRenderer Create(float sourceDpi,
-                                     float targetDpi,
-                                     PrinterCodepage printerCodepage,
-                                     int countryCode,
-                                     bool assumeStoredInInternalMemory = false)
+    protected virtual SvgUnitReader CreateSvgUnitReader() => new SvgUnitReader();
+
+    [NotNull]
+    protected virtual EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader,
+                                                          PrintDirection printerDirection) => new EplTransformer(svgUnitReader,
+                                                                                                                 printerDirection);
+
+    [NotNull]
+    protected virtual Matrix CreateViewMatrix([NotNull] EplTransformer eplTransformer,
+                                              float sourceDpi,
+                                              float destinationDpi) => eplTransformer.CreateViewMatrix(sourceDpi,
+                                                                                                       destinationDpi);
+
+    [NotNull]
+    protected virtual EplRenderer CreateEplRenderer([NotNull] Matrix viewMatrix,
+                                                    PrinterCodepage printerCodepage,
+                                                    int countryCode) => new EplRenderer(viewMatrix,
+                                                                                        printerCodepage,
+                                                                                        countryCode);
+
+    [NotNull]
+    protected virtual EplCommands CreateEplCommands() => new EplCommands();
+
+    [NotNull]
+    protected virtual SvgLineTranslator CreateSvgLineTranslator([NotNull] EplTransformer eplTransformer,
+                                                                [NotNull] EplCommands eplCommands) => new SvgLineTranslator(eplTransformer,
+                                                                                                                            eplCommands);
+
+    [NotNull]
+    protected virtual SvgRectangleTranslator CreateSvgRectangleTranslator([NotNull] EplTransformer eplTransformer,
+                                                                          [NotNull] EplCommands eplCommands,
+                                                                          [NotNull] SvgUnitReader svgUnitReader) => new SvgRectangleTranslator(eplTransformer,
+                                                                                                                                               eplCommands,
+                                                                                                                                               svgUnitReader);
+
+    [NotNull]
+    protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] EplTransformer eplTransformer,
+                                                                             [NotNull] EplCommands eplCommands) => new SvgTextBaseTranslator<SvgText>(eplTransformer,
+                                                                                                                                                      eplCommands);
+
+    [NotNull]
+    protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] EplTransformer eplTransformer,
+                                                                                     [NotNull] EplCommands eplCommands) => new SvgTextBaseTranslator<SvgTextSpan>(eplTransformer,
+                                                                                                                                                                  eplCommands);
+
+    [NotNull]
+    protected virtual SvgPathTranslator CreateSvgPathTranslator([NotNull] EplTransformer eplTransformer,
+                                                                [NotNull] EplCommands eplCommands) => new SvgPathTranslator(eplTransformer,
+                                                                                                                            eplCommands);
+
+    [NotNull]
+    protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] EplTransformer eplTransformer,
+                                                                  [NotNull] EplCommands eplCommands,
+                                                                  bool assumeStoredInInternalMemory) => new SvgImageTranslator(eplTransformer,
+                                                                                                                               eplCommands)
+                                                                                                        {
+                                                                                                          AssumeStoredInInternalMemory = assumeStoredInInternalMemory
+                                                                                                        };
+
+    [NotNull]
+    public virtual EplRenderer BuildUp(float sourceDpi,
+                                       float destinationDpi,
+                                       PrinterCodepage printerCodepage,
+                                       int countryCode,
+                                       bool assumeStoredInInternalMemory = false)
     {
-      var svgUnitReader = new SvgUnitReader();
-      var eplTransformer = new EplTransformer(svgUnitReader);
-      var viewMatrix = eplTransformer.CreateViewMatrix(sourceDpi,
-                                                       targetDpi);
-      var eplRenderer = new EplRenderer(viewMatrix,
-                                        printerCodepage,
-                                        countryCode);
-
-      var eplCommands = new EplCommands();
-
-      {
-        var svgLineTranslator = new SvgLineTranslator(eplTransformer,
-                                                      eplCommands);
-
-        var svgRectangleTranslator = new SvgRectangleTranslator(eplTransformer,
-                                                                eplCommands,
-                                                                svgUnitReader);
-
-        var svgTextTranslator = new SvgTextBaseTranslator<SvgText>(eplTransformer,
+      var svgUnitReader = this.CreateSvgUnitReader();
+      var eplTransformer = this.CreateEplTransformer(svgUnitReader,
+                                                     PrintDirection.TopOrBottom);
+      var viewMatrix = this.CreateViewMatrix(eplTransformer,
+                                             sourceDpi,
+                                             destinationDpi);
+      var eplRenderer = this.CreateEplRenderer(viewMatrix,
+                                               printerCodepage,
+                                               countryCode);
+      var eplCommands = this.CreateEplCommands();
+      var svgLineTranslator = this.CreateSvgLineTranslator(eplTransformer,
+                                                           eplCommands);
+      var svgRectangleTranslator = this.CreateSvgRectangleTranslator(eplTransformer,
+                                                                     eplCommands,
+                                                                     svgUnitReader);
+      var svgTextTranslator = this.CreateSvgTextTranslator(eplTransformer,
+                                                           eplCommands);
+      var svgTextSpanTranslator = this.CreateSvgTextSpanTranslator(eplTransformer,
                                                                    eplCommands);
-        var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(eplTransformer,
-                                                                           eplCommands);
+      var svgPathTranslator = this.CreateSvgPathTranslator(eplTransformer,
+                                                           eplCommands);
+      var svgImageTranslator = this.CreateSvgImageTranslator(eplTransformer,
+                                                             eplCommands,
+                                                             assumeStoredInInternalMemory);
 
-        var svgPathTranslator = new SvgPathTranslator(eplTransformer,
-                                                      eplCommands);
-
-        var svgImageTranslator = new SvgImageTranslator(eplTransformer,
-                                                        eplCommands)
-                                 {
-                                   AssumeStoredInInternalMemory = assumeStoredInInternalMemory
-                                 };
-
-        eplRenderer.RegisterTranslator(svgLineTranslator);
-        eplRenderer.RegisterTranslator(svgRectangleTranslator);
-        eplRenderer.RegisterTranslator(svgTextTranslator);
-        eplRenderer.RegisterTranslator(svgTextSpanTranslator);
-        eplRenderer.RegisterTranslator(svgPathTranslator);
-        eplRenderer.RegisterTranslator(svgImageTranslator);
-      }
+      eplRenderer.RegisterTranslator(svgLineTranslator);
+      eplRenderer.RegisterTranslator(svgRectangleTranslator);
+      eplRenderer.RegisterTranslator(svgTextTranslator);
+      eplRenderer.RegisterTranslator(svgTextSpanTranslator);
+      eplRenderer.RegisterTranslator(svgPathTranslator);
+      eplRenderer.RegisterTranslator(svgImageTranslator);
 
       return eplRenderer;
     }

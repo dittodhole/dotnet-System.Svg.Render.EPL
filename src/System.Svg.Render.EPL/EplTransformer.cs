@@ -7,8 +7,11 @@ namespace System.Svg.Render.EPL
 {
   public class EplTransformer : GenericTransformer
   {
+    public const int DefaultLabelHeightInDevicePoints = 1296;
+    public const int DefaultLabelWidthInDevicePoints = 816;
+
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                          PrintDirection printDirection = PrintDirection.TopOrBottom)
+                          PrintDirection printDirection)
       : base(svgUnitReader)
     {
       this.PrintDirection = printDirection;
@@ -25,13 +28,14 @@ namespace System.Svg.Render.EPL
       this.LabelHeightInDevicePoints = labelHeightInDevicePoints;
     }
 
-    protected int MaximumUpperFontSizeOverlap { get; } = 2;
-    public int LabelHeightInDevicePoints { get; set; } = 1296;
-    public int LabelWidthInDevicePoints { get; set; } = 816;
-    private PrintDirection PrintDirection { get; }
+    protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
+
+    protected PrintDirection PrintDirection { get; }
+    public int LabelHeightInDevicePoints { get; set; } = EplTransformer.DefaultLabelHeightInDevicePoints;
+    public int LabelWidthInDevicePoints { get; set; } = EplTransformer.DefaultLabelWidthInDevicePoints;
 
     [NotNull]
-    public Matrix CreateViewMatrix()
+    public virtual Matrix CreateViewMatrix()
     {
       Matrix matrix;
       if (this.PrintDirection == PrintDirection.None)
@@ -48,10 +52,10 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public Matrix CreateViewMatrix(float sourceDpi,
-                                   float targetDpi)
+    public virtual Matrix CreateViewMatrix(float sourceDpi,
+                                           float destinationDpi)
     {
-      var magnificationFactor = targetDpi / sourceDpi;
+      var magnificationFactor = destinationDpi / sourceDpi;
 
       // we use no identity matrix here, as we need to
       // rotate and flip the coordinates from svg to epl
@@ -84,8 +88,8 @@ namespace System.Svg.Render.EPL
       return rotationTranslation;
     }
 
-    public int GetRotation([NotNull] Matrix matrix,
-                           out float linearScalingFactor)
+    public virtual int GetRotation([NotNull] Matrix matrix,
+                                   out float linearScalingFactor)
     {
       var vector = new PointF(10 * -1f,
                               0f);
@@ -248,7 +252,7 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    private float AdaptXAxis(float x)
+    protected virtual float AdaptXAxis(float x)
     {
       if (this.PrintDirection == PrintDirection.TopOrBottom)
       {
@@ -258,12 +262,12 @@ namespace System.Svg.Render.EPL
       return x;
     }
 
-    public void Transform([NotNull] SvgTextBase svgTextBase,
-                          [NotNull] Matrix matrix,
-                          out float startX,
-                          out float startY,
-                          out float fontSize,
-                          out int rotation)
+    public virtual void Transform([NotNull] SvgTextBase svgTextBase,
+                                  [NotNull] Matrix matrix,
+                                  out float startX,
+                                  out float startY,
+                                  out float fontSize,
+                                  out int rotation)
     {
       base.Transform(svgTextBase,
                      matrix,
@@ -280,12 +284,12 @@ namespace System.Svg.Render.EPL
       fontSize = fontSize * linearScalingFactor;
     }
 
-    public void Transform([NotNull] SvgImage svgImage,
-                          [NotNull] Matrix matrix,
-                          out float startX,
-                          out float startY,
-                          out float sourceAlignmentWidth,
-                          out float sourceAlignmentHeight)
+    public virtual void Transform([NotNull] SvgImage svgImage,
+                                  [NotNull] Matrix matrix,
+                                  out float startX,
+                                  out float startY,
+                                  out float sourceAlignmentWidth,
+                                  out float sourceAlignmentHeight)
     {
       float endX;
       float endY;

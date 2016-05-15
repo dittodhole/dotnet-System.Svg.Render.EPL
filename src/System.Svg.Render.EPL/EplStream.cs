@@ -9,26 +9,26 @@ namespace System.Svg.Render.EPL
   {
     protected ICollection<object> InternalStream { get; } = new LinkedList<object>();
 
-    public bool IsEmpty => !this.InternalStream.Any();
+    public virtual bool IsEmpty => !this.InternalStream.Any();
 
-    public void Add([NotNull] string s)
+    public virtual void Add([NotNull] string s)
     {
       this.InternalStream.Add(s);
     }
 
-    public void Add([NotNull] IEnumerable<byte> buffer)
+    public virtual void Add([NotNull] IEnumerable<byte> buffer)
     {
       var array = buffer.ToArray();
 
       this.Add(array);
     }
 
-    public void Add([NotNull] byte[] array)
+    public virtual void Add([NotNull] byte[] array)
     {
       this.InternalStream.Add(array);
     }
 
-    public void Add([NotNull] EplStream eplStream)
+    public virtual void Add([NotNull] EplStream eplStream)
     {
       foreach (var line in eplStream.InternalStream)
       {
@@ -36,10 +36,10 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    public byte[] ToByteArray([NotNull] Encoding encoding) => this.ToByteStream(encoding)
-                                                                  .ToArray();
+    public virtual byte[] ToByteArray([NotNull] Encoding encoding) => this.ToByteStream(encoding)
+                                                                          .ToArray();
 
-    public IEnumerable<byte> ToByteStream([NotNull] Encoding encoding)
+    public virtual IEnumerable<byte> ToByteStream([NotNull] Encoding encoding)
     {
       foreach (var line in this.InternalStream)
       {
