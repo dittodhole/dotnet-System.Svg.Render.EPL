@@ -61,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SvgElementTranslatorBase.cs" />
     <Compile Include="SvgUnitReader.cs" />
-    <Compile Include="Transformer.cs" />
+    <Compile Include="GenericTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

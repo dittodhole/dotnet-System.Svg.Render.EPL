@@ -5,9 +5,9 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render
 {
-  public class Transformer
+  public class GenericTransformer
   {
-    public Transformer([NotNull] SvgUnitReader svgUnitReader)
+    public GenericTransformer([NotNull] SvgUnitReader svgUnitReader)
     {
       this.SvgUnitReader = svgUnitReader;
     }

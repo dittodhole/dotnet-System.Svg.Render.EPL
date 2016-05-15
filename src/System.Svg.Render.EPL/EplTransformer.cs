@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public class EplTransformer : Transformer
+  public class EplTransformer : GenericTransformer
   {
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader,
                           PrintDirection printDirection = PrintDirection.TopOrBottom)
