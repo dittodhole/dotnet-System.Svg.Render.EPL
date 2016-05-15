@@ -14,6 +14,13 @@ namespace System.Svg.Render.EPL
       this.InternalStream.Add(s);
     }
 
+    public void Add([NotNull] IEnumerable<byte> buffer)
+    {
+      var array = buffer.ToArray();
+
+      this.Add(array);
+    }
+
     public void Add([NotNull] byte[] array)
     {
       this.InternalStream.Add(array);
