@@ -8,7 +8,7 @@ Yo, it's 2016 and we are still writing [EPL](https://en.wikipedia.org/wiki/Eltro
 This has some major downsides:
 - You have to write commands without any visual feedback
 - Testing the layout of a label can only be done by printing it
-- There is no common abstraction, which brings massive pain when creating different representations of the same label ([PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) for A4 printers, [ZPL](https://en.wikipedia.org/wiki/ZPL_(programming_language), [Fingerprint](http://apps.intermec.com/downloads/eps_man/937-023-003/Default.htm), ... whatsoever)
+- There is no common abstraction, which brings massive pain when creating different representations of the same label ([PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) for A4 printers, [ZPL](https://en.wikipedia.org/wiki/ZPL_programming_language), [Fingerprint](http://apps.intermec.com/downloads/eps_man/937-023-003/Default.htm), ... whatsoever)
 - Some *clever* one may come up with sending an image to the printer, but please read [this article](http://web.archive.org/web/20150306101851/http://nicholas.piasecki.name/blog/2009/03/sending-raw-epl2-directly-to-a-zebra-lp2844-via-c) to realize the limitations
 
 This proof-of-concept project tries to overcome this limitations by translating [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)-files to [EPL](https://en.wikipedia.org/wiki/Eltron_Programming_Language).
