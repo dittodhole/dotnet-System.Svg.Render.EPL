@@ -1,11 +1,5 @@
 ﻿namespace System.Svg.Render.EPL
 {
-  public enum PrintDirection
-  {
-    None,
-    TopOrBottom
-  }
-
   public enum PrinterCodepage
   {
     Dos347,

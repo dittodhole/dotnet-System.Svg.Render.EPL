@@ -11,9 +11,8 @@ namespace System.Svg.Render.EPL.Tests
       this.Container = new EplStream();
       this.SvgUnitReader = new SvgUnitReader();
       this.EplCommands = new EplCommands();
-      this.EplTransformer = new EplTransformer(this.SvgUnitReader,
-                                               PrintDirection.None);
-      this.Matrix = this.EplTransformer.CreateViewMatrix();
+      this.EplTransformer = new EplTransformer(this.SvgUnitReader);
+      this.Matrix = new Matrix();
     }
 
     [NotNull]

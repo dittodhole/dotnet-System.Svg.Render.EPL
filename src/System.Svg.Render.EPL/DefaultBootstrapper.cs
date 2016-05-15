@@ -9,9 +9,7 @@ namespace System.Svg.Render.EPL
     protected virtual SvgUnitReader CreateSvgUnitReader() => new SvgUnitReader();
 
     [NotNull]
-    protected virtual EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                                                          PrintDirection printerDirection) => new EplTransformer(svgUnitReader,
-                                                                                                                 printerDirection);
+    protected virtual EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader) => new EplTransformer(svgUnitReader);
 
     [NotNull]
     protected virtual Matrix CreateViewMatrix([NotNull] EplTransformer eplTransformer,
@@ -73,8 +71,7 @@ namespace System.Svg.Render.EPL
                                        bool assumeStoredInInternalMemory = false)
     {
       var svgUnitReader = this.CreateSvgUnitReader();
-      var eplTransformer = this.CreateEplTransformer(svgUnitReader,
-                                                     PrintDirection.TopOrBottom);
+      var eplTransformer = this.CreateEplTransformer(svgUnitReader);
       var viewMatrix = this.CreateViewMatrix(eplTransformer,
                                              sourceDpi,
                                              destinationDpi);

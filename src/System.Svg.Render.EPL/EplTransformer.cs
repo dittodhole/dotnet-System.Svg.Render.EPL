@@ -10,19 +10,13 @@ namespace System.Svg.Render.EPL
     public const int DefaultLabelHeightInDevicePoints = 1296;
     public const int DefaultLabelWidthInDevicePoints = 816;
 
-    public EplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                          PrintDirection printDirection)
-      : base(svgUnitReader)
-    {
-      this.PrintDirection = printDirection;
-    }
+    public EplTransformer([NotNull] SvgUnitReader svgUnitReader)
+      : base(svgUnitReader) {}
 
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                          PrintDirection printDirection,
                           int labelWithInDevicePoints,
                           int labelHeightInDevicePoints)
-      : this(svgUnitReader,
-             printDirection)
+      : this(svgUnitReader)
     {
       this.LabelWidthInDevicePoints = labelWithInDevicePoints;
       this.LabelHeightInDevicePoints = labelHeightInDevicePoints;
@@ -30,26 +24,8 @@ namespace System.Svg.Render.EPL
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
 
-    protected PrintDirection PrintDirection { get; }
     public int LabelHeightInDevicePoints { get; set; } = EplTransformer.DefaultLabelHeightInDevicePoints;
     public int LabelWidthInDevicePoints { get; set; } = EplTransformer.DefaultLabelWidthInDevicePoints;
-
-    [NotNull]
-    public virtual Matrix CreateViewMatrix()
-    {
-      Matrix matrix;
-      if (this.PrintDirection == PrintDirection.None)
-      {
-        matrix = new Matrix();
-      }
-      else
-      {
-        matrix = this.CreateViewMatrix(90f,
-                                       203f);
-      }
-
-      return matrix;
-    }
 
     [NotNull]
     public virtual Matrix CreateViewMatrix(float sourceDpi,
@@ -254,10 +230,7 @@ namespace System.Svg.Render.EPL
 
     protected virtual float AdaptXAxis(float x)
     {
-      if (this.PrintDirection == PrintDirection.TopOrBottom)
-      {
-        x = this.LabelWidthInDevicePoints - x;
-      }
+      x = this.LabelWidthInDevicePoints - x;
 
       return x;
     }
