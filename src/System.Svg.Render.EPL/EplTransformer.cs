@@ -281,10 +281,14 @@ namespace System.Svg.Render.EPL
       startX = this.AdaptXAxis(startX);
       endX = this.AdaptXAxis(endX);
 
-      var width = Math.Abs(startX - endX);
+      var rotation = this.GetRotation(matrix);
+      if (rotation % 2 > 0)
+      {
+        var width = Math.Abs(startX - endX);
 
-      startX -= width;
-      endX -= width;
+        startX -= width;
+        endX -= width;
+      }
     }
 
     public override void Transform([NotNull] SvgLine svgLine,
