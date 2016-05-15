@@ -19,9 +19,7 @@ namespace System.Svg.Render.EPL
                                         printerCodepage,
                                         countryCode);
 
-      var encoding = eplRenderer.GetEncoding();
-
-      var eplCommands = new EplCommands(encoding);
+      var eplCommands = new EplCommands();
 
       {
         var svgLineTranslator = new SvgLineTranslator(eplTransformer,

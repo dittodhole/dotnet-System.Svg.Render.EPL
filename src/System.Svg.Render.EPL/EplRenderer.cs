@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Drawing.Drawing2D;
-using System.Linq;
+﻿using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
 
+// ReSharper disable NonLocalizedString
+
 namespace System.Svg.Render.EPL
 {
-  public class EplRenderer : RendererBase
+  public class EplRenderer : RendererBase<EplStream>
   {
     public EplRenderer([NotNull] Matrix viewMatrix,
                        PrinterCodepage printerCodepage,
@@ -35,6 +35,8 @@ namespace System.Svg.Render.EPL
       return this.Encoding;
     }
 
+    // TODO
+    /*
     [NotNull]
     public IEnumerable<IEnumerable<byte>> GetInternalMemoryTranslation([NotNull] SvgDocument svgDocument)
     {
@@ -83,42 +85,26 @@ namespace System.Svg.Render.EPL
         }
       }
     }
+    */
 
     [NotNull]
-    public override IEnumerable<byte> GetTranslation([NotNull] SvgDocument svgDocument)
+    public override EplStream GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = new Matrix();
-      var translation = this.TranslateSvgElementAndChildren(svgDocument,
-                                                            parentMatrix,
-                                                            this.ViewMatrix);
-      var result = this.Encoding.GetBytes("R0,0")
-                       .Concat(this.Encoding.GetBytes(Environment.NewLine))
-                       .Concat(this.Encoding.GetBytes("ZT"))
-                       .Concat(this.Encoding.GetBytes(Environment.NewLine))
-                       .Concat(translation)
-                       .Concat(this.Encoding.GetBytes("P1"))
-                       .Concat(this.Encoding.GetBytes(Environment.NewLine))
-                       .Concat(this.Encoding.GetBytes(Environment.NewLine));
+      var eplStream = new EplStream();
 
-      return result;
-    }
+      eplStream.Add("R0,0");
+      eplStream.Add("ZT");
 
-    [NotNull]
-    protected override IEnumerable<byte> TranslateSvgElement(SvgElement svgElement,
-                                                             Matrix matrix,
-                                                             Matrix viewMatrix)
-    {
-      var result = base.TranslateSvgElement(svgElement,
-                                            matrix,
-                                            viewMatrix);
-      if (result == null)
-      {
-        return Enumerable.Empty<byte>();
-      }
+      this.TranslateSvgElementAndChildren(svgDocument,
+                                          parentMatrix,
+                                          this.ViewMatrix,
+                                          eplStream);
 
-      result = result.Concat(this.Encoding.GetBytes(Environment.NewLine));
+      eplStream.Add("P1");
+      eplStream.Add(string.Empty);
 
-      return result;
+      return eplStream;
     }
 
     [NotNull]

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
@@ -25,27 +24,37 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private SvgUnitReader SvgUnitReader { get; }
 
-    public override IEnumerable<byte> Translate([NotNull] SvgRectangle svgElement,
-                                                [NotNull] Matrix matrix)
+    public override void Translate([NotNull] SvgRectangle svgElement,
+                                   [NotNull] Matrix matrix,
+                                   [NotNull] EplStream container)
     {
+      EplStream eplStream;
+
       if (svgElement.Fill != SvgPaintServer.None
           && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
       {
-        return this.TranslateFilledBox(svgElement,
-                                       matrix);
+        eplStream = this.TranslateFilledBox(svgElement,
+                                            matrix);
       }
-      if (svgElement.Stroke != SvgPaintServer.None)
+      else if (svgElement.Stroke != SvgPaintServer.None)
       {
-        return this.TranslateBox(svgElement,
-                                 matrix);
+        eplStream = this.TranslateBox(svgElement,
+                                      matrix);
+      }
+      else
+      {
+        eplStream = null;
       }
 
-      return null;
+      if (eplStream != null)
+      {
+        container.Add(eplStream);
+      }
     }
 
     [NotNull]
-    private IEnumerable<byte> TranslateFilledBox([NotNull] SvgRectangle instance,
-                                                 [NotNull] Matrix matrix)
+    private EplStream TranslateFilledBox([NotNull] SvgRectangle instance,
+                                         [NotNull] Matrix matrix)
     {
       var startX = this.SvgUnitReader.GetValue(instance.X);
       var startY = this.SvgUnitReader.GetValue(instance.Y);
@@ -76,17 +85,17 @@ namespace System.Svg.Render.EPL
       var verticalStart = (int) startY;
       var horizontalLength = (int) Math.Abs(endX - startX);
       var verticalLength = (int) Math.Abs(endY - startY);
-      var result = this.EplCommands.LineDrawBlack(horizontalStart,
-                                                  verticalStart,
-                                                  horizontalLength,
-                                                  verticalLength);
+      var eplStream = this.EplCommands.LineDrawBlack(horizontalStart,
+                                                     verticalStart,
+                                                     horizontalLength,
+                                                     verticalLength);
 
-      return result;
+      return eplStream;
     }
 
     [NotNull]
-    private IEnumerable<byte> TranslateBox([NotNull] SvgRectangle instance,
-                                           [NotNull] Matrix matrix)
+    private EplStream TranslateBox([NotNull] SvgRectangle instance,
+                                   [NotNull] Matrix matrix)
     {
       float startX;
       float endX;
@@ -106,13 +115,13 @@ namespace System.Svg.Render.EPL
       var lineThickness = (int) strokeWidth;
       var horizontalEnd = (int) endX;
       var verticalEnd = (int) endY;
-      var result = this.EplCommands.DrawBox(horizontalStart,
-                                            verticalStart,
-                                            lineThickness,
-                                            horizontalEnd,
-                                            verticalEnd);
+      var eplStream = this.EplCommands.DrawBox(horizontalStart,
+                                               verticalStart,
+                                               lineThickness,
+                                               horizontalEnd,
+                                               verticalEnd);
 
-      return result;
+      return eplStream;
     }
   }
 }

@@ -69,5 +69,13 @@ namespace System.Svg.Render.EPL
         }
       }
     }
+
+    public override string ToString()
+    {
+      var result = string.Join(Environment.NewLine,
+                               this.InternalStream.OfType<string>());
+
+      return result;
+    }
   }
 }

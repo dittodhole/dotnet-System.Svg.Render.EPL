@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
@@ -20,9 +19,10 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
-    [NotNull]
-    public override IEnumerable<byte> Translate([NotNull] SvgLine svgElement,
-                                                [NotNull] Matrix matrix)
+    public override void Translate([NotNull] SvgLine svgElement,
+                                   [NotNull] Matrix matrix,
+                                   [NotNull] EplStream container)
+
     {
       float startX;
       float startY;
@@ -37,7 +37,7 @@ namespace System.Svg.Render.EPL
                                     out endY,
                                     out strokeWidth);
 
-      IEnumerable<byte> result;
+      EplStream eplStream;
 
       // TODO find a good TOLERANCE
       if (Math.Abs(startY - endY) < 0.5f
@@ -59,17 +59,17 @@ namespace System.Svg.Render.EPL
 
         if (strokeShouldBeWhite)
         {
-          result = this.EplCommands.LineDrawWhite(horizontalStart,
-                                                  verticalStart,
-                                                  horizontalLength,
-                                                  verticalLength);
+          eplStream = this.EplCommands.LineDrawWhite(horizontalStart,
+                                                     verticalStart,
+                                                     horizontalLength,
+                                                     verticalLength);
         }
         else
         {
-          result = this.EplCommands.LineDrawBlack(horizontalStart,
-                                                  verticalStart,
-                                                  horizontalLength,
-                                                  verticalLength);
+          eplStream = this.EplCommands.LineDrawBlack(horizontalStart,
+                                                     verticalStart,
+                                                     horizontalLength,
+                                                     verticalLength);
         }
       }
       else
@@ -80,14 +80,17 @@ namespace System.Svg.Render.EPL
         var verticalLength = (int) endX;
         var verticalEnd = (int) endY;
 
-        result = this.EplCommands.LineDrawDiagonal(horizontalStart,
-                                                   verticalStart,
-                                                   horizontalLength,
-                                                   verticalLength,
-                                                   verticalEnd);
+        eplStream = this.EplCommands.LineDrawDiagonal(horizontalStart,
+                                                      verticalStart,
+                                                      horizontalLength,
+                                                      verticalLength,
+                                                      verticalEnd);
       }
 
-      return result;
+      if (eplStream != null)
+      {
+        container.Add(eplStream);
+      }
     }
   }
 }

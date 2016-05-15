@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public interface ISvgElementToInternalMemoryTranslator : ISvgElementTranslator
+  public interface ISvgElementToInternalMemoryTranslator : ISvgElementTranslator<EplStream>
   {
-    IEnumerable<byte> TranslateForStoring([NotNull] SvgElement svgElement,
-                                          [NotNull] Matrix matrix);
+    void TranslateForStoring([NotNull] SvgElement svgElement,
+                             [NotNull] Matrix matrix,
+                             [NotNull] EplStream container);
   }
 
   public interface ISvgElementToInternalMemoryTranslator<T> : ISvgElementToInternalMemoryTranslator,
-                                                              ISvgElementTranslator<T>
+                                                              ISvgElementTranslator<EplStream, T>
     where T : SvgElement
   {
-    IEnumerable<byte> TranslateForStoring([NotNull] T svgElement,
-                                          [NotNull] Matrix matrix);
+    void TranslateForStoring([NotNull] T svgElement,
+                             [NotNull] Matrix matrix,
+                             [NotNull] EplStream container);
   }
 }

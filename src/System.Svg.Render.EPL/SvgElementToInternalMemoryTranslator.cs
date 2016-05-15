@@ -1,25 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
-  public abstract class SvgElementToInternalMemoryTranslator<T> : SvgElementTranslatorBase<T>,
-                                                                  ISvgElementToInternalMemoryTranslator<T>
-    where T : SvgElement
+  public abstract class SvgElementToInternalMemoryTranslator<TSvgElement> : SvgElementTranslatorBase<TSvgElement>,
+                                                                            ISvgElementToInternalMemoryTranslator<TSvgElement>
+    where TSvgElement : SvgElement
   {
     public bool AssumeStoredInInternalMemory { get; set; }
 
-    public abstract IEnumerable<byte> TranslateForStoring([NotNull] T svgElement,
-                                                          [NotNull] Matrix matrix);
+    public abstract void TranslateForStoring([NotNull] TSvgElement svgElement,
+                                             [NotNull] Matrix matrix,
+                                             [NotNull] EplStream container);
 
-    IEnumerable<byte> ISvgElementToInternalMemoryTranslator.TranslateForStoring([NotNull] SvgElement svgElement,
-                                                                                [NotNull] Matrix matrix)
+    void ISvgElementToInternalMemoryTranslator.TranslateForStoring([NotNull] SvgElement svgElement,
+                                                                   [NotNull] Matrix matrix,
+                                                                   [NotNull] EplStream container)
+
     {
-      var result = this.TranslateForStoring((T) svgElement,
-                                            matrix);
-
-      return result;
+      this.TranslateForStoring((TSvgElement) svgElement,
+                               matrix,
+                               container);
     }
   }
 }

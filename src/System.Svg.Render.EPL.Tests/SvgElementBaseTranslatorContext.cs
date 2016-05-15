@@ -9,9 +9,9 @@ namespace System.Svg.Render.EPL.Tests
   {
     protected SvgElementBaseTranslatorContext()
     {
+      this.Container = new EplStream();
       this.SvgUnitReader = new SvgUnitReader();
-      this.Encoding = Encoding.Default;
-      this.EplCommands = new EplCommands(this.Encoding);
+      this.EplCommands = new EplCommands();
       this.EplTransformer = new EplTransformer(this.SvgUnitReader,
                                                PrintDirection.None)
                             {
@@ -21,10 +21,10 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [NotNull]
-    protected SvgUnitReader SvgUnitReader { get; }
+    protected EplStream Container { get; }
 
     [NotNull]
-    protected Encoding Encoding { get; }
+    protected SvgUnitReader SvgUnitReader { get; }
 
     [NotNull]
     protected EplCommands EplCommands { get; }
@@ -34,5 +34,14 @@ namespace System.Svg.Render.EPL.Tests
 
     [NotNull]
     protected Matrix Matrix { get; }
+
+    protected object Actual { get; private set; }
+
+    protected override void BecauseOf()
+    {
+      base.BecauseOf();
+
+      this.Actual = this.Container.ToString();
+    }
   }
 }

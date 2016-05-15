@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Svg.Render.EPL.ExtensionMethods;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ExceptionNotDocumented
@@ -23,16 +22,14 @@ namespace System.Svg.Render.EPL.Tests
       private SvgRectangleTranslator SvgRectangleTranslator { get; }
 
       protected SvgRectangle SvgRectangle { get; set; }
-      protected object Actual { get; set; }
 
       protected override void BecauseOf()
       {
+        this.SvgRectangleTranslator.Translate(this.SvgRectangle,
+                                              this.Matrix,
+                                              this.Container);
+
         base.BecauseOf();
-
-        var translation = this.SvgRectangleTranslator.Translate(this.SvgRectangle,
-                                                                this.Matrix);
-
-        this.Actual = this.Encoding.GetString(translation);
       }
     }
 
@@ -62,7 +59,6 @@ namespace System.Svg.Render.EPL.Tests
                         this.Actual);
       }
     }
-
 
     [TestClass]
     public class when_svg_rectangle_with_black_fill_is_translated : SvgRectangleTranslatorSpecsContext

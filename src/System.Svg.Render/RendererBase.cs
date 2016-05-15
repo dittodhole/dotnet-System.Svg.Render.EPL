@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Svg.Transforms;
 using JetBrains.Annotations;
 
@@ -8,44 +7,6 @@ namespace System.Svg.Render
 {
   public abstract class RendererBase
   {
-    // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
-    [NotNull]
-    private IDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new Dictionary<Type, ISvgElementTranslator>();
-
-    [NotNull]
-    public abstract IEnumerable<byte> GetTranslation([NotNull] SvgDocument svgDocument);
-
-    [NotNull]
-    protected IEnumerable<byte> TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
-                                                               [NotNull] Matrix parentMatrix,
-                                                               [NotNull] Matrix viewMatrix)
-    {
-      var svgVisualElement = svgElement as SvgVisualElement;
-      if (svgVisualElement != null)
-      {
-        // TODO consider performance here w/ the cast
-        if (!svgVisualElement.Visible)
-        {
-          return Enumerable.Empty<byte>();
-        }
-      }
-
-      var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
-                                                             parentMatrix);
-
-      // TODO write unit-test for dat shit :zzz:
-
-      var translation = this.TranslateSvgElement(svgElement,
-                                                 matrix,
-                                                 viewMatrix);
-
-      var result = translation.Concat(svgElement.Children.SelectMany(child => this.TranslateSvgElementAndChildren(child,
-                                                                                                                  matrix,
-                                                                                                                  viewMatrix)));
-
-      return result;
-    }
-
     [NotNull]
     protected Matrix MultiplyTransformationsIntoNewMatrix([NotNull] ISvgTransformable svgTransformable,
                                                           [NotNull] Matrix matrix)
@@ -100,45 +61,88 @@ namespace System.Svg.Render
 
       return false;
     }
+  }
 
-    protected virtual IEnumerable<byte> TranslateSvgElement([NotNull] SvgElement svgElement,
-                                                            [NotNull] Matrix matrix,
-                                                            [NotNull] Matrix viewMatrix)
+  public abstract class RendererBase<TContainer> : RendererBase
+  {
+    // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
+    [NotNull]
+    private IDictionary<Type, ISvgElementTranslator<TContainer>> SvgElementTranslators { get; } = new Dictionary<Type, ISvgElementTranslator<TContainer>>();
+
+    protected ISvgElementTranslator<TContainer> GetTranslator([NotNull] Type type)
     {
-      var type = svgElement.GetType();
-
-      ISvgElementTranslator svgElementTranslator;
+      ISvgElementTranslator<TContainer> svgElementTranslator;
       if (!this.SvgElementTranslators.TryGetValue(type,
                                                   out svgElementTranslator))
       {
         return null;
       }
 
+      return svgElementTranslator;
+    }
+
+    public void RegisterTranslator<TSvgElement>([NotNull] ISvgElementTranslator<TContainer, TSvgElement> svgElementTranslator) where TSvgElement : SvgElement
+    {
+      this.SvgElementTranslators[typeof(TSvgElement)] = svgElementTranslator;
+    }
+
+    [NotNull]
+    public abstract TContainer GetTranslation([NotNull] SvgDocument svgDocument);
+
+    protected void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
+                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Matrix viewMatrix,
+                                                  [NotNull] TContainer container)
+    {
+      var svgVisualElement = svgElement as SvgVisualElement;
+      if (svgVisualElement != null)
+      {
+        // TODO consider performance here w/ the cast
+        if (!svgVisualElement.Visible)
+        {
+          return;
+        }
+      }
+
+      var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
+                                                             parentMatrix);
+
+      // TODO write unit-test for dat shit :zzz:
+
+      this.TranslateSvgElement(svgElement,
+                               matrix,
+                               viewMatrix,
+                               container);
+
+      foreach (var child in svgElement.Children)
+      {
+        this.TranslateSvgElementAndChildren(child,
+                                            matrix,
+                                            viewMatrix,
+                                            container);
+      }
+    }
+
+    protected virtual void TranslateSvgElement([NotNull] SvgElement svgElement,
+                                               [NotNull] Matrix matrix,
+                                               [NotNull] Matrix viewMatrix,
+                                               [NotNull] TContainer container)
+    {
+      var type = svgElement.GetType();
+
+      var svgElementTranslator = this.GetTranslator(type);
+      if (svgElementTranslator == null)
+      {
+        return;
+      }
+
       matrix = matrix.Clone();
       matrix.Multiply(viewMatrix,
                       MatrixOrder.Append);
 
-      return svgElementTranslator.Translate(svgElement,
-                                            matrix);
-    }
-
-    protected T GetTranslator<T>([NotNull] Type type) where T : class, ISvgElementTranslator
-    {
-      ISvgElementTranslator svgElementTranslator;
-      if (!this.SvgElementTranslators.TryGetValue(type,
-                                                  out svgElementTranslator))
-      {
-        return default(T);
-      }
-
-      var translator = svgElementTranslator as T;
-
-      return translator;
-    }
-
-    public void RegisterTranslator<T>([NotNull] ISvgElementTranslator<T> svgElementTranslator) where T : SvgElement
-    {
-      this.SvgElementTranslators[typeof(T)] = svgElementTranslator;
+      svgElementTranslator.Translate(svgElement,
+                                     matrix,
+                                     container);
     }
   }
 }

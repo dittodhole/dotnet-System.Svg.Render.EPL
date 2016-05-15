@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using ImageMagick;
 using JetBrains.Annotations;
 
@@ -8,108 +7,26 @@ namespace System.Svg.Render.EPL
 {
   public class EplCommands
   {
-    public EplCommands([NotNull] Encoding encoding)
-    {
-      this.Encoding = encoding;
-    }
-
     [NotNull]
-    private Encoding Encoding { get; }
-
-    [NotNull]
-    private IEnumerable<byte> GetBytes([NotNull] string s)
+    public EplStream GraphicDirectWrite([NotNull] Bitmap bitmap,
+                                        int horizontalStart,
+                                        int verticalStart)
     {
-      return this.Encoding.GetBytes(s);
-    }
-
-    [NotNull]
-    public IEnumerable<byte> GraphicDirectWrite([NotNull] Bitmap bitmap,
-                                                int horizontalStart,
-                                                int verticalStart)
-    {
+      var eplStream = new EplStream();
       var octetts = (int) Math.Ceiling(bitmap.Width / 8f);
-      var translation = $"GW{horizontalStart},{verticalStart},{octetts},{bitmap.Height}";
-      foreach (var @byte in this.GetBytes(translation))
-      {
-        yield return @byte;
-      }
-      foreach (var @byte in this.GetBytes(Environment.NewLine))
-      {
-        yield return @byte;
-      }
+      eplStream.Add($"GW{horizontalStart},{verticalStart},{octetts},{bitmap.Height}");
+      eplStream.Add(this.GetRawBinaryData(bitmap,
+                                          octetts));
 
-      var rawBinaryData = this.GetRawBinaryData(bitmap,
-                                                octetts);
-      foreach (var @byte in rawBinaryData)
-      {
-        yield return @byte;
-      }
-    }
-
-    [NotNull]
-    public IEnumerable<byte> StoreGraphics([NotNull] Bitmap bitmap,
-                                           [NotNull] string name)
-    {
-      MagickImage magickImage;
-
-      var mod = bitmap.Width % 8;
-      if (mod > 0)
-      {
-        var newWidth = bitmap.Width + 8 - mod;
-        using (var resizedBitmap = new Bitmap(newWidth,
-                                              bitmap.Height))
-        {
-          using (var graphics = Graphics.FromImage(resizedBitmap))
-          {
-            graphics.DrawImageUnscaled(bitmap,
-                                       0,
-                                       0);
-            graphics.Save();
-          }
-
-          magickImage = new MagickImage(resizedBitmap);
-        }
-      }
-      else
-      {
-        magickImage = new MagickImage(bitmap);
-      }
-
-      byte[] buffer;
-      using (magickImage)
-      {
-        magickImage.ColorType = ColorType.Bilevel;
-        magickImage.Negate();
-        magickImage.Threshold(new Percentage(50));
-        buffer = magickImage.ToByteArray(MagickFormat.Pcx);
-      }
-
-      foreach (var @byte in this.GetBytes($@"GK""{name}"""))
-      {
-        yield return @byte;
-      }
-      foreach (var @byte in this.GetBytes(Environment.NewLine))
-      {
-        yield return @byte;
-      }
-      foreach (var @byte in this.GetBytes($@"GM""{name}""{buffer.Length}"))
-      {
-        yield return @byte;
-      }
-      foreach (var @byte in this.GetBytes(Environment.NewLine))
-      {
-        yield return @byte;
-      }
-      foreach (var @byte in buffer)
-      {
-        yield return @byte;
-      }
+      return eplStream;
     }
 
     [NotNull]
     public IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
                                               int octetts)
     {
+      // TODO merge with MagickImage, as we are having different thresholds here
+
       var height = bitmap.Height;
       var width = bitmap.Width;
 
@@ -147,82 +64,134 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public IEnumerable<byte> PrintGraphics(int horizontalStart,
-                                           int verticalStart,
-                                           [NotNull] string name)
+    public EplStream DeleteGraphics([NotNull] string name)
     {
-      var translation = $@"GG{horizontalStart},{verticalStart},""{name}""";
-      var result = this.GetBytes(translation);
+      var eplStream = new EplStream();
+      eplStream.Add($@"GK""{name}""");
 
-      return result;
+      return eplStream;
     }
 
     [NotNull]
-    public IEnumerable<byte> LineDrawBlack(int horizontalStart,
-                                           int verticalStart,
-                                           int horizontalLength,
-                                           int verticalLength)
+    public EplStream StoreGraphics([NotNull] Bitmap bitmap,
+                                   [NotNull] string name)
     {
-      var translation = $"LO{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
-      var result = this.GetBytes(translation);
+      MagickImage magickImage;
 
-      return result;
+      var mod = bitmap.Width % 8;
+      if (mod > 0)
+      {
+        var newWidth = bitmap.Width + 8 - mod;
+        using (var resizedBitmap = new Bitmap(newWidth,
+                                              bitmap.Height))
+        {
+          using (var graphics = Graphics.FromImage(resizedBitmap))
+          {
+            graphics.DrawImageUnscaled(bitmap,
+                                       0,
+                                       0);
+            graphics.Save();
+          }
+
+          magickImage = new MagickImage(resizedBitmap);
+        }
+      }
+      else
+      {
+        magickImage = new MagickImage(bitmap);
+      }
+
+      byte[] array;
+      using (magickImage)
+      {
+        magickImage.ColorType = ColorType.Bilevel;
+        magickImage.Negate();
+        magickImage.Threshold(new Percentage(50));
+        array = magickImage.ToByteArray(MagickFormat.Pcx);
+      }
+
+      var eplStream = new EplStream();
+      eplStream.Add($@"GM""{name}""{array.Length}");
+      eplStream.Add(array);
+
+      return eplStream;
     }
 
     [NotNull]
-    public IEnumerable<byte> LineDrawWhite(int horizontalStart,
-                                           int verticalStart,
-                                           int horizontalLength,
-                                           int verticalLength)
+    public EplStream PrintGraphics(int horizontalStart,
+                                   int verticalStart,
+                                   [NotNull] string name)
     {
-      horizontalStart -= horizontalLength;
+      var eplStream = new EplStream();
+      eplStream.Add($@"GG{horizontalStart},{verticalStart},""{name}""");
 
-      var translation = $"LW{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
-      var result = this.GetBytes(translation);
-
-      return result;
+      return eplStream;
     }
 
     [NotNull]
-    public IEnumerable<byte> LineDrawDiagonal(int horizontalStart,
-                                              int verticalStart,
-                                              int horizontalLength,
-                                              int verticalLength,
-                                              int verticalEnd)
+    public EplStream LineDrawBlack(int horizontalStart,
+                                   int verticalStart,
+                                   int horizontalLength,
+                                   int verticalLength)
     {
-      var translation = $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
-      var result = this.GetBytes(translation);
+      var eplStream = new EplStream();
+      eplStream.Add($"LO{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}");
 
-      return result;
+      return eplStream;
     }
 
     [NotNull]
-    public IEnumerable<byte> DrawBox(int horizontalStart,
-                                     int verticalStart,
-                                     int lineThickness,
-                                     int horizontalEnd,
-                                     int verticalEnd)
+    public EplStream LineDrawWhite(int horizontalStart,
+                                   int verticalStart,
+                                   int horizontalLength,
+                                   int verticalLength)
     {
-      var translation = $"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}";
-      var result = this.GetBytes(translation);
+      var eplStream = new EplStream();
+      eplStream.Add($"LW{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}");
 
-      return result;
+      return eplStream;
     }
 
     [NotNull]
-    public IEnumerable<byte> AsciiText(int horizontalStart,
-                                       int verticalStart,
-                                       int rotation,
-                                       [NotNull] string fontSelection,
-                                       int horizontalMulitplier,
-                                       int verticalMulitplier,
-                                       [NotNull] string reverseImage,
-                                       [NotNull] string text)
+    public EplStream LineDrawDiagonal(int horizontalStart,
+                                      int verticalStart,
+                                      int horizontalLength,
+                                      int verticalLength,
+                                      int verticalEnd)
     {
-      var translation = $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""";
-      var result = this.GetBytes(translation);
+      var eplStream = new EplStream();
+      eplStream.Add($"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}");
 
-      return result;
+      return eplStream;
+    }
+
+    [NotNull]
+    public EplStream DrawBox(int horizontalStart,
+                             int verticalStart,
+                             int lineThickness,
+                             int horizontalEnd,
+                             int verticalEnd)
+    {
+      var eplStream = new EplStream();
+      eplStream.Add($"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}");
+
+      return eplStream;
+    }
+
+    [NotNull]
+    public EplStream AsciiText(int horizontalStart,
+                               int verticalStart,
+                               int rotation,
+                               [NotNull] string fontSelection,
+                               int horizontalMulitplier,
+                               int verticalMulitplier,
+                               [NotNull] string reverseImage,
+                               [NotNull] string text)
+    {
+      var eplStream = new EplStream();
+      eplStream.Add($@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""");
+
+      return eplStream;
     }
   }
 }

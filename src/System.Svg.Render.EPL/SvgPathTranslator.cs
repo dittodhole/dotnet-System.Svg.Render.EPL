@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Svg.Pathing;
 using JetBrains.Annotations;
@@ -21,9 +20,9 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
-    [NotNull]
-    public override IEnumerable<byte> Translate([NotNull] SvgPath svgElement,
-                                                [NotNull] Matrix matrix)
+    public override void Translate([NotNull] SvgPath svgElement,
+                                   [NotNull] Matrix matrix,
+                                   [NotNull] EplStream container)
     {
       // TODO translate C (curveto)
       // TODO translate S (smooth curveto)
@@ -33,18 +32,22 @@ namespace System.Svg.Render.EPL
       // TODO translate Z (closepath)
       // TODO add test cases
 
-      var result = svgElement.PathData.OfType<SvgLineSegment>()
-                           .SelectMany(svgLineSegment => this.TranslateSvgLineSegment(svgElement,
-                                                                                      svgLineSegment,
-                                                                                      matrix));
-
-      return result;
+      foreach (var svgLineSegment in svgElement.PathData.OfType<SvgLineSegment>())
+      {
+        var eplStream = this.TranslateSvgLineSegment(svgElement,
+                                                     svgLineSegment,
+                                                     matrix);
+        if (eplStream != null)
+        {
+          container.Add(eplStream);
+        }
+      }
     }
 
     [NotNull]
-    private IEnumerable<byte> TranslateSvgLineSegment([NotNull] SvgPath instance,
-                                                      [NotNull] SvgLineSegment svgLineSegment,
-                                                      [NotNull] Matrix matrix)
+    private EplStream TranslateSvgLineSegment([NotNull] SvgPath instance,
+                                              [NotNull] SvgLineSegment svgLineSegment,
+                                              [NotNull] Matrix matrix)
     {
       var svgLine = new SvgLine
                     {
@@ -84,12 +87,12 @@ namespace System.Svg.Render.EPL
         verticalLength = (int) strokeWidth;
       }
 
-      var result = this.EplCommands.LineDrawBlack(horizontalStart,
-                                                  verticalStart,
-                                                  horizontalLength,
-                                                  verticalLength);
+      var eplStream = this.EplCommands.LineDrawBlack(horizontalStart,
+                                                     verticalStart,
+                                                     horizontalLength,
+                                                     verticalLength);
 
-      return result;
+      return eplStream;
     }
   }
 }

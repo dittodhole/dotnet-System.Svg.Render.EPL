@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
@@ -23,13 +22,14 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
-    public override IEnumerable<byte> Translate([NotNull] T svgElement,
-                                                [NotNull] Matrix matrix)
+    public override void Translate([NotNull] T svgElement,
+                                   [NotNull] Matrix matrix,
+                                   [NotNull] EplStream container)
     {
       var text = this.RemoveIllegalCharacters(svgElement.Text);
       if (string.IsNullOrWhiteSpace(text))
       {
-        return null;
+        return;
       }
 
       float x;
@@ -62,16 +62,18 @@ namespace System.Svg.Render.EPL
       var horizontalStart = (int) x;
       var verticalStart = (int) y;
 
-      var result = this.EplCommands.AsciiText(horizontalStart,
-                                              verticalStart,
-                                              rotation,
-                                              fontSelection,
-                                              multiplier,
-                                              multiplier,
-                                              reverseImage,
-                                              text);
-
-      return result;
+      var eplStream = this.EplCommands.AsciiText(horizontalStart,
+                                                 verticalStart,
+                                                 rotation,
+                                                 fontSelection,
+                                                 multiplier,
+                                                 multiplier,
+                                                 reverseImage,
+                                                 text);
+      if (eplStream != null)
+      {
+        container.Add(eplStream);
+      }
     }
 
     private string RemoveIllegalCharacters(string text)

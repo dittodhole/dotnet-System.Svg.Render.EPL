@@ -22,16 +22,14 @@ namespace System.Svg.Render.EPL.Tests
       private SvgLineTranslator SvgLineTranslator { get; }
 
       protected SvgLine SvgLine { get; set; }
-      protected object Actual { get; set; }
 
       protected override void BecauseOf()
       {
+        this.SvgLineTranslator.Translate(this.SvgLine,
+                                         this.Matrix,
+                                         this.Container);
+
         base.BecauseOf();
-
-        var translation = this.SvgLineTranslator.Translate(this.SvgLine,
-                                                           this.Matrix);
-
-        this.Actual = this.Encoding.GetString(translation);
       }
     }
 
@@ -131,7 +129,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LW-10,10,20,200",
+        Assert.AreEqual("LW10,10,20,200",
                         this.Actual);
       }
     }

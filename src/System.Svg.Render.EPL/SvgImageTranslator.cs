@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable NonLocalizedString
+
 namespace System.Svg.Render.EPL
 {
   public class SvgImageTranslator : SvgElementToInternalMemoryTranslator<SvgImage>
@@ -34,8 +36,10 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    public override IEnumerable<byte> Translate([NotNull] SvgImage svgElement,
-                                                [NotNull] Matrix matrix)
+    public override void Translate([NotNull] SvgImage svgElement,
+                                   [NotNull] Matrix matrix,
+                                   [NotNull] EplStream container)
+
     {
       float startX;
       float startY;
@@ -51,39 +55,50 @@ namespace System.Svg.Render.EPL
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
 
-      IEnumerable<byte> result;
-
       var imageIdentifier = this.GetImageIdentifier(svgElement);
+
+      EplStream eplStream;
 
       string variableName;
       if (this.AssumeStoredInInternalMemory)
       {
         variableName = this.GetVariableName(imageIdentifier);
 
-        result = this.EplCommands.PrintGraphics(horizontalStart,
-                                                verticalStart,
-                                                variableName);
+        eplStream = this.EplCommands.PrintGraphics(horizontalStart,
+                                                   verticalStart,
+                                                   variableName);
       }
       else if (this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
                                                                  out variableName))
       {
-        result = this.EplCommands.PrintGraphics(horizontalStart,
-                                                verticalStart,
-                                                variableName);
+        eplStream = this.EplCommands.PrintGraphics(horizontalStart,
+                                                   verticalStart,
+                                                   variableName);
       }
       else
       {
-        result = this.TranslateGeneric(svgElement,
-                                       matrix,
-                                       (int) sourceAlignmentWidth,
-                                       (int) sourceAlignmentHeight,
-                                       bitmap => this.EplCommands.GraphicDirectWrite(bitmap,
-                                                                                     horizontalStart,
-                                                                                     verticalStart)
-                                                     .ToArray());
+        using (var bitmap = this.ConvertToBitmap(svgElement,
+                                                 matrix,
+                                                 (int) sourceAlignmentWidth,
+                                                 (int) sourceAlignmentHeight))
+        {
+          if (bitmap == null)
+          {
+            eplStream = null;
+          }
+          else
+          {
+            eplStream = this.EplCommands.GraphicDirectWrite(bitmap,
+                                                            horizontalStart,
+                                                            verticalStart);
+          }
+        }
       }
 
-      return result;
+      if (eplStream != null)
+      {
+        container.Add(eplStream);
+      }
     }
 
     private string GetVariableName([NotNull] string imageIdentifier)
@@ -103,8 +118,9 @@ namespace System.Svg.Render.EPL
       return variableName;
     }
 
-    public override IEnumerable<byte> TranslateForStoring([NotNull] SvgImage svgElement,
-                                                          [NotNull] Matrix matrix)
+    public override void TranslateForStoring([NotNull] SvgImage svgElement,
+                                             [NotNull] Matrix matrix,
+                                             [NotNull] EplStream container)
     {
       float startX;
       float startY;
@@ -123,22 +139,34 @@ namespace System.Svg.Render.EPL
 
       this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
 
-      var result = this.TranslateGeneric(svgElement,
-                                         matrix,
-                                         (int) sourceAlignmentWidth,
-                                         (int) sourceAlignmentHeight,
-                                         bitmap => this.EplCommands.StoreGraphics(bitmap,
-                                                                                  variableName)
-                                                       .ToArray());
+      EplStream eplStream;
+      using (var bitmap = this.ConvertToBitmap(svgElement,
+                                               matrix,
+                                               (int) sourceAlignmentWidth,
+                                               (int) sourceAlignmentHeight))
+      {
+        if (bitmap == null)
+        {
+          eplStream = null;
+        }
+        else
+        {
+          eplStream = this.EplCommands.StoreGraphics(bitmap,
+                                                     variableName);
+        }
+      }
 
-      return result;
+      if (eplStream != null)
+      {
+        container.Add(this.EplCommands.DeleteGraphics(variableName));
+        container.Add(eplStream);
+      }
     }
 
-    private IEnumerable<byte> TranslateGeneric([NotNull] SvgImage svgElement,
-                                               [NotNull] Matrix matrix,
-                                               int sourceAlignmentWidth,
-                                               int sourceAlignmentHeight,
-                                               [NotNull] Func<Bitmap, byte[]> translationFn)
+    private Bitmap ConvertToBitmap([NotNull] SvgImage svgElement,
+                                   [NotNull] Matrix matrix,
+                                   int sourceAlignmentWidth,
+                                   int sourceAlignmentHeight)
     {
       using (var image = svgElement.GetImage() as Image)
       {
@@ -149,17 +177,13 @@ namespace System.Svg.Render.EPL
 
         var rotationTranslation = this.EplTransformer.GetRotation(matrix);
 
-        using (var bitmap = new Bitmap(image,
-                                       sourceAlignmentWidth,
-                                       sourceAlignmentHeight))
-        {
-          var rotateFlipType = (RotateFlipType) rotationTranslation;
-          bitmap.RotateFlip(rotateFlipType);
+        var bitmap = new Bitmap(image,
+                                sourceAlignmentWidth,
+                                sourceAlignmentHeight);
+        var rotateFlipType = (RotateFlipType) rotationTranslation;
+        bitmap.RotateFlip(rotateFlipType);
 
-          var result = translationFn.Invoke(bitmap);
-
-          return result;
-        }
+        return bitmap;
       }
     }
   }

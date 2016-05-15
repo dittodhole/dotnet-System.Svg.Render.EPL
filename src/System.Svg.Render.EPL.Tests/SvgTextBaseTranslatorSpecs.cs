@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Svg.Render.EPL.ExtensionMethods;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ExceptionNotDocumented
@@ -23,16 +22,13 @@ namespace System.Svg.Render.EPL.Tests
 
       protected SvgText SvgText { get; set; }
 
-      protected object Actual { get; set; }
-
       protected override void BecauseOf()
       {
+        this.SvgTextTranslator.Translate(this.SvgText,
+                                         this.Matrix,
+                                         this.Container);
+
         base.BecauseOf();
-
-        var translation = this.SvgTextTranslator.Translate(this.SvgText,
-                                                           this.Matrix);
-
-        this.Actual = this.Encoding.GetString(translation);
       }
     }
 

@@ -1,19 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render
 {
-  public interface ISvgElementTranslator
+  public interface ISvgElementTranslator<TContainer>
   {
-    IEnumerable<byte> Translate([NotNull] SvgElement svgElement,
-                                [NotNull] Matrix matrix);
+    void Translate([NotNull] SvgElement svgElement,
+                   [NotNull] Matrix matrix,
+                   [NotNull] TContainer container);
   }
 
-  public interface ISvgElementTranslator<T> : ISvgElementTranslator
-    where T : SvgElement
+  public interface ISvgElementTranslator<TContainer, TSvgElement> : ISvgElementTranslator<TContainer>
+    where TSvgElement : SvgElement
   {
-    IEnumerable<byte> Translate([NotNull] T svgElement,
-                                [NotNull] Matrix matrix);
+    void Translate([NotNull] TSvgElement svgElement,
+                   [NotNull] Matrix matrix,
+                   [NotNull] TContainer container);
   }
 }
