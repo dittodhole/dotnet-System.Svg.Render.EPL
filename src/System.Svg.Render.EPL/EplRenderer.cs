@@ -128,6 +128,10 @@ namespace System.Svg.Render.EPL
       eplStream.Add("R0,0");
       eplStream.Add("ZT");
 
+      var printerCodepage = this.GetPrinterCodepage();
+      var countryCode = this.CountryCode;
+      eplStream.Add($"I8,{printerCodepage},{countryCode}");
+
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
                                           this.ViewMatrix,
@@ -137,6 +141,57 @@ namespace System.Svg.Render.EPL
       eplStream.Add(string.Empty);
 
       return eplStream;
+    }
+
+    private string GetPrinterCodepage()
+    {
+      switch (this.PrinterCodepage)
+      {
+        case PrinterCodepage.Dos347:
+          return "0";
+        case PrinterCodepage.Dos850:
+          return "1";
+        case PrinterCodepage.Dos852:
+          return "2";
+        case PrinterCodepage.Dos860:
+          return "3";
+        case PrinterCodepage.Dos863:
+          return "4";
+        case PrinterCodepage.Dos865:
+          return "5";
+        case PrinterCodepage.Dos857:
+          return "6";
+        case PrinterCodepage.Dos861:
+          return "7";
+        case PrinterCodepage.Dos862:
+          return "8";
+        case PrinterCodepage.Dos855:
+          return "9";
+        case PrinterCodepage.Dos866:
+          return "10";
+        case PrinterCodepage.Dos737:
+          return "11";
+        case PrinterCodepage.Dos851:
+          return "12";
+        case PrinterCodepage.Dos869:
+          return "13";
+        case PrinterCodepage.Windows1252:
+          return "A";
+        case PrinterCodepage.Windows1250:
+          return "B";
+        case PrinterCodepage.Windows1251:
+          return "C";
+        case PrinterCodepage.Windows1253:
+          return "D";
+        case PrinterCodepage.Windows1254:
+          return "E";
+        case PrinterCodepage.Windows1255:
+          return "F";
+        default:
+          // TODO !
+          // :beers: should never happen
+          throw new ArgumentOutOfRangeException();
+      }
     }
 
     [NotNull]
@@ -164,6 +219,8 @@ namespace System.Svg.Render.EPL
           return Encoding.GetEncoding(862);
         case PrinterCodepage.Dos855:
           return Encoding.GetEncoding(855);
+        case PrinterCodepage.Dos866:
+          return Encoding.GetEncoding(866);
         case PrinterCodepage.Dos737:
           return Encoding.GetEncoding(737);
         case PrinterCodepage.Dos851:

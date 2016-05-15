@@ -12,6 +12,7 @@
     Dos861,
     Dos862,
     Dos855,
+    Dos866,
     Dos737,
     Dos851,
     Dos869,
