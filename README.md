@@ -38,10 +38,12 @@ tbd
 ```
 var file = "";
 var svgDocument = System.Svg.SvgDocument.Open(file);
-var eplRenderer = System.Svg.Render.EPL.DefaultBootstrapper.Create(90f,
-                                                                   203f,
-                                                                   PrinterCodepage.Dos850,
-                                                                   850);
+var bootstrapper = new System.Svg.Render.EPL.DefaultBootstrapper();
+var eplRenderer = bootstrapper.BuildUp(90f,
+                                       203f,
+                                       PrinterCodepage.Dos850,
+                                       850,
+                                       false);
 var encoding = eplRenderer.GetEncoding();
 
 // you can obtain eplStreams to set the internal memory of the printer
