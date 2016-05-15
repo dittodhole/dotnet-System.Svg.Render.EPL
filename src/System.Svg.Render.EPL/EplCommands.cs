@@ -8,11 +8,14 @@ namespace System.Svg.Render.EPL
   public class EplCommands
   {
     [NotNull]
+    protected virtual EplStream CreateEplStream() => new EplStream();
+
+    [NotNull]
     public virtual EplStream GraphicDirectWrite([NotNull] Bitmap bitmap,
                                                 int horizontalStart,
                                                 int verticalStart)
     {
-      var eplStream = new EplStream();
+      var eplStream = this.CreateEplStream();
       var octetts = (int) Math.Ceiling(bitmap.Width / 8f);
       eplStream.Add($"GW{horizontalStart},{verticalStart},{octetts},{bitmap.Height}");
       eplStream.Add(this.GetRawBinaryData(bitmap,
@@ -66,7 +69,7 @@ namespace System.Svg.Render.EPL
     [NotNull]
     public virtual EplStream DeleteGraphics([NotNull] string name)
     {
-      var eplStream = new EplStream();
+      var eplStream = this.CreateEplStream();
       eplStream.Add($@"GK""{name}""");
 
       return eplStream;
@@ -110,7 +113,7 @@ namespace System.Svg.Render.EPL
         array = magickImage.ToByteArray(MagickFormat.Pcx);
       }
 
-      var eplStream = new EplStream();
+      var eplStream = this.CreateEplStream();
       eplStream.Add($@"GM""{name}""{array.Length}");
       eplStream.Add(array);
 
@@ -122,7 +125,7 @@ namespace System.Svg.Render.EPL
                                            int verticalStart,
                                            [NotNull] string name)
     {
-      var eplStream = new EplStream();
+      var eplStream = this.CreateEplStream();
       eplStream.Add($@"GG{horizontalStart},{verticalStart},""{name}""");
 
       return eplStream;
@@ -134,7 +137,7 @@ namespace System.Svg.Render.EPL
                                            int horizontalLength,
                                            int verticalLength)
     {
-      var eplStream = new EplStream();
+      var eplStream = this.CreateEplStream();
       eplStream.Add($"LO{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}");
 
       return eplStream;
@@ -146,7 +149,7 @@ namespace System.Svg.Render.EPL
                                            int horizontalLength,
                                            int verticalLength)
     {
-      var eplStream = new EplStream();
+      var eplStream = this.CreateEplStream();
       eplStream.Add($"LW{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}");
 
       return eplStream;
@@ -159,7 +162,7 @@ namespace System.Svg.Render.EPL
                                               int verticalLength,
                                               int verticalEnd)
     {
-      var eplStream = new EplStream();
+      var eplStream = this.CreateEplStream();
       eplStream.Add($"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}");
 
       return eplStream;
@@ -172,7 +175,7 @@ namespace System.Svg.Render.EPL
                                      int horizontalEnd,
                                      int verticalEnd)
     {
-      var eplStream = new EplStream();
+      var eplStream = this.CreateEplStream();
       eplStream.Add($"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}");
 
       return eplStream;
@@ -188,7 +191,7 @@ namespace System.Svg.Render.EPL
                                        [NotNull] string reverseImage,
                                        [NotNull] string text)
     {
-      var eplStream = new EplStream();
+      var eplStream = this.CreateEplStream();
       eplStream.Add($@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""");
 
       return eplStream;

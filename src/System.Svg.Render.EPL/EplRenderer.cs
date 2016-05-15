@@ -39,7 +39,7 @@ namespace System.Svg.Render.EPL
     [NotNull]
     public virtual IEnumerable<EplStream> GetInternalMemoryTranslation([NotNull] SvgDocument svgDocument)
     {
-      var parentMatrix = new Matrix();
+      var parentMatrix = this.CreateParentMatrix();
       var translations = this.TranslaveSvgElementAndChildrenForStoring(svgDocument,
                                                                        parentMatrix,
                                                                        this.ViewMatrix);
@@ -90,6 +90,12 @@ namespace System.Svg.Render.EPL
       }
     }
 
+    [NotNull]
+    protected virtual EplStream CreateEplStream() => new EplStream();
+
+    [NotNull]
+    protected virtual Matrix CreateParentMatrix() => new Matrix();
+
     protected virtual EplStream TranslateSvgElementForStoring([NotNull] SvgElement svgElement,
                                                               [NotNull] Matrix matrix,
                                                               [NotNull] Matrix viewMatrix)
@@ -106,7 +112,7 @@ namespace System.Svg.Render.EPL
       matrix.Multiply(viewMatrix,
                       MatrixOrder.Append);
 
-      var container = new EplStream();
+      var container = this.CreateEplStream();
 
       svgElementToInternalMemoryTranslator.TranslateForStoring(svgElement,
                                                                matrix,
@@ -118,8 +124,8 @@ namespace System.Svg.Render.EPL
     [NotNull]
     public override EplStream GetTranslation([NotNull] SvgDocument svgDocument)
     {
-      var parentMatrix = new Matrix();
-      var eplStream = new EplStream();
+      var parentMatrix = this.CreateParentMatrix();
+      var eplStream = this.CreateEplStream();
 
       eplStream.Add("R0,0");
       eplStream.Add("ZT");
