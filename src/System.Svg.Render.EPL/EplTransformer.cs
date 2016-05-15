@@ -84,7 +84,8 @@ namespace System.Svg.Render.EPL
       return rotationTranslation;
     }
 
-    public virtual void GetFontSelection(float fontSize,
+    public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+                                         float fontSize,
                                          [NotNull] out string fontSelection,
                                          out int multiplier)
     {

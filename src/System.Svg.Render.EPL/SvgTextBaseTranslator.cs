@@ -45,7 +45,8 @@ namespace System.Svg.Render.EPL
 
       string fontSelection;
       int multiplier;
-      this.EplTransformer.GetFontSelection(fontSize,
+      this.EplTransformer.GetFontSelection(svgElement,
+                                           fontSize,
                                            out fontSelection,
                                            out multiplier);
 
