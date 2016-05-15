@@ -8,13 +8,9 @@ namespace System.Svg.Render
   {
     void ISvgElementTranslator<TContainer>.Translate([NotNull] SvgElement svgElement,
                                                      [NotNull] Matrix matrix,
-                                                     [NotNull] TContainer container)
-
-    {
-      this.Translate((TSvgElement) svgElement,
-                     matrix,
-                     container);
-    }
+                                                     [NotNull] TContainer container) => this.Translate((TSvgElement) svgElement,
+                                                                                                       matrix,
+                                                                                                       container);
 
     public abstract void Translate([NotNull] TSvgElement svgElement,
                                    [NotNull] Matrix matrix,

@@ -15,12 +15,8 @@ namespace System.Svg.Render.EPL
 
     void ISvgElementToInternalMemoryTranslator.TranslateForStoring([NotNull] SvgElement svgElement,
                                                                    [NotNull] Matrix matrix,
-                                                                   [NotNull] EplStream container)
-
-    {
-      this.TranslateForStoring((TSvgElement) svgElement,
-                               matrix,
-                               container);
-    }
+                                                                   [NotNull] EplStream container) => this.TranslateForStoring((TSvgElement) svgElement,
+                                                                                                                              matrix,
+                                                                                                                              container);
   }
 }
