@@ -17,7 +17,7 @@ This proof-of-concept project tries to overcome this limitations by translating 
 
 ## Getting started
 
-Open `src/System.Svg.Render.EPL.sln` with Microsoft Visual Studio 2015 and build it.
+Open [`src/System.Svg.Render.EPL.sln`](src/System.Svg.Render.EPL.sln) with Microsoft Visual Studio 2015 and build it.
 
 Following NuGet packages will be restored:
 - [System.Svg](https://www.nuget.org/packages/System.Svg)
@@ -26,9 +26,7 @@ Following NuGet packages will be restored:
 - [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
 - [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
 
-A fully working demo is available in the `demo`-branch.
-
-You can start by using the `System.Svg.Render.EPL.DefaultBootstrapper`:
+A fully working demo is available [here](https://github.com/dittodhole/dotnet-System.Svg.Render.EPL/tree/demo).
 
 ## Installing [![NuGet Status](http://img.shields.io/nuget/v/System.Svg.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/System.Svg.Render.EPL/)
 
@@ -59,7 +57,7 @@ var array = eplStream.GetByteArray(encoding);
 
 ## Configuration
 
-I strongly encourage you to use the `DefaultBootstrapper` (or extend it) to build up `EplRenderer`-instances.
+I strongly encourage you to use the [`DefaultBootstrapper`](src/System.Svg.Render.EPL/DefaultBootstrapper.cs) (or extend it) to build up [`EplRenderer`](src/System.Svg.Render.EPL/EplRenderer.cs)-instances.
 
 #### sourceDpi
 Type: `float`
