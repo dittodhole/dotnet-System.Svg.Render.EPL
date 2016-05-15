@@ -26,6 +26,11 @@ namespace System.Svg.Render.EPL
                                    [NotNull] Matrix matrix,
                                    [NotNull] EplStream container)
     {
+      if (svgElement.Text == null)
+      {
+        return;
+      }
+
       var text = this.RemoveIllegalCharacters(svgElement.Text);
       if (string.IsNullOrWhiteSpace(text))
       {
