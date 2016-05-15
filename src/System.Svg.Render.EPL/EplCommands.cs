@@ -104,9 +104,9 @@ namespace System.Svg.Render.EPL
       byte[] array;
       using (magickImage)
       {
+        // TODO threshold
         magickImage.ColorType = ColorType.Bilevel;
         magickImage.Negate();
-        magickImage.Threshold(new Percentage(50));
         array = magickImage.ToByteArray(MagickFormat.Pcx);
       }
 
