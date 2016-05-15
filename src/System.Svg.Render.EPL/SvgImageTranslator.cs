@@ -128,6 +128,11 @@ namespace System.Svg.Render.EPL
                                              [NotNull] Matrix matrix,
                                              [NotNull] EplStream container)
     {
+      if (this.ForceDirectWrite(svgElement))
+      {
+        return;
+      }
+
       float startX;
       float startY;
       float sourceAlignmentWidth;
@@ -140,7 +145,6 @@ namespace System.Svg.Render.EPL
                                     out sourceAlignmentHeight);
 
       var imageIdentifier = this.GetImageIdentifier(svgElement);
-
       var variableName = this.GetVariableName(imageIdentifier);
 
       this.StoreVariableNameForImageIdentifier(imageIdentifier,
