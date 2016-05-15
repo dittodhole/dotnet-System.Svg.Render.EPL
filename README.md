@@ -78,7 +78,7 @@ Depending on the text used in `A`-command you can set a codepage to guarantee a 
 #### countryCode
 Type: `int`
 
-See [`printerCodepage`](#printerCodepage).
+See [`printerCodepage`](#printerCodepage)
 
 #### assumeStoredInInternalMemory
 Type: `bool`
@@ -114,10 +114,7 @@ To further minimize the writes to the internal memory (Zebra claims around 100k 
 - `style="stroke"`
 - `style="stroke-width"`
 - `style="visible"`
-
-## Roadmap
-
-- Barcode
+- native barcode printing - see [DEMO](https://github.com/dittodhole/dotnet-System.Svg.Render.EPL/tree/demo)
 
 ## License
 
