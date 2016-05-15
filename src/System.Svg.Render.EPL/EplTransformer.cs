@@ -54,14 +54,17 @@ namespace System.Svg.Render.EPL
       var magnificationFactor = targetDpi / sourceDpi;
 
       // we use no identity matrix here, as we need to
-      // rotate and flip the coordinates from svg to
-      // epl
+      // rotate and flip the coordinates from svg to epl
+
       // svg matrix:
       // +- x+
       // |y+
       // epl matrix:
       // +- y+
       // | x +
+
+      // TODO merge with AdaptXAxis
+
       var matrix = new Matrix(0f,
                               magnificationFactor,
                               magnificationFactor,
