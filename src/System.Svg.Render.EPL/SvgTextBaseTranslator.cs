@@ -49,15 +49,7 @@ namespace System.Svg.Render.EPL
                                            out fontSelection,
                                            out multiplier);
 
-      string reverseImage;
-      if ((svgElement.Fill as SvgColourServer)?.Colour == Color.White)
-      {
-        reverseImage = "R";
-      }
-      else
-      {
-        reverseImage = "N";
-      }
+      var reverseImage = this.EplTransformer.GetReverseImage(svgElement);
 
       var horizontalStart = (int) x;
       var verticalStart = (int) y;
