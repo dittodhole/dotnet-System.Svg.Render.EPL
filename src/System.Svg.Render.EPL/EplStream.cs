@@ -9,7 +9,7 @@ namespace System.Svg.Render.EPL
   {
     protected ICollection<object> InternalStream { get; } = new LinkedList<object>();
 
-    public bool IsEmpty => this.InternalStream.Any();
+    public bool IsEmpty => !this.InternalStream.Any();
 
     public void Add([NotNull] string s)
     {
