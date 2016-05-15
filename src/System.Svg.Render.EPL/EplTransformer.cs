@@ -89,7 +89,8 @@ namespace System.Svg.Render.EPL
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
                                          out int fontSelection,
-                                         out int multiplier)
+                                         out int horizontalMultiplier,
+                                         out int verticalMultiplier)
     {
       // VALUE    203dpi        300dpi
       // ==================================
@@ -158,7 +159,8 @@ namespace System.Svg.Render.EPL
           if (Math.Abs(actualFontSize - fontSize) < 0.5f)
           {
             fontSelection = fontDefinition.Value;
-            multiplier = factor;
+            horizontalMultiplier = factor;
+            verticalMultiplier = factor;
             return;
           }
 
@@ -203,12 +205,14 @@ namespace System.Svg.Render.EPL
       if (lowerFontDefinitionCandidate == null)
       {
         fontSelection = upperFontDefinitionCandidate.FontSelection;
-        multiplier = upperFontDefinitionCandidate.Multiplier;
+        horizontalMultiplier = upperFontDefinitionCandidate.Multiplier;
+        verticalMultiplier = upperFontDefinitionCandidate.Multiplier;
       }
       else if (upperFontDefinitionCandidate == null)
       {
         fontSelection = lowerFontDefinitionCandidate.FontSelection;
-        multiplier = lowerFontDefinitionCandidate.Multiplier;
+        horizontalMultiplier = lowerFontDefinitionCandidate.Multiplier;
+        verticalMultiplier = lowerFontDefinitionCandidate.Multiplier;
       }
       else
       {
@@ -221,12 +225,14 @@ namespace System.Svg.Render.EPL
         if (differenceLower <= differenceUpper)
         {
           fontSelection = lowerFontDefinitionCandidate.FontSelection;
-          multiplier = lowerFontDefinitionCandidate.Multiplier;
+          horizontalMultiplier = lowerFontDefinitionCandidate.Multiplier;
+          verticalMultiplier = lowerFontDefinitionCandidate.Multiplier;
         }
         else
         {
           fontSelection = upperFontDefinitionCandidate.FontSelection;
-          multiplier = upperFontDefinitionCandidate.Multiplier;
+          horizontalMultiplier = upperFontDefinitionCandidate.Multiplier;
+          verticalMultiplier = upperFontDefinitionCandidate.Multiplier;
         }
       }
     }

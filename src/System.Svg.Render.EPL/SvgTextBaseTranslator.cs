@@ -51,11 +51,13 @@ namespace System.Svg.Render.EPL
                                     out rotation);
 
       int fontSelection;
-      int multiplier;
+      int horizontalMultiplier;
+      int verticalMultiplier;
       this.EplTransformer.GetFontSelection(svgElement,
                                            fontSize,
                                            out fontSelection,
-                                           out multiplier);
+                                           out horizontalMultiplier,
+                                           out verticalMultiplier);
 
       var horizontalStart = (int) x;
       var verticalStart = (int) y;
@@ -66,8 +68,8 @@ namespace System.Svg.Render.EPL
                                                  verticalStart,
                                                  rotation,
                                                  fontSelection,
-                                                 multiplier,
-                                                 multiplier,
+                                                 horizontalMultiplier,
+                                                 verticalMultiplier,
                                                  invert,
                                                  text);
       if (!eplStream.IsEmpty)
