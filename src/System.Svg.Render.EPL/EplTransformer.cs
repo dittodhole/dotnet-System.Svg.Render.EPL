@@ -86,7 +86,7 @@ namespace System.Svg.Render.EPL
 
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
-                                         [NotNull] out string fontSelection,
+                                         out int fontSelection,
                                          out int multiplier)
     {
       // VALUE    203dpi        300dpi
@@ -119,19 +119,19 @@ namespace System.Svg.Render.EPL
       // horizontal multiplier: Accepted Values: 1–6, 8
       // vertical multiplier: Accepted Values: 1–9
 
-      var fontDefinitions = new SortedList<int, string>
+      var fontDefinitions = new SortedList<int, int>
                             {
                               {
-                                12, "1"
+                                12, 1
                               },
                               {
-                                16, "2"
+                                16, 2
                               },
                               {
-                                20, "3"
+                                20, 3
                               },
                               {
-                                24, "4"
+                                24, 4
                               }
                             };
 
@@ -353,9 +353,7 @@ namespace System.Svg.Render.EPL
 
     private class FontDefinitionCandidate
     {
-      [NotNull]
-      public string FontSelection { get; set; }
-
+      public int FontSelection { get; set; }
       public int ActualHeight { get; set; }
       public int Multiplier { get; set; }
     }

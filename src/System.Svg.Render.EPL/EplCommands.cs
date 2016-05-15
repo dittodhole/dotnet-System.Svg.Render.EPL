@@ -185,7 +185,7 @@ namespace System.Svg.Render.EPL
     public virtual EplStream AsciiText(int horizontalStart,
                                        int verticalStart,
                                        int rotation,
-                                       [NotNull] string fontSelection,
+                                       int fontSelection,
                                        int horizontalMulitplier,
                                        int verticalMulitplier,
                                        [NotNull] string reverseImage,

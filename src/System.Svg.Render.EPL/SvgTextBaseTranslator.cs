@@ -48,7 +48,7 @@ namespace System.Svg.Render.EPL
                                     out fontSize,
                                     out rotation);
 
-      string fontSelection;
+      int fontSelection;
       int multiplier;
       this.EplTransformer.GetFontSelection(svgElement,
                                            fontSize,
