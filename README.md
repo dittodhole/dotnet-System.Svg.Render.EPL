@@ -94,8 +94,6 @@ To further minimize the writes to the internal memory (Zebra claims around 100k 
 
 **CAUTION:** This may result in broken labels, so you should know what you are doing.
 
-**CAUTION:** There is currently no implementation that allows you to selectively transfer images with either [`GW`](http://support.zebra.com/cpws/docs/eltron/epl2/GW_Command.pdf) or [`GM`](http://support.zebra.com/cpws/docs/eltron/epl2/GM_Command.pdf)/[`GG`](http://support.zebra.com/cpws/docs/eltron/epl2/GG_Command.pdf). The selected mode applies to all the images of a [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)-file.
-
 ## Features
 
 - `<text>` and `<tspan>`

@@ -62,11 +62,13 @@ namespace System.Svg.Render.EPL
       var verticalStart = (int) startY;
 
       var imageIdentifier = this.GetImageIdentifier(svgElement);
+      var forceDirectWrite = this.ForceDirectWrite(svgElement);
 
       EplStream eplStream;
 
       string variableName;
-      if (this.AssumeStoredInInternalMemory)
+      if (!forceDirectWrite
+          && this.AssumeStoredInInternalMemory)
       {
         variableName = this.GetVariableName(imageIdentifier);
 
@@ -74,8 +76,9 @@ namespace System.Svg.Render.EPL
                                                    verticalStart,
                                                    variableName);
       }
-      else if (this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
-                                                                 out variableName))
+      else if (!forceDirectWrite
+               && this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
+                                                                    out variableName))
       {
         eplStream = this.EplCommands.PrintGraphics(horizontalStart,
                                                    verticalStart,
@@ -188,6 +191,11 @@ namespace System.Svg.Render.EPL
 
         return bitmap;
       }
+    }
+
+    protected virtual bool ForceDirectWrite([NotNull] SvgImage svgImage)
+    {
+      return false;
     }
   }
 }
