@@ -196,5 +196,32 @@ namespace System.Svg.Render.EPL
 
       return eplStream;
     }
+
+    [NotNull]
+    public virtual EplStream BarCode(int horizontalStart,
+                                     int verticalStart,
+                                     int rotation,
+                                     [NotNull] string barcodeSelection,
+                                     int narrowBarWidth,
+                                     int wideBarWidth,
+                                     int height,
+                                     bool humanReadable,
+                                     [NotNull] string content)
+    {
+      string printHumanReadable;
+      if (humanReadable)
+      {
+        printHumanReadable = "B";
+      }
+      else
+      {
+        printHumanReadable = "N";
+      }
+
+      var eplStream = this.CreateEplStream();
+      eplStream.Add($@"B{horizontalStart},{verticalStart},{rotation},{barcodeSelection},{narrowBarWidth},{wideBarWidth},{height},{printHumanReadable},""{content}""");
+
+      return eplStream;
+    }
   }
 }
