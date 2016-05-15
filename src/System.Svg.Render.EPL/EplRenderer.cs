@@ -59,12 +59,9 @@ namespace System.Svg.Render.EPL
         var eplStream = this.TranslateSvgElementForStoring(svgElement,
                                                            matrix,
                                                            viewMatrix);
-        if (eplStream != null)
+        if (!eplStream.IsEmpty)
         {
-          if (!eplStream.IsEmpty)
-          {
-            yield return eplStream;
-          }
+          yield return eplStream;
         }
       }
 
@@ -96,10 +93,13 @@ namespace System.Svg.Render.EPL
     [NotNull]
     protected virtual Matrix CreateParentMatrix() => new Matrix();
 
+    [NotNull]
     protected virtual EplStream TranslateSvgElementForStoring([NotNull] SvgElement svgElement,
                                                               [NotNull] Matrix matrix,
                                                               [NotNull] Matrix viewMatrix)
     {
+      var container = this.CreateEplStream();
+
       var type = svgElement.GetType();
 
       var svgElementToInternalMemoryTranslator = this.GetTranslator(type) as ISvgElementToInternalMemoryTranslator;
@@ -111,8 +111,6 @@ namespace System.Svg.Render.EPL
       matrix = matrix.Clone();
       matrix.Multiply(viewMatrix,
                       MatrixOrder.Append);
-
-      var container = this.CreateEplStream();
 
       svgElementToInternalMemoryTranslator.TranslateForStoring(svgElement,
                                                                matrix,

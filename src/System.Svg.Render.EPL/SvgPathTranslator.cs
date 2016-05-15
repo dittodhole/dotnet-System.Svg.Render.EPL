@@ -37,12 +37,9 @@ namespace System.Svg.Render.EPL
         var eplStream = this.TranslateSvgLineSegment(svgElement,
                                                      svgLineSegment,
                                                      matrix);
-        if (eplStream != null)
+        if (!eplStream.IsEmpty)
         {
-          if (!eplStream.IsEmpty)
-          {
-            container.Add(eplStream);
-          }
+          container.Add(eplStream);
         }
       }
     }

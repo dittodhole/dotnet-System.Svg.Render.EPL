@@ -87,12 +87,9 @@ namespace System.Svg.Render.EPL
                                                       verticalEnd);
       }
 
-      if (eplStream != null)
+      if (!eplStream.IsEmpty)
       {
-        if (!eplStream.IsEmpty)
-        {
-          container.Add(eplStream);
-        }
+        container.Add(eplStream);
       }
     }
   }

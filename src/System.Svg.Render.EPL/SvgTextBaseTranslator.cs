@@ -70,12 +70,9 @@ namespace System.Svg.Render.EPL
                                                  multiplier,
                                                  reverseImage,
                                                  text);
-      if (eplStream != null)
+      if (!eplStream.IsEmpty)
       {
-        if (!eplStream.IsEmpty)
-        {
-          container.Add(eplStream);
-        }
+        container.Add(eplStream);
       }
     }
 

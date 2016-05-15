@@ -90,23 +90,17 @@ namespace System.Svg.Render.EPL
         {
           if (bitmap == null)
           {
-            eplStream = null;
+            return;
           }
-          else
-          {
-            eplStream = this.EplCommands.GraphicDirectWrite(bitmap,
-                                                            horizontalStart,
-                                                            verticalStart);
-          }
+
+          eplStream = this.EplCommands.GraphicDirectWrite(bitmap,
+                                                          horizontalStart,
+                                                          verticalStart);
         }
       }
-
-      if (eplStream != null)
+      if (!eplStream.IsEmpty)
       {
-        if (!eplStream.IsEmpty)
-        {
-          container.Add(eplStream);
-        }
+        container.Add(eplStream);
       }
     }
 
@@ -157,23 +151,18 @@ namespace System.Svg.Render.EPL
       {
         if (bitmap == null)
         {
-          eplStream = null;
+          return;
         }
-        else
-        {
-          eplStream = this.EplCommands.StoreGraphics(bitmap,
-                                                     variableName);
-        }
+
+        eplStream = this.EplCommands.StoreGraphics(bitmap,
+                                                   variableName);
       }
 
-      if (eplStream != null)
+      if (!eplStream.IsEmpty)
       {
-        if (!eplStream.IsEmpty)
-        {
-          container.Add(this.EplCommands.DeleteGraphics(variableName));
-          container.Add(this.EplCommands.DeleteGraphics(variableName));
-          container.Add(eplStream);
-        }
+        container.Add(this.EplCommands.DeleteGraphics(variableName));
+        container.Add(this.EplCommands.DeleteGraphics(variableName));
+        container.Add(eplStream);
       }
     }
 
