@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
 
@@ -35,57 +36,84 @@ namespace System.Svg.Render.EPL
       return this.Encoding;
     }
 
-    // TODO
-    /*
     [NotNull]
-    public IEnumerable<IEnumerable<byte>> GetInternalMemoryTranslation([NotNull] SvgDocument svgDocument)
+    public IEnumerable<EplStream> GetInternalMemoryTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = new Matrix();
-      var translations = this.TranslateForInternalMemory(svgDocument,
-                                                         parentMatrix,
-                                                         this.ViewMatrix);
+      var translations = this.TranslaveSvgElementAndChildrenForStoring(svgDocument,
+                                                                       parentMatrix,
+                                                                       this.ViewMatrix);
 
       return translations;
     }
 
     [NotNull]
-    private IEnumerable<IEnumerable<byte>> TranslateForInternalMemory([NotNull] SvgElement svgElement,
-                                                                      [NotNull] Matrix parentMatrix,
-                                                                      [NotNull] Matrix viewMatrix)
+    private IEnumerable<EplStream> TranslaveSvgElementAndChildrenForStoring([NotNull] SvgElement svgElement,
+                                                                            [NotNull] Matrix parentMatrix,
+                                                                            [NotNull] Matrix viewMatrix)
     {
       var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
                                                              parentMatrix);
 
-      var type = svgElement.GetType();
-      var translator = this.GetTranslator<ISvgElementToInternalMemoryTranslator>(type);
-      if (translator != null)
       {
-        var concreteMatrix = matrix.Clone();
-        concreteMatrix.Multiply(viewMatrix,
-                                MatrixOrder.Append);
-
-        var translation = translator.TranslateForStoring(svgElement,
-                                                         concreteMatrix);
-        if (translation != null)
+        var eplStream = this.TranslateSvgElementForStoring(svgElement,
+                                                           matrix,
+                                                           viewMatrix);
+        if (eplStream != null)
         {
-          translation = translation.Concat(this.Encoding.GetBytes(Environment.NewLine));
-          yield return translation;
+          if (!eplStream.IsEmpty)
+          {
+            yield return eplStream;
+          }
         }
       }
 
       foreach (var child in svgElement.Children)
       {
-        var translations = this.TranslateForInternalMemory(child,
-                                                           matrix,
-                                                           viewMatrix);
+        var translations = this.TranslaveSvgElementAndChildrenForStoring(child,
+                                                                         matrix,
+                                                                         viewMatrix);
 
-        foreach (var translation in translations)
+        foreach (var eplStream in translations)
         {
-          yield return translation;
+          if (eplStream == null)
+          {
+            continue;
+          }
+          if (eplStream.IsEmpty)
+          {
+            continue;
+          }
+
+          yield return eplStream;
         }
       }
     }
-    */
+
+    private EplStream TranslateSvgElementForStoring([NotNull] SvgElement svgElement,
+                                                    [NotNull] Matrix matrix,
+                                                    [NotNull] Matrix viewMatrix)
+    {
+      var type = svgElement.GetType();
+
+      var svgElementToInternalMemoryTranslator = this.GetTranslator(type) as ISvgElementToInternalMemoryTranslator;
+      if (svgElementToInternalMemoryTranslator == null)
+      {
+        return null;
+      }
+
+      matrix = matrix.Clone();
+      matrix.Multiply(viewMatrix,
+                      MatrixOrder.Append);
+
+      var container = new EplStream();
+
+      svgElementToInternalMemoryTranslator.TranslateForStoring(svgElement,
+                                                               matrix,
+                                                               container);
+
+      return container;
+    }
 
     [NotNull]
     public override EplStream GetTranslation([NotNull] SvgDocument svgDocument)

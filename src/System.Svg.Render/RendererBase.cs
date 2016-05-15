@@ -107,8 +107,6 @@ namespace System.Svg.Render
       var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
                                                              parentMatrix);
 
-      // TODO write unit-test for dat shit :zzz:
-
       this.TranslateSvgElement(svgElement,
                                matrix,
                                viewMatrix,
@@ -123,10 +121,10 @@ namespace System.Svg.Render
       }
     }
 
-    protected virtual void TranslateSvgElement([NotNull] SvgElement svgElement,
-                                               [NotNull] Matrix matrix,
-                                               [NotNull] Matrix viewMatrix,
-                                               [NotNull] TContainer container)
+    private void TranslateSvgElement([NotNull] SvgElement svgElement,
+                                     [NotNull] Matrix matrix,
+                                     [NotNull] Matrix viewMatrix,
+                                     [NotNull] TContainer container)
     {
       var type = svgElement.GetType();
 

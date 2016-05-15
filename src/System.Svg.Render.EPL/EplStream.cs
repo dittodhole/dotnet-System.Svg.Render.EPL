@@ -34,6 +34,8 @@ namespace System.Svg.Render.EPL
       }
     }
 
+    public bool IsEmpty => this.InternalStream.Any();
+
     public IEnumerable<byte> ToByteArray([NotNull] Encoding encoding)
     {
       foreach (var line in this.InternalStream)
