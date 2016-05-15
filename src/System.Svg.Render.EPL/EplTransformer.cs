@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable NonLocalizedString
+
 namespace System.Svg.Render.EPL
 {
   public class EplTransformer : GenericTransformer
