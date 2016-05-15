@@ -9,6 +9,8 @@ namespace System.Svg.Render.EPL
   {
     protected ICollection<object> InternalStream { get; } = new LinkedList<object>();
 
+    public bool IsEmpty => this.InternalStream.Any();
+
     public void Add([NotNull] string s)
     {
       this.InternalStream.Add(s);
@@ -34,9 +36,10 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    public bool IsEmpty => this.InternalStream.Any();
+    public byte[] ToByteArray([NotNull] Encoding encoding) => this.ToByteStream(encoding)
+                                                                  .ToArray();
 
-    public IEnumerable<byte> ToByteArray([NotNull] Encoding encoding)
+    public IEnumerable<byte> ToByteStream([NotNull] Encoding encoding)
     {
       foreach (var line in this.InternalStream)
       {
