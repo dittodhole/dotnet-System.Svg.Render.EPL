@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -35,14 +34,14 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    public override IEnumerable<byte> Translate([NotNull] SvgImage instance,
+    public override IEnumerable<byte> Translate([NotNull] SvgImage svgElement,
                                                 [NotNull] Matrix matrix)
     {
       float startX;
       float startY;
       float sourceAlignmentWidth;
       float sourceAlignmentHeight;
-      this.EplTransformer.Transform(instance,
+      this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out startX,
                                     out startY,
@@ -54,7 +53,7 @@ namespace System.Svg.Render.EPL
 
       IEnumerable<byte> result;
 
-      var imageIdentifier = this.GetImageIdentifier(instance);
+      var imageIdentifier = this.GetImageIdentifier(svgElement);
 
       string variableName;
       if (this.AssumeStoredInInternalMemory)
@@ -74,7 +73,7 @@ namespace System.Svg.Render.EPL
       }
       else
       {
-        result = this.TranslateGeneric(instance,
+        result = this.TranslateGeneric(svgElement,
                                        matrix,
                                        (int) sourceAlignmentWidth,
                                        (int) sourceAlignmentHeight,
@@ -104,27 +103,27 @@ namespace System.Svg.Render.EPL
       return variableName;
     }
 
-    public override IEnumerable<byte> TranslateForStoring([NotNull] SvgImage instance,
+    public override IEnumerable<byte> TranslateForStoring([NotNull] SvgImage svgElement,
                                                           [NotNull] Matrix matrix)
     {
       float startX;
       float startY;
       float sourceAlignmentWidth;
       float sourceAlignmentHeight;
-      this.EplTransformer.Transform(instance,
+      this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out startX,
                                     out startY,
                                     out sourceAlignmentWidth,
                                     out sourceAlignmentHeight);
 
-      var imageIdentifier = this.GetImageIdentifier(instance);
+      var imageIdentifier = this.GetImageIdentifier(svgElement);
 
       var variableName = this.GetVariableName(imageIdentifier);
 
       this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
 
-      var result = this.TranslateGeneric(instance,
+      var result = this.TranslateGeneric(svgElement,
                                          matrix,
                                          (int) sourceAlignmentWidth,
                                          (int) sourceAlignmentHeight,
@@ -135,13 +134,13 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    private IEnumerable<byte> TranslateGeneric([NotNull] SvgImage instance,
+    private IEnumerable<byte> TranslateGeneric([NotNull] SvgImage svgElement,
                                                [NotNull] Matrix matrix,
                                                int sourceAlignmentWidth,
                                                int sourceAlignmentHeight,
                                                [NotNull] Func<Bitmap, byte[]> translationFn)
     {
-      using (var image = instance.GetImage() as Image)
+      using (var image = svgElement.GetImage() as Image)
       {
         if (image == null)
         {

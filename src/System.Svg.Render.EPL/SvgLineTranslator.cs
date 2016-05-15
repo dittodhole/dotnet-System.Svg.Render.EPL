@@ -21,7 +21,7 @@ namespace System.Svg.Render.EPL
     private EplCommands EplCommands { get; }
 
     [NotNull]
-    public override IEnumerable<byte> Translate([NotNull] SvgLine instance,
+    public override IEnumerable<byte> Translate([NotNull] SvgLine svgElement,
                                                 [NotNull] Matrix matrix)
     {
       float startX;
@@ -29,7 +29,7 @@ namespace System.Svg.Render.EPL
       float endX;
       float endY;
       float strokeWidth;
-      this.EplTransformer.Transform(instance,
+      this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out startX,
                                     out startY,
@@ -43,7 +43,7 @@ namespace System.Svg.Render.EPL
       if (Math.Abs(startY - endY) < 0.5f
           || Math.Abs(startX - endX) < 0.5f)
       {
-        var strokeShouldBeWhite = (instance.Stroke as SvgColourServer)?.Colour == Color.White;
+        var strokeShouldBeWhite = (svgElement.Stroke as SvgColourServer)?.Colour == Color.White;
         var horizontalStart = (int) startX;
         var verticalStart = (int) startY;
         var horizontalLength = (int) Math.Abs(endX - startX);

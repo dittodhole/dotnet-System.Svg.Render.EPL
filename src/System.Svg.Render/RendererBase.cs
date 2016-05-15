@@ -13,7 +13,7 @@ namespace System.Svg.Render
     private IDictionary<Type, ISvgElementTranslator> SvgElementTranslators { get; } = new Dictionary<Type, ISvgElementTranslator>();
 
     [NotNull]
-    public abstract IEnumerable<byte> GetTranslation([NotNull] SvgDocument instance);
+    public abstract IEnumerable<byte> GetTranslation([NotNull] SvgDocument svgDocument);
 
     [NotNull]
     protected IEnumerable<byte> TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,

@@ -25,18 +25,18 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private SvgUnitReader SvgUnitReader { get; }
 
-    public override IEnumerable<byte> Translate([NotNull] SvgRectangle instance,
+    public override IEnumerable<byte> Translate([NotNull] SvgRectangle svgElement,
                                                 [NotNull] Matrix matrix)
     {
-      if (instance.Fill != SvgPaintServer.None
-          && (instance.Fill as SvgColourServer)?.Colour != Color.White)
+      if (svgElement.Fill != SvgPaintServer.None
+          && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
       {
-        return this.TranslateFilledBox(instance,
+        return this.TranslateFilledBox(svgElement,
                                        matrix);
       }
-      if (instance.Stroke != SvgPaintServer.None)
+      if (svgElement.Stroke != SvgPaintServer.None)
       {
-        return this.TranslateBox(instance,
+        return this.TranslateBox(svgElement,
                                  matrix);
       }
 

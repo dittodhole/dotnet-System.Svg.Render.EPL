@@ -6,7 +6,7 @@ namespace System.Svg.Render.EPL
 {
   public interface ISvgElementToInternalMemoryTranslator : ISvgElementTranslator
   {
-    IEnumerable<byte> TranslateUntypedForStoring([NotNull] object untypedInstance,
+    IEnumerable<byte> TranslateUntypedForStoring([NotNull] SvgElement svgElement,
                                                  [NotNull] Matrix matrix);
   }
 
@@ -14,7 +14,7 @@ namespace System.Svg.Render.EPL
                                                               ISvgElementTranslator<T>
     where T : SvgElement
   {
-    IEnumerable<byte> TranslateForStoring([NotNull] T instance,
+    IEnumerable<byte> TranslateForStoring([NotNull] T svgElement,
                                           [NotNull] Matrix matrix);
   }
 }

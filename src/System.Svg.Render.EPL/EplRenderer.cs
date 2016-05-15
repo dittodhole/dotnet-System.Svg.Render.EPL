@@ -36,10 +36,10 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public IEnumerable<IEnumerable<byte>> GetInternalMemoryTranslation([NotNull] SvgDocument instance)
+    public IEnumerable<IEnumerable<byte>> GetInternalMemoryTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = new Matrix();
-      var translations = this.TranslateForInternalMemory(instance,
+      var translations = this.TranslateForInternalMemory(svgDocument,
                                                          parentMatrix,
                                                          this.ViewMatrix);
 
@@ -85,10 +85,10 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public override IEnumerable<byte> GetTranslation([NotNull] SvgDocument instance)
+    public override IEnumerable<byte> GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = new Matrix();
-      var translation = this.TranslateSvgElementAndChildren(instance,
+      var translation = this.TranslateSvgElementAndChildren(svgDocument,
                                                             parentMatrix,
                                                             this.ViewMatrix);
       var result = this.Encoding.GetBytes("R0,0")

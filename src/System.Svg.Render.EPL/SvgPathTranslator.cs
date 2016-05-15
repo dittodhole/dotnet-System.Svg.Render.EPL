@@ -22,7 +22,7 @@ namespace System.Svg.Render.EPL
     private EplCommands EplCommands { get; }
 
     [NotNull]
-    public override IEnumerable<byte> Translate([NotNull] SvgPath instance,
+    public override IEnumerable<byte> Translate([NotNull] SvgPath svgElement,
                                                 [NotNull] Matrix matrix)
     {
       // TODO translate C (curveto)
@@ -33,8 +33,8 @@ namespace System.Svg.Render.EPL
       // TODO translate Z (closepath)
       // TODO add test cases
 
-      var result = instance.PathData.OfType<SvgLineSegment>()
-                           .SelectMany(svgLineSegment => this.TranslateSvgLineSegment(instance,
+      var result = svgElement.PathData.OfType<SvgLineSegment>()
+                           .SelectMany(svgLineSegment => this.TranslateSvgLineSegment(svgElement,
                                                                                       svgLineSegment,
                                                                                       matrix));
 

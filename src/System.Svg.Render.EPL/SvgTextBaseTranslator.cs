@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -24,10 +23,10 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
-    public override IEnumerable<byte> Translate([NotNull] T instance,
+    public override IEnumerable<byte> Translate([NotNull] T svgElement,
                                                 [NotNull] Matrix matrix)
     {
-      var text = this.RemoveIllegalCharacters(instance.Text);
+      var text = this.RemoveIllegalCharacters(svgElement.Text);
       if (string.IsNullOrWhiteSpace(text))
       {
         return null;
@@ -37,7 +36,7 @@ namespace System.Svg.Render.EPL
       float y;
       float fontSize;
       int rotation;
-      this.EplTransformer.Transform(instance,
+      this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out x,
                                     out y,
@@ -51,7 +50,7 @@ namespace System.Svg.Render.EPL
                                            out multiplier);
 
       string reverseImage;
-      if ((instance.Fill as SvgColourServer)?.Colour == Color.White)
+      if ((svgElement.Fill as SvgColourServer)?.Colour == Color.White)
       {
         reverseImage = "R";
       }
