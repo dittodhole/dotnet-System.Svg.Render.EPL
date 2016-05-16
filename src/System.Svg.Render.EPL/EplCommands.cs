@@ -316,7 +316,7 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
-    public virtual EplStream Print(ushort copies)
+    public virtual EplStream Print(int copies)
     {
       var eplStream = this.CreateEplStream();
       eplStream.Add($"P{copies}");
