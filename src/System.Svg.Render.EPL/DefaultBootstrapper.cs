@@ -19,8 +19,10 @@ namespace System.Svg.Render.EPL
 
     [NotNull]
     protected virtual EplRenderer CreateEplRenderer([NotNull] Matrix viewMatrix,
+                                                    [NotNull] EplCommands eplCommands,
                                                     PrinterCodepage printerCodepage,
                                                     int countryCode) => new EplRenderer(viewMatrix,
+                                                                                        eplCommands,
                                                                                         printerCodepage,
                                                                                         countryCode);
 
@@ -75,10 +77,11 @@ namespace System.Svg.Render.EPL
       var viewMatrix = this.CreateViewMatrix(eplTransformer,
                                              sourceDpi,
                                              destinationDpi);
+      var eplCommands = this.CreateEplCommands();
       var eplRenderer = this.CreateEplRenderer(viewMatrix,
+                                               eplCommands,
                                                printerCodepage,
                                                countryCode);
-      var eplCommands = this.CreateEplCommands();
       var svgLineTranslator = this.CreateSvgLineTranslator(eplTransformer,
                                                            eplCommands);
       var svgRectangleTranslator = this.CreateSvgRectangleTranslator(eplTransformer,

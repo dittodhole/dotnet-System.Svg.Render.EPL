@@ -233,5 +233,118 @@ namespace System.Svg.Render.EPL
 
       return eplStream;
     }
+
+    [NotNull]
+    public virtual EplStream SetReferencePoint(int horizontalStart,
+                                               int verticalStart)
+    {
+      var eplStream = this.CreateEplStream();
+      eplStream.Add($"R{horizontalStart},{verticalStart}");
+
+      return eplStream;
+    }
+
+    [NotNull]
+    public virtual EplStream PrintDirection(PrintOrientation printOrientation)
+    {
+      string orientation;
+      switch (printOrientation)
+      {
+        case PrintOrientation.Top:
+          orientation = "T";
+          break;
+        case PrintOrientation.Bottom:
+          orientation = "B";
+          break;
+        default:
+          // TODO !
+          // :beers: should never happen
+          throw new ArgumentOutOfRangeException(nameof(printOrientation),
+                                                printOrientation,
+                                                null);
+      }
+
+      var eplStream = this.CreateEplStream();
+      eplStream.Add($"Z{orientation}");
+
+      return eplStream;
+    }
+
+    [NotNull]
+    public virtual EplStream Print(ushort copies)
+    {
+      var eplStream = this.CreateEplStream();
+      eplStream.Add($"P{copies}");
+      eplStream.Add(string.Empty);
+
+      return eplStream;
+    }
+
+    [NotNull]
+    public virtual EplStream CharacterSetSelection(int bytes,
+                                                   PrinterCodepage printerCodepage,
+                                                   int countryCode)
+    {
+      var codepage = this.GetPrinterCodepage(printerCodepage);
+
+      var eplStream = this.CreateEplStream();
+      eplStream.Add($"I{bytes},{codepage},{countryCode}");
+
+      return eplStream;
+    }
+
+    [NotNull]
+    protected virtual string GetPrinterCodepage(PrinterCodepage printerCodepage)
+    {
+      switch (printerCodepage)
+      {
+        case PrinterCodepage.Dos347:
+          return "0";
+        case PrinterCodepage.Dos850:
+          return "1";
+        case PrinterCodepage.Dos852:
+          return "2";
+        case PrinterCodepage.Dos860:
+          return "3";
+        case PrinterCodepage.Dos863:
+          return "4";
+        case PrinterCodepage.Dos865:
+          return "5";
+        case PrinterCodepage.Dos857:
+          return "6";
+        case PrinterCodepage.Dos861:
+          return "7";
+        case PrinterCodepage.Dos862:
+          return "8";
+        case PrinterCodepage.Dos855:
+          return "9";
+        case PrinterCodepage.Dos866:
+          return "10";
+        case PrinterCodepage.Dos737:
+          return "11";
+        case PrinterCodepage.Dos851:
+          return "12";
+        case PrinterCodepage.Dos869:
+          return "13";
+        case PrinterCodepage.Windows1252:
+          return "A";
+        case PrinterCodepage.Windows1250:
+          return "B";
+        case PrinterCodepage.Windows1251:
+          return "C";
+        case PrinterCodepage.Windows1253:
+          return "D";
+        case PrinterCodepage.Windows1254:
+          return "E";
+        case PrinterCodepage.Windows1255:
+          return "F";
+        default:
+          // TODO !
+          // :beers: should never happen
+          throw new ArgumentOutOfRangeException(nameof(printerCodepage),
+                                                printerCodepage,
+                                                null);
+      }
+    }
   }
 }

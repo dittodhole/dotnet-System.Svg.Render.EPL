@@ -10,17 +10,22 @@ namespace System.Svg.Render.EPL
   public class EplRenderer : RendererBase<EplStream>
   {
     public EplRenderer([NotNull] Matrix viewMatrix,
+                       [NotNull] EplCommands eplCommands,
                        PrinterCodepage printerCodepage,
                        int countryCode)
     {
       this.ViewMatrix = viewMatrix;
+      this.EplCommands = eplCommands;
       this.PrinterCodepage = printerCodepage;
       this.CountryCode = countryCode;
-      this.Encoding = this.CreateEncoding();
+      this.Encoding = this.CreateEncoding(this.PrinterCodepage);
     }
 
     [NotNull]
     protected Matrix ViewMatrix { get; }
+
+    [NotNull]
+    protected EplCommands EplCommands { get; }
 
     protected PrinterCodepage PrinterCodepage { get; }
 
@@ -125,79 +130,27 @@ namespace System.Svg.Render.EPL
       var parentMatrix = this.CreateParentMatrix();
       var eplStream = this.CreateEplStream();
 
-      eplStream.Add("R0,0");
-      eplStream.Add("ZT");
-
-      var printerCodepage = this.GetPrinterCodepage();
-      var countryCode = this.CountryCode;
-      eplStream.Add($"I8,{printerCodepage},{countryCode}");
+      eplStream.Add(this.EplCommands.SetReferencePoint(0,
+                                                       0));
+      eplStream.Add(this.EplCommands.PrintDirection(PrintOrientation.Top));
+      eplStream.Add(this.EplCommands.CharacterSetSelection(8,
+                                                           this.PrinterCodepage,
+                                                           this.CountryCode));
 
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
                                           this.ViewMatrix,
                                           eplStream);
 
-      eplStream.Add("P1");
-      eplStream.Add(string.Empty);
+      eplStream.Add(this.EplCommands.Print(1));
 
       return eplStream;
     }
 
-    private string GetPrinterCodepage()
-    {
-      switch (this.PrinterCodepage)
-      {
-        case PrinterCodepage.Dos347:
-          return "0";
-        case PrinterCodepage.Dos850:
-          return "1";
-        case PrinterCodepage.Dos852:
-          return "2";
-        case PrinterCodepage.Dos860:
-          return "3";
-        case PrinterCodepage.Dos863:
-          return "4";
-        case PrinterCodepage.Dos865:
-          return "5";
-        case PrinterCodepage.Dos857:
-          return "6";
-        case PrinterCodepage.Dos861:
-          return "7";
-        case PrinterCodepage.Dos862:
-          return "8";
-        case PrinterCodepage.Dos855:
-          return "9";
-        case PrinterCodepage.Dos866:
-          return "10";
-        case PrinterCodepage.Dos737:
-          return "11";
-        case PrinterCodepage.Dos851:
-          return "12";
-        case PrinterCodepage.Dos869:
-          return "13";
-        case PrinterCodepage.Windows1252:
-          return "A";
-        case PrinterCodepage.Windows1250:
-          return "B";
-        case PrinterCodepage.Windows1251:
-          return "C";
-        case PrinterCodepage.Windows1253:
-          return "D";
-        case PrinterCodepage.Windows1254:
-          return "E";
-        case PrinterCodepage.Windows1255:
-          return "F";
-        default:
-          // TODO !
-          // :beers: should never happen
-          throw new ArgumentOutOfRangeException();
-      }
-    }
-
     [NotNull]
-    private Encoding CreateEncoding()
+    private Encoding CreateEncoding(PrinterCodepage printerCodepage)
     {
-      switch (this.PrinterCodepage)
+      switch (printerCodepage)
       {
         case PrinterCodepage.Dos347:
           return Encoding.GetEncoding(347);
@@ -242,7 +195,9 @@ namespace System.Svg.Render.EPL
         default:
           // TODO !
           // :beers: should never happen
-          throw new ArgumentOutOfRangeException();
+          throw new ArgumentOutOfRangeException(nameof(printerCodepage),
+                                                printerCodepage,
+                                                null);
       }
     }
   }

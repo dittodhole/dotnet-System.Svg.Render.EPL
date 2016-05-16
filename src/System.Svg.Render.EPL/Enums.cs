@@ -23,4 +23,10 @@
     Windows1254,
     Windows1255
   }
+
+  public enum PrintOrientation
+  {
+    Top,
+    Bottom
+  }
 }
