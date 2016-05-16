@@ -81,6 +81,7 @@ See [`printerCodepage`](#printerCodepage)
 
 #### assumeStoredInInternalMemory
 Type: `bool`
+
 Default: `false`
 
 [`SvgImageTranslator`](src/System.Svg.Render.EPL/SvgImageTranslator.cs) keeps track of previously uploaded images through `TranslateForStoring`-calls. If images are not stored, the image is printed directly with a [`GW`](http://support.zebra.com/cpws/docs/eltron/epl2/GW_Command.pdf) command (which is the preferred soltion for non-static images). Otherwise a [`GG`](http://support.zebra.com/cpws/docs/eltron/epl2/GG_Command.pdf) command is used (which is the preferred solution for static images).
