@@ -32,7 +32,6 @@ namespace System.Svg.Render.EPL
     [NotNull]
     private Encoding Encoding { get; }
 
-    [NotNull]
     protected int CountryCode { get; }
 
     [NotNull]
