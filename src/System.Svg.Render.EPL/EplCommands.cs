@@ -211,27 +211,72 @@ namespace System.Svg.Render.EPL
     public virtual EplStream BarCode(int horizontalStart,
                                      int verticalStart,
                                      int rotation,
-                                     [NotNull] string barCodeSelection,
+                                     BarCodeSelection barCodeSelection,
                                      int narrowBarWidth,
                                      int wideBarWidth,
                                      int height,
-                                     bool humanReadable,
+                                     PrintHumanReadable printHumanReadable,
                                      [NotNull] string content)
     {
-      string printHumanReadable;
-      if (humanReadable)
-      {
-        printHumanReadable = "B";
-      }
-      else
-      {
-        printHumanReadable = "N";
-      }
+      var humanReadable = this.GetPrintHumanReadable(printHumanReadable);
+      var barcode = this.GetBarCodeSelection(barCodeSelection);
 
       var eplStream = this.CreateEplStream();
-      eplStream.Add($@"B{horizontalStart},{verticalStart},{rotation},{barCodeSelection},{narrowBarWidth},{wideBarWidth},{height},{printHumanReadable},""{content}""");
+      eplStream.Add($@"B{horizontalStart},{verticalStart},{rotation},{barcode},{narrowBarWidth},{wideBarWidth},{height},{humanReadable},""{content}""");
 
       return eplStream;
+    }
+
+    [NotNull]
+    protected virtual string GetPrintHumanReadable(PrintHumanReadable printHumanReadable)
+    {
+      switch (printHumanReadable)
+      {
+        case PrintHumanReadable.Yes:
+          return "B";
+        case PrintHumanReadable.No:
+          return "N";
+        default:
+          throw new ArgumentOutOfRangeException(nameof(printHumanReadable),
+                                                printHumanReadable,
+                                                null);
+      }
+    }
+
+    [NotNull]
+    protected string GetBarCodeSelection(BarCodeSelection barCodeSelection)
+    {
+      switch (barCodeSelection)
+      {
+        case BarCodeSelection.Code39:
+          return "3";
+        case BarCodeSelection.Code39WithCheckDigit:
+          return "3C";
+        case BarCodeSelection.Code93:
+          return "9";
+        case BarCodeSelection.Code128UCC:
+          return "0";
+        case BarCodeSelection.Code128Auto:
+          return "1";
+        case BarCodeSelection.Code128A:
+          return "1A";
+        case BarCodeSelection.Code128B:
+          return "1B";
+        case BarCodeSelection.Code128C:
+          return "1C";
+        case BarCodeSelection.Interleaved2Of5:
+          return "2";
+        case BarCodeSelection.Interleaved2Of5WithMod10CheckDigit:
+          return "2C";
+        case BarCodeSelection.Interleaved2Of5WithHumanReadableCheckDigit:
+          return "2D";
+        default:
+          // TODO !
+          // :beers: should never happen
+          throw new ArgumentOutOfRangeException(nameof(barCodeSelection),
+                                                barCodeSelection,
+                                                null);
+      }
     }
 
     [NotNull]
