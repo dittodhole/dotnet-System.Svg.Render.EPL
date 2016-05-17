@@ -1,0 +1,3 @@
+[submodule "powershell-nuget-packager"]
+	path = powershell-nuget-packager
+	url = https://github.com/dittodhole/powershell-nuget-packager
