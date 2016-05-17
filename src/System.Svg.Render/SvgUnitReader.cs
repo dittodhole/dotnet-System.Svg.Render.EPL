@@ -1,8 +1,10 @@
-﻿namespace System.Svg.Render
+﻿using JetBrains.Annotations;
+
+namespace System.Svg.Render
 {
   public class SvgUnitReader
   {
-    public virtual float GetValue(SvgElement svgElement,
+    public virtual float GetValue([NotNull] SvgElement svgElement,
                                   SvgUnit svgUnit)
     {
       var result = svgUnit.Value;
