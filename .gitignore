@@ -1,5 +1,7 @@
 bin/
 obj/
+nupkg/
+nuspec/
 packages/
 *.user
 *.suo
