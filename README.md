@@ -24,7 +24,7 @@ Following NuGet packages will be restored:
   - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
   - [Fizzler](https://www.nuget.org/packages/Fizzler)
 - [System.Svg.Render](https://www.nuget.org/packages/System.Svg.Render)
-- [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
+  - [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
 - [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
 
 A fully working demo is available [here](https://github.com/dittodhole/dotnet-System.Svg.Render.EPL/tree/demo).
