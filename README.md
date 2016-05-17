@@ -28,7 +28,7 @@ Following NuGet packages will be restored:
 
 A fully working demo is available [here](https://github.com/dittodhole/dotnet-System.Svg.Render.EPL/tree/demo).
 
-### Deploying
+## Deploying
 
 In order to push *.nupkg*-files to [NuGet](https://www.nuget.org/), you need following command:
 
