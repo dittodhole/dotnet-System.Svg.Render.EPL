@@ -38,11 +38,11 @@ tbd
 var file = "";
 var svgDocument = System.Svg.SvgDocument.Open(file);
 var bootstrapper = new System.Svg.Render.EPL.DefaultBootstrapper();
-var eplRenderer = bootstrapper.BuildUp(90f,
-                                       203f,
-                                       PrinterCodepage.Dos850,
-                                       850,
-                                       false);
+var eplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
+                                       destinationDpi: 203f,
+                                       printerCodepage: PrinterCodepage.Dos850,
+                                       countryCode: 850,
+                                       assumeStoredInInternalMemory: false);
 var encoding = eplRenderer.GetEncoding();
 
 // you can obtain eplStreams to set the internal memory of the printer
@@ -64,7 +64,7 @@ Type: `float`
 
 Define the DPI used to create the [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)-file (if using [Inkscape](https://inkscape.org): `90f`).
 
-#### targetDpi
+#### destinationDpi
 Type: `float`
 
 Define the DPI of the printer (usually `203f`).
