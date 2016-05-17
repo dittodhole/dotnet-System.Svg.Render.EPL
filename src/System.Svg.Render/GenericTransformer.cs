@@ -20,11 +20,11 @@ namespace System.Svg.Render
       return 1.25f;
     }
 
-    protected virtual void ApplyMatrix(float x,
-                                       float y,
-                                       [NotNull] Matrix matrix,
-                                       out float newX,
-                                       out float newY)
+    protected virtual void ApplyMatrixOnPoint(float x,
+                                              float y,
+                                              [NotNull] Matrix matrix,
+                                              out float newX,
+                                              out float newY)
     {
       var originalPoint = new PointF(x,
                                      y);
@@ -40,32 +40,22 @@ namespace System.Svg.Render
       newY = transformedPoint.Y;
     }
 
-    protected virtual float GetLengthOfVector(PointF vector)
-    {
-      var result = Math.Sqrt(Math.Pow(vector.X,
-                                      2) + Math.Pow(vector.Y,
-                                                    2));
-
-      return (int) result;
-    }
-
-    protected virtual void ApplyMatrix(float length,
-                                       [NotNull] Matrix matrix,
-                                       out float newLength)
+    protected virtual float ApplyMatrixOnLength(float length,
+                                                [NotNull] Matrix matrix)
     {
       var vector = new PointF(length,
                               0f);
 
-      this.ApplyMatrix(vector,
-                       matrix,
-                       out vector);
+      vector = this.ApplyMatrixOnVector(vector,
+                                        matrix);
 
-      newLength = this.GetLengthOfVector(vector);
+      var result = this.GetLengthOfVector(vector);
+
+      return result;
     }
 
-    protected virtual void ApplyMatrix(PointF vector,
-                                       [NotNull] Matrix matrix,
-                                       out PointF newVector)
+    protected virtual PointF ApplyMatrixOnVector(PointF vector,
+                                                 [NotNull] Matrix matrix)
     {
       var vectors = new[]
                     {
@@ -74,7 +64,18 @@ namespace System.Svg.Render
 
       matrix.TransformVectors(vectors);
 
-      newVector = vectors[0];
+      var result = vectors[0];
+
+      return result;
+    }
+
+    protected virtual float GetLengthOfVector(PointF vector)
+    {
+      var result = Math.Sqrt(Math.Pow(vector.X,
+                                      2) + Math.Pow(vector.Y,
+                                                    2));
+
+      return (int) result;
     }
 
     public virtual void Transform([NotNull] SvgLine svgLine,
@@ -96,21 +97,20 @@ namespace System.Svg.Render
       strokeWidth = this.SvgUnitReader.GetValue(svgLine,
                                                 svgLine.StrokeWidth);
 
-      this.ApplyMatrix(startX,
-                       startY,
-                       matrix,
-                       out startX,
-                       out startY);
+      this.ApplyMatrixOnPoint(startX,
+                              startY,
+                              matrix,
+                              out startX,
+                              out startY);
 
-      this.ApplyMatrix(endX,
-                       endY,
-                       matrix,
-                       out endX,
-                       out endY);
+      this.ApplyMatrixOnPoint(endX,
+                              endY,
+                              matrix,
+                              out endX,
+                              out endY);
 
-      this.ApplyMatrix(strokeWidth,
-                       matrix,
-                       out strokeWidth);
+      strokeWidth = this.ApplyMatrixOnLength(strokeWidth,
+                                             matrix);
     }
 
     protected virtual void Transform([NotNull] SvgImage svgImage,
@@ -133,24 +133,22 @@ namespace System.Svg.Render
       endX = startX + sourceAlignmentWidth;
       endY = startY + sourceAlignmentHeight;
 
-      this.ApplyMatrix(startX,
-                       startY,
-                       matrix,
-                       out startX,
-                       out startY);
+      this.ApplyMatrixOnPoint(startX,
+                              startY,
+                              matrix,
+                              out startX,
+                              out startY);
 
-      this.ApplyMatrix(sourceAlignmentWidth,
-                       matrix,
-                       out sourceAlignmentWidth);
-      this.ApplyMatrix(sourceAlignmentHeight,
-                       matrix,
-                       out sourceAlignmentHeight);
+      sourceAlignmentWidth = this.ApplyMatrixOnLength(sourceAlignmentWidth,
+                                                      matrix);
+      sourceAlignmentHeight = this.ApplyMatrixOnLength(sourceAlignmentHeight,
+                                                       matrix);
 
-      this.ApplyMatrix(endX,
-                       endY,
-                       matrix,
-                       out endX,
-                       out endY);
+      this.ApplyMatrixOnPoint(endX,
+                              endY,
+                              matrix,
+                              out endX,
+                              out endY);
     }
 
     public virtual void Transform([NotNull] SvgRectangle svgRectangle,
@@ -172,21 +170,20 @@ namespace System.Svg.Render
       strokeWidth = this.SvgUnitReader.GetValue(svgRectangle,
                                                 svgRectangle.StrokeWidth);
 
-      this.ApplyMatrix(startX,
-                       startY,
-                       matrix,
-                       out startX,
-                       out startY);
+      this.ApplyMatrixOnPoint(startX,
+                              startY,
+                              matrix,
+                              out startX,
+                              out startY);
 
-      this.ApplyMatrix(endX,
-                       endY,
-                       matrix,
-                       out endX,
-                       out endY);
+      this.ApplyMatrixOnPoint(endX,
+                              endY,
+                              matrix,
+                              out endX,
+                              out endY);
 
-      this.ApplyMatrix(strokeWidth,
-                       matrix,
-                       out strokeWidth);
+      strokeWidth = this.ApplyMatrixOnLength(strokeWidth,
+                                             matrix);
     }
 
     protected virtual void Transform([NotNull] SvgTextBase svgTextBase,
@@ -204,11 +201,14 @@ namespace System.Svg.Render
 
       startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
 
-      this.ApplyMatrix(startX,
-                       startY,
-                       matrix,
-                       out startX,
-                       out startY);
+      this.ApplyMatrixOnPoint(startX,
+                              startY,
+                              matrix,
+                              out startX,
+                              out startY);
+
+      fontSize = this.ApplyMatrixOnLength(fontSize,
+                                          matrix);
     }
   }
 }
