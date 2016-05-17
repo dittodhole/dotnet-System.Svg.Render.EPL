@@ -2,6 +2,8 @@
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace System.Svg.Render.EPL
 {
   public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>

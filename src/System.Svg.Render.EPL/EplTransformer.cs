@@ -3,7 +3,12 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
+// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable VirtualMemberNeverOverriden.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedParameter.Global
 
 namespace System.Svg.Render.EPL
 {
@@ -247,11 +252,11 @@ namespace System.Svg.Render.EPL
       rotation = this.GetRotation(matrix);
     }
 
-    protected override void Transform([NotNull] SvgTextBase svgTextBase,
-                                      [NotNull] Matrix matrix,
-                                      out float startX,
-                                      out float startY,
-                                      out float fontSize)
+    public override void Transform([NotNull] SvgTextBase svgTextBase,
+                                   [NotNull] Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float fontSize)
     {
       base.Transform(svgTextBase,
                      matrix,
@@ -290,14 +295,14 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    protected override void Transform([NotNull] SvgImage svgImage,
-                                      [NotNull] Matrix matrix,
-                                      out float startX,
-                                      out float startY,
-                                      out float endX,
-                                      out float endY,
-                                      out float sourceAlignmentWidth,
-                                      out float sourceAlignmentHeight)
+    public override void Transform([NotNull] SvgImage svgImage,
+                                   [NotNull] Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float endX,
+                                   out float endY,
+                                   out float sourceAlignmentWidth,
+                                   out float sourceAlignmentHeight)
     {
       base.Transform(svgImage,
                      matrix,

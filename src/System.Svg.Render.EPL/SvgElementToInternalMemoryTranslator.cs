@@ -1,6 +1,8 @@
 ﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable MemberCanBeProtected.Global
+
 namespace System.Svg.Render.EPL
 {
   public abstract class SvgElementToInternalMemoryTranslator<TSvgElement> : SvgElementTranslatorBase<TSvgElement>,

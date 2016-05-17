@@ -56,6 +56,10 @@
       <HintPath>..\packages\System.Svg.0.0.5\lib\Net40\System.Svg.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Svg.Render, Version=0.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Svg.Render.0.0.3\lib\Net40\System.Svg.Render.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -87,10 +91,6 @@
     <ProjectReference Include="..\System.Svg.Render.EPL\System.Svg.Render.EPL.csproj">
       <Project>{9b74d70d-21f7-41da-b146-eff862672606}</Project>
       <Name>System.Svg.Render.EPL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\System.Svg.Render\System.Svg.Render.csproj">
-      <Project>{c4033e2e-4999-4728-a812-ba1a306de35e}</Project>
-      <Name>System.Svg.Render</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

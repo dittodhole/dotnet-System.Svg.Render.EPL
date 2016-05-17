@@ -55,6 +55,10 @@
       <HintPath>..\packages\System.Svg.0.0.5\lib\Net40\System.Svg.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Svg.Render, Version=0.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Svg.Render.0.0.3\lib\Net40\System.Svg.Render.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -80,12 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\System.Svg.Render\System.Svg.Render.csproj">
-      <Project>{c4033e2e-4999-4728-a812-ba1a306de35e}</Project>
-      <Name>System.Svg.Render</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

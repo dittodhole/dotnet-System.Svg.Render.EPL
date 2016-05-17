@@ -1,4 +1,6 @@
-﻿namespace System.Svg.Render.EPL
+﻿// ReSharper disable UnusedMember.Global
+
+namespace System.Svg.Render.EPL
 {
   public enum PrinterCodepage
   {
@@ -52,7 +54,7 @@
     //GermanPostCode,
     Interleaved2Of5,
     Interleaved2Of5WithMod10CheckDigit,
-    Interleaved2Of5WithHumanReadableCheckDigit,
+    Interleaved2Of5WithHumanReadableCheckDigit
     //Postnet5And9And11And13Digit,
     //Planet11And13Digit,
     //JapanesePostnet,

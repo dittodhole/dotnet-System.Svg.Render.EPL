@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+
 namespace System.Svg.Render.EPL
 {
   public class EplStream : MixedStream

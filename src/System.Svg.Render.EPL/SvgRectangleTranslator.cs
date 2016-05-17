@@ -2,6 +2,9 @@
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace System.Svg.Render.EPL
 {
   public class SvgRectangleTranslator : SvgElementTranslatorBase<SvgRectangle>

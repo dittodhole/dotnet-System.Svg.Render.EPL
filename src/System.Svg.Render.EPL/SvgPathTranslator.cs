@@ -3,6 +3,9 @@ using System.Linq;
 using System.Svg.Pathing;
 using JetBrains.Annotations;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace System.Svg.Render.EPL
 {
   public class SvgPathTranslator : SvgElementTranslatorBase<SvgPath>
@@ -32,7 +35,14 @@ namespace System.Svg.Render.EPL
       // TODO translate Z (closepath)
       // TODO add test cases
 
+      if (svgElement.PathData == null)
+      {
+        return;
+      }
+
+      // ReSharper disable ExceptionNotDocumentedOptional
       foreach (var svgLineSegment in svgElement.PathData.OfType<SvgLineSegment>())
+      // ReSharper restore ExceptionNotDocumentedOptional
       {
         var eplStream = this.TranslateSvgLineSegment(svgElement,
                                                      svgLineSegment,

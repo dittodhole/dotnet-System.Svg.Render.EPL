@@ -3,6 +3,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable UnusedParameter.Global
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable NonLocalizedString
 
 namespace System.Svg.Render.EPL
@@ -36,10 +39,12 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    protected virtual void StoreVariableNameForImageIdentifier(string imageIdentifier,
-                                                               string variableName)
+    protected virtual void StoreVariableNameForImageIdentifier([NotNull] string imageIdentifier,
+                                                               [NotNull] string variableName)
     {
+      // ReSharper disable ExceptionNotDocumentedOptional
       this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
+      // ReSharper restore ExceptionNotDocumentedOptional
     }
 
     public override void Translate([NotNull] SvgImage svgElement,
@@ -76,9 +81,11 @@ namespace System.Svg.Render.EPL
                                                    verticalStart,
                                                    variableName);
       }
+      // ReSharper disable ExceptionNotDocumentedOptional
       else if (!forceDirectWrite
                && this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
                                                                     out variableName))
+      // ReSharper restore ExceptionNotDocumentedOptional
       {
         eplStream = this.EplCommands.PrintGraphics(horizontalStart,
                                                    verticalStart,
@@ -107,6 +114,7 @@ namespace System.Svg.Render.EPL
       }
     }
 
+    [NotNull]
     protected virtual string GetVariableName([NotNull] string imageIdentifier)
     {
       // TODO this is magic
@@ -117,8 +125,10 @@ namespace System.Svg.Render.EPL
                              .ToString();
       if (variableName.Length > 8)
       {
+        // ReSharper disable ExceptionNotDocumentedOptional
         variableName = variableName.Substring(0,
                                               8);
+        // ReSharper restore ExceptionNotDocumentedOptional
       }
 
       return variableName;

@@ -1,6 +1,8 @@
 ﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable UnusedMemberInSuper.Global
+
 namespace System.Svg.Render.EPL
 {
   public interface ISvgElementToInternalMemoryTranslator : ISvgElementTranslator<EplStream>

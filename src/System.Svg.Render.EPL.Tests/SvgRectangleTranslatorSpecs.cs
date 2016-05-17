@@ -2,8 +2,8 @@
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
-// ReSharper disable ExceptionNotDocumented
 
 namespace System.Svg.Render.EPL.Tests
 {

@@ -3,6 +3,9 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 // ReSharper disable NonLocalizedString
 
 namespace System.Svg.Render.EPL

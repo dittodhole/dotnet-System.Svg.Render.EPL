@@ -2,6 +2,8 @@
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable NonLocalizedString
 
 namespace System.Svg.Render.EPL
@@ -82,8 +84,10 @@ namespace System.Svg.Render.EPL
     {
       // TODO add regex for removing illegal characters ...
 
+      // ReSharper disable ExceptionNotDocumentedOptional
       return text.Replace("\"",
                           "'");
+      // ReSharper restore ExceptionNotDocumentedOptional
     }
   }
 }

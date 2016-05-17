@@ -3,6 +3,11 @@ using System.Drawing;
 using ImageMagick;
 using JetBrains.Annotations;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable NonLocalizedString
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace System.Svg.Render.EPL
 {
   public class EplCommands

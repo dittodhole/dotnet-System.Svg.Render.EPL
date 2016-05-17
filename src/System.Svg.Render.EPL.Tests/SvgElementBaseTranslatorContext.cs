@@ -2,6 +2,9 @@
 using JetBrains.Annotations;
 using UnitTest;
 
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace System.Svg.Render.EPL.Tests
 {
   public abstract class SvgElementBaseTranslatorContext : ContextSpecification

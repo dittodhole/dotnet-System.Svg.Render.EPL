@@ -2,6 +2,8 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable VirtualMemberNeverOverriden.Global
 // ReSharper disable CheckNamespace
 
 namespace UnitTest
