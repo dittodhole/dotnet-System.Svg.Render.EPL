@@ -59,24 +59,11 @@ namespace System.Svg.Render.EPL
 
     public int GetRotation([NotNull] Matrix matrix)
     {
-      float fontSize;
-      var rotationTranslation = this.GetRotation(matrix,
-                                                 out fontSize);
-
-      return rotationTranslation;
-    }
-
-    public virtual int GetRotation([NotNull] Matrix matrix,
-                                   out float linearScalingFactor)
-    {
       var vector = new PointF(10 * -1f,
                               0f);
 
-      this.ApplyMatrix(vector,
-                       matrix,
-                       out vector);
-
-      linearScalingFactor = Math.Abs(this.GetLengthOfVector(vector) / 10);
+      vector = this.ApplyMatrixOnVector(vector,
+                                        matrix);
 
       var rotation = Math.Atan2(vector.Y,
                                 vector.X) / (2 * Math.PI) * 4;
@@ -251,6 +238,21 @@ namespace System.Svg.Render.EPL
                                   out float fontSize,
                                   out int rotation)
     {
+      this.Transform(svgTextBase,
+                     matrix,
+                     out startX,
+                     out startY,
+                     out fontSize);
+
+      rotation = this.GetRotation(matrix);
+    }
+
+    protected override void Transform([NotNull] SvgTextBase svgTextBase,
+                                      [NotNull] Matrix matrix,
+                                      out float startX,
+                                      out float startY,
+                                      out float fontSize)
+    {
       base.Transform(svgTextBase,
                      matrix,
                      out startX,
@@ -258,12 +260,6 @@ namespace System.Svg.Render.EPL
                      out fontSize);
 
       startX = this.AdaptXAxis(startX);
-
-      float linearScalingFactor;
-      rotation = this.GetRotation(matrix,
-                                  out linearScalingFactor);
-
-      fontSize = fontSize * linearScalingFactor;
     }
 
     public virtual void Transform([NotNull] SvgImage svgImage,
@@ -275,6 +271,34 @@ namespace System.Svg.Render.EPL
     {
       float endX;
       float endY;
+      this.Transform(svgImage,
+                     matrix,
+                     out startX,
+                     out startY,
+                     out endX,
+                     out endY,
+                     out sourceAlignmentWidth,
+                     out sourceAlignmentHeight);
+
+      var rotation = this.GetRotation(matrix);
+      if (rotation % 2 > 0)
+      {
+        var width = Math.Abs(startX - endX);
+
+        startX -= width;
+        endX -= width;
+      }
+    }
+
+    protected override void Transform([NotNull] SvgImage svgImage,
+                                      [NotNull] Matrix matrix,
+                                      out float startX,
+                                      out float startY,
+                                      out float endX,
+                                      out float endY,
+                                      out float sourceAlignmentWidth,
+                                      out float sourceAlignmentHeight)
+    {
       base.Transform(svgImage,
                      matrix,
                      out startX,
@@ -286,15 +310,6 @@ namespace System.Svg.Render.EPL
 
       startX = this.AdaptXAxis(startX);
       endX = this.AdaptXAxis(endX);
-
-      var rotation = this.GetRotation(matrix);
-      if (rotation % 2 > 0)
-      {
-        var width = Math.Abs(startX - endX);
-
-        startX -= width;
-        endX -= width;
-      }
     }
 
     public override void Transform([NotNull] SvgLine svgLine,
