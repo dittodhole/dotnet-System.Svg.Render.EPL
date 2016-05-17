@@ -19,7 +19,7 @@ This proof-of-concept project tries to overcome this limitations by translating 
 
 Open [`src/System.Svg.Render.EPL.sln`](src/System.Svg.Render.EPL.sln) with Microsoft Visual Studio 2015 and build it.
 
-Following NuGet packages will be restored:
+Following [NuGet](https://www.nuget.org/) packages will be restored:
 - [System.Svg](https://www.nuget.org/packages/System.Svg)
   - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
   - [Fizzler](https://www.nuget.org/packages/Fizzler)
