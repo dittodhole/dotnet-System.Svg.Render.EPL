@@ -77,7 +77,7 @@ Depending on the text used in `A`-command you can set a codepage to guarantee a 
 #### countryCode
 Type: `int`
 
-See [`printerCodepage`](#printerCodepage)
+See [`printerCodepage`](#printercodepage)
 
 #### assumeStoredInInternalMemory
 Type: `bool`
