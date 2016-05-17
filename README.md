@@ -28,9 +28,17 @@ Following NuGet packages will be restored:
 
 A fully working demo is available [here](https://github.com/dittodhole/dotnet-System.Svg.Render.EPL/tree/demo).
 
+### Deploying
+
+In order to push *.nupkg*-files to [NuGet](https://www.nuget.org/), you need following command:
+
+    .> build.bat
+
 ## Installing [![NuGet Status](http://img.shields.io/nuget/v/System.Svg.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/System.Svg.Render.EPL/)
 
-tbd
+https://www.nuget.org/packages/System.Svg.Render.EPL/
+
+    PM> Install-Package System.Svg.Render.EPL
 
 ## Example
 
