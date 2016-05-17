@@ -70,7 +70,7 @@ Type: `float`
 Define the DPI of the printer (usually `203f`).
 
 #### printerCodepage
-Type: `PrinterCodepage`
+Type: [`PrinterCodepage`](src/System.Svg.Render.EPL/Enums.cs#L3)
 
 Depending on the text used in `A`-command you can set a codepage to guarantee a correct output.
 
