@@ -32,7 +32,9 @@ A fully working demo is available [here](https://github.com/dittodhole/dotnet-Sy
 
 In order to push *.nupkg*-files to [NuGet](https://www.nuget.org/), you need following command:
 
-    .> build.bat
+    > build.bat
+
+[powershell-nuget-packager](https://github.com/dittodhole/powershell-nuget-packager) is used to package the assembly and is included as a submodule.
 
 ## Installing [![NuGet Status](http://img.shields.io/nuget/v/System.Svg.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/System.Svg.Render.EPL/)
 
