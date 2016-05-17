@@ -26,8 +26,8 @@
 
   public enum PrintOrientation
   {
-    Top,
-    Bottom
+    Top = 84,
+    Bottom = 66
   }
 
   public enum BarCodeSelection
@@ -71,7 +71,7 @@
 
   public enum PrintHumanReadable
   {
-    Yes,
-    No
+    Yes = 66,
+    No = 78
   }
 }

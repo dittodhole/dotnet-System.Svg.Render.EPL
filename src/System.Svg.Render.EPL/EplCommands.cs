@@ -230,17 +230,10 @@ namespace System.Svg.Render.EPL
     [NotNull]
     protected virtual string GetPrintHumanReadable(PrintHumanReadable printHumanReadable)
     {
-      switch (printHumanReadable)
-      {
-        case PrintHumanReadable.Yes:
-          return "B";
-        case PrintHumanReadable.No:
-          return "N";
-        default:
-          throw new ArgumentOutOfRangeException(nameof(printHumanReadable),
-                                                printHumanReadable,
-                                                null);
-      }
+      var character = (char) printHumanReadable;
+      var result = character.ToString();
+
+      return result;
     }
 
     [NotNull]
@@ -292,23 +285,7 @@ namespace System.Svg.Render.EPL
     [NotNull]
     public virtual EplStream PrintDirection(PrintOrientation printOrientation)
     {
-      string orientation;
-      switch (printOrientation)
-      {
-        case PrintOrientation.Top:
-          orientation = "T";
-          break;
-        case PrintOrientation.Bottom:
-          orientation = "B";
-          break;
-        default:
-          // TODO !
-          // :beers: should never happen
-          throw new ArgumentOutOfRangeException(nameof(printOrientation),
-                                                printOrientation,
-                                                null);
-      }
-
+      var orientation = (char) printOrientation;
       var eplStream = this.CreateEplStream();
       eplStream.Add($"Z{orientation}");
 
