@@ -65,7 +65,7 @@ namespace System.Svg.Render.EPL
         var eplStream = this.TranslateSvgElementForStoring(svgElement,
                                                            matrix,
                                                            viewMatrix);
-        if (!eplStream.IsEmpty)
+        if (eplStream.Any())
         {
           yield return eplStream;
         }
@@ -83,12 +83,10 @@ namespace System.Svg.Render.EPL
           {
             continue;
           }
-          if (eplStream.IsEmpty)
+          if (eplStream.Any())
           {
-            continue;
+            yield return eplStream;
           }
-
-          yield return eplStream;
         }
       }
     }

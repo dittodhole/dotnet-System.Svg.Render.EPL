@@ -108,7 +108,7 @@ namespace System.Svg.Render.EPL
                                                           verticalStart);
         }
       }
-      if (!eplStream.IsEmpty)
+      if (eplStream.Any())
       {
         container.Add(eplStream);
       }
@@ -175,7 +175,7 @@ namespace System.Svg.Render.EPL
                                                    variableName);
       }
 
-      if (!eplStream.IsEmpty)
+      if (eplStream.Any())
       {
         container.Add(this.EplCommands.DeleteGraphics(variableName));
         container.Add(this.EplCommands.DeleteGraphics(variableName));

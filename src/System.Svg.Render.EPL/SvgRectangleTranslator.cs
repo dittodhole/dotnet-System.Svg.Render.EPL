@@ -49,7 +49,7 @@ namespace System.Svg.Render.EPL
         return;
       }
 
-      if (!eplStream.IsEmpty)
+      if (eplStream.Any())
       {
         container.Add(eplStream);
       }

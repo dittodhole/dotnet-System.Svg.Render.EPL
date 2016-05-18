@@ -74,7 +74,7 @@ namespace System.Svg.Render.EPL
                                                  verticalMultiplier,
                                                  invert,
                                                  text);
-      if (!eplStream.IsEmpty)
+      if (eplStream.Any())
       {
         container.Add(eplStream);
       }
