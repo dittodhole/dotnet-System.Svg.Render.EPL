@@ -76,11 +76,11 @@ To further minimize the writes to the internal memory (Zebra claims around 100k 
 Open [`src/System.Svg.Render.EPL.sln`](src/System.Svg.Render.EPL.sln) with Microsoft Visual Studio 2015 and build it.
 
 Following [NuGet](https://www.nuget.org/) packages will be restored:
-- [System.Svg](https://www.nuget.org/packages/System.Svg)
-  - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
-  - [Fizzler](https://www.nuget.org/packages/Fizzler)
+- [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
 - [System.Svg.Render](https://www.nuget.org/packages/System.Svg.Render)
-  - [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
+  - [System.Svg](https://www.nuget.org/packages/System.Svg)
+    - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
+    - [Fizzler](https://www.nuget.org/packages/Fizzler)
 - [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
 
 ### Deploying
@@ -111,6 +111,7 @@ In order to push *.nupkg*-files to [NuGet](https://www.nuget.org/), you need fol
 - `style="stroke"`
 - `style="stroke-width"`
 - `style="visible"`
+- native barcodes (see [System.Svg.Render.EPL.Demo](https://github.com/dittodhole/dotnet-System.Svg.Render.EPL.Demo))
 
 ## License
 
