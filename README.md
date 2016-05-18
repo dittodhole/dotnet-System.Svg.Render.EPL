@@ -77,11 +77,11 @@ Open [`src/System.Svg.Render.EPL.sln`](src/System.Svg.Render.EPL.sln) with Micro
 
 Following [NuGet](https://www.nuget.org/) packages will be restored:
 - [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
+- [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
 - [System.Svg.Render](https://www.nuget.org/packages/System.Svg.Render)
   - [System.Svg](https://www.nuget.org/packages/System.Svg)
     - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
     - [Fizzler](https://www.nuget.org/packages/Fizzler)
-- [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
 
 ### Deploying
 
