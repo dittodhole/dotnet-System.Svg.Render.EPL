@@ -8,7 +8,7 @@ namespace System.Svg.Render.EPL
   public class DefaultBootstrapper
   {
     [NotNull]
-    protected virtual SvgUnitReader CreateSvgUnitReader() => new SvgUnitReader();
+    protected virtual SvgUnitReader CreateSvgUnitReader(float sourceDpi) => new SvgUnitReader(sourceDpi);
 
     [NotNull]
     protected virtual EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader) => new EplTransformer(svgUnitReader);
@@ -74,7 +74,7 @@ namespace System.Svg.Render.EPL
                                        int countryCode,
                                        bool assumeStoredInInternalMemory = false)
     {
-      var svgUnitReader = this.CreateSvgUnitReader();
+      var svgUnitReader = this.CreateSvgUnitReader(sourceDpi);
       var eplTransformer = this.CreateEplTransformer(svgUnitReader);
       var viewMatrix = this.CreateViewMatrix(eplTransformer,
                                              sourceDpi,
