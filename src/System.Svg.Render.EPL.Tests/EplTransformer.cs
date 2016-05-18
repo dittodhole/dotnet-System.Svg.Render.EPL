@@ -10,7 +10,5 @@ namespace System.Svg.Render.EPL.Tests
              EPL.EplTransformer.DefaultLabelHeightInDevicePoints) {}
 
     protected override float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase) => 1f;
-
-    protected override float AdaptXAxis(float x) => x;
   }
 }

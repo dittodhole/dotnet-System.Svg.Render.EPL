@@ -31,8 +31,8 @@ namespace System.Svg.Render.EPL
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
 
-    public int LabelHeightInDevicePoints { get; set; } = EplTransformer.DefaultLabelHeightInDevicePoints;
-    public int LabelWidthInDevicePoints { get; set; } = EplTransformer.DefaultLabelWidthInDevicePoints;
+    public int LabelHeightInDevicePoints { get; } = EplTransformer.DefaultLabelHeightInDevicePoints;
+    public int LabelWidthInDevicePoints { get; } = EplTransformer.DefaultLabelWidthInDevicePoints;
 
     [NotNull]
     public virtual Matrix CreateViewMatrix(float sourceDpi,
@@ -54,9 +54,9 @@ namespace System.Svg.Render.EPL
 
       var matrix = new Matrix(0f,
                               magnificationFactor,
-                              magnificationFactor,
+                              -magnificationFactor,
                               0f,
-                              0f,
+                              this.LabelWidthInDevicePoints,
                               0f);
 
       return matrix;
@@ -64,7 +64,7 @@ namespace System.Svg.Render.EPL
 
     public virtual int GetRotation([NotNull] Matrix matrix)
     {
-      var vector = new PointF(10 * -1f,
+      var vector = new PointF(10f,
                               0f);
 
       vector = this.ApplyMatrixOnVector(vector,
@@ -229,13 +229,6 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    protected virtual float AdaptXAxis(float x)
-    {
-      x = this.LabelWidthInDevicePoints - x;
-
-      return x;
-    }
-
     public virtual void Transform([NotNull] SvgTextBase svgTextBase,
                                   [NotNull] Matrix matrix,
                                   out float startX,
@@ -250,21 +243,6 @@ namespace System.Svg.Render.EPL
                      out fontSize);
 
       rotation = this.GetRotation(matrix);
-    }
-
-    public override void Transform([NotNull] SvgTextBase svgTextBase,
-                                   [NotNull] Matrix matrix,
-                                   out float startX,
-                                   out float startY,
-                                   out float fontSize)
-    {
-      base.Transform(svgTextBase,
-                     matrix,
-                     out startX,
-                     out startY,
-                     out fontSize);
-
-      startX = this.AdaptXAxis(startX);
     }
 
     public virtual void Transform([NotNull] SvgImage svgImage,
@@ -295,28 +273,6 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    public override void Transform([NotNull] SvgImage svgImage,
-                                   [NotNull] Matrix matrix,
-                                   out float startX,
-                                   out float startY,
-                                   out float endX,
-                                   out float endY,
-                                   out float sourceAlignmentWidth,
-                                   out float sourceAlignmentHeight)
-    {
-      base.Transform(svgImage,
-                     matrix,
-                     out startX,
-                     out startY,
-                     out endX,
-                     out endY,
-                     out sourceAlignmentWidth,
-                     out sourceAlignmentHeight);
-
-      startX = this.AdaptXAxis(startX);
-      endX = this.AdaptXAxis(endX);
-    }
-
     public override void Transform([NotNull] SvgLine svgLine,
                                    [NotNull] Matrix matrix,
                                    out float startX,
@@ -332,9 +288,6 @@ namespace System.Svg.Render.EPL
                      out endX,
                      out endY,
                      out strokeWidth);
-
-      startX = this.AdaptXAxis(startX);
-      endX = this.AdaptXAxis(endX);
 
       var width = Math.Abs(endX - startX);
 
@@ -357,9 +310,6 @@ namespace System.Svg.Render.EPL
                      out endX,
                      out endY,
                      out strokeWidth);
-
-      startX = this.AdaptXAxis(startX);
-      endX = this.AdaptXAxis(endX);
 
       startX += strokeWidth / 2f;
       startY -= strokeWidth / 2f;
