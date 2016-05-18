@@ -1,41 +1,6 @@
 ![Icon](assets/icon.png)
 # dotnet-System.Svg.Render.EPL
-
-Yo, it's 2016 and we are still writing [EPL](https://en.wikipedia.org/wiki/Eltron_Programming_Language) code.
-
-![](https://media.giphy.com/media/YA6dmVW0gfIw8/giphy.gif)
-
-This has some major downsides:
-- You have to write commands without any visual feedback
-- Testing the layout of a label can only be done by printing it
-- There is no common abstraction, which brings massive pain when creating different representations of the same label ([PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) for A4 printers, [ZPL](https://en.wikipedia.org/wiki/ZPL_programming_language), [Fingerprint](http://apps.intermec.com/downloads/eps_man/937-023-003/Default.htm), ... whatsoever)
-- Some *clever* one may come up with sending an image to the printer, but please read [this article](http://web.archive.org/web/20150306101851/http://nicholas.piasecki.name/blog/2009/03/sending-raw-epl2-directly-to-a-zebra-lp2844-via-c) to realize the limitations
-
-This proof-of-concept project tries to overcome this limitations by translating [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)-files to [EPL](https://en.wikipedia.org/wiki/Eltron_Programming_Language).
-
-![](https://media.giphy.com/media/1rpg1ZDVKcdSo/giphy.gif)
-
-## Getting started
-
-Open [`src/System.Svg.Render.EPL.sln`](src/System.Svg.Render.EPL.sln) with Microsoft Visual Studio 2015 and build it.
-
-Following [NuGet](https://www.nuget.org/) packages will be restored:
-- [System.Svg](https://www.nuget.org/packages/System.Svg)
-  - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
-  - [Fizzler](https://www.nuget.org/packages/Fizzler)
-- [System.Svg.Render](https://www.nuget.org/packages/System.Svg.Render)
-  - [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
-- [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
-
-A fully working demo is available [here](https://github.com/dittodhole/dotnet-System.Svg.Render.EPL/tree/demo).
-
-## Deploying
-
-In order to push *.nupkg*-files to [NuGet](https://www.nuget.org/), you need following command:
-
-    > build.bat
-
-[powershell-nuget-packager](https://github.com/dittodhole/powershell-nuget-packager) is used to package the assembly and is included as a submodule.
+> Convert [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) to [Zebra EPL](https://en.wikipedia.org/wiki/Eltron_Programming_Language)
 
 ## Installing [![NuGet Status](http://img.shields.io/nuget/v/System.Svg.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/System.Svg.Render.EPL/)
 
@@ -105,6 +70,26 @@ To further minimize the writes to the internal memory (Zebra claims around 100k 
 
 **CAUTION:** This may result in broken labels, so you should know what you are doing.
 
+## Developing
+
+Open [`src/System.Svg.Render.EPL.sln`](src/System.Svg.Render.EPL.sln) with Microsoft Visual Studio 2015 and build it.
+
+Following [NuGet](https://www.nuget.org/) packages will be restored:
+- [System.Svg](https://www.nuget.org/packages/System.Svg)
+  - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
+  - [Fizzler](https://www.nuget.org/packages/Fizzler)
+- [System.Svg.Render](https://www.nuget.org/packages/System.Svg.Render)
+  - [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
+- [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
+
+### Deploying
+
+In order to push *.nupkg*-files to [NuGet](https://www.nuget.org/), you need following command:
+
+    > build.bat
+
+[powershell-nuget-packager](https://github.com/dittodhole/powershell-nuget-packager) is used to package the assembly and is included as a submodule.
+
 ## Features
 
 - `<text>` and `<tspan>`
@@ -125,7 +110,6 @@ To further minimize the writes to the internal memory (Zebra claims around 100k 
 - `style="stroke"`
 - `style="stroke-width"`
 - `style="visible"`
-- native barcode printing - see [DEMO](https://github.com/dittodhole/dotnet-System.Svg.Render.EPL/tree/demo)
 
 ## License
 
