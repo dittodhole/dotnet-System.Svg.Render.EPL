@@ -62,7 +62,7 @@ namespace System.Svg.Render.EPL
       return matrix;
     }
 
-    public int GetRotation([NotNull] Matrix matrix)
+    public virtual int GetRotation([NotNull] Matrix matrix)
     {
       var vector = new PointF(10 * -1f,
                               0f);
