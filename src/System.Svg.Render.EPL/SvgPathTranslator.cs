@@ -3,11 +3,9 @@ using System.Linq;
 using System.Svg.Pathing;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-// ReSharper disable MemberCanBePrivate.Global
-
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public class SvgPathTranslator : SvgElementTranslatorBase<SvgPath>
   {
     public SvgPathTranslator([NotNull] EplTransformer eplTransformer,
@@ -55,6 +53,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual EplStream TranslateSvgLineSegment([NotNull] SvgPath instance,
                                                         [NotNull] SvgLineSegment svgLineSegment,
                                                         [NotNull] Matrix matrix)

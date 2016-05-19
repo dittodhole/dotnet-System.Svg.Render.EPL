@@ -1,10 +1,9 @@
 ﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable UnusedMemberInSuper.Global
-
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public interface ISvgElementToInternalMemoryTranslator : ISvgElementTranslator<EplStream>
   {
     void TranslateForStoring([NotNull] SvgElement svgElement,
@@ -12,6 +11,7 @@ namespace System.Svg.Render.EPL
                              [NotNull] EplStream container);
   }
 
+  [PublicAPI]
   public interface ISvgElementToInternalMemoryTranslator<T> : ISvgElementToInternalMemoryTranslator,
                                                               ISvgElementTranslator<EplStream, T>
     where T : SvgElement

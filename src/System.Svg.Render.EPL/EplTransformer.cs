@@ -3,15 +3,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable MemberCanBeProtected.Global
-// ReSharper disable VirtualMemberNeverOverriden.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable UnusedParameter.Global
 
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public class EplTransformer : GenericTransformer
   {
     public const int DefaultLabelHeightInDevicePoints = 1296;
@@ -35,6 +31,8 @@ namespace System.Svg.Render.EPL
     public int LabelWidthInDevicePoints { get; } = EplTransformer.DefaultLabelWidthInDevicePoints;
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual Matrix CreateViewMatrix(float sourceDpi,
                                            float destinationDpi)
     {
@@ -62,6 +60,8 @@ namespace System.Svg.Render.EPL
       return matrix;
     }
 
+    [Pure]
+    [MustUseReturnValue]
     public virtual int GetRotation([NotNull] Matrix matrix)
     {
       var vector = new PointF(10f,

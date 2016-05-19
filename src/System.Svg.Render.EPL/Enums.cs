@@ -1,7 +1,8 @@
-﻿// ReSharper disable UnusedMember.Global
+﻿using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public enum PrinterCodepage
   {
     Dos347 = 347,
@@ -26,12 +27,14 @@ namespace System.Svg.Render.EPL
     Windows1255 = 1255
   }
 
+  [PublicAPI]
   public enum PrintOrientation
   {
     Top = 84,
     Bottom = 66
   }
 
+  [PublicAPI]
   public enum BarCodeSelection
   {
     // TODO implement other barcode types
@@ -71,6 +74,7 @@ namespace System.Svg.Render.EPL
     //MSI3
   }
 
+  [PublicAPI]
   public enum PrintHumanReadable
   {
     Yes = 66,

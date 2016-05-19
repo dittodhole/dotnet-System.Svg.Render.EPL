@@ -1,5 +1,8 @@
-﻿namespace System.Svg.Render.EPL
+﻿using JetBrains.Annotations;
+
+namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public abstract class SvgElementTranslatorBase<TSvgElement> : SvgElementTranslatorBase<EplStream, TSvgElement>
     where TSvgElement : SvgElement {}
 }

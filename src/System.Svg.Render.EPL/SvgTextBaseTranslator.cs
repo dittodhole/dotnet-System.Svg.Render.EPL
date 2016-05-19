@@ -3,12 +3,11 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable NonLocalizedString
 
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public class SvgTextBaseTranslator<T> : SvgElementTranslatorBase<T>
     where T : SvgTextBase
   {
@@ -75,12 +74,16 @@ namespace System.Svg.Render.EPL
                                                  verticalMultiplier,
                                                  invert,
                                                  text);
+      // ReSharper disable ExceptionNotDocumentedOptional
       if (eplStream.Any())
       {
         container.Add(eplStream);
       }
+      // ReSharper restore ExceptionNotDocumentedOptional
     }
 
+    [Pure]
+    [MustUseReturnValue]
     protected virtual string RemoveIllegalCharacters([NotNull] string text)
     {
       // TODO add regex for removing illegal characters ...

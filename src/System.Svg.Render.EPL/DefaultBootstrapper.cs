@@ -1,25 +1,32 @@
 ﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable UnusedMember.Global
-
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public class DefaultBootstrapper
   {
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual SvgUnitReader CreateSvgUnitReader(float sourceDpi) => new SvgUnitReader(sourceDpi);
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader) => new EplTransformer(svgUnitReader);
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual Matrix CreateViewMatrix([NotNull] EplTransformer eplTransformer,
                                               float sourceDpi,
                                               float destinationDpi) => eplTransformer.CreateViewMatrix(sourceDpi,
                                                                                                        destinationDpi);
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual EplRenderer CreateEplRenderer([NotNull] Matrix viewMatrix,
                                                     [NotNull] EplCommands eplCommands,
                                                     PrinterCodepage printerCodepage,
@@ -29,14 +36,20 @@ namespace System.Svg.Render.EPL
                                                                                         countryCode);
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual EplCommands CreateEplCommands() => new EplCommands();
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual SvgLineTranslator CreateSvgLineTranslator([NotNull] EplTransformer eplTransformer,
                                                                 [NotNull] EplCommands eplCommands) => new SvgLineTranslator(eplTransformer,
                                                                                                                             eplCommands);
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual SvgRectangleTranslator CreateSvgRectangleTranslator([NotNull] EplTransformer eplTransformer,
                                                                           [NotNull] EplCommands eplCommands,
                                                                           [NotNull] SvgUnitReader svgUnitReader) => new SvgRectangleTranslator(eplTransformer,
@@ -44,21 +57,29 @@ namespace System.Svg.Render.EPL
                                                                                                                                                svgUnitReader);
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] EplTransformer eplTransformer,
                                                                              [NotNull] EplCommands eplCommands) => new SvgTextBaseTranslator<SvgText>(eplTransformer,
                                                                                                                                                       eplCommands);
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] EplTransformer eplTransformer,
                                                                                      [NotNull] EplCommands eplCommands) => new SvgTextBaseTranslator<SvgTextSpan>(eplTransformer,
                                                                                                                                                                   eplCommands);
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual SvgPathTranslator CreateSvgPathTranslator([NotNull] EplTransformer eplTransformer,
                                                                 [NotNull] EplCommands eplCommands) => new SvgPathTranslator(eplTransformer,
                                                                                                                             eplCommands);
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] EplTransformer eplTransformer,
                                                                   [NotNull] EplCommands eplCommands,
                                                                   bool assumeStoredInInternalMemory) => new SvgImageTranslator(eplTransformer,
@@ -68,6 +89,8 @@ namespace System.Svg.Render.EPL
                                                                                                         };
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplRenderer BuildUp(float sourceDpi,
                                        float destinationDpi,
                                        PrinterCodepage printerCodepage,

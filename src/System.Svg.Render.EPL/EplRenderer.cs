@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedMember.Global
 // ReSharper disable NonLocalizedString
 
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public class EplRenderer : RendererBase<EplStream>
   {
     public EplRenderer([NotNull] Matrix viewMatrix,
@@ -35,6 +33,8 @@ namespace System.Svg.Render.EPL
     protected int CountryCode { get; }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public Encoding GetEncoding()
     {
       var codepage = (int) this.PrinterCodepage;
@@ -44,6 +44,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual IEnumerable<EplStream> GetInternalMemoryTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();
@@ -55,6 +57,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual IEnumerable<EplStream> TranslaveSvgElementAndChildrenForStoring([NotNull] SvgElement svgElement,
                                                                                       [NotNull] Matrix parentMatrix,
                                                                                       [NotNull] Matrix viewMatrix)
@@ -93,12 +97,18 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual EplStream CreateEplStream() => new EplStream();
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual Matrix CreateParentMatrix() => new Matrix();
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual EplStream TranslateSvgElementForStoring([NotNull] SvgElement svgElement,
                                                               [NotNull] Matrix matrix,
                                                               [NotNull] Matrix viewMatrix)
@@ -125,6 +135,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public override EplStream GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();

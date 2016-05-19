@@ -3,12 +3,12 @@ using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public class EplStream : MixedStream
   {
+    [CollectionAccess(CollectionAccessType.UpdatedContent)]
     public virtual void Add([NotNull] EplStream eplStream)
     {
       foreach (var line in eplStream)
@@ -18,6 +18,9 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    [CollectionAccess(CollectionAccessType.Read)]
     public override IEnumerable<byte> ToByteStream([NotNull] Encoding encoding)
     {
       foreach (var line in this)

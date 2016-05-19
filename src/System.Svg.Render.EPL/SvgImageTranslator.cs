@@ -4,13 +4,11 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
 
-// ReSharper disable UnusedParameter.Global
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable NonLocalizedString
 
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public class SvgImageTranslator : SvgElementToInternalMemoryTranslator<SvgImage>
   {
     public SvgImageTranslator([NotNull] EplTransformer eplTransformer,
@@ -31,6 +29,8 @@ namespace System.Svg.Render.EPL
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual string GetImageIdentifier([NotNull] SvgImage svgImage)
     {
       var result = string.Concat(svgImage.OwnerDocument.ID,
@@ -40,6 +40,7 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
+    [CollectionAccess(CollectionAccessType.UpdatedContent)]
     protected virtual void StoreVariableNameForImageIdentifier([NotNull] string imageIdentifier,
                                                                [NotNull] string variableName)
     {
@@ -116,6 +117,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual string GetVariableName([NotNull] string imageIdentifier)
     {
       // TODO this is magic
@@ -184,6 +187,9 @@ namespace System.Svg.Render.EPL
       }
     }
 
+    [CanBeNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual Bitmap ConvertToBitmap([NotNull] SvgImage svgElement,
                                              [NotNull] Matrix matrix,
                                              int sourceAlignmentWidth,
@@ -259,11 +265,15 @@ namespace System.Svg.Render.EPL
       }
     }
 
+    [Pure]
+    [MustUseReturnValue]
     protected virtual bool ForceDirectWrite([NotNull] SvgImage svgImage)
     {
       return false;
     }
 
+    [Pure]
+    [MustUseReturnValue]
     protected virtual bool StretchImage([NotNull] SvgImage svgImage)
     {
       return false;

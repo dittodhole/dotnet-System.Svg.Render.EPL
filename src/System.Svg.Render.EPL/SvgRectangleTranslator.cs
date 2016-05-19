@@ -3,11 +3,9 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-// ReSharper disable MemberCanBePrivate.Global
-
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public class SvgRectangleTranslator : SvgElementTranslatorBase<SvgRectangle>
   {
     public SvgRectangleTranslator([NotNull] EplTransformer eplTransformer,
@@ -57,6 +55,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual EplStream TranslateFilledBox([NotNull] SvgRectangle instance,
                                                    [NotNull] Matrix matrix)
     {
@@ -102,6 +102,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual EplStream TranslateBox([NotNull] SvgRectangle instance,
                                              [NotNull] Matrix matrix)
     {

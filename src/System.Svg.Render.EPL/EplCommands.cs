@@ -3,19 +3,21 @@ using System.Drawing;
 using ImageMagick;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 // ReSharper disable NonLocalizedString
-// ReSharper disable UnusedMember.Global
-// ReSharper disable MemberCanBePrivate.Global
 
 namespace System.Svg.Render.EPL
 {
+  [PublicAPI]
   public class EplCommands
   {
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual EplStream CreateEplStream() => new EplStream();
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream GraphicDirectWrite([NotNull] Bitmap bitmap,
                                                 int horizontalStart,
                                                 int verticalStart)
@@ -30,6 +32,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
                                                       int octetts)
     {
@@ -72,6 +76,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream DeleteGraphics([NotNull] string name)
     {
       var eplStream = this.CreateEplStream();
@@ -81,6 +87,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream StoreGraphics([NotNull] Bitmap bitmap,
                                            [NotNull] string name)
     {
@@ -126,6 +134,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream PrintGraphics(int horizontalStart,
                                            int verticalStart,
                                            [NotNull] string name)
@@ -137,6 +147,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream LineDrawBlack(int horizontalStart,
                                            int verticalStart,
                                            int horizontalLength,
@@ -149,6 +161,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream LineDrawWhite(int horizontalStart,
                                            int verticalStart,
                                            int horizontalLength,
@@ -161,6 +175,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream LineDrawDiagonal(int horizontalStart,
                                               int verticalStart,
                                               int horizontalLength,
@@ -174,6 +190,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream DrawBox(int horizontalStart,
                                      int verticalStart,
                                      int lineThickness,
@@ -187,6 +205,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream AsciiText(int horizontalStart,
                                        int verticalStart,
                                        int rotation,
@@ -213,6 +233,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream BarCode(int horizontalStart,
                                      int verticalStart,
                                      int rotation,
@@ -233,6 +255,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual string GetPrintHumanReadable(PrintHumanReadable printHumanReadable)
     {
       var character = (char) printHumanReadable;
@@ -242,6 +266,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected string GetBarCodeSelection(BarCodeSelection barCodeSelection)
     {
       switch (barCodeSelection)
@@ -278,6 +304,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream SetReferencePoint(int horizontalStart,
                                                int verticalStart)
     {
@@ -288,6 +316,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream PrintDirection(PrintOrientation printOrientation)
     {
       var orientation = (char) printOrientation;
@@ -298,6 +328,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream Print(int copies)
     {
       var eplStream = this.CreateEplStream();
@@ -308,6 +340,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual EplStream CharacterSetSelection(int bytes,
                                                    PrinterCodepage printerCodepage,
                                                    int countryCode)
@@ -321,6 +355,8 @@ namespace System.Svg.Render.EPL
     }
 
     [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     protected virtual string GetPrinterCodepage(PrinterCodepage printerCodepage)
     {
       switch (printerCodepage)
