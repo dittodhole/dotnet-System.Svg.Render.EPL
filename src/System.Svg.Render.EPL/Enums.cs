@@ -30,8 +30,8 @@ namespace System.Svg.Render.EPL
   [PublicAPI]
   public enum PrintOrientation
   {
-    Top = 84,
-    Bottom = 66
+    Top = 'T',
+    Bottom = 'B'
   }
 
   [PublicAPI]
@@ -77,7 +77,7 @@ namespace System.Svg.Render.EPL
   [PublicAPI]
   public enum PrintHumanReadable
   {
-    Yes = 66,
-    No = 78
+    Yes = 'B',
+    No = 'N'
   }
 }
