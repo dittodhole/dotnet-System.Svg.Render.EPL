@@ -155,6 +155,7 @@ namespace System.Svg.Render.EPL
                                           eplStream);
 
       eplStream.Add(this.EplCommands.Print(1));
+      eplStream.Add(string.Empty);
 
       return eplStream;
     }

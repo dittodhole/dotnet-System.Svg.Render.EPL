@@ -78,12 +78,9 @@ namespace System.Svg.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream DeleteGraphics([NotNull] string name)
+    public virtual string DeleteGraphics([NotNull] string name)
     {
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($@"GK""{name}""");
-
-      return eplStream;
+      return $@"GK""{name}""";
     }
 
     [NotNull]
@@ -245,24 +242,12 @@ namespace System.Svg.Render.EPL
                                      PrintHumanReadable printHumanReadable,
                                      [NotNull] string content)
     {
-      var humanReadable = this.GetPrintHumanReadable(printHumanReadable);
       var barcode = this.GetBarCodeSelection(barCodeSelection);
 
       var eplStream = this.CreateEplStream();
-      eplStream.Add($@"B{horizontalStart},{verticalStart},{rotation},{barcode},{narrowBarWidth},{wideBarWidth},{height},{humanReadable},""{content}""");
+      eplStream.Add($@"B{horizontalStart},{verticalStart},{rotation},{barcode},{narrowBarWidth},{wideBarWidth},{height},{(char) printHumanReadable},""{content}""");
 
       return eplStream;
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual string GetPrintHumanReadable(PrintHumanReadable printHumanReadable)
-    {
-      var character = (char) printHumanReadable;
-      var result = character.ToString();
-
-      return result;
     }
 
     [NotNull]
@@ -306,52 +291,38 @@ namespace System.Svg.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream SetReferencePoint(int horizontalStart,
-                                               int verticalStart)
+    public virtual string SetReferencePoint(int horizontalStart,
+                                            int verticalStart)
     {
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($"R{horizontalStart},{verticalStart}");
-
-      return eplStream;
+      return $"R{horizontalStart},{verticalStart}";
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream PrintDirection(PrintOrientation printOrientation)
+    public virtual string PrintDirection(PrintOrientation printOrientation)
     {
-      var orientation = (char) printOrientation;
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($"Z{orientation}");
-
-      return eplStream;
+      return $"Z{(char) printOrientation}";
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream Print(int copies)
+    public virtual string Print(int copies)
     {
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($"P{copies}");
-      eplStream.Add(string.Empty);
-
-      return eplStream;
+      return $"P{copies}";
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream CharacterSetSelection(int bytes,
-                                                   PrinterCodepage printerCodepage,
-                                                   int countryCode)
+    public virtual string CharacterSetSelection(int bytes,
+                                                PrinterCodepage printerCodepage,
+                                                int countryCode)
     {
       var codepage = this.GetPrinterCodepage(printerCodepage);
 
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($"I{bytes},{codepage},{countryCode}");
-
-      return eplStream;
+      return $"I{bytes},{codepage},{countryCode}";
     }
 
     [NotNull]
