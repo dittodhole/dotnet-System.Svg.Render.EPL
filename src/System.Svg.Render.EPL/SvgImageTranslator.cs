@@ -16,7 +16,6 @@ namespace System.Svg.Render.EPL
     {
       this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
-      this.ImageIdentifierToVariableNameMap = new Dictionary<string, string>();
     }
 
     [NotNull]
@@ -26,7 +25,7 @@ namespace System.Svg.Render.EPL
     protected EplCommands EplCommands { get; }
 
     [NotNull]
-    private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; }
+    private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; } = new Dictionary<string, string>();
 
     [NotNull]
     [Pure]
@@ -71,17 +70,15 @@ namespace System.Svg.Render.EPL
       var imageIdentifier = this.GetImageIdentifier(svgElement);
       var forceDirectWrite = this.ForceDirectWrite(svgElement);
 
-      EplStream eplStream;
-
       string variableName;
       if (!forceDirectWrite
           && this.AssumeStoredInInternalMemory)
       {
         variableName = this.GetVariableName(imageIdentifier);
 
-        eplStream = this.EplCommands.PrintGraphics(horizontalStart,
-                                                   verticalStart,
-                                                   variableName);
+        container.Add(this.EplCommands.PrintGraphics(horizontalStart,
+                                                     verticalStart,
+                                                     variableName));
       }
       // ReSharper disable ExceptionNotDocumentedOptional
       else if (!forceDirectWrite
@@ -89,12 +86,14 @@ namespace System.Svg.Render.EPL
                                                                     out variableName))
       // ReSharper restore ExceptionNotDocumentedOptional
       {
-        eplStream = this.EplCommands.PrintGraphics(horizontalStart,
-                                                   verticalStart,
-                                                   variableName);
+        container.Add(this.EplCommands.PrintGraphics(horizontalStart,
+                                                     verticalStart,
+                                                     variableName));
       }
       else
       {
+        EplStream eplStream;
+
         using (var bitmap = this.ConvertToBitmap(svgElement,
                                                  matrix,
                                                  (int) sourceAlignmentWidth,
@@ -109,10 +108,11 @@ namespace System.Svg.Render.EPL
                                                           horizontalStart,
                                                           verticalStart);
         }
-      }
-      if (eplStream.Any())
-      {
-        container.Add(eplStream);
+
+        if (eplStream.Any())
+        {
+          container.Add(eplStream);
+        }
       }
     }
 

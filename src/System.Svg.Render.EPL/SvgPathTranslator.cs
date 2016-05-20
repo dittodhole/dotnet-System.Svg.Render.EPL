@@ -40,7 +40,7 @@ namespace System.Svg.Render.EPL
 
       // ReSharper disable ExceptionNotDocumentedOptional
       foreach (var svgLineSegment in svgElement.PathData.OfType<SvgLineSegment>())
-      // ReSharper restore ExceptionNotDocumentedOptional
+        // ReSharper restore ExceptionNotDocumentedOptional
       {
         var eplStream = this.TranslateSvgLineSegment(svgElement,
                                                      svgLineSegment,
@@ -55,9 +55,9 @@ namespace System.Svg.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual EplStream TranslateSvgLineSegment([NotNull] SvgPath instance,
-                                                        [NotNull] SvgLineSegment svgLineSegment,
-                                                        [NotNull] Matrix matrix)
+    protected virtual string TranslateSvgLineSegment([NotNull] SvgPath instance,
+                                                     [NotNull] SvgLineSegment svgLineSegment,
+                                                     [NotNull] Matrix matrix)
     {
       var svgLine = new SvgLine
                     {
@@ -97,12 +97,10 @@ namespace System.Svg.Render.EPL
         verticalLength = (int) strokeWidth;
       }
 
-      var eplStream = this.EplCommands.LineDrawBlack(horizontalStart,
-                                                     verticalStart,
-                                                     horizontalLength,
-                                                     verticalLength);
-
-      return eplStream;
+      return this.EplCommands.LineDrawBlack(horizontalStart,
+                                            verticalStart,
+                                            horizontalLength,
+                                            verticalLength);
     }
   }
 }

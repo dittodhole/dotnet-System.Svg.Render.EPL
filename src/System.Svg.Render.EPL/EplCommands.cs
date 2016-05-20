@@ -22,8 +22,9 @@ namespace System.Svg.Render.EPL
                                                 int horizontalStart,
                                                 int verticalStart)
     {
-      var eplStream = this.CreateEplStream();
       var octetts = (int) Math.Ceiling(bitmap.Width / 8f);
+
+      var eplStream = this.CreateEplStream();
       eplStream.Add($"GW{horizontalStart},{verticalStart},{octetts},{bitmap.Height}");
       eplStream.Add(this.GetRawBinaryData(bitmap,
                                           octetts));
@@ -133,85 +134,70 @@ namespace System.Svg.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream PrintGraphics(int horizontalStart,
-                                           int verticalStart,
-                                           [NotNull] string name)
+    public virtual string PrintGraphics(int horizontalStart,
+                                        int verticalStart,
+                                        [NotNull] string name)
     {
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($@"GG{horizontalStart},{verticalStart},""{name}""");
-
-      return eplStream;
+      return $@"GG{horizontalStart},{verticalStart},""{name}""";
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream LineDrawBlack(int horizontalStart,
+    public virtual string LineDrawBlack(int horizontalStart,
+                                        int verticalStart,
+                                        int horizontalLength,
+                                        int verticalLength)
+    {
+      return $"LO{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string LineDrawWhite(int horizontalStart,
+                                        int verticalStart,
+                                        int horizontalLength,
+                                        int verticalLength)
+    {
+      return $"LW{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string LineDrawDiagonal(int horizontalStart,
                                            int verticalStart,
                                            int horizontalLength,
-                                           int verticalLength)
+                                           int verticalLength,
+                                           int verticalEnd)
     {
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($"LO{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}");
-
-      return eplStream;
+      return $"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}";
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream LineDrawWhite(int horizontalStart,
-                                           int verticalStart,
-                                           int horizontalLength,
-                                           int verticalLength)
+    public virtual string DrawBox(int horizontalStart,
+                                  int verticalStart,
+                                  int lineThickness,
+                                  int horizontalEnd,
+                                  int verticalEnd)
     {
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($"LW{horizontalStart},{verticalStart},{horizontalLength},{verticalLength}");
-
-      return eplStream;
+      return $"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}";
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream LineDrawDiagonal(int horizontalStart,
-                                              int verticalStart,
-                                              int horizontalLength,
-                                              int verticalLength,
-                                              int verticalEnd)
-    {
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($"LS{horizontalStart},{verticalStart},{horizontalLength},{verticalLength},{verticalEnd}");
-
-      return eplStream;
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    public virtual EplStream DrawBox(int horizontalStart,
-                                     int verticalStart,
-                                     int lineThickness,
-                                     int horizontalEnd,
-                                     int verticalEnd)
-    {
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}");
-
-      return eplStream;
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    public virtual EplStream AsciiText(int horizontalStart,
-                                       int verticalStart,
-                                       int rotation,
-                                       int fontSelection,
-                                       int horizontalMulitplier,
-                                       int verticalMulitplier,
-                                       bool invert,
-                                       [NotNull] string text)
+    public virtual string AsciiText(int horizontalStart,
+                                    int verticalStart,
+                                    int rotation,
+                                    int fontSelection,
+                                    int horizontalMulitplier,
+                                    int verticalMulitplier,
+                                    bool invert,
+                                    [NotNull] string text)
     {
       string reverseImage;
       if (invert)
@@ -223,31 +209,25 @@ namespace System.Svg.Render.EPL
         reverseImage = "N";
       }
 
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""");
-
-      return eplStream;
+      return $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""";
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream BarCode(int horizontalStart,
-                                     int verticalStart,
-                                     int rotation,
-                                     BarCodeSelection barCodeSelection,
-                                     int narrowBarWidth,
-                                     int wideBarWidth,
-                                     int height,
-                                     PrintHumanReadable printHumanReadable,
-                                     [NotNull] string content)
+    public virtual string BarCode(int horizontalStart,
+                                  int verticalStart,
+                                  int rotation,
+                                  BarCodeSelection barCodeSelection,
+                                  int narrowBarWidth,
+                                  int wideBarWidth,
+                                  int height,
+                                  PrintHumanReadable printHumanReadable,
+                                  [NotNull] string content)
     {
       var barcode = this.GetBarCodeSelection(barCodeSelection);
 
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($@"B{horizontalStart},{verticalStart},{rotation},{barcode},{narrowBarWidth},{wideBarWidth},{height},{(char) printHumanReadable},""{content}""");
-
-      return eplStream;
+      return $@"B{horizontalStart},{verticalStart},{rotation},{barcode},{narrowBarWidth},{wideBarWidth},{height},{(char) printHumanReadable},""{content}""";
     }
 
     [NotNull]

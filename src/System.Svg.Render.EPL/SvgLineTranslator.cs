@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.EPL
@@ -39,8 +38,6 @@ namespace System.Svg.Render.EPL
                                     out endY,
                                     out strokeWidth);
 
-      EplStream eplStream;
-
       // TODO find a good TOLERANCE
       if (Math.Abs(startY - endY) < 0.5f
           || Math.Abs(startX - endX) < 0.5f)
@@ -61,17 +58,17 @@ namespace System.Svg.Render.EPL
 
         if (strokeShouldBeWhite)
         {
-          eplStream = this.EplCommands.LineDrawWhite(horizontalStart,
-                                                     verticalStart,
-                                                     horizontalLength,
-                                                     verticalLength);
+          container.Add(this.EplCommands.LineDrawWhite(horizontalStart,
+                                                       verticalStart,
+                                                       horizontalLength,
+                                                       verticalLength));
         }
         else
         {
-          eplStream = this.EplCommands.LineDrawBlack(horizontalStart,
-                                                     verticalStart,
-                                                     horizontalLength,
-                                                     verticalLength);
+          container.Add(this.EplCommands.LineDrawBlack(horizontalStart,
+                                                       verticalStart,
+                                                       horizontalLength,
+                                                       verticalLength));
         }
       }
       else
@@ -82,16 +79,11 @@ namespace System.Svg.Render.EPL
         var verticalLength = (int) endX;
         var verticalEnd = (int) endY;
 
-        eplStream = this.EplCommands.LineDrawDiagonal(horizontalStart,
-                                                      verticalStart,
-                                                      horizontalLength,
-                                                      verticalLength,
-                                                      verticalEnd);
-      }
-
-      if (eplStream.Any())
-      {
-        container.Add(eplStream);
+        container.Add(this.EplCommands.LineDrawDiagonal(horizontalStart,
+                                                        verticalStart,
+                                                        horizontalLength,
+                                                        verticalLength,
+                                                        verticalEnd));
       }
     }
   }
