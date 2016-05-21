@@ -48,8 +48,6 @@ namespace System.Svg.Render.EPL
       // +- y+
       // | x +
 
-      // TODO merge with AdaptXAxis
-
       var matrix = new Matrix(0f,
                               magnificationFactor,
                               -magnificationFactor,
