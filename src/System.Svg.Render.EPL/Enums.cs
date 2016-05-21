@@ -80,4 +80,11 @@ namespace System.Svg.Render.EPL
     Yes = 'B',
     No = 'N'
   }
+
+  [PublicAPI]
+  public enum ReverseImage
+  {
+    Normal = 'N',
+    Reverse = 'R'
+  }
 }

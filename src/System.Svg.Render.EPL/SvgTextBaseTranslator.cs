@@ -66,13 +66,23 @@ namespace System.Svg.Render.EPL
 
       var invert = (svgElement.Fill as SvgColourServer)?.Colour == Color.White;
 
+      ReverseImage reverseImage;
+      if (invert)
+      {
+        reverseImage = ReverseImage.Reverse;
+      }
+      else
+      {
+        reverseImage = ReverseImage.Normal;
+      }
+
       var eplStream = this.EplCommands.AsciiText(horizontalStart,
                                                  verticalStart,
                                                  rotation,
                                                  fontSelection,
                                                  horizontalMultiplier,
                                                  verticalMultiplier,
-                                                 invert,
+                                                 reverseImage,
                                                  text);
       // ReSharper disable ExceptionNotDocumentedOptional
       if (eplStream.Any())

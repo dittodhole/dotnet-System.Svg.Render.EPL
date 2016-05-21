@@ -196,20 +196,10 @@ namespace System.Svg.Render.EPL
                                     int fontSelection,
                                     int horizontalMulitplier,
                                     int verticalMulitplier,
-                                    bool invert,
+                                    ReverseImage reverseImage,
                                     [NotNull] string text)
     {
-      string reverseImage;
-      if (invert)
-      {
-        reverseImage = "R";
-      }
-      else
-      {
-        reverseImage = "N";
-      }
-
-      return $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{reverseImage},""{text}""";
+      return $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{(char) reverseImage},""{text}""";
     }
 
     [NotNull]
