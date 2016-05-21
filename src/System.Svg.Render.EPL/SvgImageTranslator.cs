@@ -55,12 +55,16 @@ namespace System.Svg.Render.EPL
     {
       float startX;
       float startY;
+      float endX;
+      float endY;
       float sourceAlignmentWidth;
       float sourceAlignmentHeight;
       this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out startX,
                                     out startY,
+                                    out endX,
+                                    out endY,
                                     out sourceAlignmentWidth,
                                     out sourceAlignmentHeight);
 
@@ -149,12 +153,16 @@ namespace System.Svg.Render.EPL
 
       float startX;
       float startY;
+      float endX;
+      float endY;
       float sourceAlignmentWidth;
       float sourceAlignmentHeight;
       this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out startX,
                                     out startY,
+                                    out endX,
+                                    out endY,
                                     out sourceAlignmentWidth,
                                     out sourceAlignmentHeight);
 

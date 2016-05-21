@@ -229,16 +229,16 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    public virtual void Transform([NotNull] SvgImage svgImage,
-                                  [NotNull] Matrix matrix,
-                                  out float startX,
-                                  out float startY,
-                                  out float sourceAlignmentWidth,
-                                  out float sourceAlignmentHeight)
+    public override void Transform(SvgImage svgImage,
+                                   Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float endX,
+                                   out float endY,
+                                   out float sourceAlignmentWidth,
+                                   out float sourceAlignmentHeight)
     {
-      float endX;
-      float endY;
-      this.Transform(svgImage,
+      base.Transform(svgImage,
                      matrix,
                      out startX,
                      out startY,
