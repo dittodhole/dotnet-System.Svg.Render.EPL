@@ -11,6 +11,7 @@ namespace System.Svg.Render.EPL
   public class EplCommands
   {
     [NotNull]
+    [ItemNotNull]
     private IDictionary<BarCodeSelection, string> BarCodeSelectionMappings { get; } = new Dictionary<BarCodeSelection, string>
                                                                                       {
                                                                                         {
@@ -49,6 +50,7 @@ namespace System.Svg.Render.EPL
                                                                                       };
 
     [NotNull]
+    [ItemNotNull]
     private IDictionary<PrinterCodepage, string> PrinterCodepageMappings { get; } = new Dictionary<PrinterCodepage, string>
                                                                                     {
                                                                                       {

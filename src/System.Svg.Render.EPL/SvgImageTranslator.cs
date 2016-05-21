@@ -25,6 +25,7 @@ namespace System.Svg.Render.EPL
     protected EplCommands EplCommands { get; }
 
     [NotNull]
+    [ItemNotNull]
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; } = new Dictionary<string, string>();
 
     [NotNull]
