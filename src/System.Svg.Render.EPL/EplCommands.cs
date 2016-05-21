@@ -47,6 +47,70 @@ namespace System.Svg.Render.EPL
                                                                                         }
                                                                                       };
 
+    private IDictionary<PrinterCodepage, string> PrinterCodepageMappings { get; } = new Dictionary<PrinterCodepage, string>
+                                                                                    {
+                                                                                      {
+                                                                                        PrinterCodepage.Dos347, "0"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos850, "1"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos852, "2"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos860, "3"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos863, "4"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos865, "5"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos857, "6"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos861, "7"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos862, "8"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos855, "9"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos866, "10"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos737, "11"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos851, "12"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Dos869, "13"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Windows1252, "A"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Windows1250, "B"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Windows1251, "C"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Windows1253, "D"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Windows1254, "E"
+                                                                                      },
+                                                                                      {
+                                                                                        PrinterCodepage.Windows1255, "F"
+                                                                                      }
+                                                                                    };
+
     [NotNull]
     [Pure]
     [MustUseReturnValue]
@@ -289,65 +353,9 @@ namespace System.Svg.Render.EPL
                                                 PrinterCodepage printerCodepage,
                                                 int countryCode)
     {
-      var codepage = this.GetPrinterCodepage(printerCodepage);
+      var codepage = this.PrinterCodepageMappings[printerCodepage];
 
       return $"I{bytes},{codepage},{countryCode}";
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual string GetPrinterCodepage(PrinterCodepage printerCodepage)
-    {
-      switch (printerCodepage)
-      {
-        case PrinterCodepage.Dos347:
-          return "0";
-        case PrinterCodepage.Dos850:
-          return "1";
-        case PrinterCodepage.Dos852:
-          return "2";
-        case PrinterCodepage.Dos860:
-          return "3";
-        case PrinterCodepage.Dos863:
-          return "4";
-        case PrinterCodepage.Dos865:
-          return "5";
-        case PrinterCodepage.Dos857:
-          return "6";
-        case PrinterCodepage.Dos861:
-          return "7";
-        case PrinterCodepage.Dos862:
-          return "8";
-        case PrinterCodepage.Dos855:
-          return "9";
-        case PrinterCodepage.Dos866:
-          return "10";
-        case PrinterCodepage.Dos737:
-          return "11";
-        case PrinterCodepage.Dos851:
-          return "12";
-        case PrinterCodepage.Dos869:
-          return "13";
-        case PrinterCodepage.Windows1252:
-          return "A";
-        case PrinterCodepage.Windows1250:
-          return "B";
-        case PrinterCodepage.Windows1251:
-          return "C";
-        case PrinterCodepage.Windows1253:
-          return "D";
-        case PrinterCodepage.Windows1254:
-          return "E";
-        case PrinterCodepage.Windows1255:
-          return "F";
-        default:
-          // TODO !
-          // :beers: should never happen
-          throw new ArgumentOutOfRangeException(nameof(printerCodepage),
-                                                printerCodepage,
-                                                null);
-      }
     }
   }
 }
