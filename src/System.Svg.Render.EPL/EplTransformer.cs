@@ -10,25 +10,25 @@ namespace System.Svg.Render.EPL
   [PublicAPI]
   public class EplTransformer : GenericTransformer
   {
-    public const int DefaultLabelHeightInDevicePoints = 1296;
     public const int DefaultLabelWidthInDevicePoints = 816;
+    public const int DefaultLabelHeightInDevicePoints = 1296;
 
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader) {}
 
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                          int labelWithInDevicePoints,
+                          int labelWidthInDevicePoints,
                           int labelHeightInDevicePoints)
       : this(svgUnitReader)
     {
-      this.LabelWidthInDevicePoints = labelWithInDevicePoints;
+      this.LabelWidthInDevicePoints = labelWidthInDevicePoints;
       this.LabelHeightInDevicePoints = labelHeightInDevicePoints;
     }
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
 
-    public int LabelHeightInDevicePoints { get; } = EplTransformer.DefaultLabelHeightInDevicePoints;
     public int LabelWidthInDevicePoints { get; } = EplTransformer.DefaultLabelWidthInDevicePoints;
+    public int LabelHeightInDevicePoints { get; } = EplTransformer.DefaultLabelHeightInDevicePoints;
 
     [NotNull]
     [Pure]
