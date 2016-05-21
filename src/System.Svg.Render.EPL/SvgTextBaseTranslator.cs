@@ -44,13 +44,13 @@ namespace System.Svg.Render.EPL
       float x;
       float y;
       float fontSize;
-      int rotation;
       this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out x,
                                     out y,
-                                    out fontSize,
-                                    out rotation);
+                                    out fontSize);
+
+      var rotation = this.EplTransformer.GetRotation(matrix);
 
       int fontSelection;
       int horizontalMultiplier;

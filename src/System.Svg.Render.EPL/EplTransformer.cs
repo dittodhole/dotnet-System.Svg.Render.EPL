@@ -229,22 +229,6 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    public virtual void Transform([NotNull] SvgTextBase svgTextBase,
-                                  [NotNull] Matrix matrix,
-                                  out float startX,
-                                  out float startY,
-                                  out float fontSize,
-                                  out int rotation)
-    {
-      this.Transform(svgTextBase,
-                     matrix,
-                     out startX,
-                     out startY,
-                     out fontSize);
-
-      rotation = this.GetRotation(matrix);
-    }
-
     public virtual void Transform([NotNull] SvgImage svgImage,
                                   [NotNull] Matrix matrix,
                                   out float startX,
