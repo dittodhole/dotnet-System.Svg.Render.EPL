@@ -10,6 +10,43 @@ namespace System.Svg.Render.EPL
   [PublicAPI]
   public class EplCommands
   {
+    private IDictionary<BarCodeSelection, string> BarCodeSelectionMappings { get; } = new Dictionary<BarCodeSelection, string>
+                                                                                      {
+                                                                                        {
+                                                                                          BarCodeSelection.Code39, "3"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Code39WithCheckDigit, "3C"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Code93, "9"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Code128UCC, "0"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Code128Auto, "1"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Code128A, "1A"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Code128B, "1B"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Code128C, "1C"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Interleaved2Of5, "2"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Interleaved2Of5WithMod10CheckDigit, "2C"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Interleaved2Of5WithHumanReadableCheckDigit, "2D"
+                                                                                        }
+                                                                                      };
+
     [NotNull]
     [Pure]
     [MustUseReturnValue]
@@ -215,47 +252,9 @@ namespace System.Svg.Render.EPL
                                   PrintHumanReadable printHumanReadable,
                                   [NotNull] string content)
     {
-      var barcode = this.GetBarCodeSelection(barCodeSelection);
+      var barcode = this.BarCodeSelectionMappings[barCodeSelection];
 
       return $@"B{horizontalStart},{verticalStart},{rotation},{barcode},{narrowBarWidth},{wideBarWidth},{height},{(char) printHumanReadable},""{content}""";
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected string GetBarCodeSelection(BarCodeSelection barCodeSelection)
-    {
-      switch (barCodeSelection)
-      {
-        case BarCodeSelection.Code39:
-          return "3";
-        case BarCodeSelection.Code39WithCheckDigit:
-          return "3C";
-        case BarCodeSelection.Code93:
-          return "9";
-        case BarCodeSelection.Code128UCC:
-          return "0";
-        case BarCodeSelection.Code128Auto:
-          return "1";
-        case BarCodeSelection.Code128A:
-          return "1A";
-        case BarCodeSelection.Code128B:
-          return "1B";
-        case BarCodeSelection.Code128C:
-          return "1C";
-        case BarCodeSelection.Interleaved2Of5:
-          return "2";
-        case BarCodeSelection.Interleaved2Of5WithMod10CheckDigit:
-          return "2C";
-        case BarCodeSelection.Interleaved2Of5WithHumanReadableCheckDigit:
-          return "2D";
-        default:
-          // TODO !
-          // :beers: should never happen
-          throw new ArgumentOutOfRangeException(nameof(barCodeSelection),
-                                                barCodeSelection,
-                                                null);
-      }
     }
 
     [NotNull]
