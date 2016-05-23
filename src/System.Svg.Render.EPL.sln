@@ -10,8 +10,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC5AAFD4-9573-457D-96D7-02791F80523B}"
 	ProjectSection(SolutionItems) = preProject
 		..\LICENSE = ..\LICENSE
-		..\README.md = ..\README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EPL", "EPL", "{2AF24C0C-1546-4138-89E1-80D24C0843C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render.EPL.Demo", "System.Svg.Render.EPL.Demo\System.Svg.Render.EPL.Demo.csproj", "{8C067CAE-34F2-4BB7-A8EB-1CCF751B486B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +30,17 @@ Global
 		{8F5C2455-87E7-41AD-9C37-A1F9F0D367FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F5C2455-87E7-41AD-9C37-A1F9F0D367FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F5C2455-87E7-41AD-9C37-A1F9F0D367FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C067CAE-34F2-4BB7-A8EB-1CCF751B486B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C067CAE-34F2-4BB7-A8EB-1CCF751B486B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C067CAE-34F2-4BB7-A8EB-1CCF751B486B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C067CAE-34F2-4BB7-A8EB-1CCF751B486B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9B74D70D-21F7-41DA-B146-EFF862672606} = {2AF24C0C-1546-4138-89E1-80D24C0843C5}
+		{8F5C2455-87E7-41AD-9C37-A1F9F0D367FC} = {2AF24C0C-1546-4138-89E1-80D24C0843C5}
+		{8C067CAE-34F2-4BB7-A8EB-1CCF751B486B} = {2AF24C0C-1546-4138-89E1-80D24C0843C5}
 	EndGlobalSection
 EndGlobal
