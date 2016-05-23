@@ -292,9 +292,11 @@ namespace System.Svg.Render.EPL
                      out endY,
                      out strokeWidth);
 
-      startX += strokeWidth / 2f;
+      // TODO test this
+
+      startX -= strokeWidth / 2f;
+      endX += strokeWidth / 2f;
       startY -= strokeWidth / 2f;
-      endX -= strokeWidth / 2f;
       endY += strokeWidth / 2f;
     }
 
