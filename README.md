@@ -1,6 +1,8 @@
 # dotnet-Svg.Contrib.Render
 > This is 2016, and we are still writing printer commands ... burn in hell!
 
+![](https://media.giphy.com/media/gCHHJZGvOtstO/giphy.gif)
+
 ## Developing
 
 Open [`src/Svg.Contrib.Render.sln`](src/Svg.Contrib.Render.sln) with Microsoft Visual Studio 2015 and build it.
