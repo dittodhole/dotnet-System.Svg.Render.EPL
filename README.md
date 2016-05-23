@@ -24,11 +24,3 @@ In order to push *.nupkg*-files to [NuGet](https://www.nuget.org/), you need fol
     > build.bat
 
 [powershell-nuget-packager](https://github.com/dittodhole/powershell-nuget-packager) is used to package the assembly and is included as a submodule
-
-## License
-
-dotnet-Svg.Contrib.Render is published under [WTFNMFPLv3](https://github.com/dittodhole/WTFNMFPLv3)
-
-## Icon
-
-[SVG File](https://thenounproject.com/term/svg-file/321865/) by [Viktor Vorobyev](https://thenounproject.com/vityavorobyev) from the Noun Project
