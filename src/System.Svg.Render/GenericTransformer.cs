@@ -9,11 +9,11 @@ namespace System.Svg.Render
   public class GenericTransformer
   {
     public GenericTransformer([NotNull] SvgUnitReader svgUnitReader,
-                              int outputWith,
+                              int outputWidth,
                               int outputHeight)
     {
       this.SvgUnitReader = svgUnitReader;
-      this.OutputWidth = outputWith;
+      this.OutputWidth = outputWidth;
       this.OutputHeight = outputHeight;
     }
 
