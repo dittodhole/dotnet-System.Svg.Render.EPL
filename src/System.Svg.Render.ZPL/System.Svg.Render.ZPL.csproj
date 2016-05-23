@@ -63,6 +63,7 @@
     <Compile Include="SvgLineTranslator.cs" />
     <Compile Include="SvgPathTranslator.cs" />
     <Compile Include="SvgRectangleTranslator.cs" />
+    <Compile Include="SvgTextBaseTranslator.cs" />
     <Compile Include="ZplCommands.cs" />
     <Compile Include="ZplRenderer.cs" />
     <Compile Include="ZplStream.cs" />

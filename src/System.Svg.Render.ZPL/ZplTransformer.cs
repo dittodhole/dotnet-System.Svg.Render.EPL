@@ -164,5 +164,16 @@ namespace System.Svg.Render.ZPL
       startY -= strokeWidth / 2f;
       endY += strokeWidth / 2f;
     }
+
+    public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+                                         float fontSize,
+                                         out string fontName,
+                                         out int characterHeight,
+                                         out int width)
+    {
+      fontName = "0";
+      characterHeight = (int) fontSize;
+      width = characterHeight / 15 * 12;
+    }
   }
 }

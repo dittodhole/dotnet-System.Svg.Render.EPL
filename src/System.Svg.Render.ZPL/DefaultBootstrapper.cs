@@ -56,19 +56,19 @@ namespace System.Svg.Render.ZPL
                                                                                                                                                zplCommands,
                                                                                                                                                svgUnitReader);
 
-    //[NotNull]
-    //[Pure]
-    //[MustUseReturnValue]
-    //protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] ZplTransformer zplTransformer,
-    //                                                                         [NotNull] ZplCommands zplCommands) => new SvgTextBaseTranslator<SvgText>(zplTransformer,
-    //                                                                                                                                                  zplCommands);
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] ZplTransformer zplTransformer,
+                                                                             [NotNull] ZplCommands zplCommands) => new SvgTextBaseTranslator<SvgText>(zplTransformer,
+                                                                                                                                                      zplCommands);
 
-    //[NotNull]
-    //[Pure]
-    //[MustUseReturnValue]
-    //protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] ZplTransformer zplTransformer,
-    //                                                                                 [NotNull] ZplCommands zplCommands) => new SvgTextBaseTranslator<SvgTextSpan>(zplTransformer,
-    //                                                                                                                                                              zplCommands);
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] ZplTransformer zplTransformer,
+                                                                                     [NotNull] ZplCommands zplCommands) => new SvgTextBaseTranslator<SvgTextSpan>(zplTransformer,
+                                                                                                                                                                  zplCommands);
 
     [NotNull]
     [Pure]
@@ -112,10 +112,10 @@ namespace System.Svg.Render.ZPL
       var svgRectangleTranslator = this.CreateSvgRectangleTranslator(zplTransformer,
                                                                      zplCommands,
                                                                      svgUnitReader);
-      //var svgTextTranslator = this.CreateSvgTextTranslator(eplTransformer,
-      //                                                     eplCommands);
-      //var svgTextSpanTranslator = this.CreateSvgTextSpanTranslator(eplTransformer,
-      //                                                             eplCommands);
+      var svgTextTranslator = this.CreateSvgTextTranslator(zplTransformer,
+                                                           zplCommands);
+      var svgTextSpanTranslator = this.CreateSvgTextSpanTranslator(zplTransformer,
+                                                                   zplCommands);
       var svgPathTranslator = this.CreateSvgPathTranslator(zplTransformer,
                                                            zplCommands);
       //var svgImageTranslator = this.CreateSvgImageTranslator(eplTransformer,
@@ -124,8 +124,8 @@ namespace System.Svg.Render.ZPL
 
       zplRenderer.RegisterTranslator(svgLineTranslator);
       zplRenderer.RegisterTranslator(svgRectangleTranslator);
-      //zplRenderer.RegisterTranslator(svgTextTranslator);
-      //zplRenderer.RegisterTranslator(svgTextSpanTranslator);
+      zplRenderer.RegisterTranslator(svgTextTranslator);
+      zplRenderer.RegisterTranslator(svgTextSpanTranslator);
       zplRenderer.RegisterTranslator(svgPathTranslator);
       //zplRenderer.RegisterTranslator(svgImageTranslator);
 
