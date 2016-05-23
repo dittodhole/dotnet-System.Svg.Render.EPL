@@ -116,7 +116,9 @@ namespace System.Svg.Render.ZPL
     [MustUseReturnValue]
     public virtual string ChangeInternationalFont(CharacterSet characterSet)
     {
+      // ReSharper disable ExceptionNotDocumentedOptional
       return $"^CI{characterSet.ToString("D")}";
+      // ReSharper restore ExceptionNotDocumentedOptional
     }
   }
 }

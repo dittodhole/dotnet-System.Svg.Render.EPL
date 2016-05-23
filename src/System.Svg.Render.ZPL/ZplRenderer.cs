@@ -43,8 +43,12 @@ namespace System.Svg.Render.ZPL
     [CollectionAccess(CollectionAccessType.Read)]
     public virtual Encoding GetEncoding()
     {
+      // ReSharper disable ExceptionNotDocumentedOptional
       var codepage = this.CharacterSetMappings[this.CharacterSet];
+      // ReSharper restore ExceptionNotDocumentedOptional
+      // ReSharper disable ExceptionNotDocumentedOptional
       var encoding = Encoding.GetEncoding(codepage);
+      // ReSharper restore ExceptionNotDocumentedOptional
 
       return encoding;
     }

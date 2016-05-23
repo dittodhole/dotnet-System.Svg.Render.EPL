@@ -29,7 +29,9 @@ namespace System.Svg.Render.ZPL
         var s = line as string;
         if (s != null)
         {
+          // ReSharper disable ExceptionNotDocumentedOptional
           array = encoding.GetBytes(s);
+          // ReSharper restore ExceptionNotDocumentedOptional
         }
         else
         {
@@ -40,7 +42,9 @@ namespace System.Svg.Render.ZPL
         {
           continue;
         }
+        // ReSharper disable ExceptionNotDocumentedOptional
         if (!array.Any())
+        // ReSharper restore ExceptionNotDocumentedOptional
         {
           continue;
         }
@@ -49,7 +53,9 @@ namespace System.Svg.Render.ZPL
         {
           yield return @byte;
         }
+        // ReSharper disable ExceptionNotDocumentedOptional
         foreach (var @byte in encoding.GetBytes(Environment.NewLine))
+        // ReSharper restore ExceptionNotDocumentedOptional
         {
           yield return @byte;
         }

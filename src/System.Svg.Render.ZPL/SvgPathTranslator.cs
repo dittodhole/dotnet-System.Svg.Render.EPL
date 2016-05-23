@@ -45,7 +45,9 @@ namespace System.Svg.Render.ZPL
         var eplStream = this.TranslateSvgLineSegment(svgElement,
                                                      svgLineSegment,
                                                      matrix);
+        // ReSharper disable ExceptionNotDocumentedOptional
         if (eplStream.Any())
+        // ReSharper restore ExceptionNotDocumentedOptional
         {
           container.Add(eplStream);
         }

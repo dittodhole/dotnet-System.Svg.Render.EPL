@@ -47,8 +47,9 @@ namespace System.Svg.Render.ZPL
       {
         return;
       }
-
+      // ReSharper disable ExceptionNotDocumentedOptional
       if (zplStream.Any())
+      // ReSharper restore ExceptionNotDocumentedOptional
       {
         container.Add(zplStream);
       }

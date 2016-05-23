@@ -4,6 +4,8 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
 
+// ReSharper disable NonLocalizedString
+
 namespace System.Svg.Render.ZPL
 {
   [PublicAPI]
@@ -54,12 +56,16 @@ namespace System.Svg.Render.ZPL
       vector = this.ApplyMatrixOnVector(vector,
                                         matrix);
 
+      // ReSharper disable ExceptionNotDocumentedOptional
       var fieldOrientations = this.FieldOrientationMappings.Count();
+      // ReSharper restore ExceptionNotDocumentedOptional
 
       var key = (int) Math.Abs(Math.Atan2(vector.Y,
                                           vector.X) / (2 * Math.PI) * fieldOrientations) % fieldOrientations;
 
+      // ReSharper disable ExceptionNotDocumentedOptional
       var fieldOrientation = this.FieldOrientationMappings[key];
+      // ReSharper restore ExceptionNotDocumentedOptional
 
       return fieldOrientation;
     }
