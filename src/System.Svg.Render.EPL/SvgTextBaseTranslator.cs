@@ -86,10 +86,10 @@ namespace System.Svg.Render.EPL
                                                  text);
       // ReSharper disable ExceptionNotDocumentedOptional
       if (eplStream.Any())
+      // ReSharper restore ExceptionNotDocumentedOptional
       {
         container.Add(eplStream);
       }
-      // ReSharper restore ExceptionNotDocumentedOptional
     }
 
     [Pure]

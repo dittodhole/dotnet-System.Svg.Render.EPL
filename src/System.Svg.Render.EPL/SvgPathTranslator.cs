@@ -40,12 +40,14 @@ namespace System.Svg.Render.EPL
 
       // ReSharper disable ExceptionNotDocumentedOptional
       foreach (var svgLineSegment in svgElement.PathData.OfType<SvgLineSegment>())
-        // ReSharper restore ExceptionNotDocumentedOptional
+      // ReSharper restore ExceptionNotDocumentedOptional
       {
         var eplStream = this.TranslateSvgLineSegment(svgElement,
                                                      svgLineSegment,
                                                      matrix);
+        // ReSharper disable ExceptionNotDocumentedOptional
         if (eplStream.Any())
+        // ReSharper restore ExceptionNotDocumentedOptional
         {
           container.Add(eplStream);
         }

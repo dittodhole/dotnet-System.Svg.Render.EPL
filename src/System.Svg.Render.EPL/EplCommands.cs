@@ -320,7 +320,9 @@ namespace System.Svg.Render.EPL
                                   PrintHumanReadable printHumanReadable,
                                   [NotNull] string content)
     {
+      // ReSharper disable ExceptionNotDocumentedOptional
       var barcode = this.BarCodeSelectionMappings[barCodeSelection];
+      // ReSharper restore ExceptionNotDocumentedOptional
 
       return $@"B{horizontalStart},{verticalStart},{rotation},{barcode},{narrowBarWidth},{wideBarWidth},{height},{(char) printHumanReadable},""{content}""";
     }
@@ -357,7 +359,9 @@ namespace System.Svg.Render.EPL
                                                 PrinterCodepage printerCodepage,
                                                 int countryCode)
     {
+      // ReSharper disable ExceptionNotDocumentedOptional
       var codepage = this.PrinterCodepageMappings[printerCodepage];
+      // ReSharper restore ExceptionNotDocumentedOptional
 
       return $"I{bytes},{codepage},{countryCode}";
     }

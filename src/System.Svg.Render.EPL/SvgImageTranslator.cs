@@ -113,8 +113,9 @@ namespace System.Svg.Render.EPL
                                                           horizontalStart,
                                                           verticalStart);
         }
-
+        // ReSharper disable ExceptionNotDocumentedOptional
         if (eplStream.Any())
+        // ReSharper restore ExceptionNotDocumentedOptional
         {
           container.Add(eplStream);
         }
@@ -187,8 +188,9 @@ namespace System.Svg.Render.EPL
         eplStream = this.EplCommands.StoreGraphics(bitmap,
                                                    variableName);
       }
-
+      // ReSharper disable ExceptionNotDocumentedOptional
       if (eplStream.Any())
+      // ReSharper restore ExceptionNotDocumentedOptional
       {
         container.Add(this.EplCommands.DeleteGraphics(variableName));
         container.Add(this.EplCommands.DeleteGraphics(variableName));

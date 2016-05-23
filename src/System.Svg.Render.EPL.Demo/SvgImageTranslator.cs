@@ -83,7 +83,9 @@ namespace System.Svg.Render.EPL.Demo
                                                    height,
                                                    printHumanReadable,
                                                    barcode);
+          // ReSharper disable ExceptionNotDocumentedOptional
           if (eplStream.Any())
+          // ReSharper restore ExceptionNotDocumentedOptional
           {
             container.Add(eplStream);
             return;

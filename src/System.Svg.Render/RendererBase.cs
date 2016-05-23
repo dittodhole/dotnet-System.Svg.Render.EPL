@@ -85,10 +85,10 @@ namespace System.Svg.Render
       // ReSharper disable ExceptionNotDocumentedOptional
       if (!this.SvgElementTranslators.TryGetValue(type,
                                                   out svgElementTranslator))
+      // ReSharper restore ExceptionNotDocumentedOptional
       {
         return null;
       }
-      // ReSharper restore ExceptionNotDocumentedOptional
 
       return svgElementTranslator;
     }

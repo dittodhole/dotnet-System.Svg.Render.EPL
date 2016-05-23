@@ -38,7 +38,9 @@ namespace System.Svg.Render.EPL
     public Encoding GetEncoding()
     {
       var codepage = (int) this.PrinterCodepage;
+      // ReSharper disable ExceptionNotDocumentedOptional
       var encoding = Encoding.GetEncoding(codepage);
+      // ReSharper restore ExceptionNotDocumentedOptional
 
       return encoding;
     }
@@ -70,7 +72,9 @@ namespace System.Svg.Render.EPL
         var eplStream = this.TranslateSvgElementForStoring(svgElement,
                                                            matrix,
                                                            viewMatrix);
+        // ReSharper disable ExceptionNotDocumentedOptional
         if (eplStream.Any())
+        // ReSharper restore ExceptionNotDocumentedOptional
         {
           yield return eplStream;
         }
@@ -88,7 +92,9 @@ namespace System.Svg.Render.EPL
           {
             continue;
           }
+          // ReSharper disable ExceptionNotDocumentedOptional
           if (eplStream.Any())
+          // ReSharper restore ExceptionNotDocumentedOptional
           {
             yield return eplStream;
           }
