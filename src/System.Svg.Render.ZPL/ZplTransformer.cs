@@ -18,10 +18,10 @@ namespace System.Svg.Render.ZPL
              ZplTransformer.DefaultOutputHeight) {}
 
     public ZplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                          int outputWith,
+                          int outputWidth,
                           int outputHeight)
       : base(svgUnitReader,
-             outputWith,
+             outputWidth,
              outputHeight) {}
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
@@ -43,43 +43,6 @@ namespace System.Svg.Render.ZPL
                                                                                        3, FieldOrientation.RotatedBy270Degrees
                                                                                      }
                                                                                    };
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    public virtual Matrix CreateViewMatrix(float sourceDpi,
-                                           float destinationDpi,
-                                           ViewRotation viewRotation)
-    {
-      var magnificationFactor = destinationDpi / sourceDpi;
-
-      var matrix = new Matrix();
-      matrix.Scale(magnificationFactor,
-                   magnificationFactor);
-      if (viewRotation == ViewRotation.RotateBy90Degrees)
-      {
-        matrix.Rotate(90f);
-        matrix.Translate(0,
-                         -this.OutputHeight,
-                         MatrixOrder.Append);
-      }
-      else if (viewRotation == ViewRotation.RotateBy180Degrees)
-      {
-        matrix.Rotate(180f);
-        matrix.Translate(-this.OutputWidth,
-                         0,
-                         MatrixOrder.Append);
-      }
-      else if (viewRotation == ViewRotation.RotateBy270Degress)
-      {
-        matrix.Rotate(270f);
-        matrix.Translate(0,
-                         this.OutputHeight,
-                         MatrixOrder.Append);
-      }
-
-      return matrix;
-    }
 
     [Pure]
     [MustUseReturnValue]
