@@ -71,26 +71,6 @@ To further minimize the writes to the internal memory (Zebra claims around 100k 
 
 **CAUTION:** This may result in broken labels, so you should know what you are doing.
 
-## Developing
-
-Open [`src/System.Svg.Render.EPL.sln`](src/System.Svg.Render.EPL.sln) with Microsoft Visual Studio 2015 and build it.
-
-Following [NuGet](https://www.nuget.org/) packages will be restored:
-- [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
-- [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
-- [System.Svg.Render](https://www.nuget.org/packages/System.Svg.Render)
-  - [System.Svg](https://www.nuget.org/packages/System.Svg)
-    - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
-    - [Fizzler](https://www.nuget.org/packages/Fizzler)
-
-### Deploying
-
-In order to push *.nupkg*-files to [NuGet](https://www.nuget.org/), you need following command:
-
-    > build.bat
-
-[powershell-nuget-packager](https://github.com/dittodhole/powershell-nuget-packager) is used to package the assembly and is included as a submodule.
-
 ## Features
 
 - `<text>` and `<tspan>`
@@ -111,12 +91,12 @@ In order to push *.nupkg*-files to [NuGet](https://www.nuget.org/), you need fol
 - `style="stroke"`
 - `style="stroke-width"`
 - `style="visible"`
-- native barcodes (see [System.Svg.Render.EPL.Demo](https://github.com/dittodhole/dotnet-System.Svg.Render.EPL.Demo))
+- native barcodes (see [System.Svg.Render.EPL.Demo](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/System.Svg.Render.EPL.Demo))
 
 ## License
 
-dotnet-System.Svg.Render.EPL is published under [WTFNMFPLv3](https://github.com/dittodhole/WTFNMFPLv3).
+dotnet-System.Svg.Render.EPL is published under [WTFNMFPLv3](https://github.com/dittodhole/WTFNMFPLv3)
 
 ## Icon
 
-[Zebra](https://thenounproject.com/term/zebra/201040/) by [Cole M Johnstone](https://thenounproject.com/colemjohnstone) from the Noun Project.
+[Zebra](https://thenounproject.com/term/zebra/201040/) by [Cole M Johnstone](https://thenounproject.com/colemjohnstone) from the Noun Project
