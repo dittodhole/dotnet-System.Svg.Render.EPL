@@ -34,7 +34,7 @@ var array = eplStream.GetByteArray(encoding);
 
 ## Configuration
 
-I strongly encourage you to use the [`DefaultBootstrapper`](src/System.Svg.Render.EPL/DefaultBootstrapper.cs) (or extend it) to build up [`EplRenderer`](src/System.Svg.Render.EPL/EplRenderer.cs)-instances.
+I strongly encourage you to use the [`DefaultBootstrapper`](DefaultBootstrapper.cs) (or extend it) to build up [`EplRenderer`](EplRenderer.cs)-instances.
 
 #### sourceDpi
 Type: `float`
@@ -47,7 +47,7 @@ Type: `float`
 Define the DPI of the printer (usually `203f`).
 
 #### printerCodepage
-Type: [`PrinterCodepage`](src/System.Svg.Render.EPL/Enums.cs#L3)
+Type: [`PrinterCodepage`](Enums.cs#L3)
 
 Depending on the text used in `A`-command you can set a codepage to guarantee a correct output.
 
@@ -61,9 +61,9 @@ Type: `bool`
 
 Default: `false`
 
-[`SvgImageTranslator`](src/System.Svg.Render.EPL/SvgImageTranslator.cs) keeps track of previously uploaded images through [`TranslateForStoring`](src/System.Svg.Render.EPL/SvgImageTranslator.cs#L127)-calls. If images are not stored, the image is printed directly with a [`GW`](http://support.zebra.com/cpws/docs/eltron/epl2/GW_Command.pdf) command (which is the preferred soltion for non-static images). Otherwise a [`GG`](http://support.zebra.com/cpws/docs/eltron/epl2/GG_Command.pdf) command is used (which is the preferred solution for static images).
+[`SvgImageTranslator`](SvgImageTranslator.cs) keeps track of previously uploaded images through [`TranslateForStoring`](SvgImageTranslator.cs#L127)-calls. If images are not stored, the image is printed directly with a [`GW`](http://support.zebra.com/cpws/docs/eltron/epl2/GW_Command.pdf) command (which is the preferred soltion for non-static images). Otherwise a [`GG`](http://support.zebra.com/cpws/docs/eltron/epl2/GG_Command.pdf) command is used (which is the preferred solution for static images).
 
-This detection is bound to an actual [`SvgImageTranslator`](src/System.Svg.Render.EPL/SvgImageTranslator.cs) instance - so the reusage of the same instance is strongly recommended throughout the application's lifetime. (Default behaviour with [`System.Svg.Render.EPL.DefaultBootstrapper`](src/System.Svg.Render.EPL/DefaultBootstrapper.cs))
+This detection is bound to an actual [`SvgImageTranslator`](SvgImageTranslator.cs) instance - so the reusage of the same instance is strongly recommended throughout the application's lifetime. (Default behaviour with [`System.Svg.Render.EPL.DefaultBootstrapper`](DefaultBootstrapper.cs))
 
 To further minimize the writes to the internal memory (Zebra claims around 100k write at most), you can force [`GG`](http://support.zebra.com/cpws/docs/eltron/epl2/GG_Command.pdf) commands even if the current instance did not write the image to the internal memory.
 
