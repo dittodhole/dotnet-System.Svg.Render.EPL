@@ -8,7 +8,7 @@ This demo converts [`assets/label.svg`](assets/label.svg) into [EPL](https://en.
 
 ## Features
 
-This demo has some additional hacks to show off the extensibility of [System.Svg.Render.EPL](https://www.nuget.org/packages/System.Svg.Render.EPL/):
+This demo has some additional hacks to show off the extensibility of [System.Svg.Render.EPL](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/System.Svg.Render.EPL):
 
 - [`System.Svg.Render.EPL.Demo.CustomBootstrapper`](CustomBootstrapper.cs)
   - adapts some factories
