@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="GenericTransformer.cs" />
     <Compile Include="ISvgElementTranslator.cs" />
     <Compile Include="MixedStream.cs" />

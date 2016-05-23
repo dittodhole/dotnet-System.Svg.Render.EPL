@@ -10,25 +10,22 @@ namespace System.Svg.Render.EPL
   [PublicAPI]
   public class EplTransformer : GenericTransformer
   {
-    public const int DefaultLabelWidthInDevicePoints = 816;
-    public const int DefaultLabelHeightInDevicePoints = 1296;
+    public const int DefaultOutputWidth = 816;
+    public const int DefaultOutputHeight = 1296;
 
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader)
-      : base(svgUnitReader) {}
+      : base(svgUnitReader,
+             EplTransformer.DefaultOutputWidth,
+             EplTransformer.DefaultOutputHeight) {}
 
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                          int labelWidthInDevicePoints,
-                          int labelHeightInDevicePoints)
-      : this(svgUnitReader)
-    {
-      this.LabelWidthInDevicePoints = labelWidthInDevicePoints;
-      this.LabelHeightInDevicePoints = labelHeightInDevicePoints;
-    }
+                          int outputWidth,
+                          int outputHeight)
+      : base(svgUnitReader,
+             outputWidth,
+             outputHeight) {}
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
-
-    public int LabelWidthInDevicePoints { get; } = EplTransformer.DefaultLabelWidthInDevicePoints;
-    public int LabelHeightInDevicePoints { get; } = EplTransformer.DefaultLabelHeightInDevicePoints;
 
     [NotNull]
     [Pure]
@@ -36,6 +33,8 @@ namespace System.Svg.Render.EPL
     public virtual Matrix CreateViewMatrix(float sourceDpi,
                                            float destinationDpi)
     {
+      // TODO remove this shit and rather use base.CreateViewMatrix!
+
       var magnificationFactor = destinationDpi / sourceDpi;
 
       // we use no identity matrix here, as we need to
@@ -52,7 +51,7 @@ namespace System.Svg.Render.EPL
                               magnificationFactor,
                               -magnificationFactor,
                               0f,
-                              this.LabelWidthInDevicePoints,
+                              this.OutputWidth,
                               0f);
 
       return matrix;

@@ -8,10 +8,17 @@ namespace System.Svg.Render
   [PublicAPI]
   public class GenericTransformer
   {
-    public GenericTransformer([NotNull] SvgUnitReader svgUnitReader)
+    public GenericTransformer([NotNull] SvgUnitReader svgUnitReader,
+                              int outputWith,
+                              int outputHeight)
     {
       this.SvgUnitReader = svgUnitReader;
+      this.OutputWidth = outputWith;
+      this.OutputHeight = outputHeight;
     }
+
+    protected int OutputHeight { get; }
+    protected int OutputWidth { get; }
 
     [NotNull]
     protected SvgUnitReader SvgUnitReader { get; }
@@ -20,6 +27,7 @@ namespace System.Svg.Render
     [MustUseReturnValue]
     // ReSharper disable UnusedParameter.Global
     protected virtual float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase) => 1.25f;
+
     // ReSharper restore UnusedParameter.Global
 
     [Pure]
@@ -224,6 +232,45 @@ namespace System.Svg.Render
 
       fontSize = this.ApplyMatrixOnLength(fontSize,
                                           matrix);
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual Matrix CreateViewMatrix(float sourceDpi,
+                                           float destinationDpi,
+                                           ViewRotation viewRotation)
+    {
+      var magnificationFactor = destinationDpi / sourceDpi;
+
+      // TODO test this shit!
+
+      var matrix = new Matrix();
+      matrix.Scale(magnificationFactor,
+                   magnificationFactor);
+      if (viewRotation == ViewRotation.RotateBy90Degrees)
+      {
+        matrix.Rotate(90f);
+        matrix.Translate(0,
+                         -this.OutputHeight,
+                         MatrixOrder.Append);
+      }
+      else if (viewRotation == ViewRotation.RotateBy180Degrees)
+      {
+        matrix.Rotate(180f);
+        matrix.Translate(-this.OutputWidth,
+                         0,
+                         MatrixOrder.Append);
+      }
+      else if (viewRotation == ViewRotation.RotateBy270Degress)
+      {
+        matrix.Rotate(270f);
+        matrix.Translate(0,
+                         this.OutputHeight,
+                         MatrixOrder.Append);
+      }
+
+      return matrix;
     }
   }
 }

@@ -9,25 +9,22 @@ namespace System.Svg.Render.ZPL
   [PublicAPI]
   public class ZplTransformer : GenericTransformer
   {
-    public const int DefaultLabelHeightInDevicePoints = 1296;
-    public const int DefaultLabelWidthInDevicePoints = 816;
+    public const int DefaultOutputHeight = 1296;
+    public const int DefaultOutputWidth = 816;
 
     public ZplTransformer([NotNull] SvgUnitReader svgUnitReader)
-      : base(svgUnitReader) {}
+      : base(svgUnitReader,
+             ZplTransformer.DefaultOutputWidth,
+             ZplTransformer.DefaultOutputHeight) {}
 
     public ZplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                          int labelWithInDevicePoints,
-                          int labelHeightInDevicePoints)
-      : this(svgUnitReader)
-    {
-      this.LabelWidthInDevicePoints = labelWithInDevicePoints;
-      this.LabelHeightInDevicePoints = labelHeightInDevicePoints;
-    }
+                          int outputWith,
+                          int outputHeight)
+      : base(svgUnitReader,
+             outputWith,
+             outputHeight) {}
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
-
-    public int LabelHeightInDevicePoints { get; } = ZplTransformer.DefaultLabelHeightInDevicePoints;
-    public int LabelWidthInDevicePoints { get; } = ZplTransformer.DefaultLabelWidthInDevicePoints;
 
     [NotNull]
     [ItemNotNull]
@@ -63,13 +60,13 @@ namespace System.Svg.Render.ZPL
       {
         matrix.Rotate(90f);
         matrix.Translate(0,
-                         -this.LabelHeightInDevicePoints,
+                         -this.OutputHeight,
                          MatrixOrder.Append);
       }
       else if (viewRotation == ViewRotation.RotateBy180Degrees)
       {
         matrix.Rotate(180f);
-        matrix.Translate(-this.LabelWidthInDevicePoints,
+        matrix.Translate(-this.OutputWidth,
                          0,
                          MatrixOrder.Append);
       }
@@ -77,7 +74,7 @@ namespace System.Svg.Render.ZPL
       {
         matrix.Rotate(270f);
         matrix.Translate(0,
-                         this.LabelHeightInDevicePoints,
+                         this.OutputHeight,
                          MatrixOrder.Append);
       }
 

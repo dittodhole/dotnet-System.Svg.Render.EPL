@@ -6,8 +6,8 @@ namespace System.Svg.Render.EPL.Tests
   {
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader,
-             EPL.EplTransformer.DefaultLabelWidthInDevicePoints,
-             EPL.EplTransformer.DefaultLabelHeightInDevicePoints) {}
+             EPL.EplTransformer.DefaultOutputWidth,
+             EPL.EplTransformer.DefaultOutputHeight) {}
 
     protected override float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase) => 1f;
   }
