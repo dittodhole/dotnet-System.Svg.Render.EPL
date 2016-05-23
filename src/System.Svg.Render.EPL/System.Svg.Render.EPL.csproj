@@ -79,6 +79,7 @@
     <Compile Include="SvgTextBaseTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\epl2-pm-en.pdf" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
@@ -87,6 +88,10 @@
       <Project>{f5bacb04-0644-40a0-b93e-7c285caf78ae}</Project>
       <Name>System.Svg.Render</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\icon.png" />
+    <None Include="assets\noun_201040_cc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="BeforeBuild">
