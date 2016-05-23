@@ -93,8 +93,8 @@ namespace System.Svg.Render.ZPL
     [MustUseReturnValue]
     public virtual ZplRenderer BuildUp(float sourceDpi,
                                        float destinationDpi,
-                                       CharacterSet characterSet,
-                                       ViewRotation viewRotation,
+                                       CharacterSet characterSet = CharacterSet.ZebraCodePage850,
+                                       ViewRotation viewRotation = ViewRotation.Normal,
                                        bool assumeStoredInInternalMemory = false)
     {
       var svgUnitReader = this.CreateSvgUnitReader(sourceDpi);
