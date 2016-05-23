@@ -7,11 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render.EPL", "Sy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render.EPL.Tests", "System.Svg.Render.EPL.Tests\System.Svg.Render.EPL.Tests.csproj", "{8F5C2455-87E7-41AD-9C37-A1F9F0D367FC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC5AAFD4-9573-457D-96D7-02791F80523B}"
-	ProjectSection(SolutionItems) = preProject
-		..\LICENSE = ..\LICENSE
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EPL", "EPL", "{2AF24C0C-1546-4138-89E1-80D24C0843C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render.EPL.Demo", "System.Svg.Render.EPL.Demo\System.Svg.Render.EPL.Demo.csproj", "{8C067CAE-34F2-4BB7-A8EB-1CCF751B486B}"

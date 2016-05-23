@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\ZPLII-Prog.pdf" />
+    <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>

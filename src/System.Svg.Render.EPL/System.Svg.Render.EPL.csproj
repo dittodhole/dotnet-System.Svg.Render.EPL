@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\epl2-pm-en.pdf" />
+    <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
