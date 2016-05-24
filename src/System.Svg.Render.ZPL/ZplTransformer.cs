@@ -176,5 +176,20 @@ namespace System.Svg.Render.ZPL
       //width = characterHeight / 15 * 12;
       width = 0;
     }
+
+    public override void Transform(SvgTextBase svgTextBase,
+                                   Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float fontSize)
+    {
+      base.Transform(svgTextBase,
+                     matrix,
+                     out startX,
+                     out startY,
+                     out fontSize);
+
+      startX += fontSize;
+    }
   }
 }
