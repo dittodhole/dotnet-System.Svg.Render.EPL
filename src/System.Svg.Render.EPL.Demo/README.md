@@ -1,6 +1,6 @@
 # dotnet-System.Svg.Render.EPL.Demo
 
-This demo converts [`assets/label.svg`](assets/label.svg) into [EPL](https://en.wikipedia.org/wiki/Eltron_Programming_Language) code and sends it to all connected printers:
+This demo converts [`assets/label.svg`](assets/label.svg) into [Eltron Programming Language (EPL)](https://en.wikipedia.org/wiki/Eltron_Programming_Language) code and sends it to all connected printers:
 
 ![](assets/label.gif)
 
