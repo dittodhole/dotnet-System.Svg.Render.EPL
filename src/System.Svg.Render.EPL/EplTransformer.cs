@@ -45,36 +45,6 @@ namespace System.Svg.Render.EPL
                                                               }
                                                             };
 
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    public virtual Matrix CreateViewMatrix(float sourceDpi,
-                                           float destinationDpi)
-    {
-      // TODO remove this shit and rather use base.CreateViewMatrix!
-
-      var magnificationFactor = destinationDpi / sourceDpi;
-
-      // we use no identity matrix here, as we need to
-      // rotate and flip the coordinates from svg to epl
-
-      // svg matrix:
-      // +- x+
-      // |y+
-      // epl matrix:
-      // +- y+
-      // | x +
-
-      var matrix = new Matrix(0f,
-                              magnificationFactor,
-                              -magnificationFactor,
-                              0f,
-                              this.OutputWidth,
-                              0f);
-
-      return matrix;
-    }
-
     [Pure]
     [MustUseReturnValue]
     public virtual int GetRotation([NotNull] Matrix matrix)

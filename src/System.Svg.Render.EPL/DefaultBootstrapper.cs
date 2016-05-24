@@ -21,8 +21,10 @@ namespace System.Svg.Render.EPL
     [MustUseReturnValue]
     protected virtual Matrix CreateViewMatrix([NotNull] EplTransformer eplTransformer,
                                               float sourceDpi,
-                                              float destinationDpi) => eplTransformer.CreateViewMatrix(sourceDpi,
-                                                                                                       destinationDpi);
+                                              float destinationDpi,
+                                              ViewRotation viewRotation) => eplTransformer.CreateViewMatrix(sourceDpi,
+                                                                                                            destinationDpi,
+                                                                                                            viewRotation);
 
     [NotNull]
     [Pure]
@@ -95,13 +97,15 @@ namespace System.Svg.Render.EPL
                                        float destinationDpi,
                                        PrinterCodepage printerCodepage,
                                        int countryCode,
+                                       ViewRotation viewRotation,
                                        bool assumeStoredInInternalMemory = false)
     {
       var svgUnitReader = this.CreateSvgUnitReader(sourceDpi);
       var eplTransformer = this.CreateEplTransformer(svgUnitReader);
       var viewMatrix = this.CreateViewMatrix(eplTransformer,
                                              sourceDpi,
-                                             destinationDpi);
+                                             destinationDpi,
+                                             viewRotation);
       var eplCommands = this.CreateEplCommands();
       var eplRenderer = this.CreateEplRenderer(viewMatrix,
                                                eplCommands,

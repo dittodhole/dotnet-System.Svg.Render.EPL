@@ -251,15 +251,16 @@ namespace System.Svg.Render
       if (viewRotation == ViewRotation.RotateBy90Degrees)
       {
         matrix.Rotate(90f);
-        matrix.Translate(0,
-                         -this.OutputHeight,
+        matrix.Translate(this.OutputWidth,
+                         0,
                          MatrixOrder.Append);
       }
       else if (viewRotation == ViewRotation.RotateBy180Degrees)
       {
+        // TODO test this orientation!
         matrix.Rotate(180f);
         matrix.Translate(-this.OutputWidth,
-                         0,
+                         -this.OutputHeight,
                          MatrixOrder.Append);
       }
       else if (viewRotation == ViewRotation.RotateBy270Degress)

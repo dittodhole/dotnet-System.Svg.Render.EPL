@@ -22,6 +22,7 @@ namespace System.Svg.Render.EPL.Demo
                                              203f,
                                              PrinterCodepage.Dos850,
                                              850,
+                                             ViewRotation.RotateBy90Degrees,
                                              assumeStoredInInternalMemory);
 
       var encoding = eplRenderer.GetEncoding();
