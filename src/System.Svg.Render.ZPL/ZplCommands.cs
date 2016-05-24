@@ -10,7 +10,7 @@ namespace System.Svg.Render.ZPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual ZplStream CreateZplStream() => new ZplStream();
+    public virtual ZplStream CreateZplStream() => new ZplStream();
 
     [NotNull]
     [Pure]

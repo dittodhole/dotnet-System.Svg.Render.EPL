@@ -109,11 +109,6 @@ namespace System.Svg.Render.ZPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual ZplStream CreateZplStream() => new ZplStream();
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     protected virtual Matrix CreateParentMatrix() => new Matrix();
 
     //[NotNull]
@@ -150,7 +145,7 @@ namespace System.Svg.Render.ZPL
     public override ZplStream GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();
-      var zplStream = this.CreateZplStream();
+      var zplStream = this.ZplCommands.CreateZplStream();
 
       zplStream.Add(this.ZplCommands.LabelHome(0,
                                                0));
