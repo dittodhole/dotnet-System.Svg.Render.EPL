@@ -11,64 +11,6 @@ namespace System.Svg.Render.ZPL.Demo
     public ZplTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader) {}
 
-    public override void GetFontSelection(SvgTextBase svgTextBase,
-                                          float fontSize,
-                                          out string fontName,
-                                          out int characterHeight,
-                                          out int width)
-    {
-      //if (svgTextBase.ID == "tspan5668")
-      //{
-      //  fontSelection = 1;
-      //  horizontalMultiplier = 1;
-      //  verticalMultiplier = 1;
-      //}
-      //else if (svgTextBase.ID == "tspan5670")
-      //{
-      //  fontSelection = 1;
-      //  horizontalMultiplier = 1;
-      //  verticalMultiplier = 1;
-      //}
-      //else if (svgTextBase.ID == "tspan5676")
-      //{
-      //  fontSelection = 1;
-      //  horizontalMultiplier = 1;
-      //  verticalMultiplier = 1;
-      //}
-      //else if (svgTextBase.ID == "tspan5682")
-      //{
-      //  fontSelection = 1;
-      //  horizontalMultiplier = 1;
-      //  verticalMultiplier = 1;
-      //}
-      //else if (svgTextBase.ID == "tspan3131")
-      //{
-      //  fontSelection = 2;
-      //  horizontalMultiplier = 1;
-      //  verticalMultiplier = 1;
-      //}
-      //else if (svgTextBase.ID == "tspan5686-2")
-      //{
-      //  fontSelection = 3;
-      //  horizontalMultiplier = 1;
-      //  verticalMultiplier = 1;
-      //}
-      //else if (svgTextBase.ID == "tspan5686-2-3")
-      //{
-      //  fontSelection = 3;
-      //  horizontalMultiplier = 1;
-      //  verticalMultiplier = 1;
-      //}
-      //else
-      //{
-        base.GetFontSelection(svgTextBase,
-                              fontSize,
-                              out fontName,
-                              out characterHeight,
-                              out width);
-      //}
-    }
-
     public override void Transform(SvgTextBase svgTextBase,
                                    Matrix matrix,
                                    out float startX,
