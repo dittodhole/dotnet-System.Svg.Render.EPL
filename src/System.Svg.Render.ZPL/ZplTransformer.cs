@@ -46,7 +46,7 @@ namespace System.Svg.Render.ZPL
 
     [Pure]
     [MustUseReturnValue]
-    public virtual FieldOrientation GetRotation([NotNull] Matrix matrix)
+    public virtual FieldOrientation GetFieldOrientation([NotNull] Matrix matrix)
     {
       var sector = this.GetRotationSector(matrix);
 
@@ -75,7 +75,7 @@ namespace System.Svg.Render.ZPL
     //                 out sourceAlignmentWidth,
     //                 out sourceAlignmentHeight);
 
-    //  var rotation = this.GetRotation(matrix);
+    //  var rotation = this.GetFieldOrientation(matrix);
     //  if (rotation % 2 > 0)
     //  {
     //    var width = Math.Abs(startX - endX);

@@ -47,7 +47,7 @@ namespace System.Svg.Render.ZPL.Demo
   //                                    out sourceAlignmentWidth,
   //                                    out sourceAlignmentHeight);
 
-  //      var rotation = this.ZplTransformer.GetRotation(matrix);
+  //      var rotation = this.ZplTransformer.GetFieldOrientation(matrix);
 
   //      var horizontalStart = (int) startX;
   //      var verticalStart = (int) startY;

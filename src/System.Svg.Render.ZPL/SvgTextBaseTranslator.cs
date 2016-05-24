@@ -50,7 +50,7 @@ namespace System.Svg.Render.ZPL
 
       var horizontalStart = (int) x;
       var verticalStart = (int) y;
-      var fieldOrientation = this.ZplTransformer.GetRotation(matrix);
+      var fieldOrientation = this.ZplTransformer.GetFieldOrientation(matrix);
 
       string fontName;
       int characterHeight;
