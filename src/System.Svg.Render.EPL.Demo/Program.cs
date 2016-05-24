@@ -13,7 +13,7 @@ namespace System.Svg.Render.EPL.Demo
   {
     private static void Main(string[] args)
     {
-      var assumeStoredInInternalMemory = true;
+      var assumeStoredInInternalMemory = false;
       var shouldWriteInternalMemory = false;
       var file = "assets/label.svg";
       var svgDocument = SvgDocument.Open(file);
