@@ -90,9 +90,6 @@ namespace System.Svg.Render.ZPL
                                                 LineColor.Black));
     }
 
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     protected virtual void TranslateBox([NotNull] SvgRectangle instance,
                                         [NotNull] Matrix matrix,
                                         [NotNull] ZplStream container)
