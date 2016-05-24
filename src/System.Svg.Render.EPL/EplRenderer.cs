@@ -74,7 +74,7 @@ namespace System.Svg.Render.EPL
                                                            viewMatrix);
         // ReSharper disable ExceptionNotDocumentedOptional
         if (eplStream.Any())
-        // ReSharper restore ExceptionNotDocumentedOptional
+          // ReSharper restore ExceptionNotDocumentedOptional
         {
           yield return eplStream;
         }
@@ -94,7 +94,7 @@ namespace System.Svg.Render.EPL
           }
           // ReSharper disable ExceptionNotDocumentedOptional
           if (eplStream.Any())
-          // ReSharper restore ExceptionNotDocumentedOptional
+            // ReSharper restore ExceptionNotDocumentedOptional
           {
             yield return eplStream;
           }
@@ -145,8 +145,8 @@ namespace System.Svg.Render.EPL
 
       this.AddHeaderToTranslation(eplStream);
       this.AddBodyToTranslation(svgDocument,
-                           parentMatrix,
-                           eplStream);
+                                parentMatrix,
+                                eplStream);
       this.AddFooterToTranslation(eplStream);
 
       return eplStream;
@@ -163,8 +163,8 @@ namespace System.Svg.Render.EPL
     }
 
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
-                                      [NotNull] Matrix parentMatrix,
-                                      [NotNull] EplStream eplStream)
+                                                [NotNull] Matrix parentMatrix,
+                                                [NotNull] EplStream eplStream)
     {
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
