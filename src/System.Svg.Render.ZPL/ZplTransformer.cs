@@ -36,13 +36,13 @@ namespace System.Svg.Render.ZPL
                                                                                        0, FieldOrientation.Normal
                                                                                      },
                                                                                      {
-                                                                                       1, FieldOrientation.RotatedBy90Degrees
+                                                                                       1, FieldOrientation.RotatedBy270Degrees
                                                                                      },
                                                                                      {
                                                                                        2, FieldOrientation.RotatedBy180Degrees
                                                                                      },
                                                                                      {
-                                                                                       3, FieldOrientation.RotatedBy270Degrees
+                                                                                       3, FieldOrientation.RotatedBy90Degrees
                                                                                      }
                                                                                    };
 
