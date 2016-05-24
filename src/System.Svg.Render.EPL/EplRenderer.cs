@@ -105,11 +105,6 @@ namespace System.Svg.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual EplStream CreateEplStream() => new EplStream();
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     protected virtual Matrix CreateParentMatrix() => new Matrix();
 
     [NotNull]
@@ -119,7 +114,7 @@ namespace System.Svg.Render.EPL
                                                               [NotNull] Matrix matrix,
                                                               [NotNull] Matrix viewMatrix)
     {
-      var container = this.CreateEplStream();
+      var container = this.EplCommands.CreateEplStream();
 
       var type = svgElement.GetType();
 
@@ -146,7 +141,7 @@ namespace System.Svg.Render.EPL
     public override EplStream GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();
-      var eplStream = this.CreateEplStream();
+      var eplStream = this.EplCommands.CreateEplStream();
 
       eplStream.Add(this.EplCommands.SetReferencePoint(0,
                                                        0));

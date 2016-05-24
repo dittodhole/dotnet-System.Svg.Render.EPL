@@ -118,7 +118,7 @@ namespace System.Svg.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual EplStream CreateEplStream() => new EplStream();
+    public virtual EplStream CreateEplStream() => new EplStream();
 
     [NotNull]
     [Pure]
