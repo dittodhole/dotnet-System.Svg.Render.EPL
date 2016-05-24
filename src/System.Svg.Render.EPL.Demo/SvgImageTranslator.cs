@@ -47,13 +47,13 @@ namespace System.Svg.Render.EPL.Demo
                                       out sourceAlignmentWidth,
                                       out sourceAlignmentHeight);
 
-        var rotation = this.EplTransformer.GetRotation(matrix);
+        var sector = this.EplTransformer.GetRotationSector(matrix);
 
         var horizontalStart = (int) startX;
         var verticalStart = (int) startY;
         var height = (int) sourceAlignmentHeight;
 
-        if (rotation % 2 > 0)
+        if (sector % 2 > 0)
         {
           horizontalStart += height;
         }
@@ -76,7 +76,7 @@ namespace System.Svg.Render.EPL.Demo
         {
           var eplStream = this.EplCommands.BarCode(horizontalStart,
                                                    verticalStart,
-                                                   rotation,
+                                                   sector,
                                                    barCodeSelection,
                                                    narrowBarWidth,
                                                    wideBarWidth,

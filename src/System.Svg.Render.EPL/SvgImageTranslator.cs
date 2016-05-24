@@ -215,8 +215,6 @@ namespace System.Svg.Render.EPL
           return null;
         }
 
-        var rotationTranslation = this.EplTransformer.GetRotation(matrix);
-
         Bitmap bitmap;
         if (stretchImage)
         {
@@ -269,7 +267,7 @@ namespace System.Svg.Render.EPL
           }
         }
 
-        var rotateFlipType = (RotateFlipType) rotationTranslation;
+        var rotateFlipType = (RotateFlipType) this.EplTransformer.GetRotationSector(matrix);
         bitmap.RotateFlip(rotateFlipType);
 
         return bitmap;

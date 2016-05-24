@@ -27,51 +27,6 @@ namespace System.Svg.Render.EPL
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
 
-    [NotNull]
-    [ItemNotNull]
-    private IDictionary<int, int> SectorMappings { get; } = new Dictionary<int, int>
-                                                            {
-                                                              {
-                                                                0, 0
-                                                              },
-                                                              {
-                                                                1, 1
-                                                              },
-                                                              {
-                                                                2, 2
-                                                              },
-                                                              {
-                                                                3, 3
-                                                              }
-                                                            };
-
-    [Pure]
-    [MustUseReturnValue]
-    public virtual int GetRotation([NotNull] Matrix matrix)
-    {
-      var vector = new PointF(10f,
-                              0f);
-
-      vector = this.ApplyMatrixOnVector(vector,
-                                        matrix);
-
-      var radians = Math.Atan2(vector.Y,
-                               vector.X);
-      var degrees = radians * (180d / Math.PI);
-      if (degrees < 0)
-      {
-        degrees = 360 + degrees;
-      }
-
-      var sector = (int) Math.Round(degrees / 90d) % 4;
-
-      // ReSharper disable ExceptionNotDocumentedOptional
-      var rotation = this.SectorMappings[sector];
-      // ReSharper restore ExceptionNotDocumentedOptional
-
-      return rotation;
-    }
-
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
                                          out int fontSelection,
@@ -241,8 +196,8 @@ namespace System.Svg.Render.EPL
                      out sourceAlignmentWidth,
                      out sourceAlignmentHeight);
 
-      var rotation = this.GetRotation(matrix);
-      if (rotation % 2 > 0)
+      var sector = this.GetRotationSector(matrix);
+      if (sector % 2 > 0)
       {
         var width = Math.Abs(startX - endX);
 

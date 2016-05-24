@@ -50,7 +50,9 @@ namespace System.Svg.Render.EPL
                                     out y,
                                     out fontSize);
 
-      var rotation = this.EplTransformer.GetRotation(matrix);
+      var horizontalStart = (int) x;
+      var verticalStart = (int) y;
+      var sector = this.EplTransformer.GetRotationSector(matrix);
 
       int fontSelection;
       int horizontalMultiplier;
@@ -61,13 +63,8 @@ namespace System.Svg.Render.EPL
                                            out horizontalMultiplier,
                                            out verticalMultiplier);
 
-      var horizontalStart = (int) x;
-      var verticalStart = (int) y;
-
-      var invert = (svgElement.Fill as SvgColourServer)?.Colour == Color.White;
-
       ReverseImage reverseImage;
-      if (invert)
+      if ((svgElement.Fill as SvgColourServer)?.Colour == Color.White)
       {
         reverseImage = ReverseImage.Reverse;
       }
@@ -78,7 +75,7 @@ namespace System.Svg.Render.EPL
 
       var eplStream = this.EplCommands.AsciiText(horizontalStart,
                                                  verticalStart,
-                                                 rotation,
+                                                 sector,
                                                  fontSelection,
                                                  horizontalMultiplier,
                                                  verticalMultiplier,
