@@ -1,5 +1,4 @@
 ﻿using System.Drawing.Drawing2D;
-using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable ExceptionNotDocumentedOptional
