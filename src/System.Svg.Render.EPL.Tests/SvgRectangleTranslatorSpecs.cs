@@ -55,7 +55,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void returns_valid_epl_code()
       {
-        Assert.AreEqual("X80,30,20,160,180",
+        Assert.AreEqual("X65,35,20,175,175",
                         this.Actual);
       }
     }
@@ -81,7 +81,7 @@ namespace System.Svg.Render.EPL.Tests
       [TestMethod]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LO-70,70,100,50",
+        Assert.AreEqual("LO30,70,100,50",
                         this.Actual);
       }
     }
