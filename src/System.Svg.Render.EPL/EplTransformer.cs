@@ -28,6 +28,24 @@ namespace System.Svg.Render.EPL
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
 
     [NotNull]
+    [ItemNotNull]
+    private IDictionary<int, int> SectorMappings { get; } = new Dictionary<int, int>
+                                                            {
+                                                              {
+                                                                0, 0
+                                                              },
+                                                              {
+                                                                1, 1
+                                                              },
+                                                              {
+                                                                2, 2
+                                                              },
+                                                              {
+                                                                3, 3
+                                                              }
+                                                            };
+
+    [NotNull]
     [Pure]
     [MustUseReturnValue]
     public virtual Matrix CreateViewMatrix(float sourceDpi,
@@ -67,12 +85,21 @@ namespace System.Svg.Render.EPL
       vector = this.ApplyMatrixOnVector(vector,
                                         matrix);
 
-      var rotation = Math.Atan2(vector.Y,
-                                vector.X) / (2 * Math.PI) * 4;
+      var radians = Math.Atan2(vector.Y,
+                               vector.X);
+      var degrees = radians * (180d / Math.PI);
+      if (degrees < 0)
+      {
+        degrees = 360 + degrees;
+      }
 
-      var rotationTranslation = (int) Math.Abs(rotation) % 4;
+      var sector = (int) Math.Round(degrees / 90d);
 
-      return rotationTranslation;
+      // ReSharper disable ExceptionNotDocumentedOptional
+      var rotation = this.SectorMappings[sector];
+      // ReSharper restore ExceptionNotDocumentedOptional
+
+      return rotation;
     }
 
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
