@@ -40,26 +40,22 @@ namespace System.Svg.Render.EPL
 
       // ReSharper disable ExceptionNotDocumentedOptional
       foreach (var svgLineSegment in svgElement.PathData.OfType<SvgLineSegment>())
-      // ReSharper restore ExceptionNotDocumentedOptional
-      {
-        var eplStream = this.TranslateSvgLineSegment(svgElement,
-                                                     svgLineSegment,
-                                                     matrix);
-        // ReSharper disable ExceptionNotDocumentedOptional
-        if (eplStream.Any())
         // ReSharper restore ExceptionNotDocumentedOptional
-        {
-          container.Add(eplStream);
-        }
+      {
+        this.TranslateSvgLineSegment(svgElement,
+                                     svgLineSegment,
+                                     matrix,
+                                     container);
       }
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual string TranslateSvgLineSegment([NotNull] SvgPath instance,
-                                                     [NotNull] SvgLineSegment svgLineSegment,
-                                                     [NotNull] Matrix matrix)
+    protected virtual void TranslateSvgLineSegment([NotNull] SvgPath instance,
+                                                   [NotNull] SvgLineSegment svgLineSegment,
+                                                   [NotNull] Matrix matrix,
+                                                   [NotNull] EplStream container)
     {
       var svgLine = new SvgLine
                     {
@@ -99,10 +95,10 @@ namespace System.Svg.Render.EPL
         verticalLength = (int) strokeWidth;
       }
 
-      return this.EplCommands.LineDrawBlack(horizontalStart,
-                                            verticalStart,
-                                            horizontalLength,
-                                            verticalLength);
+      container.Add(this.EplCommands.LineDrawBlack(horizontalStart,
+                                                   verticalStart,
+                                                   horizontalLength,
+                                                   verticalLength));
     }
   }
 }

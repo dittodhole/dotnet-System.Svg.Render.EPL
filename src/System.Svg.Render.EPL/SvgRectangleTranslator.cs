@@ -32,22 +32,25 @@ namespace System.Svg.Render.EPL
       if (svgElement.Fill != SvgPaintServer.None
           && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
       {
-        container.Add(this.TranslateFilledBox(svgElement,
-                                              matrix));
+        this.TranslateFilledBox(svgElement,
+                                matrix,
+                                container);
       }
 
       if (svgElement.Stroke != SvgPaintServer.None)
       {
-        container.Add(this.TranslateBox(svgElement,
-                                        matrix));
+        this.TranslateBox(svgElement,
+                          matrix,
+                          container);
       }
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual string TranslateFilledBox([NotNull] SvgRectangle instance,
-                                                [NotNull] Matrix matrix)
+    protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
+                                              [NotNull] Matrix matrix,
+                                              [NotNull] EplStream container)
     {
       var startX = this.SvgUnitReader.GetValue(instance,
                                                instance.X);
@@ -83,17 +86,18 @@ namespace System.Svg.Render.EPL
       var horizontalLength = (int) Math.Abs(endX - startX);
       var verticalLength = (int) Math.Abs(endY - startY);
 
-      return this.EplCommands.LineDrawBlack(horizontalStart,
-                                            verticalStart,
-                                            horizontalLength,
-                                            verticalLength);
+      container.Add(this.EplCommands.LineDrawBlack(horizontalStart,
+                                                   verticalStart,
+                                                   horizontalLength,
+                                                   verticalLength));
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual string TranslateBox([NotNull] SvgRectangle instance,
-                                          [NotNull] Matrix matrix)
+    protected virtual void TranslateBox([NotNull] SvgRectangle instance,
+                                        [NotNull] Matrix matrix,
+                                        [NotNull] EplStream container)
     {
       float startX;
       float endX;
@@ -114,11 +118,11 @@ namespace System.Svg.Render.EPL
       var horizontalEnd = (int) endX;
       var verticalEnd = (int) endY;
 
-      return this.EplCommands.DrawBox(horizontalStart,
-                                      verticalStart,
-                                      lineThickness,
-                                      horizontalEnd,
-                                      verticalEnd);
+      container.Add(this.EplCommands.DrawBox(horizontalStart,
+                                             verticalStart,
+                                             lineThickness,
+                                             horizontalEnd,
+                                             verticalEnd));
     }
   }
 }

@@ -74,22 +74,16 @@ namespace System.Svg.Render.EPL.Demo
                                         out wideBarWidth,
                                         out printHumanReadable))
         {
-          var eplStream = this.EplCommands.BarCode(horizontalStart,
-                                                   verticalStart,
-                                                   sector,
-                                                   barCodeSelection,
-                                                   narrowBarWidth,
-                                                   wideBarWidth,
-                                                   height,
-                                                   printHumanReadable,
-                                                   barcode);
-          // ReSharper disable ExceptionNotDocumentedOptional
-          if (eplStream.Any())
-          // ReSharper restore ExceptionNotDocumentedOptional
-          {
-            container.Add(eplStream);
-            return;
-          }
+          container.Add(this.EplCommands.BarCode(horizontalStart,
+                                                 verticalStart,
+                                                 sector,
+                                                 barCodeSelection,
+                                                 narrowBarWidth,
+                                                 wideBarWidth,
+                                                 height,
+                                                 printHumanReadable,
+                                                 barcode));
+          return;
         }
       }
 

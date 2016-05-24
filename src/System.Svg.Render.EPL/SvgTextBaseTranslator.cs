@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -73,20 +72,14 @@ namespace System.Svg.Render.EPL
         reverseImage = ReverseImage.Normal;
       }
 
-      var eplStream = this.EplCommands.AsciiText(horizontalStart,
-                                                 verticalStart,
-                                                 sector,
-                                                 fontSelection,
-                                                 horizontalMultiplier,
-                                                 verticalMultiplier,
-                                                 reverseImage,
-                                                 text);
-      // ReSharper disable ExceptionNotDocumentedOptional
-      if (eplStream.Any())
-      // ReSharper restore ExceptionNotDocumentedOptional
-      {
-        container.Add(eplStream);
-      }
+      container.Add(this.EplCommands.AsciiText(horizontalStart,
+                                               verticalStart,
+                                               sector,
+                                               fontSelection,
+                                               horizontalMultiplier,
+                                               verticalMultiplier,
+                                               reverseImage,
+                                               text));
     }
 
     [Pure]
