@@ -96,8 +96,8 @@ namespace System.Svg.Render.ZPL
       width = 0;
     }
 
-    public override void Transform(SvgTextBase svgTextBase,
-                                   Matrix matrix,
+    public override void Transform([NotNull] SvgTextBase svgTextBase,
+                                   [NotNull] Matrix matrix,
                                    out float startX,
                                    out float startY,
                                    out float fontSize)
@@ -108,7 +108,14 @@ namespace System.Svg.Render.ZPL
                      out startY,
                      out fontSize);
 
-      startX += fontSize;
+      if (this.GetRotationSector(matrix) % 2 == 0)
+      {
+        startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
+      }
+      else
+      {
+        startX += fontSize / this.GetLineHeightFactor(svgTextBase);
+      }
     }
   }
 }
