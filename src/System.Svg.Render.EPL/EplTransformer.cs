@@ -177,56 +177,6 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    public override void Transform(SvgImage svgImage,
-                                   Matrix matrix,
-                                   out float startX,
-                                   out float startY,
-                                   out float endX,
-                                   out float endY,
-                                   out float sourceAlignmentWidth,
-                                   out float sourceAlignmentHeight)
-    {
-      base.Transform(svgImage,
-                     matrix,
-                     out startX,
-                     out startY,
-                     out endX,
-                     out endY,
-                     out sourceAlignmentWidth,
-                     out sourceAlignmentHeight);
-
-      var sector = this.GetRotationSector(matrix);
-      if (sector % 2 > 0)
-      {
-        var width = endX - startX;
-
-        startX -= width;
-        endX -= width;
-      }
-    }
-
-    public override void Transform([NotNull] SvgLine svgLine,
-                                   [NotNull] Matrix matrix,
-                                   out float startX,
-                                   out float startY,
-                                   out float endX,
-                                   out float endY,
-                                   out float strokeWidth)
-    {
-      base.Transform(svgLine,
-                     matrix,
-                     out startX,
-                     out startY,
-                     out endX,
-                     out endY,
-                     out strokeWidth);
-
-      var width = endX - startX;
-
-      startX -= width;
-      endX -= width;
-    }
-
     private class FontDefinitionCandidate
     {
       public int FontSelection { get; set; }

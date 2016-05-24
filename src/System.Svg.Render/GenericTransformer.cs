@@ -172,16 +172,30 @@ namespace System.Svg.Render
                               out startX,
                               out startY);
 
-      sourceAlignmentWidth = this.ApplyMatrixOnLength(sourceAlignmentWidth,
-                                                      matrix);
-      sourceAlignmentHeight = this.ApplyMatrixOnLength(sourceAlignmentHeight,
-                                                       matrix);
-
       this.ApplyMatrixOnPoint(endX,
                               endY,
                               matrix,
                               out endX,
                               out endY);
+
+      if (endY < startY)
+      {
+        var temp = startY;
+        startY = endY;
+        endY = temp;
+      }
+
+      if (endX < startX)
+      {
+        var temp = startX;
+        startX = endX;
+        endX = temp;
+      }
+
+      sourceAlignmentWidth = this.ApplyMatrixOnLength(sourceAlignmentWidth,
+                                                      matrix);
+      sourceAlignmentHeight = this.ApplyMatrixOnLength(sourceAlignmentHeight,
+                                                       matrix);
     }
 
     [Pure]
