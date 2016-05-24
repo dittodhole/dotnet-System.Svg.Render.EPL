@@ -147,20 +147,32 @@ namespace System.Svg.Render.ZPL
       var parentMatrix = this.CreateParentMatrix();
       var zplStream = this.ZplCommands.CreateZplStream();
 
+      this.AddHeaderToTranslation(zplStream);
+      this.AddBodyToTranslation(svgDocument,
+                                parentMatrix,
+                                zplStream);
+
+      return zplStream;
+    }
+
+    protected virtual void AddHeaderToTranslation([NotNull] ZplStream zplStream)
+    {
       zplStream.Add(this.ZplCommands.LabelHome(0,
                                                0));
       zplStream.Add(this.ZplCommands.PrintOrientation(PrintOrientation.Normal));
       zplStream.Add(this.ZplCommands.ChangeInternationalFont(this.CharacterSet));
+    }
 
+    protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
+                                                [NotNull] Matrix parentMatrix,
+                                                [NotNull] ZplStream zplStream)
+    {
       zplStream.Add(this.ZplCommands.StartFormat());
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
                                           this.ViewMatrix,
                                           zplStream);
-
       zplStream.Add(this.ZplCommands.EndFormat());
-
-      return zplStream;
     }
   }
 }

@@ -143,22 +143,39 @@ namespace System.Svg.Render.EPL
       var parentMatrix = this.CreateParentMatrix();
       var eplStream = this.EplCommands.CreateEplStream();
 
+      this.AddHeaderToTranslation(eplStream);
+      this.AddBodyToTranslation(svgDocument,
+                           parentMatrix,
+                           eplStream);
+      this.AddFooterToTranslation(eplStream);
+
+      return eplStream;
+    }
+
+    protected virtual void AddHeaderToTranslation([NotNull] EplStream eplStream)
+    {
       eplStream.Add(this.EplCommands.SetReferencePoint(0,
                                                        0));
       eplStream.Add(this.EplCommands.PrintDirection(PrintOrientation.Top));
       eplStream.Add(this.EplCommands.CharacterSetSelection(8,
                                                            this.PrinterCodepage,
                                                            this.CountryCode));
+    }
 
+    protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
+                                      [NotNull] Matrix parentMatrix,
+                                      [NotNull] EplStream eplStream)
+    {
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
                                           this.ViewMatrix,
                                           eplStream);
+    }
 
+    protected virtual void AddFooterToTranslation([NotNull] EplStream eplStream)
+    {
       eplStream.Add(this.EplCommands.Print(1));
       eplStream.Add(string.Empty);
-
-      return eplStream;
     }
   }
 }
