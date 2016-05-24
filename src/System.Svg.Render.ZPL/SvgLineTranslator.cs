@@ -54,8 +54,8 @@ namespace System.Svg.Render.ZPL
 
         var horizontalStart = (int) startX;
         var verticalStart = (int) endY;
-        var width = (int) Math.Abs(endX - startX);
-        var height = (int) Math.Abs(endY - startY);
+        var width = (int) (endX - startX);
+        var height = (int) (endY - startY);
         var thickness = (int) strokeWidth;
 
         container.Add(this.ZplCommands.FieldTypeset(horizontalStart,

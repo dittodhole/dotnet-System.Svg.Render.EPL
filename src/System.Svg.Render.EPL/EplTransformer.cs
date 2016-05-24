@@ -198,7 +198,7 @@ namespace System.Svg.Render.EPL
       var sector = this.GetRotationSector(matrix);
       if (sector % 2 > 0)
       {
-        var width = Math.Abs(startX - endX);
+        var width = endX - startX;
 
         startX -= width;
         endX -= width;
@@ -221,34 +221,10 @@ namespace System.Svg.Render.EPL
                      out endY,
                      out strokeWidth);
 
-      var width = Math.Abs(endX - startX);
+      var width = endX - startX;
 
       startX -= width;
       endX -= width;
-    }
-
-    public override void Transform([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix matrix,
-                                   out float startX,
-                                   out float startY,
-                                   out float endX,
-                                   out float endY,
-                                   out float strokeWidth)
-    {
-      base.Transform(svgRectangle,
-                     matrix,
-                     out startX,
-                     out startY,
-                     out endX,
-                     out endY,
-                     out strokeWidth);
-
-      // TODO test this
-
-      startX -= strokeWidth / 2f;
-      endX += strokeWidth / 2f;
-      startY -= strokeWidth / 2f;
-      endY += strokeWidth / 2f;
     }
 
     private class FontDefinitionCandidate

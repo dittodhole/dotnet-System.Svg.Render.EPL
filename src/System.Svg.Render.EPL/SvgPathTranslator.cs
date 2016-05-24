@@ -80,13 +80,13 @@ namespace System.Svg.Render.EPL
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
-      var horizontalLength = (int) Math.Abs(endX - startX);
+      var horizontalLength = (int) (endX - startX);
       if (horizontalLength == 0)
       {
         horizontalLength = (int) strokeWidth;
       }
 
-      var verticalLength = (int) Math.Abs(endY - startY);
+      var verticalLength = (int) (endY - startY);
       if (verticalLength == 0)
       {
         verticalLength = (int) strokeWidth;

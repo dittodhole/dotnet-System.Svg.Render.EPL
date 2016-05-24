@@ -127,6 +127,20 @@ namespace System.Svg.Render
                               out endX,
                               out endY);
 
+      if (endX < startX)
+      {
+        var temp = startX;
+        startX = endX;
+        endX = temp;
+      }
+
+      if (endY < startY)
+      {
+        var temp = startY;
+        startY = endY;
+        endY = temp;
+      }
+
       strokeWidth = this.ApplyMatrixOnLength(strokeWidth,
                                              matrix);
     }
@@ -202,8 +216,27 @@ namespace System.Svg.Render
                               out endX,
                               out endY);
 
+      if (endY < startY)
+      {
+        var temp = startY;
+        startY = endY;
+        endY = temp;
+      }
+
+      if (endX < startX)
+      {
+        var temp = startX;
+        startX = endX;
+        endX = temp;
+      }
+
       strokeWidth = this.ApplyMatrixOnLength(strokeWidth,
                                              matrix);
+
+      startX -= strokeWidth / 4f;
+      endX += strokeWidth / 4f;
+      startY -= strokeWidth / 4f;
+      endY += strokeWidth / 4f;
     }
 
     [Pure]

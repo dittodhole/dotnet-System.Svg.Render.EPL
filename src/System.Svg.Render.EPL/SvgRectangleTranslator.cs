@@ -80,8 +80,8 @@ namespace System.Svg.Render.EPL
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
-      var horizontalLength = (int) Math.Abs(endX - startX);
-      var verticalLength = (int) Math.Abs(endY - startY);
+      var horizontalLength = (int) (endX - startX);
+      var verticalLength = (int) (endY - startY);
 
       container.Add(this.EplCommands.LineDrawBlack(horizontalStart,
                                                    verticalStart,
