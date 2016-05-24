@@ -50,21 +50,7 @@ namespace System.Svg.Render.ZPL
     [MustUseReturnValue]
     public virtual FieldOrientation GetRotation([NotNull] Matrix matrix)
     {
-      var vector = new PointF(10f,
-                              0f);
-
-      vector = this.ApplyMatrixOnVector(vector,
-                                        matrix);
-
-      var radians = Math.Atan2(vector.Y,
-                               vector.X);
-      var degrees = radians * (180d / Math.PI);
-      if (degrees < 0)
-      {
-        degrees = 360 + degrees;
-      }
-
-      var sector = (int) Math.Round(degrees / 90d) % 4;
+      var sector = this.GetRotationSector(matrix);
 
       // ReSharper disable ExceptionNotDocumentedOptional
       var fieldOrientation = this.SectorMappings[sector];
