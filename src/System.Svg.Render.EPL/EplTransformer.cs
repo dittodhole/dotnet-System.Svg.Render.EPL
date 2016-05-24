@@ -93,7 +93,7 @@ namespace System.Svg.Render.EPL
         degrees = 360 + degrees;
       }
 
-      var sector = (int) Math.Round(degrees / 90d);
+      var sector = (int) Math.Round(degrees / 90d) % 4;
 
       // ReSharper disable ExceptionNotDocumentedOptional
       var rotation = this.SectorMappings[sector];
