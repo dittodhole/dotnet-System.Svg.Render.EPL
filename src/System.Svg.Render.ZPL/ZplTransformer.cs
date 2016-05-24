@@ -64,7 +64,7 @@ namespace System.Svg.Render.ZPL
         degrees = 360 + degrees;
       }
 
-      var sector = (int) Math.Round(degrees / 90d);
+      var sector = (int) Math.Round(degrees / 90d) % 4;
 
       // ReSharper disable ExceptionNotDocumentedOptional
       var fieldOrientation = this.SectorMappings[sector];
