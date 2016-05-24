@@ -44,9 +44,6 @@ namespace System.Svg.Render.ZPL
       }
     }
 
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
                                               [NotNull] Matrix matrix,
                                               [NotNull] ZplStream container)

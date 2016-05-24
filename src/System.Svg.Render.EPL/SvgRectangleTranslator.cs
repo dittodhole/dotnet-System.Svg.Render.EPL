@@ -45,9 +45,6 @@ namespace System.Svg.Render.EPL
       }
     }
 
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
                                               [NotNull] Matrix matrix,
                                               [NotNull] EplStream container)
@@ -92,9 +89,6 @@ namespace System.Svg.Render.EPL
                                                    verticalLength));
     }
 
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     protected virtual void TranslateBox([NotNull] SvgRectangle instance,
                                         [NotNull] Matrix matrix,
                                         [NotNull] EplStream container)

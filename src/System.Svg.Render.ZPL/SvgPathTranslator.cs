@@ -49,9 +49,6 @@ namespace System.Svg.Render.ZPL
       }
     }
 
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     protected virtual void TranslateSvgLineSegment([NotNull] SvgPath instance,
                                                    [NotNull] SvgLineSegment svgLineSegment,
                                                    [NotNull] Matrix matrix,
