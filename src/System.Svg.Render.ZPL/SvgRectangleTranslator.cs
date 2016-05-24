@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.ZPL
@@ -30,36 +29,27 @@ namespace System.Svg.Render.ZPL
                                    [NotNull] Matrix matrix,
                                    [NotNull] ZplStream container)
     {
-      ZplStream zplStream;
-
       if (svgElement.Fill != SvgPaintServer.None
           && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
       {
-        zplStream = this.TranslateFilledBox(svgElement,
-                                            matrix);
+        this.TranslateFilledBox(svgElement,
+                                matrix,
+                                container);
       }
       else if (svgElement.Stroke != SvgPaintServer.None)
       {
-        zplStream = this.TranslateBox(svgElement,
-                                      matrix);
-      }
-      else
-      {
-        return;
-      }
-      // ReSharper disable ExceptionNotDocumentedOptional
-      if (zplStream.Any())
-      // ReSharper restore ExceptionNotDocumentedOptional
-      {
-        container.Add(zplStream);
+        this.TranslateBox(svgElement,
+                          matrix,
+                          container);
       }
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual ZplStream TranslateFilledBox([NotNull] SvgRectangle instance,
-                                                   [NotNull] Matrix matrix)
+    protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
+                                              [NotNull] Matrix matrix,
+                                              [NotNull] ZplStream container)
     {
       var startX = this.SvgUnitReader.GetValue(instance,
                                                instance.X);
@@ -91,24 +81,24 @@ namespace System.Svg.Render.ZPL
                                     out strokeWidth);
 
       var horizontalStart = (int) startX;
-      var verticalStart = (int) startY;
+      var verticalStart = (int) endY;
       var width = (int) Math.Abs(endX - startX);
       var thickness = (int) Math.Abs(endY - startY);
-      var zplStream = this.ZplCommands.GraphicBox(horizontalStart,
-                                                  verticalStart,
-                                                  width,
-                                                  0,
-                                                  thickness,
-                                                  LineColor.Black);
 
-      return zplStream;
+      container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                  verticalStart));
+      container.Add(this.ZplCommands.GraphicBox(width,
+                                                0,
+                                                thickness,
+                                                LineColor.Black));
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual ZplStream TranslateBox([NotNull] SvgRectangle instance,
-                                             [NotNull] Matrix matrix)
+    protected virtual void TranslateBox([NotNull] SvgRectangle instance,
+                                        [NotNull] Matrix matrix,
+                                        [NotNull] ZplStream container)
     {
       float startX;
       float endX;
@@ -124,19 +114,17 @@ namespace System.Svg.Render.ZPL
                                     out strokeWidth);
 
       var horizontalStart = (int) startX;
-      var verticalStart = (int) startY;
+      var verticalStart = (int) endY;
       var width = (int) Math.Abs(endX - startX);
       var height = (int) Math.Abs(endY - startY);
       var thickness = (int) strokeWidth;
 
-      var zplStream = this.ZplCommands.GraphicBox(horizontalStart,
-                                                  verticalStart,
-                                                  width,
-                                                  height,
-                                                  thickness,
-                                                  LineColor.Black);
-
-      return zplStream;
+      container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                  verticalStart));
+      container.Add(this.ZplCommands.GraphicBox(width,
+                                                height,
+                                                thickness,
+                                                LineColor.Black));
     }
   }
 }

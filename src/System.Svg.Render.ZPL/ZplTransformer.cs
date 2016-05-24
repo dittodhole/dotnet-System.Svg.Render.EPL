@@ -30,19 +30,19 @@ namespace System.Svg.Render.ZPL
 
     [NotNull]
     [ItemNotNull]
-    private IDictionary<int, FieldOrientation> FieldOrientationMappings { get; } = new Dictionary<int, FieldOrientation>
+    private IDictionary<int, FieldOrientation> SectorMappings { get; } = new Dictionary<int, FieldOrientation>
                                                                                    {
                                                                                      {
                                                                                        0, FieldOrientation.Normal
                                                                                      },
                                                                                      {
-                                                                                       1, FieldOrientation.RotatedBy270Degrees
+                                                                                       1, FieldOrientation.RotatedBy90Degrees
                                                                                      },
                                                                                      {
                                                                                        2, FieldOrientation.RotatedBy180Degrees
                                                                                      },
                                                                                      {
-                                                                                       3, FieldOrientation.RotatedBy90Degrees
+                                                                                       3, FieldOrientation.RotatedBy270Degrees
                                                                                      }
                                                                                    };
 
@@ -56,15 +56,18 @@ namespace System.Svg.Render.ZPL
       vector = this.ApplyMatrixOnVector(vector,
                                         matrix);
 
-      // ReSharper disable ExceptionNotDocumentedOptional
-      var fieldOrientations = this.FieldOrientationMappings.Count();
-      // ReSharper restore ExceptionNotDocumentedOptional
+      var radians = Math.Atan2(vector.Y,
+                               vector.X);
+      var degrees = radians * (180d / Math.PI);
+      if (degrees < 0)
+      {
+        degrees = 360 + degrees;
+      }
 
-      var key = (int) Math.Abs(Math.Atan2(vector.Y,
-                                          vector.X) / (2 * Math.PI) * fieldOrientations) % fieldOrientations;
+      var sector = (int) Math.Round(degrees / 90d);
 
       // ReSharper disable ExceptionNotDocumentedOptional
-      var fieldOrientation = this.FieldOrientationMappings[key];
+      var fieldOrientation = this.SectorMappings[sector];
       // ReSharper restore ExceptionNotDocumentedOptional
 
       return fieldOrientation;
@@ -173,7 +176,6 @@ namespace System.Svg.Render.ZPL
     {
       fontName = "0";
       characterHeight = (int) fontSize;
-      //width = characterHeight / 15 * 12;
       width = 0;
     }
 

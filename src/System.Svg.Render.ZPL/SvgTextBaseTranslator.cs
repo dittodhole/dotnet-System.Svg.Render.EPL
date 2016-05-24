@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -19,22 +18,6 @@ namespace System.Svg.Render.ZPL
       this.ZplTransformer = zplTransformer;
       this.ZplCommands = zplCommands;
     }
-
-    private IDictionary<int, FieldOrientation> RotationMappings { get; } = new Dictionary<int, FieldOrientation>
-                                                                           {
-                                                                             {
-                                                                               0, FieldOrientation.Normal
-                                                                             },
-                                                                             {
-                                                                               1, FieldOrientation.RotatedBy90Degrees
-                                                                             },
-                                                                             {
-                                                                               2, FieldOrientation.RotatedBy180Degrees
-                                                                             },
-                                                                             {
-                                                                               3, FieldOrientation.RotatedBy270Degrees
-                                                                             }
-                                                                           };
 
     [NotNull]
     protected ZplTransformer ZplTransformer { get; }
@@ -73,26 +56,19 @@ namespace System.Svg.Render.ZPL
       string fontName;
       int characterHeight;
       int width;
-
       this.ZplTransformer.GetFontSelection(svgElement,
                                            fontSize,
                                            out fontName,
                                            out characterHeight,
                                            out width);
 
-      var zplStream = this.ZplCommands.Font(horizontalStart,
-                                            verticalStart,
-                                            fontName,
-                                            fieldOrientation,
-                                            characterHeight,
-                                            width,
-                                            text);
-      // ReSharper disable ExceptionNotDocumentedOptional
-      if (zplStream.Any())
-      // ReSharper restore ExceptionNotDocumentedOptional
-      {
-        container.Add(zplStream);
-      }
+      container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                  verticalStart));
+      container.Add(this.ZplCommands.Font(fontName,
+                                          fieldOrientation,
+                                          characterHeight,
+                                          width,
+                                          text));
     }
 
     [Pure]

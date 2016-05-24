@@ -24,58 +24,45 @@ namespace System.Svg.Render.ZPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual ZplStream GraphicBox(int horizontalStart,
-                                        int verticalStart,
-                                        int width,
-                                        int height,
-                                        int thickness,
-                                        LineColor lineColor)
+    public virtual string FieldTypeset(int horizontalStart,
+                                       int verticalStart)
     {
-      var zplStream = this.CreateZplStream();
-      zplStream.Add(this.FieldOrigin(horizontalStart,
-                                     verticalStart));
-      zplStream.Add($"^GB{width},{height},{thickness},{(char) lineColor}^FS");
-
-      return zplStream;
+      return $"^FT{horizontalStart},{verticalStart}";
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual ZplStream GraphicDiagonalLine(int horizontalStart,
-                                                 int verticalStart,
-                                                 int width,
-                                                 int height,
-                                                 int thickness,
-                                                 LineColor lineColor,
-                                                 Orientation orientation)
+    public virtual string GraphicBox(int width,
+                                     int height,
+                                     int thickness,
+                                     LineColor lineColor)
     {
-      var zplStream = this.CreateZplStream();
-      zplStream.Add(this.FieldOrigin(horizontalStart,
-                                     verticalStart));
-      zplStream.Add($"^GD{width},{height},{thickness},{(char) lineColor},{(char) orientation}^FS");
-
-      return zplStream;
+      return $"^GB{width},{height},{thickness},{(char) lineColor}^FS";
     }
+
+    //[NotNull]
+    //[Pure]
+    //[MustUseReturnValue]
+    //public virtual string GraphicDiagonalLine(int width,
+    //                                          int height,
+    //                                          int thickness,
+    //                                          LineColor lineColor,
+    //                                          Orientation orientation)
+    //{
+    //  return $"^GD{width},{height},{thickness},{(char) lineColor},{(char) orientation}^FS";
+    //}
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual ZplStream Font(int horizontalStart,
-                                  int verticalStart,
-                                  [NotNull] string fontName,
-                                  FieldOrientation fieldOrientation,
-                                  int characterHeight,
-                                  int width,
-                                  string text)
+    public virtual string Font([NotNull] string fontName,
+                               FieldOrientation fieldOrientation,
+                               int characterHeight,
+                               int width,
+                               string text)
     {
-      var zplStream = this.CreateZplStream();
-      zplStream.Add(this.FieldOrigin(horizontalStart,
-                                     verticalStart));
-      zplStream.Add($"^A{fontName}{(char) fieldOrientation},{characterHeight},{width}");
-      zplStream.Add($"^FD{text}^FS");
-
-      return zplStream;
+      return $"^A{fontName}{(char) fieldOrientation},{characterHeight},{width}^FD{text}^FS";
     }
 
     [NotNull]

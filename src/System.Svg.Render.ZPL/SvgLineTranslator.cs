@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using JetBrains.Annotations;
 
 namespace System.Svg.Render.ZPL
@@ -38,8 +37,6 @@ namespace System.Svg.Render.ZPL
                                     out endY,
                                     out strokeWidth);
 
-      ZplStream zplStream;
-
       // TODO find a good TOLERANCE
       if (Math.Abs(startY - endY) < 0.5f
           || Math.Abs(startX - endX) < 0.5f)
@@ -56,29 +53,22 @@ namespace System.Svg.Render.ZPL
         }
 
         var horizontalStart = (int) startX;
-        var verticalStart = (int) startY;
+        var verticalStart = (int) endY;
         var width = (int) Math.Abs(endX - startX);
         var height = (int) Math.Abs(endY - startY);
         var thickness = (int) strokeWidth;
 
-        zplStream = this.ZplCommands.GraphicBox(horizontalStart,
-                                                verticalStart,
-                                                width,
-                                                height,
-                                                thickness,
-                                                lineColor);
+        container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                    verticalStart));
+        container.Add(this.ZplCommands.GraphicBox(width,
+                                                  height,
+                                                  thickness,
+                                                  lineColor));
       }
       else
       {
         // TODO
         throw new NotImplementedException();
-      }
-
-      // ReSharper disable ExceptionNotDocumentedOptional
-      if (zplStream.Any())
-      // ReSharper restore ExceptionNotDocumentedOptional
-      {
-        container.Add(zplStream);
       }
     }
   }
