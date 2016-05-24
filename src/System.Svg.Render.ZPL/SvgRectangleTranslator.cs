@@ -81,13 +81,28 @@ namespace System.Svg.Render.ZPL
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) endY;
-      var width = (int) (endX - startX);
-      var thickness = (int) (endY - startY);
+      int width;
+      int height;
+      int thickness;
+
+      var sector = this.ZplTransformer.GetRotationSector(matrix);
+      if (sector % 2 == 0)
+      {
+        width = (int) (endX - startX);
+        height = 0;
+        thickness = (int) (endY - startY);
+      }
+      else
+      {
+        width = 0;
+        height = (int) (endY - startY);
+        thickness = (int) (endX - startX);
+      }
 
       container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                   verticalStart));
       container.Add(this.ZplCommands.GraphicBox(width,
-                                                0,
+                                                height,
                                                 thickness,
                                                 LineColor.Black));
     }
