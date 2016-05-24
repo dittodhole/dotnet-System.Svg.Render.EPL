@@ -48,6 +48,8 @@ namespace System.Svg.Render.ZPL
                                               [NotNull] Matrix matrix,
                                               [NotNull] ZplStream container)
     {
+      // TODO fix this! square gets rendered ...
+
       var startX = this.SvgUnitReader.GetValue(instance,
                                                instance.X);
       var startY = this.SvgUnitReader.GetValue(instance,
