@@ -246,11 +246,6 @@ namespace System.Svg.Render
 
       strokeWidth = this.ApplyMatrixOnLength(strokeWidth,
                                              matrix);
-
-      startX -= strokeWidth / 4f;
-      endX += strokeWidth / 4f;
-      startY -= strokeWidth / 4f;
-      endY += strokeWidth / 4f;
     }
 
     [Pure]
@@ -326,7 +321,7 @@ namespace System.Svg.Render
     public virtual int GetRotationSector([NotNull] Matrix matrix)
     {
       var vector = new PointF(10f,
-                                   0f);
+                              0f);
 
       vector = this.ApplyMatrixOnVector(vector,
                                         matrix);

@@ -177,6 +177,28 @@ namespace System.Svg.Render.EPL
       }
     }
 
+    public override void Transform([NotNull] SvgRectangle svgRectangle,
+                                   [NotNull] Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float endX,
+                                   out float endY,
+                                   out float strokeWidth)
+    {
+      base.Transform(svgRectangle,
+                     matrix,
+                     out startX,
+                     out startY,
+                     out endX,
+                     out endY,
+                     out strokeWidth);
+
+      startX -= strokeWidth / 4f;
+      endX += strokeWidth / 4f;
+      startY -= strokeWidth / 4f;
+      endY += strokeWidth / 4f;
+    }
+
     private class FontDefinitionCandidate
     {
       public int FontSelection { get; set; }
