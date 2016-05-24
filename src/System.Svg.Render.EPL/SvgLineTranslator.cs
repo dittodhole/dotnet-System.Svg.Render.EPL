@@ -22,7 +22,7 @@ namespace System.Svg.Render.EPL
 
     public override void Translate([NotNull] SvgLine svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] EplStream container)
+                                   [NotNull] Container<EplStream> container)
 
     {
       float startX;
@@ -58,17 +58,17 @@ namespace System.Svg.Render.EPL
 
         if (strokeShouldBeWhite)
         {
-          container.Add(this.EplCommands.LineDrawWhite(horizontalStart,
-                                                       verticalStart,
-                                                       horizontalLength,
-                                                       verticalLength));
+          container.Body.Add(this.EplCommands.LineDrawWhite(horizontalStart,
+                                                            verticalStart,
+                                                            horizontalLength,
+                                                            verticalLength));
         }
         else
         {
-          container.Add(this.EplCommands.LineDrawBlack(horizontalStart,
-                                                       verticalStart,
-                                                       horizontalLength,
-                                                       verticalLength));
+          container.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
+                                                            verticalStart,
+                                                            horizontalLength,
+                                                            verticalLength));
         }
       }
       else
@@ -79,11 +79,11 @@ namespace System.Svg.Render.EPL
         var verticalLength = (int) endX;
         var verticalEnd = (int) endY;
 
-        container.Add(this.EplCommands.LineDrawDiagonal(horizontalStart,
-                                                        verticalStart,
-                                                        horizontalLength,
-                                                        verticalLength,
-                                                        verticalEnd));
+        container.Body.Add(this.EplCommands.LineDrawDiagonal(horizontalStart,
+                                                             verticalStart,
+                                                             horizontalLength,
+                                                             verticalLength,
+                                                             verticalEnd));
       }
     }
   }

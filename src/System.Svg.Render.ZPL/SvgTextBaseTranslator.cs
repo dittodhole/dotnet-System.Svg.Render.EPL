@@ -26,7 +26,7 @@ namespace System.Svg.Render.ZPL
 
     public override void Translate([NotNull] T svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] ZplStream container)
+                                   [NotNull] Container<ZplStream> container)
     {
       if (svgElement.Text == null)
       {
@@ -61,13 +61,13 @@ namespace System.Svg.Render.ZPL
                                            out characterHeight,
                                            out width);
 
-      container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                  verticalStart));
-      container.Add(this.ZplCommands.Font(fontName,
-                                          fieldOrientation,
-                                          characterHeight,
-                                          width,
-                                          text));
+      container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                       verticalStart));
+      container.Body.Add(this.ZplCommands.Font(fontName,
+                                               fieldOrientation,
+                                               characterHeight,
+                                               width,
+                                               text));
     }
 
     [Pure]

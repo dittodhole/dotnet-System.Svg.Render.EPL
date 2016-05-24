@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -9,7 +8,7 @@ using JetBrains.Annotations;
 namespace System.Svg.Render.EPL
 {
   [PublicAPI]
-  public class SvgImageTranslator : SvgElementToInternalMemoryTranslator<SvgImage>
+  public class SvgImageTranslator : SvgElementTranslatorBase<SvgImage>
   {
     public SvgImageTranslator([NotNull] EplTransformer eplTransformer,
                               [NotNull] EplCommands eplCommands)
@@ -31,7 +30,7 @@ namespace System.Svg.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual string GetImageIdentifier([NotNull] SvgImage svgImage)
+    protected virtual string CalculateImageIdentifier([NotNull] SvgImage svgImage)
     {
       var result = string.Concat(svgImage.OwnerDocument.ID,
                                  "::",
@@ -51,7 +50,7 @@ namespace System.Svg.Render.EPL
 
     public override void Translate([NotNull] SvgImage svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] EplStream container)
+                                   [NotNull] Container<EplStream> container)
 
     {
       float startX;
@@ -72,60 +71,64 @@ namespace System.Svg.Render.EPL
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;
 
-      var imageIdentifier = this.GetImageIdentifier(svgElement);
       var forceDirectWrite = this.ForceDirectWrite(svgElement);
-
-      string variableName;
-      if (!forceDirectWrite
-          && this.AssumeStoredInInternalMemory)
+      if (forceDirectWrite)
       {
-        variableName = this.GetVariableName(imageIdentifier);
-
-        container.Add(this.EplCommands.PrintGraphics(horizontalStart,
-                                                     verticalStart,
-                                                     variableName));
-      }
-      // ReSharper disable ExceptionNotDocumentedOptional
-      else if (!forceDirectWrite
-               && this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
-                                                                    out variableName))
-      // ReSharper restore ExceptionNotDocumentedOptional
-      {
-        container.Add(this.EplCommands.PrintGraphics(horizontalStart,
-                                                     verticalStart,
-                                                     variableName));
+        this.GraphicDirectWrite(svgElement,
+                                matrix,
+                                sourceAlignmentWidth,
+                                sourceAlignmentHeight,
+                                horizontalStart,
+                                verticalStart,
+                                container);
       }
       else
       {
-        EplStream eplStream;
-
-        using (var bitmap = this.ConvertToBitmap(svgElement,
-                                                 matrix,
-                                                 (int) sourceAlignmentWidth,
-                                                 (int) sourceAlignmentHeight))
+        var variableName = this.StoreGraphics(svgElement,
+                                              matrix,
+                                              sourceAlignmentWidth,
+                                              sourceAlignmentHeight,
+                                              horizontalStart,
+                                              verticalStart,
+                                              container);
+        if (variableName != null)
         {
-          if (bitmap == null)
-          {
-            return;
-          }
+          this.PrintGraphics(horizontalStart,
+                             verticalStart,
+                             variableName,
+                             container);
+        }
+      }
+    }
 
-          eplStream = this.EplCommands.GraphicDirectWrite(bitmap,
-                                                          horizontalStart,
-                                                          verticalStart);
-        }
-        // ReSharper disable ExceptionNotDocumentedOptional
-        if (eplStream.Any())
-        // ReSharper restore ExceptionNotDocumentedOptional
+    protected virtual void GraphicDirectWrite([NotNull] SvgImage svgElement,
+                                              [NotNull] Matrix matrix,
+                                              float sourceAlignmentWidth,
+                                              float sourceAlignmentHeight,
+                                              int horizontalStart,
+                                              int verticalStart,
+                                              [NotNull] Container<EplStream> container)
+    {
+      using (var bitmap = this.ConvertToBitmap(svgElement,
+                                               matrix,
+                                               (int) sourceAlignmentWidth,
+                                               (int) sourceAlignmentHeight))
+      {
+        if (bitmap == null)
         {
-          container.Add(eplStream);
+          return;
         }
+
+        container.Body.Add(this.EplCommands.GraphicDirectWrite(bitmap,
+                                                               horizontalStart,
+                                                               verticalStart));
       }
     }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual string GetVariableName([NotNull] string imageIdentifier)
+    protected virtual string CalculateVariableName([NotNull] string imageIdentifier)
     {
       // TODO this is magic
       // on purpose: the imageIdentifier should be hashed to 8 chars
@@ -144,58 +147,44 @@ namespace System.Svg.Render.EPL
       return variableName;
     }
 
-    public override void TranslateForStoring([NotNull] SvgImage svgElement,
-                                             [NotNull] Matrix matrix,
-                                             [NotNull] EplStream container)
+    [CanBeNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual string StoreGraphics([NotNull] SvgImage svgElement,
+                                           [NotNull] Matrix matrix,
+                                           float sourceAlignmentWidth,
+                                           float sourceAlignmentHeight,
+                                           int horizontalStart,
+                                           int verticalStart,
+                                           [NotNull] Container<EplStream> container)
     {
-      if (this.ForceDirectWrite(svgElement))
+      string variableName;
+      var imageIdentifier = this.CalculateImageIdentifier(svgElement);
+      if (!this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
+                                                             out variableName))
       {
-        return;
-      }
+        variableName = this.CalculateVariableName(imageIdentifier);
+        this.StoreVariableNameForImageIdentifier(imageIdentifier,
+                                                 variableName);
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
-      float sourceAlignmentWidth;
-      float sourceAlignmentHeight;
-      this.EplTransformer.Transform(svgElement,
-                                    matrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
-                                    out sourceAlignmentWidth,
-                                    out sourceAlignmentHeight);
-
-      var imageIdentifier = this.GetImageIdentifier(svgElement);
-      var variableName = this.GetVariableName(imageIdentifier);
-
-      this.StoreVariableNameForImageIdentifier(imageIdentifier,
-                                               variableName);
-
-      EplStream eplStream;
-      using (var bitmap = this.ConvertToBitmap(svgElement,
-                                               matrix,
-                                               (int) sourceAlignmentWidth,
-                                               (int) sourceAlignmentHeight))
-      {
-        if (bitmap == null)
+        using (var bitmap = this.ConvertToBitmap(svgElement,
+                                                 matrix,
+                                                 (int) sourceAlignmentWidth,
+                                                 (int) sourceAlignmentHeight))
         {
-          return;
-        }
+          if (bitmap == null)
+          {
+            return null;
+          }
 
-        eplStream = this.EplCommands.StoreGraphics(bitmap,
-                                                   variableName);
+          container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
+          container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
+          container.Header.Add(this.EplCommands.StoreGraphics(bitmap,
+                                                              variableName));
+        }
       }
-      // ReSharper disable ExceptionNotDocumentedOptional
-      if (eplStream.Any())
-      // ReSharper restore ExceptionNotDocumentedOptional
-      {
-        container.Add(this.EplCommands.DeleteGraphics(variableName));
-        container.Add(this.EplCommands.DeleteGraphics(variableName));
-        container.Add(eplStream);
-      }
+
+      return variableName;
     }
 
     [CanBeNull]
@@ -272,6 +261,16 @@ namespace System.Svg.Render.EPL
 
         return bitmap;
       }
+    }
+
+    protected virtual void PrintGraphics(int horizontalStart,
+                                         int verticalStart,
+                                         [NotNull] string variableName,
+                                         [NotNull] Container<EplStream> container)
+    {
+      container.Body.Add(this.EplCommands.PrintGraphics(horizontalStart,
+                                                        verticalStart,
+                                                        variableName));
     }
 
     [Pure]

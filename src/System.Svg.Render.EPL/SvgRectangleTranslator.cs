@@ -27,7 +27,7 @@ namespace System.Svg.Render.EPL
 
     public override void Translate([NotNull] SvgRectangle svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] EplStream container)
+                                   [NotNull] Container<EplStream> container)
     {
       if (svgElement.Fill != SvgPaintServer.None
           && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
@@ -47,7 +47,7 @@ namespace System.Svg.Render.EPL
 
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
                                               [NotNull] Matrix matrix,
-                                              [NotNull] EplStream container)
+                                              [NotNull] Container<EplStream> container)
     {
       var startX = this.SvgUnitReader.GetValue(instance,
                                                instance.X);
@@ -83,15 +83,15 @@ namespace System.Svg.Render.EPL
       var horizontalLength = (int) (endX - startX);
       var verticalLength = (int) (endY - startY);
 
-      container.Add(this.EplCommands.LineDrawBlack(horizontalStart,
-                                                   verticalStart,
-                                                   horizontalLength,
-                                                   verticalLength));
+      container.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
+                                                        verticalStart,
+                                                        horizontalLength,
+                                                        verticalLength));
     }
 
     protected virtual void TranslateBox([NotNull] SvgRectangle instance,
                                         [NotNull] Matrix matrix,
-                                        [NotNull] EplStream container)
+                                        [NotNull] Container<EplStream> container)
     {
       float startX;
       float endX;
@@ -112,11 +112,11 @@ namespace System.Svg.Render.EPL
       var horizontalEnd = (int) endX;
       var verticalEnd = (int) endY;
 
-      container.Add(this.EplCommands.DrawBox(horizontalStart,
-                                             verticalStart,
-                                             lineThickness,
-                                             horizontalEnd,
-                                             verticalEnd));
+      container.Body.Add(this.EplCommands.DrawBox(horizontalStart,
+                                                  verticalStart,
+                                                  lineThickness,
+                                                  horizontalEnd,
+                                                  verticalEnd));
     }
   }
 }

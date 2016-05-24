@@ -18,8 +18,7 @@ var bootstrapper = new System.Svg.Render.EPL.DefaultBootstrapper();
 var eplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
                                        destinationDpi: 203f,
                                        printerCodepage: PrinterCodepage.Dos850,
-                                       countryCode: 850,
-                                       assumeStoredInInternalMemory: false);
+                                       countryCode: 850);
 var encoding = eplRenderer.GetEncoding();
 
 // you can obtain eplStreams to set the internal memory of the printer
@@ -55,21 +54,6 @@ Depending on the text used in `A`-command you can set a codepage to guarantee a 
 Type: `int`
 
 See [`printerCodepage`](#printercodepage)
-
-#### assumeStoredInInternalMemory
-Type: `bool`
-
-Default: `false`
-
-[`SvgImageTranslator`](SvgImageTranslator.cs) keeps track of previously uploaded images through [`TranslateForStoring`](SvgImageTranslator.cs#L127)-calls. If images are not stored, the image is printed directly with a [`GW`](http://support.zebra.com/cpws/docs/eltron/epl2/GW_Command.pdf) command (which is the preferred soltion for non-static images). Otherwise a [`GG`](http://support.zebra.com/cpws/docs/eltron/epl2/GG_Command.pdf) command is used (which is the preferred solution for static images).
-
-This detection is bound to an actual [`SvgImageTranslator`](SvgImageTranslator.cs) instance - so the reusage of the same instance is strongly recommended throughout the application's lifetime. (Default behaviour with [`System.Svg.Render.EPL.DefaultBootstrapper`](DefaultBootstrapper.cs))
-
-To further minimize the writes to the internal memory (Zebra claims around 100k write at most), you can force [`GG`](http://support.zebra.com/cpws/docs/eltron/epl2/GG_Command.pdf) commands even if the current instance did not write the image to the internal memory.
-
-*Please read [this Stackoverflow answer](http://stackoverflow.com/a/18559256/57508) for more information on this issue.*
-
-**CAUTION:** This may result in broken labels, so you should know what you are doing.
 
 ## Features
 

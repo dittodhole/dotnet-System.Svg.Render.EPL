@@ -23,7 +23,7 @@ namespace System.Svg.Render.EPL
 
     public override void Translate([NotNull] SvgPath svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] EplStream container)
+                                   [NotNull] Container<EplStream> container)
     {
       // TODO translate C (curveto)
       // TODO translate S (smooth curveto)
@@ -52,7 +52,7 @@ namespace System.Svg.Render.EPL
     protected virtual void TranslateSvgLineSegment([NotNull] SvgPath instance,
                                                    [NotNull] SvgLineSegment svgLineSegment,
                                                    [NotNull] Matrix matrix,
-                                                   [NotNull] EplStream container)
+                                                   [NotNull] Container<EplStream> container)
     {
       var svgLine = new SvgLine
                     {
@@ -92,10 +92,10 @@ namespace System.Svg.Render.EPL
         verticalLength = (int) strokeWidth;
       }
 
-      container.Add(this.EplCommands.LineDrawBlack(horizontalStart,
-                                                   verticalStart,
-                                                   horizontalLength,
-                                                   verticalLength));
+      container.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
+                                                        verticalStart,
+                                                        horizontalLength,
+                                                        verticalLength));
     }
   }
 }

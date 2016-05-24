@@ -8,7 +8,7 @@ namespace System.Svg.Render.EPL.Demo
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected override System.Svg.Render.EPL.EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader)
+    protected override EPL.EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader)
     {
       return new EplTransformer(svgUnitReader);
     }
@@ -16,15 +16,11 @@ namespace System.Svg.Render.EPL.Demo
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected override System.Svg.Render.EPL.SvgImageTranslator CreateSvgImageTranslator([NotNull] System.Svg.Render.EPL.EplTransformer eplTransformer,
-                                                                                         [NotNull] EplCommands eplCommands,
-                                                                                         bool assumeStoredInInternalMemory)
+    protected override EPL.SvgImageTranslator CreateSvgImageTranslator([NotNull] EPL.EplTransformer eplTransformer,
+                                                                       [NotNull] EplCommands eplCommands)
     {
       return new SvgImageTranslator(eplTransformer,
-                                    eplCommands)
-             {
-               AssumeStoredInInternalMemory = assumeStoredInInternalMemory
-             };
+                                    eplCommands);
     }
   }
 }

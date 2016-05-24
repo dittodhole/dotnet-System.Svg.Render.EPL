@@ -22,7 +22,7 @@ namespace System.Svg.Render.ZPL
 
     public override void Translate([NotNull] SvgLine svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] ZplStream container)
+                                   [NotNull] Container<ZplStream> container)
     {
       float startX;
       float startY;
@@ -58,12 +58,12 @@ namespace System.Svg.Render.ZPL
         var height = (int) (endY - startY);
         var thickness = (int) strokeWidth;
 
-        container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                    verticalStart));
-        container.Add(this.ZplCommands.GraphicBox(width,
-                                                  height,
-                                                  thickness,
-                                                  lineColor));
+        container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                         verticalStart));
+        container.Body.Add(this.ZplCommands.GraphicBox(width,
+                                                       height,
+                                                       thickness,
+                                                       lineColor));
       }
       else
       {

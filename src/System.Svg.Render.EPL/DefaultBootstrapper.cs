@@ -83,12 +83,8 @@ namespace System.Svg.Render.EPL
     [Pure]
     [MustUseReturnValue]
     protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] EplTransformer eplTransformer,
-                                                                  [NotNull] EplCommands eplCommands,
-                                                                  bool assumeStoredInInternalMemory) => new SvgImageTranslator(eplTransformer,
-                                                                                                                               eplCommands)
-                                                                                                        {
-                                                                                                          AssumeStoredInInternalMemory = assumeStoredInInternalMemory
-                                                                                                        };
+                                                                  [NotNull] EplCommands eplCommands) => new SvgImageTranslator(eplTransformer,
+                                                                                                                               eplCommands);
 
     [NotNull]
     [Pure]
@@ -97,8 +93,7 @@ namespace System.Svg.Render.EPL
                                        float destinationDpi,
                                        PrinterCodepage printerCodepage,
                                        int countryCode,
-                                       ViewRotation viewRotation,
-                                       bool assumeStoredInInternalMemory = false)
+                                       ViewRotation viewRotation)
     {
       var svgUnitReader = this.CreateSvgUnitReader(sourceDpi);
       var eplTransformer = this.CreateEplTransformer(svgUnitReader);
@@ -123,8 +118,7 @@ namespace System.Svg.Render.EPL
       var svgPathTranslator = this.CreateSvgPathTranslator(eplTransformer,
                                                            eplCommands);
       var svgImageTranslator = this.CreateSvgImageTranslator(eplTransformer,
-                                                             eplCommands,
-                                                             assumeStoredInInternalMemory);
+                                                             eplCommands);
 
       eplRenderer.RegisterTranslator(svgLineTranslator);
       eplRenderer.RegisterTranslator(svgRectangleTranslator);

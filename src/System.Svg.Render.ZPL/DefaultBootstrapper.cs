@@ -81,12 +81,8 @@ namespace System.Svg.Render.ZPL
     //[Pure]
     //[MustUseReturnValue]
     //protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] ZplTransformer zplTransformer,
-    //                                                              [NotNull] ZplCommands zplCommands,
-    //                                                              bool assumeStoredInInternalMemory) => new SvgImageTranslator(zplTransformer,
-    //                                                                                                                           zplCommands)
-    //                                                              {
-    //                                                                AssumeStoredInInternalMemory = assumeStoredInInternalMemory
-    //                                                              };
+    //                                                              [NotNull] ZplCommands zplCommands) => new SvgImageTranslator(zplTransformer,
+    //                                                                                                                           zplCommands);
 
     [NotNull]
     [Pure]
@@ -94,8 +90,7 @@ namespace System.Svg.Render.ZPL
     public virtual ZplRenderer BuildUp(float sourceDpi,
                                        float destinationDpi,
                                        CharacterSet characterSet = CharacterSet.ZebraCodePage850,
-                                       ViewRotation viewRotation = ViewRotation.Normal,
-                                       bool assumeStoredInInternalMemory = false)
+                                       ViewRotation viewRotation = ViewRotation.Normal)
     {
       var svgUnitReader = this.CreateSvgUnitReader(sourceDpi);
       var zplTransformer = this.CreateZplTransformer(svgUnitReader);
@@ -119,8 +114,7 @@ namespace System.Svg.Render.ZPL
       var svgPathTranslator = this.CreateSvgPathTranslator(zplTransformer,
                                                            zplCommands);
       //var svgImageTranslator = this.CreateSvgImageTranslator(eplTransformer,
-      //                                                       eplCommands,
-      //                                                       assumeStoredInInternalMemory);
+      //                                                       eplCommands);
 
       zplRenderer.RegisterTranslator(svgLineTranslator);
       zplRenderer.RegisterTranslator(svgRectangleTranslator);

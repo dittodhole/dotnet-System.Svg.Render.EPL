@@ -13,7 +13,6 @@ namespace System.Svg.Render.ZPL.Demo
   {
     private static void Main(string[] args)
     {
-      var assumeStoredInInternalMemory = true;
       var shouldWriteInternalMemory = false;
       var file = "assets/label.svg";
       var svgDocument = SvgDocument.Open(file);
@@ -21,8 +20,7 @@ namespace System.Svg.Render.ZPL.Demo
       var zplRenderer = bootstrapper.BuildUp(90f,
                                              203f,
                                              CharacterSet.ZebraCodePage850,
-                                             ViewRotation.RotateBy270Degress,
-                                             assumeStoredInInternalMemory);
+                                             ViewRotation.RotateBy270Degress);
 
       var encoding = zplRenderer.GetEncoding();
 

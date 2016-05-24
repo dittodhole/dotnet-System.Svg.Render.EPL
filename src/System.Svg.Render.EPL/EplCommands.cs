@@ -365,5 +365,13 @@ namespace System.Svg.Render.EPL
 
       return $"I{bytes},{codepage},{countryCode}";
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string ClearImageBuffer()
+    {
+      return "N";
+    }
   }
 }

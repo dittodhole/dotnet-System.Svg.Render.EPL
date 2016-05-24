@@ -145,34 +145,54 @@ namespace System.Svg.Render.ZPL
     public override ZplStream GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();
-      var zplStream = this.ZplCommands.CreateZplStream();
+      var result = this.ZplCommands.CreateZplStream();
 
-      this.AddHeaderToTranslation(zplStream);
+      var streamContainer = new Container<ZplStream>(this.ZplCommands.CreateZplStream(),
+                                                     this.ZplCommands.CreateZplStream(),
+                                                     this.ZplCommands.CreateZplStream());
+      this.AddHeaderToTranslation(svgDocument,
+                                  parentMatrix,
+                                  streamContainer);
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
-                                zplStream);
+                                streamContainer);
+      this.AddFooterToTranslation(svgDocument,
+                                  parentMatrix,
+                                  streamContainer);
 
-      return zplStream;
+      result.Add(streamContainer.Header);
+      result.Add(streamContainer.Body);
+      result.Add(streamContainer.Footer);
+
+      return result;
     }
 
-    protected virtual void AddHeaderToTranslation([NotNull] ZplStream zplStream)
+    protected virtual void AddHeaderToTranslation([NotNull] SvgDocument svgDocument,
+                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Container<ZplStream> container)
     {
-      zplStream.Add(this.ZplCommands.LabelHome(0,
-                                               0));
-      zplStream.Add(this.ZplCommands.PrintOrientation(PrintOrientation.Normal));
-      zplStream.Add(this.ZplCommands.ChangeInternationalFont(this.CharacterSet));
+      container.Header.Add(this.ZplCommands.LabelHome(0,
+                                                      0));
+      container.Header.Add(this.ZplCommands.PrintOrientation(PrintOrientation.Normal));
+      container.Header.Add(this.ZplCommands.ChangeInternationalFont(this.CharacterSet));
     }
 
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix parentMatrix,
-                                                [NotNull] ZplStream zplStream)
+                                                [NotNull] Container<ZplStream> container)
     {
-      zplStream.Add(this.ZplCommands.StartFormat());
+      container.Body.Add(this.ZplCommands.StartFormat());
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
                                           this.ViewMatrix,
-                                          zplStream);
-      zplStream.Add(this.ZplCommands.EndFormat());
+                                          container);
+    }
+
+    protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
+                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Container<ZplStream> container)
+    {
+      container.Footer.Add(this.ZplCommands.EndFormat());
     }
   }
 }

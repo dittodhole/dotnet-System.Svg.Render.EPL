@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace System.Svg.Render.EPL.Demo
 {
   [PublicAPI]
-  public class SvgImageTranslator : System.Svg.Render.EPL.SvgImageTranslator
+  public class SvgImageTranslator : EPL.SvgImageTranslator
   {
     // Q: why the fuck are barcodes implemented this way?
     // A: well, barcodes do not exist in the svg-spec, so the
@@ -18,14 +18,14 @@ namespace System.Svg.Render.EPL.Demo
     //    reusable abstraction for multiple printer languages.
     //    in short: yes! you have to get your hands dirty...
 
-    public SvgImageTranslator([NotNull] System.Svg.Render.EPL.EplTransformer eplTransformer,
+    public SvgImageTranslator([NotNull] EPL.EplTransformer eplTransformer,
                               [NotNull] EplCommands eplCommands)
       : base(eplTransformer,
              eplCommands) {}
 
     public override void Translate([NotNull] SvgImage svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] EplStream container)
+                                   [NotNull] Container<EplStream> container)
     {
       if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
       {
@@ -73,15 +73,15 @@ namespace System.Svg.Render.EPL.Demo
                                         out wideBarWidth,
                                         out printHumanReadable))
         {
-          container.Add(this.EplCommands.BarCode(horizontalStart,
-                                                 verticalStart,
-                                                 sector,
-                                                 barCodeSelection,
-                                                 narrowBarWidth,
-                                                 wideBarWidth,
-                                                 height,
-                                                 printHumanReadable,
-                                                 barcode));
+          container.Body.Add(this.EplCommands.BarCode(horizontalStart,
+                                                      verticalStart,
+                                                      sector,
+                                                      barCodeSelection,
+                                                      narrowBarWidth,
+                                                      wideBarWidth,
+                                                      height,
+                                                      printHumanReadable,
+                                                      barcode));
           return;
         }
       }
@@ -157,20 +157,6 @@ namespace System.Svg.Render.EPL.Demo
       wideBarWidth = 0;
       printHumanReadable = PrintHumanReadable.No;
       return false;
-    }
-
-    public override void TranslateForStoring([NotNull] SvgImage svgElement,
-                                             [NotNull] Matrix matrix,
-                                             [NotNull] EplStream container)
-    {
-      if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
-      {
-        return;
-      }
-
-      base.TranslateForStoring(svgElement,
-                               matrix,
-                               container);
     }
   }
 }

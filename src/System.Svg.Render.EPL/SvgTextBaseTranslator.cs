@@ -27,7 +27,7 @@ namespace System.Svg.Render.EPL
 
     public override void Translate([NotNull] T svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] EplStream container)
+                                   [NotNull] Container<EplStream> container)
     {
       if (svgElement.Text == null)
       {
@@ -72,14 +72,14 @@ namespace System.Svg.Render.EPL
         reverseImage = ReverseImage.Normal;
       }
 
-      container.Add(this.EplCommands.AsciiText(horizontalStart,
-                                               verticalStart,
-                                               sector,
-                                               fontSelection,
-                                               horizontalMultiplier,
-                                               verticalMultiplier,
-                                               reverseImage,
-                                               text));
+      container.Body.Add(this.EplCommands.AsciiText(horizontalStart,
+                                                    verticalStart,
+                                                    sector,
+                                                    fontSelection,
+                                                    horizontalMultiplier,
+                                                    verticalMultiplier,
+                                                    reverseImage,
+                                                    text));
     }
 
     [Pure]

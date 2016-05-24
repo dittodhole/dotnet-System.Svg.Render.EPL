@@ -85,7 +85,7 @@ namespace System.Svg.Render
       // ReSharper disable ExceptionNotDocumentedOptional
       if (!this.SvgElementTranslators.TryGetValue(type,
                                                   out svgElementTranslator))
-      // ReSharper restore ExceptionNotDocumentedOptional
+        // ReSharper restore ExceptionNotDocumentedOptional
       {
         return null;
       }
@@ -108,7 +108,7 @@ namespace System.Svg.Render
     protected virtual void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
                                                           [NotNull] Matrix parentMatrix,
                                                           [NotNull] Matrix viewMatrix,
-                                                          [NotNull] TContainer container)
+                                                          [NotNull] Container<TContainer> container)
     {
       var svgVisualElement = svgElement as SvgVisualElement;
       if (svgVisualElement != null)
@@ -140,7 +140,7 @@ namespace System.Svg.Render
     protected virtual void TranslateSvgElement([NotNull] SvgElement svgElement,
                                                [NotNull] Matrix matrix,
                                                [NotNull] Matrix viewMatrix,
-                                               [NotNull] TContainer container)
+                                               [NotNull] Container<TContainer> container)
     {
       var type = svgElement.GetType();
 

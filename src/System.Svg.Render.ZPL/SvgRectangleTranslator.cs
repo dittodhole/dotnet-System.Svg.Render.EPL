@@ -27,7 +27,7 @@ namespace System.Svg.Render.ZPL
 
     public override void Translate([NotNull] SvgRectangle svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] ZplStream container)
+                                   [NotNull] Container<ZplStream> container)
     {
       if (svgElement.Fill != SvgPaintServer.None
           && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
@@ -46,7 +46,7 @@ namespace System.Svg.Render.ZPL
 
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
                                               [NotNull] Matrix matrix,
-                                              [NotNull] ZplStream container)
+                                              [NotNull] Container<ZplStream> container)
     {
       // TODO fix this! square gets rendered ...
 
@@ -99,17 +99,17 @@ namespace System.Svg.Render.ZPL
         thickness = (int) (endX - startX);
       }
 
-      container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                  verticalStart));
-      container.Add(this.ZplCommands.GraphicBox(width,
-                                                height,
-                                                thickness,
-                                                LineColor.Black));
+      container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                       verticalStart));
+      container.Body.Add(this.ZplCommands.GraphicBox(width,
+                                                     height,
+                                                     thickness,
+                                                     LineColor.Black));
     }
 
     protected virtual void TranslateBox([NotNull] SvgRectangle instance,
                                         [NotNull] Matrix matrix,
-                                        [NotNull] ZplStream container)
+                                        [NotNull] Container<ZplStream> container)
     {
       float startX;
       float endX;
@@ -130,12 +130,12 @@ namespace System.Svg.Render.ZPL
       var height = (int) (endY - startY);
       var thickness = (int) strokeWidth;
 
-      container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                  verticalStart));
-      container.Add(this.ZplCommands.GraphicBox(width,
-                                                height,
-                                                thickness,
-                                                LineColor.Black));
+      container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                       verticalStart));
+      container.Body.Add(this.ZplCommands.GraphicBox(width,
+                                                     height,
+                                                     thickness,
+                                                     LineColor.Black));
     }
   }
 }

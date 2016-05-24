@@ -23,7 +23,7 @@ namespace System.Svg.Render.ZPL
 
     public override void Translate([NotNull] SvgPath svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] ZplStream container)
+                                   [NotNull] Container<ZplStream> container)
     {
       // TODO translate C (curveto)
       // TODO translate S (smooth curveto)
@@ -52,7 +52,7 @@ namespace System.Svg.Render.ZPL
     protected virtual void TranslateSvgLineSegment([NotNull] SvgPath instance,
                                                    [NotNull] SvgLineSegment svgLineSegment,
                                                    [NotNull] Matrix matrix,
-                                                   [NotNull] ZplStream container)
+                                                   [NotNull] Container<ZplStream> container)
     {
       var svgLine = new SvgLine
                     {
@@ -84,12 +84,12 @@ namespace System.Svg.Render.ZPL
       var height = (int) (endY - startY);
       var thickness = (int) strokeWidth;
 
-      container.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                  verticalStart));
-      container.Add(this.ZplCommands.GraphicBox(width,
-                                                height,
-                                                thickness,
-                                                LineColor.Black));
+      container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                       verticalStart));
+      container.Body.Add(this.ZplCommands.GraphicBox(width,
+                                                     height,
+                                                     thickness,
+                                                     LineColor.Black));
     }
   }
 }

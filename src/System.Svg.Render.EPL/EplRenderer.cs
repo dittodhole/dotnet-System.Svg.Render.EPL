@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing.Drawing2D;
-using System.Linq;
+﻿using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
 
@@ -48,92 +46,7 @@ namespace System.Svg.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual IEnumerable<EplStream> GetInternalMemoryTranslation([NotNull] SvgDocument svgDocument)
-    {
-      var parentMatrix = this.CreateParentMatrix();
-      var translations = this.TranslaveSvgElementAndChildrenForStoring(svgDocument,
-                                                                       parentMatrix,
-                                                                       this.ViewMatrix);
-
-      return translations;
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual IEnumerable<EplStream> TranslaveSvgElementAndChildrenForStoring([NotNull] SvgElement svgElement,
-                                                                                      [NotNull] Matrix parentMatrix,
-                                                                                      [NotNull] Matrix viewMatrix)
-    {
-      var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
-                                                             parentMatrix);
-
-      {
-        var eplStream = this.TranslateSvgElementForStoring(svgElement,
-                                                           matrix,
-                                                           viewMatrix);
-        // ReSharper disable ExceptionNotDocumentedOptional
-        if (eplStream.Any())
-          // ReSharper restore ExceptionNotDocumentedOptional
-        {
-          yield return eplStream;
-        }
-      }
-
-      foreach (var child in svgElement.Children)
-      {
-        var translations = this.TranslaveSvgElementAndChildrenForStoring(child,
-                                                                         matrix,
-                                                                         viewMatrix);
-
-        foreach (var eplStream in translations)
-        {
-          if (eplStream == null)
-          {
-            continue;
-          }
-          // ReSharper disable ExceptionNotDocumentedOptional
-          if (eplStream.Any())
-            // ReSharper restore ExceptionNotDocumentedOptional
-          {
-            yield return eplStream;
-          }
-        }
-      }
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     protected virtual Matrix CreateParentMatrix() => new Matrix();
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual EplStream TranslateSvgElementForStoring([NotNull] SvgElement svgElement,
-                                                              [NotNull] Matrix matrix,
-                                                              [NotNull] Matrix viewMatrix)
-    {
-      var container = this.EplCommands.CreateEplStream();
-
-      var type = svgElement.GetType();
-
-      var svgElementToInternalMemoryTranslator = this.GetTranslator(type) as ISvgElementToInternalMemoryTranslator;
-      if (svgElementToInternalMemoryTranslator == null)
-      {
-        return container;
-      }
-
-      matrix = matrix.Clone();
-      matrix.Multiply(viewMatrix,
-                      MatrixOrder.Append);
-
-      svgElementToInternalMemoryTranslator.TranslateForStoring(svgElement,
-                                                               matrix,
-                                                               container);
-
-      return container;
-    }
 
     [NotNull]
     [Pure]
@@ -141,41 +54,58 @@ namespace System.Svg.Render.EPL
     public override EplStream GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();
-      var eplStream = this.EplCommands.CreateEplStream();
+      var result = this.EplCommands.CreateEplStream();
 
-      this.AddHeaderToTranslation(eplStream);
+      var streamContainer = new Container<EplStream>(this.EplCommands.CreateEplStream(),
+                                                     this.EplCommands.CreateEplStream(),
+                                                     this.EplCommands.CreateEplStream());
+      this.AddHeaderToTranslation(svgDocument,
+                                  parentMatrix,
+                                  streamContainer);
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
-                                eplStream);
-      this.AddFooterToTranslation(eplStream);
+                                streamContainer);
+      this.AddFooterToTranslation(svgDocument,
+                                  parentMatrix,
+                                  streamContainer);
 
-      return eplStream;
+      result.Add(streamContainer.Header);
+      result.Add(streamContainer.Body);
+      result.Add(streamContainer.Footer);
+
+      return result;
     }
 
-    protected virtual void AddHeaderToTranslation([NotNull] EplStream eplStream)
+    protected virtual void AddHeaderToTranslation([NotNull] SvgDocument svgDocument,
+                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Container<EplStream> container)
     {
-      eplStream.Add(this.EplCommands.SetReferencePoint(0,
-                                                       0));
-      eplStream.Add(this.EplCommands.PrintDirection(PrintOrientation.Top));
-      eplStream.Add(this.EplCommands.CharacterSetSelection(8,
-                                                           this.PrinterCodepage,
-                                                           this.CountryCode));
+      container.Header.Add(this.EplCommands.SetReferencePoint(0,
+                                                              0));
+      container.Header.Add(this.EplCommands.PrintDirection(PrintOrientation.Top));
+      container.Header.Add(this.EplCommands.CharacterSetSelection(8,
+                                                                  this.PrinterCodepage,
+                                                                  this.CountryCode));
     }
 
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix parentMatrix,
-                                                [NotNull] EplStream eplStream)
+                                                [NotNull] Container<EplStream> container)
     {
+      container.Body.Add(string.Empty);
+      container.Body.Add(this.EplCommands.ClearImageBuffer());
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
                                           this.ViewMatrix,
-                                          eplStream);
+                                          container);
     }
 
-    protected virtual void AddFooterToTranslation([NotNull] EplStream eplStream)
+    protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
+                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Container<EplStream> container)
     {
-      eplStream.Add(this.EplCommands.Print(1));
-      eplStream.Add(string.Empty);
+      container.Footer.Add(this.EplCommands.Print(1));
+      container.Footer.Add(string.Empty);
     }
   }
 }

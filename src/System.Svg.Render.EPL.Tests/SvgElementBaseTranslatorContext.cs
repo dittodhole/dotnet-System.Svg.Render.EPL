@@ -11,7 +11,9 @@ namespace System.Svg.Render.EPL.Tests
   {
     protected SvgElementBaseTranslatorContext()
     {
-      this.Container = new EplStream();
+      this.Container = new Container<EplStream>(new EplStream(),
+                                                new EplStream(),
+                                                new EplStream());
       this.SvgUnitReader = new SvgUnitReader();
       this.EplCommands = new EplCommands();
       this.EplTransformer = new EplTransformer(this.SvgUnitReader);
@@ -19,7 +21,7 @@ namespace System.Svg.Render.EPL.Tests
     }
 
     [NotNull]
-    protected EplStream Container { get; }
+    protected Container<EplStream> Container { get; }
 
     [NotNull]
     protected SvgUnitReader SvgUnitReader { get; }

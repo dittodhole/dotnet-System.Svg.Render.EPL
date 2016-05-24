@@ -13,8 +13,6 @@ namespace System.Svg.Render.EPL.Demo
   {
     private static void Main(string[] args)
     {
-      var assumeStoredInInternalMemory = false;
-      var shouldWriteInternalMemory = false;
       var file = "assets/label.svg";
       var svgDocument = SvgDocument.Open(file);
       var bootstrapper = new CustomBootstrapper();
@@ -22,8 +20,7 @@ namespace System.Svg.Render.EPL.Demo
                                              203f,
                                              PrinterCodepage.Dos850,
                                              850,
-                                             ViewRotation.RotateBy90Degrees,
-                                             assumeStoredInInternalMemory);
+                                             ViewRotation.RotateBy90Degrees);
 
       var encoding = eplRenderer.GetEncoding();
 
@@ -41,45 +38,22 @@ namespace System.Svg.Render.EPL.Demo
                                                                                deviceInterfaceData,
                                                                                IntPtr.Zero);
 
-          if (shouldWriteInternalMemory)
+          var stopwatch = Stopwatch.StartNew();
+          var eplStream = eplRenderer.GetTranslation(svgDocument);
+          stopwatch.Stop();
+          Console.WriteLine(stopwatch.Elapsed);
+          var array = eplStream.ToByteArray(encoding);
+          var arraySegment = new ArraySegment<byte>(array);
+          using (var safeObjectHandle = Kernel32.CreateFile(deviceInterfaceDetail,
+                                                            Kernel32.FileAccess.FILE_GENERIC_WRITE,
+                                                            Kernel32.FileShare.FILE_SHARE_WRITE,
+                                                            IntPtr.Zero,
+                                                            Kernel32.CreationDisposition.OPEN_EXISTING,
+                                                            Kernel32.CreateFileFlags.FILE_ATTRIBUTE_NORMAL,
+                                                            Kernel32.SafeObjectHandle.Null))
           {
-            var eplStreams = eplRenderer.GetInternalMemoryTranslation(svgDocument);
-            foreach (var eplStream in eplStreams)
-            {
-              var array = eplStream.ToByteArray(encoding);
-              using (var safeObjectHandle = Kernel32.CreateFile(deviceInterfaceDetail,
-                                                                Kernel32.FileAccess.FILE_GENERIC_WRITE,
-                                                                Kernel32.FileShare.FILE_SHARE_WRITE,
-                                                                IntPtr.Zero,
-                                                                Kernel32.CreationDisposition.OPEN_EXISTING,
-                                                                Kernel32.CreateFileFlags.FILE_ATTRIBUTE_NORMAL,
-                                                                Kernel32.SafeObjectHandle.Null))
-              {
-                var arraySegment = new ArraySegment<byte>(array);
-                Kernel32.WriteFile(safeObjectHandle,
-                                   arraySegment);
-              }
-            }
-          }
-
-          {
-            var stopwatch = Stopwatch.StartNew();
-            var eplStream = eplRenderer.GetTranslation(svgDocument);
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.Elapsed);
-            var array = eplStream.ToByteArray(encoding);
-            var arraySegment = new ArraySegment<byte>(array);
-            using (var safeObjectHandle = Kernel32.CreateFile(deviceInterfaceDetail,
-                                                              Kernel32.FileAccess.FILE_GENERIC_WRITE,
-                                                              Kernel32.FileShare.FILE_SHARE_WRITE,
-                                                              IntPtr.Zero,
-                                                              Kernel32.CreationDisposition.OPEN_EXISTING,
-                                                              Kernel32.CreateFileFlags.FILE_ATTRIBUTE_NORMAL,
-                                                              Kernel32.SafeObjectHandle.Null))
-            {
-              Kernel32.WriteFile(safeObjectHandle,
-                                 arraySegment);
-            }
+            Kernel32.WriteFile(safeObjectHandle,
+                               arraySegment);
           }
         }
       }
