@@ -173,7 +173,8 @@ namespace System.Svg.Render.ZPL
     {
       fontName = "0";
       characterHeight = (int) fontSize;
-      width = characterHeight / 15 * 12;
+      //width = characterHeight / 15 * 12;
+      width = 0;
     }
   }
 }
