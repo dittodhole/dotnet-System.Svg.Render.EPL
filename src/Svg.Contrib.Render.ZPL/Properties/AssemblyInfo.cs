@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("System.Svg.Render.ZPL")]
+[assembly: AssemblyTitle("Svg.Contrib.Render.ZPL")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("System.Svg.Render.ZPL")]
+[assembly: AssemblyProduct("Svg.Contrib.Render.ZPL")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

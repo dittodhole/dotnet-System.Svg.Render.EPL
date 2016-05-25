@@ -1,20 +1,20 @@
 ![Icon](assets/icon.png)
 
-# dotnet-System.Svg.Render.EPL
+# dotnet-Svg.Contrib.Render.EPL
 > Convert [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) to [Eltron Programming Language (EPL)](https://en.wikipedia.org/wiki/Eltron_Programming_Language)
 
-## Installing [![NuGet Status](http://img.shields.io/nuget/v/System.Svg.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/System.Svg.Render.EPL/)
+## Installing [![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL/)
 
-https://www.nuget.org/packages/System.Svg.Render.EPL/
+https://www.nuget.org/packages/Svg.Contrib.Render.EPL/
 
-    PM> Install-Package System.Svg.Render.EPL
+    PM> Install-Package Svg.Contrib.Render.EPL
 
 ## Example
 
 ```
 var file = "";
-var svgDocument = System.Svg.SvgDocument.Open(file);
-var bootstrapper = new System.Svg.Render.EPL.DefaultBootstrapper();
+var svgDocument = Svg.SvgDocument.Open(file);
+var bootstrapper = new Svg.Contrib.Render.EPL.DefaultBootstrapper();
 var eplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
                                        destinationDpi: 203f,
                                        printerCodepage: PrinterCodepage.Dos850,
@@ -75,11 +75,11 @@ See [`printerCodepage`](#printercodepage)
 - `style="stroke"`
 - `style="stroke-width"`
 - `style="visible"`
-- native barcodes (see [System.Svg.Render.EPL.Demo](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/System.Svg.Render.EPL.Demo))
+- native barcodes (see [Svg.Contrib.Render.EPL.Demo](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/Svg.Contrib.Render.EPL.Demo))
 
 ## License
 
-dotnet-System.Svg.Render.EPL is published under [WTFNMFPLv3](https://github.com/dittodhole/WTFNMFPLv3)
+dotnet-Svg.Contrib.Render.EPL is published under [WTFNMFPLv3](https://github.com/dittodhole/WTFNMFPLv3)
 
 ## Icon
 

@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("System.Svg.Render")]
-[assembly: AssemblyDescription("System.Svg.Render is the base for compilers based on System.Svg")]
+[assembly: AssemblyTitle("Svg.Contrib.Render")]
+[assembly: AssemblyDescription("Svg.Contrib.Render is the base for compilers based on Svg")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("System.Svg.Render")]
+[assembly: AssemblyProduct("Svg.Contrib.Render")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyCompany("Andreas Niedermair")]
 

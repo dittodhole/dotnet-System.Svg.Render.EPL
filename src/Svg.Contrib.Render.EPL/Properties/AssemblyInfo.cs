@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("System.Svg.Render.EPL")]
+[assembly: AssemblyTitle("Svg.Contrib.Render.EPL")]
 [assembly: AssemblyDescription("Convert SVG to Zebra EPL")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("System.Svg.Render.EPL")]
+[assembly: AssemblyProduct("Svg.Contrib.Render.EPL")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyCompany("Andreas Niedermair")]
 
