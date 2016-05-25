@@ -51,7 +51,7 @@ Default: `CharacterSet.ZebraCodePage850`
 Define the character set used for encoding your strings.
 
 #### viewRotation
-Type: [`ViewRotation`](../Svg.Contrib.Render/Enums.cs#6)
+Type: [`ViewRotation`](../Svg.Contrib.Render/Enums.cs#L6)
 Default: `ViewRotation.Normal`
 
 Define the rotation of the label.
