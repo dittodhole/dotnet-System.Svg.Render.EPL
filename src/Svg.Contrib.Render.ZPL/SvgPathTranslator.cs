@@ -1,7 +1,7 @@
 ﻿using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Svg;
-using System.Svg.Pathing;
+using Svg;
+using Svg.Pathing;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.ZPL

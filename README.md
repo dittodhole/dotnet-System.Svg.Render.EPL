@@ -8,9 +8,7 @@
 Open [`src/Svg.Contrib.Render.sln`](src/Svg.Contrib.Render.sln) with Microsoft Visual Studio 2015 and build it.
 
 Following [NuGet](https://www.nuget.org/) packages will be restored:
-- [System.Svg](https://www.nuget.org/packages/System.Svg)
-  - [ExCSS Stylesheet Parser](https://www.nuget.org/packages/ExCSS/2.0.5)
-  - [Fizzler](https://www.nuget.org/packages/Fizzler)
+- [Svg](https://www.nuget.org/packages/Svg)
 - [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations)
 - [Magick.NET-Q8-AnyCPU](https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU)
 - [PInvoke.Kernel32](https://www.nuget.org/packages/PInvoke.Kernel32)

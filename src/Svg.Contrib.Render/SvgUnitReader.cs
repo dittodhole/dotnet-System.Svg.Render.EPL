@@ -1,4 +1,4 @@
-﻿using System.Svg;
+﻿using Svg;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render

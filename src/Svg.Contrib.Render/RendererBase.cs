@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using System.Svg;
-using System.Svg.Transforms;
+using Svg;
+using Svg.Transforms;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Svg;
+using Svg;
 using PInvoke;
 
 // ReSharper disable UnusedParameter.Local

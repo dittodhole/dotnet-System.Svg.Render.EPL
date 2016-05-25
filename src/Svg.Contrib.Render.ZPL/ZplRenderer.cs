@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using System.Svg;
+using Svg;
 using System.Text;
 using JetBrains.Annotations;
 

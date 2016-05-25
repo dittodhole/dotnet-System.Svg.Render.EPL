@@ -1,5 +1,5 @@
 ﻿using System.Drawing.Drawing2D;
-using System.Svg;
+using Svg;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString

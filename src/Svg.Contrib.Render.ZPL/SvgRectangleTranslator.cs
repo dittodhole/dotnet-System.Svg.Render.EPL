@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Svg;
+using Svg;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.ZPL

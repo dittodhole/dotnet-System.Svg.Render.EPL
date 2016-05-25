@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using System.Svg;
+using Svg;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
