@@ -8,19 +8,11 @@ namespace Svg.Contrib.Render.ZPL.Demo
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected override ZPL.ZplTransformer CreateZplTransformer([NotNull] SvgUnitReader svgUnitReader)
+    protected override ZPL.SvgImageTranslator CreateSvgImageTranslator([NotNull] ZplTransformer zplTransformer,
+                                                                       [NotNull] ZplCommands zplCommands)
     {
-      return new ZplTransformer(svgUnitReader);
+      return new SvgImageTranslator(zplTransformer,
+                                    zplCommands);
     }
-
-    //[NotNull]
-    //[Pure]
-    //[MustUseReturnValue]
-    //protected override System.Svg.Render.ZPL.SvgImageTranslator CreateSvgImageTranslator([NotNull] System.Svg.Render.ZPL.ZplTransformer zplTransformer,
-    //                                                                                     [NotNull] ZplCommands zplCommands)
-    //{
-    //  return new SvgImageTranslator(zplTransformer,
-    //                                zplCommands);
-    //}
   }
 }
