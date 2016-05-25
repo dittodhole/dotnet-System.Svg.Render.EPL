@@ -46,12 +46,14 @@ Type: `float`
 Define the DPI of the printer (usually `203f`).
 
 #### printerCodepage
-Type: [`PrinterCodepage`](Enums.cs#L6)
+Type: [`PrinterCodepage`](Enums.cs#L6)  
+Default: `PrinterCodepage.Dos850`
 
 Depending on the text used in `A`-command you can set a codepage to guarantee a correct output.
 
 #### countryCode
-Type: `int`
+Type: `int`  
+Default: `850`
 
 See [`printerCodepage`](#printercodepage)
 
