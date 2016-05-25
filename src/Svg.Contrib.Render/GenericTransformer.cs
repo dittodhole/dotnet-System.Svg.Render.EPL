@@ -340,5 +340,88 @@ namespace Svg.Contrib.Render
 
       return sector;
     }
+
+    [CanBeNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual Bitmap ConvertToBitmap([NotNull] SvgImage svgElement,
+                                          [NotNull] Matrix matrix,
+                                          int sourceAlignmentWidth,
+                                          int sourceAlignmentHeight)
+    {
+      var stretchImage = this.StretchImage(svgElement);
+
+      using (var image = svgElement.GetImage() as Image)
+      {
+        if (image == null)
+        {
+          return null;
+        }
+
+        Bitmap bitmap;
+        if (stretchImage)
+        {
+          bitmap = new Bitmap(image,
+                              sourceAlignmentWidth,
+                              sourceAlignmentHeight);
+        }
+        else
+        {
+          var sourceRatio = (float) sourceAlignmentWidth / sourceAlignmentHeight;
+          var destinationRatio = (float) image.Width / image.Height;
+
+          // TODO find a good TOLERANCE
+          if (Math.Abs(sourceRatio - destinationRatio) < 0.5f)
+          {
+            bitmap = new Bitmap(image,
+                                sourceAlignmentWidth,
+                                sourceAlignmentHeight);
+          }
+          else
+          {
+            int destinationWidth;
+            int destinationHeight;
+
+            if (sourceRatio < destinationRatio)
+            {
+              destinationWidth = sourceAlignmentWidth;
+              destinationHeight = (int) (sourceAlignmentWidth / destinationRatio);
+            }
+            else
+            {
+              destinationWidth = (int) (sourceAlignmentHeight * destinationRatio);
+              destinationHeight = sourceAlignmentHeight;
+            }
+
+            var x = (sourceAlignmentWidth - destinationWidth) / 2;
+            var y = (sourceAlignmentHeight - destinationHeight) / 2;
+
+            bitmap = new Bitmap(sourceAlignmentWidth,
+                                sourceAlignmentHeight);
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+              var rect = new Rectangle(x,
+                                       y,
+                                       destinationWidth,
+                                       destinationHeight);
+              graphics.DrawImage(image,
+                                 rect);
+            }
+          }
+        }
+
+        var rotateFlipType = (RotateFlipType) this.GetRotationSector(matrix);
+        bitmap.RotateFlip(rotateFlipType);
+
+        return bitmap;
+      }
+    }
+
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual bool StretchImage([NotNull] SvgImage svgImage)
+    {
+      return false;
+    }
   }
 }
