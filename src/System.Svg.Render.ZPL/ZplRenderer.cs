@@ -149,12 +149,12 @@ namespace System.Svg.Render.ZPL
       var streamContainer = new Container<ZplStream>(this.ZplCommands.CreateZplStream(),
                                                      this.ZplCommands.CreateZplStream(),
                                                      this.ZplCommands.CreateZplStream());
-      this.AddHeaderToTranslation(svgDocument,
-                                  parentMatrix,
-                                  streamContainer);
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
                                 streamContainer);
+      this.AddHeaderToTranslation(svgDocument,
+                                  parentMatrix,
+                                  streamContainer);
       this.AddFooterToTranslation(svgDocument,
                                   parentMatrix,
                                   streamContainer);
