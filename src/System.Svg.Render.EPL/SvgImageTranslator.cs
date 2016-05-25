@@ -39,7 +39,6 @@ namespace System.Svg.Render.EPL
       return result;
     }
 
-    [CollectionAccess(CollectionAccessType.UpdatedContent)]
     protected virtual void StoreVariableNameForImageIdentifier([NotNull] string imageIdentifier,
                                                                [NotNull] string variableName)
     {

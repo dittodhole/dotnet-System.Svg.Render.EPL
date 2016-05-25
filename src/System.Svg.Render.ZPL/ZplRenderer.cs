@@ -40,7 +40,6 @@ namespace System.Svg.Render.ZPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    [CollectionAccess(CollectionAccessType.Read)]
     public virtual Encoding GetEncoding()
     {
       // ReSharper disable ExceptionNotDocumentedOptional
