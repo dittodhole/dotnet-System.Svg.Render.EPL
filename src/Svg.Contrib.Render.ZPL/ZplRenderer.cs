@@ -83,9 +83,6 @@ namespace Svg.Contrib.Render.ZPL
                                                   [NotNull] Matrix parentMatrix,
                                                   [NotNull] ZplContainer container)
     {
-      container.Header.Add(this.ZplCommands.LabelHome(0,
-                                                      0));
-      container.Header.Add(this.ZplCommands.PrintOrientation(PrintOrientation.Normal));
       container.Header.Add(this.ZplCommands.ChangeInternationalFont(this.CharacterSet));
     }
 
@@ -94,6 +91,9 @@ namespace Svg.Contrib.Render.ZPL
                                                 [NotNull] ZplContainer container)
     {
       container.Body.Add(this.ZplCommands.StartFormat());
+      container.Body.Add(this.ZplCommands.LabelHome(18,
+                                                    8));
+      container.Body.Add(this.ZplCommands.PrintOrientation(PrintOrientation.Normal));
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
                                           this.ViewMatrix,
