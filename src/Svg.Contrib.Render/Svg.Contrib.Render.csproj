@@ -52,6 +52,7 @@
     <Compile Include="GenericTransformer.cs" />
     <Compile Include="ISvgElementTranslator.cs" />
     <Compile Include="MixedStream.cs" />
+    <Compile Include="Percentage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RendererBase.cs" />
     <Compile Include="Container.cs" />

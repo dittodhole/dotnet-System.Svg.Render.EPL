@@ -27,7 +27,31 @@ namespace Svg.Contrib.Render
     [Pure]
     [MustUseReturnValue]
     // ReSharper disable UnusedParameter.Global
-    protected virtual float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase) => 1.25f;
+    protected virtual float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase)
+    {
+      var svgText = svgTextBase as SvgText ?? svgTextBase.Parent as SvgText;
+      if (svgText == null)
+      {
+        return 1f;
+      }
+
+      var result = 1f;
+      if (svgText.HasNonEmptyCustomAttribute("linespacing"))
+      {
+        var linespacing = svgText.CustomAttributes["linespacing"];
+        var percentage = new Percentage(linespacing);
+        result = percentage.Value;
+      }
+
+      if (svgText.HasNonEmptyCustomAttribute("line-height"))
+      {
+        var lineHeight = svgText.CustomAttributes["line-height"];
+        var percentage = new Percentage(lineHeight);
+        result = percentage.Value;
+      }
+
+      return result;
+    }
 
     // ReSharper restore UnusedParameter.Global
 
