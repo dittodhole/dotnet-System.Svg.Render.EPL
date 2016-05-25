@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Svg.Contrib.Render.ZPL")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Convert SVG to Zebra Programming Language (ZPL)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Svg.Contrib.Render.ZPL")]
 [assembly: AssemblyCulture("")]

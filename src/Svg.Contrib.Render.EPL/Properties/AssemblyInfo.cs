@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Svg.Contrib.Render.EPL")]
-[assembly: AssemblyDescription("Convert SVG to Zebra EPL")]
+[assembly: AssemblyDescription("Convert SVG to Eltron Programming Language (EPL)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Svg.Contrib.Render.EPL")]
 [assembly: AssemblyCulture("")]
@@ -30,5 +30,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.4")]
-[assembly: AssemblyFileVersion("0.0.4")]
+[assembly: AssemblyVersion("0.0.0")]
+[assembly: AssemblyFileVersion("0.0.0")]
