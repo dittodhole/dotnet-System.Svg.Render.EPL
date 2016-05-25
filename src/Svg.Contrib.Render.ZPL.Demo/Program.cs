@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Svg;
 using PInvoke;
 
 // ReSharper disable UnusedParameter.Local
@@ -15,7 +14,6 @@ namespace Svg.Contrib.Render.ZPL.Demo
   {
     private static void Main(string[] args)
     {
-      var shouldWriteInternalMemory = false;
       var file = "assets/label.svg";
       var svgDocument = SvgDocument.Open(file);
       var bootstrapper = new CustomBootstrapper();
@@ -39,46 +37,23 @@ namespace Svg.Contrib.Render.ZPL.Demo
           var deviceInterfaceDetail = SetupApi.SetupDiGetDeviceInterfaceDetail(safeDeviceInfoSetHandle,
                                                                                deviceInterfaceData,
                                                                                IntPtr.Zero);
+          var stopwatch = Stopwatch.StartNew();
+          var zplStream = zplRenderer.GetTranslation(svgDocument);
+          stopwatch.Stop();
+          Console.WriteLine(stopwatch.Elapsed);
 
-          if (shouldWriteInternalMemory)
+          var array = zplStream.ToByteArray(encoding);
+          var arraySegment = new ArraySegment<byte>(array);
+          using (var safeObjectHandle = Kernel32.CreateFile(deviceInterfaceDetail,
+                                                            Kernel32.FileAccess.FILE_GENERIC_WRITE,
+                                                            Kernel32.FileShare.FILE_SHARE_WRITE,
+                                                            IntPtr.Zero,
+                                                            Kernel32.CreationDisposition.OPEN_EXISTING,
+                                                            Kernel32.CreateFileFlags.FILE_ATTRIBUTE_NORMAL,
+                                                            Kernel32.SafeObjectHandle.Null))
           {
-            //var zplStreams = zplRenderer.GetInternalMemoryTranslation(svgDocument);
-            //foreach (var zplStream in zplStreams)
-            //{
-            //  var array = zplStream.ToByteArray(encoding);
-            //  using (var safeObjectHandle = Kernel32.CreateFile(deviceInterfaceDetail,
-            //                                                    Kernel32.FileAccess.FILE_GENERIC_WRITE,
-            //                                                    Kernel32.FileShare.FILE_SHARE_WRITE,
-            //                                                    IntPtr.Zero,
-            //                                                    Kernel32.CreationDisposition.OPEN_EXISTING,
-            //                                                    Kernel32.CreateFileFlags.FILE_ATTRIBUTE_NORMAL,
-            //                                                    Kernel32.SafeObjectHandle.Null))
-            //  {
-            //    var arraySegment = new ArraySegment<byte>(array);
-            //    Kernel32.WriteFile(safeObjectHandle,
-            //                       arraySegment);
-            //  }
-            //}
-          }
-
-          {
-            var stopwatch = Stopwatch.StartNew();
-            var zplStream = zplRenderer.GetTranslation(svgDocument);
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.Elapsed);
-            var array = zplStream.ToByteArray(encoding);
-            var arraySegment = new ArraySegment<byte>(array);
-            using (var safeObjectHandle = Kernel32.CreateFile(deviceInterfaceDetail,
-                                                              Kernel32.FileAccess.FILE_GENERIC_WRITE,
-                                                              Kernel32.FileShare.FILE_SHARE_WRITE,
-                                                              IntPtr.Zero,
-                                                              Kernel32.CreationDisposition.OPEN_EXISTING,
-                                                              Kernel32.CreateFileFlags.FILE_ATTRIBUTE_NORMAL,
-                                                              Kernel32.SafeObjectHandle.Null))
-            {
-              Kernel32.WriteFile(safeObjectHandle,
-                                 arraySegment);
-            }
+            Kernel32.WriteFile(safeObjectHandle,
+                               arraySegment);
           }
         }
       }

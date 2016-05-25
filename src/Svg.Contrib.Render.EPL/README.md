@@ -12,23 +12,22 @@
 ## Example
 
 ```
+using Svg;
+using Svg.Contrib.Render.EPL;
+
 var file = "";
-var svgDocument = Svg.SvgDocument.Open(file);
-var bootstrapper = new Svg.Contrib.Render.EPL.DefaultBootstrapper();
+var svgDocument = SvgDocument.Open(file);
+var bootstrapper = new DefaultBootstrapper();
 var eplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
                                        destinationDpi: 203f,
                                        printerCodepage: PrinterCodepage.Dos850,
                                        countryCode: 850);
 var encoding = eplRenderer.GetEncoding();
 
-// you can obtain eplStreams to set the internal memory of the printer
-// this is especially useful when there are static images inside your svgDocument.
-// these can be uploaded instead of direct embedding, which takes off some bytes
-// from the concrete translation.
-var eplStreams = eplRenderer.GetInternalMemoryTranslation(svgDocument);
-
 var eplStream = eplRenderer.GetTranslation(svgDocument);
 var array = eplStream.GetByteArray(encoding);
+
+// TODO send to printer over USB/COM/Network
 ```
 
 ## Configuration
@@ -57,25 +56,13 @@ See [`printerCodepage`](#printercodepage)
 
 ## Features
 
-- `<text>` and `<tspan>`
-- `<rectangle>`
-- `<line>`
-- `<path>` (only L supported at the moment)
-- `<image>`
-- `transform=""`
-- `x=""`
-- `x1=""`
-- `x2=""`
-- `y=""`
-- `y1=""`
-- `y2=""`
-- `width=""`
-- `height=""`
-- `style="fill"`
-- `style="stroke"`
-- `style="stroke-width"`
-- `style="visible"`
-- native barcodes (see [Svg.Contrib.Render.EPL.Demo](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/Svg.Contrib.Render.EPL.Demo))
+- `SvgText`
+- `SvgTextSpan`
+- `SvgRectangle`
+- `SvgLineSegment`
+- `SvgLine`
+- `SvgImage`
+- native barcodes (see [Svg.Contrib.Render.EPL.Demo](../Svg.Contrib.Render.EPL.Demo))
 
 ## License
 
