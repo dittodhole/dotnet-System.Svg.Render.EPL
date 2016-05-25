@@ -55,33 +55,29 @@ namespace System.Svg.Render.ZPL
       return fieldOrientation;
     }
 
-    //public override void Transform(SvgImage svgImage,
-    //                               Matrix matrix,
-    //                               out float startX,
-    //                               out float startY,
-    //                               out float endX,
-    //                               out float endY,
-    //                               out float sourceAlignmentWidth,
-    //                               out float sourceAlignmentHeight)
-    //{
-    //  base.Transform(svgImage,
-    //                 matrix,
-    //                 out startX,
-    //                 out startY,
-    //                 out endX,
-    //                 out endY,
-    //                 out sourceAlignmentWidth,
-    //                 out sourceAlignmentHeight);
+    public override void Transform([NotNull] SvgImage svgImage,
+                                   [NotNull] Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float endX,
+                                   out float endY,
+                                   out float sourceAlignmentWidth,
+                                   out float sourceAlignmentHeight)
+    {
+      base.Transform(svgImage,
+                     matrix,
+                     out startX,
+                     out startY,
+                     out endX,
+                     out endY,
+                     out sourceAlignmentWidth,
+                     out sourceAlignmentHeight);
 
-    //  var rotation = this.GetFieldOrientation(matrix);
-    //  if (rotation % 2 > 0)
-    //  {
-    //    var width = Math.Abs(startX - endX);
+      var height = endY - startY;
 
-    //    startX -= width;
-    //    endX -= width;
-    //  }
-    //}
+      startY += height;
+      endY += height;
+    }
 
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
