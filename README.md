@@ -5,15 +5,17 @@
 
 ## Installing
 
-[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL/) https://www.nuget.org/packages/Svg.Contrib.Render.EPL/
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg?style=flat-square)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL/) https://www.nuget.org/packages/Svg.Contrib.Render.EPL/
 
     PM> Install-Package Svg.Contrib.Render.EPL
 
-[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.ZPL.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/) https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.ZPL.svg?style=flat-square)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/) https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/
 
     PM> Install-Package Svg.Contrib.Render.ZPL
 
 ## Developing
+
+[![Travis](https://img.shields.io/travis/dittodhole/dotnet-Svg.Contrib.Render.svg?style=flat-square)](https://travis-ci.org/dittodhole/dotnet-Svg.Contrib.Render)
 
 Open [`src/Svg.Contrib.Render.sln`](src/Svg.Contrib.Render.sln) with Microsoft Visual Studio 2015 and build it.
 
