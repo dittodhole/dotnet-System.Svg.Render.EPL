@@ -7,9 +7,9 @@ This project provides base functionality used by following [SVG](https://en.wiki
 - [dotnet-Svg.Contrib.Render.EPL](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/Svg.Contrib.Render.EPL)
 - [dotnet-Svg.Contrib.Render.ZPL](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/Svg.Contrib.Render.ZPL)
 
-## Installing [![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render/)
+## Installing
 
-https://www.nuget.org/packages/Svg.Contrib.Render/
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render/) https://www.nuget.org/packages/Svg.Contrib.Render/
 
     PM> Install-Package Svg.Contrib.Render
 

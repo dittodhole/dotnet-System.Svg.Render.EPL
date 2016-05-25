@@ -3,9 +3,9 @@
 # dotnet-Svg.Contrib.Render.EPL
 > Convert [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) to [Eltron Programming Language (EPL)](https://en.wikipedia.org/wiki/Eltron_Programming_Language)
 
-## Installing [![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL/)
+## Installing
 
-https://www.nuget.org/packages/Svg.Contrib.Render.EPL/
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL/) https://www.nuget.org/packages/Svg.Contrib.Render.EPL/
 
     PM> Install-Package Svg.Contrib.Render.EPL
 

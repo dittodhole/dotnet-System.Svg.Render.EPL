@@ -3,9 +3,11 @@
 # dotnet-Svg.Contrib.Render.ZPL
 > Convert [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) to [Zebra Programming Language (ZPL)](https://en.wikipedia.org/wiki/Zebra_(programming_language))
 
-## Installing [![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.ZPL.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/)
+## Installing
 
-tbd
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.ZPL.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/) https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/
+
+    PM> Install-Package Svg.Contrib.Render.ZPL
 
 ## Example
 
