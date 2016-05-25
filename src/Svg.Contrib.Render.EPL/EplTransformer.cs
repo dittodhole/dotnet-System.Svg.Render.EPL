@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using Svg;
 using JetBrains.Annotations;
 
 // ReSharper disable UnusedParameter.Global

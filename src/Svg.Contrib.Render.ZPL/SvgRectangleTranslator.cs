@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using Svg;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.ZPL
@@ -28,7 +27,7 @@ namespace Svg.Contrib.Render.ZPL
 
     public override void Translate([NotNull] SvgRectangle svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] Container<ZplStream> container)
+                                   [NotNull] ZplContainer container)
     {
       if (svgElement.Fill != SvgPaintServer.None
           && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
@@ -47,7 +46,7 @@ namespace Svg.Contrib.Render.ZPL
 
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
                                               [NotNull] Matrix matrix,
-                                              [NotNull] Container<ZplStream> container)
+                                              [NotNull] ZplContainer container)
     {
       // TODO fix this! square gets rendered ...
 
@@ -110,7 +109,7 @@ namespace Svg.Contrib.Render.ZPL
 
     protected virtual void TranslateBox([NotNull] SvgRectangle instance,
                                         [NotNull] Matrix matrix,
-                                        [NotNull] Container<ZplStream> container)
+                                        [NotNull] ZplContainer container)
     {
       float startX;
       float endX;

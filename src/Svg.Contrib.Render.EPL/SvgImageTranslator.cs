@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using Svg;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -50,7 +49,7 @@ namespace Svg.Contrib.Render.EPL
 
     public override void Translate([NotNull] SvgImage svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] Container<EplStream> container)
+                                   [NotNull] EplContainer container)
 
     {
       float startX;
@@ -107,7 +106,7 @@ namespace Svg.Contrib.Render.EPL
                                               float sourceAlignmentHeight,
                                               int horizontalStart,
                                               int verticalStart,
-                                              [NotNull] Container<EplStream> container)
+                                              [NotNull] EplContainer container)
     {
       using (var bitmap = this.EplTransformer.ConvertToBitmap(svgElement,
                                                               matrix,
@@ -156,7 +155,7 @@ namespace Svg.Contrib.Render.EPL
                                            float sourceAlignmentHeight,
                                            int horizontalStart,
                                            int verticalStart,
-                                           [NotNull] Container<EplStream> container)
+                                           [NotNull] EplContainer container)
     {
       string variableName;
       var imageIdentifier = this.CalculateImageIdentifier(svgElement);
@@ -190,7 +189,7 @@ namespace Svg.Contrib.Render.EPL
     protected virtual void PrintGraphics(int horizontalStart,
                                          int verticalStart,
                                          [NotNull] string variableName,
-                                         [NotNull] Container<EplStream> container)
+                                         [NotNull] EplContainer container)
     {
       container.Body.Add(this.EplCommands.PrintGraphics(horizontalStart,
                                                         verticalStart,

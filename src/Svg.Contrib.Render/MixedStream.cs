@@ -34,6 +34,7 @@ namespace Svg.Contrib.Render
     [CollectionAccess(CollectionAccessType.UpdatedContent)]
     // ReSharper disable ExceptionNotDocumentedOptional
     public void Add([NotNull] IEnumerable<byte> buffer) => this.AddElement(buffer.ToArray());
+
     // ReSharper restore ExceptionNotDocumentedOptional
 
     [CollectionAccess(CollectionAccessType.UpdatedContent)]
@@ -42,6 +43,7 @@ namespace Svg.Contrib.Render
     [CollectionAccess(CollectionAccessType.UpdatedContent)]
     // ReSharper disable ExceptionNotDocumentedOptional
     protected virtual void AddElement([NotNull] object obj) => this.InternalStream.Add(obj);
+
     // ReSharper restore ExceptionNotDocumentedOptional
 
     [NotNull]
@@ -51,6 +53,7 @@ namespace Svg.Contrib.Render
     // ReSharper disable ExceptionNotDocumentedOptional
     public byte[] ToByteArray([NotNull] Encoding encoding) => this.ToByteStream(encoding)
                                                                   .ToArray();
+
     // ReSharper restore ExceptionNotDocumentedOptional
 
     [NotNull]

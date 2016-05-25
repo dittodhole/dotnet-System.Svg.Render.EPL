@@ -24,8 +24,9 @@ var zplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
                                        viewRotation: ViewRotation.Normal);
 var encoding = zplRenderer.GetEncoding();
 
-var zplStream = zplRenderer.GetTranslation(svgDocument);
-var array = zplStream.GetByteArray(encoding);
+var zplContainer = zplRenderer.GetTranslation(svgDocument);
+var array = zplContainer.Combine()
+                        .GetByteArray(encoding);
 
 // TODO send to printer over USB/COM/Network
 ```

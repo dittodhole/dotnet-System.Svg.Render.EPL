@@ -1,5 +1,4 @@
 ﻿using System.Drawing.Drawing2D;
-using Svg;
 using System.Text;
 using JetBrains.Annotations;
 
@@ -8,7 +7,7 @@ using JetBrains.Annotations;
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
-  public class EplRenderer : RendererBase<EplStream>
+  public class EplRenderer : RendererBase<EplContainer>
   {
     public EplRenderer([NotNull] Matrix viewMatrix,
                        [NotNull] EplCommands eplCommands,
@@ -52,46 +51,40 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public override EplStream GetTranslation([NotNull] SvgDocument svgDocument)
+    public override EplContainer GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();
-      var result = this.EplCommands.CreateEplStream();
-
-      var streamContainer = new Container<EplStream>(this.EplCommands.CreateEplStream(),
-                                                     this.EplCommands.CreateEplStream(),
-                                                     this.EplCommands.CreateEplStream());
+      var eplContainer = new EplContainer(this.EplCommands.CreateEplStream(),
+                                          this.EplCommands.CreateEplStream(),
+                                          this.EplCommands.CreateEplStream());
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
-                                streamContainer);
+                                eplContainer);
       this.AddHeaderToTranslation(svgDocument,
                                   parentMatrix,
-                                  streamContainer);
+                                  eplContainer);
       this.AddFooterToTranslation(svgDocument,
                                   parentMatrix,
-                                  streamContainer);
+                                  eplContainer);
 
-      result.Add(streamContainer.Header);
-      result.Add(streamContainer.Body);
-      result.Add(streamContainer.Footer);
-
-      return result;
+      return eplContainer;
     }
 
     protected virtual void AddHeaderToTranslation([NotNull] SvgDocument svgDocument,
                                                   [NotNull] Matrix parentMatrix,
-                                                  [NotNull] Container<EplStream> container)
+                                                  [NotNull] EplContainer eplContainer)
     {
-      container.Header.Add(this.EplCommands.SetReferencePoint(0,
-                                                              0));
-      container.Header.Add(this.EplCommands.PrintDirection(PrintOrientation.Top));
-      container.Header.Add(this.EplCommands.CharacterSetSelection(8,
-                                                                  this.PrinterCodepage,
-                                                                  this.CountryCode));
+      eplContainer.Header.Add(this.EplCommands.SetReferencePoint(0,
+                                                                 0));
+      eplContainer.Header.Add(this.EplCommands.PrintDirection(PrintOrientation.Top));
+      eplContainer.Header.Add(this.EplCommands.CharacterSetSelection(8,
+                                                                     this.PrinterCodepage,
+                                                                     this.CountryCode));
     }
 
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix parentMatrix,
-                                                [NotNull] Container<EplStream> container)
+                                                [NotNull] EplContainer container)
     {
       container.Body.Add(string.Empty);
       container.Body.Add(this.EplCommands.ClearImageBuffer());
@@ -103,10 +96,10 @@ namespace Svg.Contrib.Render.EPL
 
     protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
                                                   [NotNull] Matrix parentMatrix,
-                                                  [NotNull] Container<EplStream> container)
+                                                  [NotNull] EplContainer eplContainer)
     {
-      container.Footer.Add(this.EplCommands.Print(1));
-      container.Footer.Add(string.Empty);
+      eplContainer.Footer.Add(this.EplCommands.Print(1));
+      eplContainer.Footer.Add(string.Empty);
     }
   }
 }

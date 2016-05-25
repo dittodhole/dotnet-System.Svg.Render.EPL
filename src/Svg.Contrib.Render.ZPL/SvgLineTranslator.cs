@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using Svg;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.ZPL
@@ -24,7 +23,7 @@ namespace Svg.Contrib.Render.ZPL
 
     public override void Translate([NotNull] SvgLine svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] Container<ZplStream> container)
+                                   [NotNull] ZplContainer container)
     {
       float startX;
       float startY;

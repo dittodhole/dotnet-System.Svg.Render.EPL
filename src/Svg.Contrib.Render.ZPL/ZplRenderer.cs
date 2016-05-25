@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using Svg;
 using System.Text;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
-  public class ZplRenderer : RendererBase<ZplStream>
+  public class ZplRenderer : RendererBase<ZplContainer>
   {
     public ZplRenderer([NotNull] Matrix viewMatrix,
                        [NotNull] ZplCommands zplCommands,
@@ -61,34 +60,28 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public override ZplStream GetTranslation([NotNull] SvgDocument svgDocument)
+    public override ZplContainer GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();
-      var result = this.ZplCommands.CreateZplStream();
-
-      var streamContainer = new Container<ZplStream>(this.ZplCommands.CreateZplStream(),
-                                                     this.ZplCommands.CreateZplStream(),
-                                                     this.ZplCommands.CreateZplStream());
+      var zplContainer = new ZplContainer(this.ZplCommands.CreateZplStream(),
+                                          this.ZplCommands.CreateZplStream(),
+                                          this.ZplCommands.CreateZplStream());
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
-                                streamContainer);
+                                zplContainer);
       this.AddHeaderToTranslation(svgDocument,
                                   parentMatrix,
-                                  streamContainer);
+                                  zplContainer);
       this.AddFooterToTranslation(svgDocument,
                                   parentMatrix,
-                                  streamContainer);
+                                  zplContainer);
 
-      result.Add(streamContainer.Header);
-      result.Add(streamContainer.Body);
-      result.Add(streamContainer.Footer);
-
-      return result;
+      return zplContainer;
     }
 
     protected virtual void AddHeaderToTranslation([NotNull] SvgDocument svgDocument,
                                                   [NotNull] Matrix parentMatrix,
-                                                  [NotNull] Container<ZplStream> container)
+                                                  [NotNull] ZplContainer container)
     {
       container.Header.Add(this.ZplCommands.LabelHome(0,
                                                       0));
@@ -98,7 +91,7 @@ namespace Svg.Contrib.Render.ZPL
 
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix parentMatrix,
-                                                [NotNull] Container<ZplStream> container)
+                                                [NotNull] ZplContainer container)
     {
       container.Body.Add(this.ZplCommands.StartFormat());
       this.TranslateSvgElementAndChildren(svgDocument,
@@ -109,7 +102,7 @@ namespace Svg.Contrib.Render.ZPL
 
     protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
                                                   [NotNull] Matrix parentMatrix,
-                                                  [NotNull] Container<ZplStream> container)
+                                                  [NotNull] ZplContainer container)
     {
       container.Footer.Add(this.ZplCommands.EndFormat());
     }

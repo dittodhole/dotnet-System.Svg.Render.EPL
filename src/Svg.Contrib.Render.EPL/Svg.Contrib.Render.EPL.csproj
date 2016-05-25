@@ -57,6 +57,7 @@
     <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EplCommands.cs" />
+    <Compile Include="EplContainer.cs" />
     <Compile Include="EplRenderer.cs" />
     <Compile Include="EplStream.cs" />
     <Compile Include="EplTransformer.cs" />

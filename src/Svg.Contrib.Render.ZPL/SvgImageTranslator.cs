@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using Svg;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -30,7 +29,7 @@ namespace Svg.Contrib.Render.ZPL
 
     public override void Translate([NotNull] SvgImage svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] Container<ZplStream> container)
+                                   [NotNull] ZplContainer container)
     {
       float startX;
       float startY;
@@ -75,7 +74,7 @@ namespace Svg.Contrib.Render.ZPL
                                            float sourceAlignmentHeight,
                                            int horizontalStart,
                                            int verticalStart,
-                                           [NotNull] Container<ZplStream> container)
+                                           [NotNull] ZplContainer container)
     {
       string variableName;
       var imageIdentifier = this.CalculateImageIdentifier(svgElement);
@@ -149,7 +148,7 @@ namespace Svg.Contrib.Render.ZPL
     protected virtual void PrintGraphics(int horizontalStart,
                                          int verticalStart,
                                          [NotNull] string variableName,
-                                         [NotNull] Container<ZplStream> container)
+                                         [NotNull] ZplContainer container)
     {
       container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                        verticalStart));

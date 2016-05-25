@@ -11,9 +11,9 @@ namespace Svg.Contrib.Render.EPL.Tests
   {
     protected SvgElementBaseTranslatorContext()
     {
-      this.Container = new Container<EplStream>(new EplStream(),
-                                                new EplStream(),
-                                                new EplStream());
+      this.EplContainer = new EplContainer(new EplStream(),
+                                           new EplStream(),
+                                           new EplStream());
       this.SvgUnitReader = new SvgUnitReader();
       this.EplCommands = new EplCommands();
       this.EplTransformer = new EplTransformer(this.SvgUnitReader);
@@ -21,7 +21,7 @@ namespace Svg.Contrib.Render.EPL.Tests
     }
 
     [NotNull]
-    protected Container<EplStream> Container { get; }
+    protected EplContainer EplContainer { get; }
 
     [NotNull]
     protected SvgUnitReader SvgUnitReader { get; }
@@ -41,7 +41,7 @@ namespace Svg.Contrib.Render.EPL.Tests
     {
       base.BecauseOf();
 
-      this.Actual = this.Container.ToString();
+      this.Actual = this.EplContainer.ToString();
     }
   }
 }

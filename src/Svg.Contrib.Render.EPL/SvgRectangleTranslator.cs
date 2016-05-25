@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using Svg;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.EPL
@@ -28,7 +27,7 @@ namespace Svg.Contrib.Render.EPL
 
     public override void Translate([NotNull] SvgRectangle svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] Container<EplStream> container)
+                                   [NotNull] EplContainer container)
     {
       if (svgElement.Fill != SvgPaintServer.None
           && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
@@ -48,7 +47,7 @@ namespace Svg.Contrib.Render.EPL
 
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
                                               [NotNull] Matrix matrix,
-                                              [NotNull] Container<EplStream> container)
+                                              [NotNull] EplContainer container)
     {
       var startX = this.SvgUnitReader.GetValue(instance,
                                                instance.X);
@@ -92,7 +91,7 @@ namespace Svg.Contrib.Render.EPL
 
     protected virtual void TranslateBox([NotNull] SvgRectangle instance,
                                         [NotNull] Matrix matrix,
-                                        [NotNull] Container<EplStream> container)
+                                        [NotNull] EplContainer container)
     {
       float startX;
       float endX;

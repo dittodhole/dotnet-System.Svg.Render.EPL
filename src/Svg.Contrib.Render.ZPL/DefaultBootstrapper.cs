@@ -1,5 +1,4 @@
 ﻿using System.Drawing.Drawing2D;
-using Svg;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.ZPL

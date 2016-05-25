@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
-using Svg;
-using Svg.Transforms;
 using JetBrains.Annotations;
+using Svg.Transforms;
 
 namespace Svg.Contrib.Render
 {
@@ -72,6 +71,7 @@ namespace Svg.Contrib.Render
 
   [PublicAPI]
   public abstract class RendererBase<TContainer> : RendererBase
+    where TContainer : Container
   {
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
@@ -110,7 +110,7 @@ namespace Svg.Contrib.Render
     protected virtual void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
                                                           [NotNull] Matrix parentMatrix,
                                                           [NotNull] Matrix viewMatrix,
-                                                          [NotNull] Container<TContainer> container)
+                                                          [NotNull] TContainer container)
     {
       var svgVisualElement = svgElement as SvgVisualElement;
       if (svgVisualElement != null)
@@ -142,7 +142,7 @@ namespace Svg.Contrib.Render
     protected virtual void TranslateSvgElement([NotNull] SvgElement svgElement,
                                                [NotNull] Matrix matrix,
                                                [NotNull] Matrix viewMatrix,
-                                               [NotNull] Container<TContainer> container)
+                                               [NotNull] TContainer container)
     {
       var type = svgElement.GetType();
 

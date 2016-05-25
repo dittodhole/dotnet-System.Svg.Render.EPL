@@ -1,5 +1,4 @@
 ﻿using System.Drawing.Drawing2D;
-using Svg;
 using JetBrains.Annotations;
 
 // ReSharper disable ExceptionNotDocumentedOptional
@@ -26,7 +25,7 @@ namespace Svg.Contrib.Render.EPL.Demo
 
     public override void Translate([NotNull] SvgImage svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] Container<EplStream> container)
+                                   [NotNull] EplContainer container)
     {
       if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
       {

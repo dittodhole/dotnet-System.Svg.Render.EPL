@@ -1,5 +1,4 @@
 ﻿using System.Drawing.Drawing2D;
-using Svg;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -27,7 +26,7 @@ namespace Svg.Contrib.Render.ZPL
 
     public override void Translate([NotNull] T svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] Container<ZplStream> container)
+                                   [NotNull] ZplContainer container)
     {
       if (svgElement.Text == null)
       {

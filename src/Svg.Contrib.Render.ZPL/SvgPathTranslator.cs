@@ -1,8 +1,7 @@
 ﻿using System.Drawing.Drawing2D;
 using System.Linq;
-using Svg;
-using Svg.Pathing;
 using JetBrains.Annotations;
+using Svg.Pathing;
 
 namespace Svg.Contrib.Render.ZPL
 {
@@ -24,7 +23,7 @@ namespace Svg.Contrib.Render.ZPL
 
     public override void Translate([NotNull] SvgPath svgElement,
                                    [NotNull] Matrix matrix,
-                                   [NotNull] Container<ZplStream> container)
+                                   [NotNull] ZplContainer container)
     {
       // TODO translate C (curveto)
       // TODO translate S (smooth curveto)
@@ -53,7 +52,7 @@ namespace Svg.Contrib.Render.ZPL
     protected virtual void TranslateSvgLineSegment([NotNull] SvgPath instance,
                                                    [NotNull] SvgLineSegment svgLineSegment,
                                                    [NotNull] Matrix matrix,
-                                                   [NotNull] Container<ZplStream> container)
+                                                   [NotNull] ZplContainer container)
     {
       var svgLine = new SvgLine
                     {

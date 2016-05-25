@@ -45,7 +45,7 @@ namespace Svg.Contrib.Render.EPL
         }
         // ReSharper disable ExceptionNotDocumentedOptional
         if (!array.Any())
-        // ReSharper restore ExceptionNotDocumentedOptional
+          // ReSharper restore ExceptionNotDocumentedOptional
         {
           continue;
         }
@@ -57,7 +57,7 @@ namespace Svg.Contrib.Render.EPL
 
         // ReSharper disable ExceptionNotDocumentedOptional
         foreach (var @byte in encoding.GetBytes(Environment.NewLine))
-        // ReSharper restore ExceptionNotDocumentedOptional
+          // ReSharper restore ExceptionNotDocumentedOptional
         {
           yield return @byte;
         }

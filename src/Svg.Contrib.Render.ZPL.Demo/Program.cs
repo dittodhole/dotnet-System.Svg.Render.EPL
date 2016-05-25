@@ -38,11 +38,12 @@ namespace Svg.Contrib.Render.ZPL.Demo
                                                                                deviceInterfaceData,
                                                                                IntPtr.Zero);
           var stopwatch = Stopwatch.StartNew();
-          var zplStream = zplRenderer.GetTranslation(svgDocument);
+          var zplContainer = zplRenderer.GetTranslation(svgDocument);
           stopwatch.Stop();
           Console.WriteLine(stopwatch.Elapsed);
 
-          var array = zplStream.ToByteArray(encoding);
+          var array = zplContainer.Combine()
+                                  .ToByteArray(encoding);
           var arraySegment = new ArraySegment<byte>(array);
           using (var safeObjectHandle = Kernel32.CreateFile(deviceInterfaceDetail,
                                                             Kernel32.FileAccess.FILE_GENERIC_WRITE,

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Svg;
 using PInvoke;
 
 // ReSharper disable UnusedParameter.Local
@@ -41,10 +40,11 @@ namespace Svg.Contrib.Render.EPL.Demo
                                                                                IntPtr.Zero);
 
           var stopwatch = Stopwatch.StartNew();
-          var eplStream = eplRenderer.GetTranslation(svgDocument);
+          var eplContainer = eplRenderer.GetTranslation(svgDocument);
           stopwatch.Stop();
           Console.WriteLine(stopwatch.Elapsed);
-          var array = eplStream.ToByteArray(encoding);
+          var array = eplContainer.Combine()
+                                  .ToByteArray(encoding);
           var arraySegment = new ArraySegment<byte>(array);
           using (var safeObjectHandle = Kernel32.CreateFile(deviceInterfaceDetail,
                                                             Kernel32.FileAccess.FILE_GENERIC_WRITE,
