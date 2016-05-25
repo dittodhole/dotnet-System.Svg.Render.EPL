@@ -59,12 +59,12 @@ namespace System.Svg.Render.EPL
       var streamContainer = new Container<EplStream>(this.EplCommands.CreateEplStream(),
                                                      this.EplCommands.CreateEplStream(),
                                                      this.EplCommands.CreateEplStream());
-      this.AddHeaderToTranslation(svgDocument,
-                                  parentMatrix,
-                                  streamContainer);
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
                                 streamContainer);
+      this.AddHeaderToTranslation(svgDocument,
+                                  parentMatrix,
+                                  streamContainer);
       this.AddFooterToTranslation(svgDocument,
                                   parentMatrix,
                                   streamContainer);
