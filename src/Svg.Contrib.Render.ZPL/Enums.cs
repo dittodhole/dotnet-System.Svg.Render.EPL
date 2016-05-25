@@ -63,4 +63,41 @@ namespace Svg.Contrib.Render.ZPL
     //MultibyteAsian = 26,
     ZebraCodePage1252 = 27
   }
+
+  [PublicAPI]
+  public enum PrintInterpretationLine
+  {
+    Yes = 'Y',
+    No = 'N'
+  }
+
+  [PublicAPI]
+  public enum PrintInterpretationLineAboveCode
+  {
+    Yes = 'Y',
+    No = 'N'
+  }
+
+  [PublicAPI]
+  public enum Mode
+  {
+    NoSelectedMode = 'N',
+    UccCaseMode = 'U',
+    AutomaticMode = 'A',
+    UccEanMode = 'D'
+  }
+
+  [PublicAPI]
+  public enum CalculateAndPrintMod10CheckDigit
+  {
+    Yes = 'Y',
+    No = 'N'
+  }
+
+  [PublicAPI]
+  public enum UccCheckDigit
+  {
+    Yes = 'Y',
+    No = 'N'
+  }
 }

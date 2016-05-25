@@ -116,7 +116,7 @@ namespace Svg.Contrib.Render.ZPL
     [Pure]
     [MustUseReturnValue]
     public virtual string DownloadGraphics([NotNull] Bitmap bitmap,
-                                              [NotNull] string name)
+                                           [NotNull] string name)
     {
       var numberOfBytesPerRow = (int) Math.Ceiling(bitmap.Width / 8f);
       var totalNumberOfBytes = numberOfBytesPerRow * bitmap.Height;
@@ -163,7 +163,7 @@ namespace Svg.Contrib.Render.ZPL
               if (color.A > 0x32
                   || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
               {
-                value |= (1 << bitIndex);
+                value |= 1 << bitIndex;
               }
             }
           }
@@ -179,6 +179,43 @@ namespace Svg.Contrib.Render.ZPL
     public virtual string RecallGraphic([NotNull] string name)
     {
       return $"^XGR:{name},1,1^FS";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string BarCodeFieldDefaut(int moduleWidth,
+                                             decimal wideBarToNarrowBarWidthRatio,
+                                             int height)
+    {
+      return $"^BY{moduleWidth},{Math.Round(wideBarToNarrowBarWidthRatio, 2)},{height}";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string Code128BarCode(FieldOrientation fieldOrientation,
+                                         int barCodeHeight,
+                                         [NotNull] string content,
+                                         PrintInterpretationLine printInterpretationLine = PrintInterpretationLine.Yes,
+                                         PrintInterpretationLineAboveCode printInterpretationLineAboveCode = PrintInterpretationLineAboveCode.No,
+                                         UccCheckDigit uccCheckDigit = UccCheckDigit.No,
+                                         Mode mode = Mode.NoSelectedMode)
+    {
+      return $"^BC{(char) fieldOrientation},{barCodeHeight},{(char) printInterpretationLine},{(char) printInterpretationLineAboveCode},{(char) uccCheckDigit},{(char) mode}^FD{content}^FS";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string Interleaved2Of5BarCode(FieldOrientation fieldOrientation,
+                                                 int barCodeHeight,
+                                                 [NotNull] string content,
+                                                 PrintInterpretationLine printInterpretationLine = PrintInterpretationLine.Yes,
+                                                 PrintInterpretationLineAboveCode printInterpretationLineAboveCode = PrintInterpretationLineAboveCode.No,
+                                                 CalculateAndPrintMod10CheckDigit calculateAndPrintMod10CheckDigit = CalculateAndPrintMod10CheckDigit.No)
+    {
+      return $"^B2{(char) fieldOrientation},{barCodeHeight},{(char) printInterpretationLine},{(char) printInterpretationLineAboveCode},{(char) calculateAndPrintMod10CheckDigit}^FD{content}^FS";
     }
   }
 }
