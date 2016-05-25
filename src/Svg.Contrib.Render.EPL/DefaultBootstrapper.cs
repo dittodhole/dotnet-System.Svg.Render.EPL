@@ -92,9 +92,9 @@ namespace Svg.Contrib.Render.EPL
     [MustUseReturnValue]
     public virtual EplRenderer BuildUp(float sourceDpi,
                                        float destinationDpi,
-                                       PrinterCodepage printerCodepage,
-                                       int countryCode,
-                                       ViewRotation viewRotation)
+                                       PrinterCodepage printerCodepage = PrinterCodepage.Dos850,
+                                       int countryCode = 850,
+                                       ViewRotation viewRotation = ViewRotation.Normal)
     {
       var svgUnitReader = this.CreateSvgUnitReader(sourceDpi);
       var eplTransformer = this.CreateEplTransformer(svgUnitReader);
