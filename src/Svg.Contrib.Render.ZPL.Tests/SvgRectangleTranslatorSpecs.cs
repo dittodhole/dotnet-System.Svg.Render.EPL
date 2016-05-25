@@ -55,7 +55,8 @@ namespace Svg.Contrib.Render.ZPL.Tests
       [Test]
       public void returns_valid_zpl_code()
       {
-        Assert.AreEqual("^FT60,180\r\n^GB120,150,20,B^FS",
+        Assert.AreEqual(@"^FT60,180
+^GB120,150,20,B^FS",
                         this.Actual);
       }
     }
@@ -81,7 +82,8 @@ namespace Svg.Contrib.Render.ZPL.Tests
       [Test]
       public void return_valid_zpl_code()
       {
-        Assert.AreEqual("^FT30,120\r\n^GB100,0,50,B^FS",
+        Assert.AreEqual(@"^FT30,120
+^GB100,0,50,B^FS",
                         this.Actual);
       }
     }

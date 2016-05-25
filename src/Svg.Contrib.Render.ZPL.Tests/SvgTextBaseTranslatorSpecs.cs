@@ -56,7 +56,8 @@ namespace Svg.Contrib.Render.ZPL.Tests
       [Test]
       public void return_valid_zpl_code()
       {
-        Assert.AreEqual("^FT50,46\r\n^A0N,12,0^FDhello^FS",
+        Assert.AreEqual(@"^FT50,46
+^A0N,12,0^FDhello^FS",
                         this.Actual);
       }
     }
@@ -86,7 +87,8 @@ namespace Svg.Contrib.Render.ZPL.Tests
       [Test]
       public void return_valid_zpl_code()
       {
-        Assert.AreEqual("^FT50,46\r\n^A0N,12,0^FDhello^FS",
+        Assert.AreEqual(@"^FT50,46
+^A0N,12,0^FDhello^FS",
                         this.Actual);
       }
     }
