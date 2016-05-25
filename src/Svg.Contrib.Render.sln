@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render.EPL", "System.Svg.Render.EPL\System.Svg.Render.EPL.csproj", "{9B74D70D-21F7-41DA-B146-EFF862672606}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render.EPL", "Svg.Contrib.Render.EPL\Svg.Contrib.Render.EPL.csproj", "{9B74D70D-21F7-41DA-B146-EFF862672606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render.EPL.Tests", "System.Svg.Render.EPL.Tests\System.Svg.Render.EPL.Tests.csproj", "{8F5C2455-87E7-41AD-9C37-A1F9F0D367FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render.EPL.Tests", "Svg.Contrib.Render.EPL.Tests\Svg.Contrib.Render.EPL.Tests.csproj", "{8F5C2455-87E7-41AD-9C37-A1F9F0D367FC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EPL", "EPL", "{2AF24C0C-1546-4138-89E1-80D24C0843C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render.EPL.Demo", "System.Svg.Render.EPL.Demo\System.Svg.Render.EPL.Demo.csproj", "{8C067CAE-34F2-4BB7-A8EB-1CCF751B486B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render.EPL.Demo", "Svg.Contrib.Render.EPL.Demo\Svg.Contrib.Render.EPL.Demo.csproj", "{8C067CAE-34F2-4BB7-A8EB-1CCF751B486B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render", "System.Svg.Render\System.Svg.Render.csproj", "{F5BACB04-0644-40A0-B93E-7C285CAF78AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render", "Svg.Contrib.Render\Svg.Contrib.Render.csproj", "{F5BACB04-0644-40A0-B93E-7C285CAF78AE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ZPL", "ZPL", "{5468AF0F-DCEF-44F0-B35B-6B2EC4CFA635}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render.ZPL", "System.Svg.Render.ZPL\System.Svg.Render.ZPL.csproj", "{7120AAB0-25E4-4495-8B57-6ABA03A66074}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render.ZPL", "Svg.Contrib.Render.ZPL\Svg.Contrib.Render.ZPL.csproj", "{7120AAB0-25E4-4495-8B57-6ABA03A66074}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Svg.Render.ZPL.Demo", "System.Svg.Render.ZPL.Demo\System.Svg.Render.ZPL.Demo.csproj", "{49AF042E-46F6-4F2A-88F6-C34A181C24B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render.ZPL.Demo", "Svg.Contrib.Render.ZPL.Demo\Svg.Contrib.Render.ZPL.Demo.csproj", "{49AF042E-46F6-4F2A-88F6-C34A181C24B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
