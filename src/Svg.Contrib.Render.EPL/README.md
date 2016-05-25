@@ -21,7 +21,7 @@ var bootstrapper = new DefaultBootstrapper();
 var eplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
                                        destinationDpi: 203f,
                                        printerCodepage: PrinterCodepage.Dos850,
-                                       countryCode: 850);
+                                       viewRotation: ViewRotation.Normal);
 var encoding = eplRenderer.GetEncoding();
 
 var eplStream = eplRenderer.GetTranslation(svgDocument);
@@ -53,6 +53,13 @@ Depending on the text used in `A`-command you can set a codepage to guarantee a 
 Type: `int`
 
 See [`printerCodepage`](#printercodepage)
+
+#### viewRotation
+Type: [`ViewRotation`](../Svg.Contrib.Render/Enums.cs#L6)  
+Default: `ViewRotation.Normal`
+
+Define the rotation of the label.
+
 
 ## Features
 

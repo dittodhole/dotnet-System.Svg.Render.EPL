@@ -18,13 +18,13 @@ using Svg.Contrib.Render.ZPL;
 var file = "";
 var svgDocument = SvgDocument.Open(file);
 var bootstrapper = new DefaultBootstrapper();
-var eplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
+var zplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
                                        destinationDpi: 203f,
                                        characterSet: CharacterSet.ZebraCodePage850,
                                        viewRotation: ViewRotation.Normal);
-var encoding = eplRenderer.GetEncoding();
+var encoding = zplRenderer.GetEncoding();
 
-var zplStream = eplRenderer.GetTranslation(svgDocument);
+var zplStream = zplRenderer.GetTranslation(svgDocument);
 var array = zplStream.GetByteArray(encoding);
 
 // TODO send to printer over USB/COM/Network
