@@ -1,6 +1,6 @@
 ﻿// see http://mrclyfar.blogspot.co.at/2010/02/amazing-mapping-demo-at-ted-2010.html
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable VirtualMemberNeverOverriden.Global
@@ -12,14 +12,14 @@ namespace UnitTest
   {
     public TestContext TestContext { get; set; }
 
-    [TestInitialize]
+    [SetUp]
     public void TestInitialize()
     {
       this.Context();
       this.BecauseOf();
     }
 
-    [TestCleanup]
+    [TearDown]
     public void TestCleanup()
     {
       this.Cleanup();

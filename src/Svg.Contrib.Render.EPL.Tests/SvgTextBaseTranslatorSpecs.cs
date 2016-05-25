@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
-using Svg;
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
@@ -33,7 +32,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_svg_text_is_translated : SvgTextTranslatorSpecsContext
     {
       protected override void Context()
@@ -54,7 +53,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                        };
       }
 
-      [TestMethod]
+      [Test]
       public void return_valid_epl_code()
       {
         Assert.AreEqual(@"A50,58,0,1,1,1,N,""hello""",
@@ -62,7 +61,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_svg_text_with_black_fill_is_translated : SvgTextTranslatorSpecsContext
     {
       protected override void Context()
@@ -84,7 +83,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                        };
       }
 
-      [TestMethod]
+      [Test]
       public void return_valid_epl_code()
       {
         Assert.AreEqual(@"A50,58,0,1,1,1,R,""hello""",

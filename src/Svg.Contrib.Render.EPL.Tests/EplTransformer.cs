@@ -1,5 +1,4 @@
-﻿using Svg;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.EPL.Tests
 {

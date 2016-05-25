@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
-using Svg;
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
@@ -34,7 +33,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_svg_rectangle_without_fill_is_translated : SvgRectangleTranslatorSpecsContext
     {
       protected override void Context()
@@ -53,7 +52,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                             };
       }
 
-      [TestMethod]
+      [Test]
       public void returns_valid_epl_code()
       {
         Assert.AreEqual("X65,35,20,175,175",
@@ -61,7 +60,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_svg_rectangle_with_black_fill_is_translated : SvgRectangleTranslatorSpecsContext
     {
       protected override void Context()
@@ -79,7 +78,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                             };
       }
 
-      [TestMethod]
+      [Test]
       public void return_valid_epl_code()
       {
         Assert.AreEqual("LO30,70,100,50",

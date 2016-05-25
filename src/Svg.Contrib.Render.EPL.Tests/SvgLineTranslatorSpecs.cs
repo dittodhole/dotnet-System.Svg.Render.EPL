@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
-using Svg;
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
@@ -33,7 +32,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_horizontal_svg_line_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
@@ -50,7 +49,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                        };
       }
 
-      [TestMethod]
+      [Test]
       public void return_valid_epl_code()
       {
         Assert.AreEqual("LO50,200,400,20",
@@ -58,7 +57,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_vertical_svg_line_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
@@ -75,7 +74,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                        };
       }
 
-      [TestMethod]
+      [Test]
       public void return_valid_epl_code()
       {
         Assert.AreEqual("LO200,50,20,400",
@@ -83,7 +82,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_diagonal_svg_line_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
@@ -100,7 +99,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                        };
       }
 
-      [TestMethod]
+      [Test]
       public void return_valid_epl_code()
       {
         Assert.AreEqual("LS10,10,20,200,200",
@@ -108,7 +107,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_svg_line_with_white_stroke_color_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
@@ -126,7 +125,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                        };
       }
 
-      [TestMethod]
+      [Test]
       public void return_valid_epl_code()
       {
         Assert.AreEqual("LW10,10,20,200",
@@ -134,7 +133,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_svg_line_with_partly_swapped_coordinates_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
@@ -151,7 +150,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                        };
       }
 
-      [TestMethod]
+      [Test]
       public void return_valid_epl_code()
       {
         Assert.AreEqual("LS10,20,20,60,30",
@@ -159,7 +158,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    [TestClass]
+    [TestFixture]
     public class when_svg_line_with_completely_swapped_coordinates_is_translated : SvgLineTranslatorSpecsContext
     {
       protected override void Context()
@@ -176,7 +175,7 @@ namespace Svg.Contrib.Render.EPL.Tests
                        };
       }
 
-      [TestMethod]
+      [Test]
       public void return_valid_epl_code()
       {
         Assert.AreEqual("LS30,50,20,90,60",
