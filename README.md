@@ -3,6 +3,20 @@
 
 ![](https://media.giphy.com/media/gCHHJZGvOtstO/giphy.gif)
 
+## Installing
+
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render/) https://www.nuget.org/packages/Svg.Contrib.Render/
+
+    PM> Install-Package Svg.Contrib.Render
+
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL/) https://www.nuget.org/packages/Svg.Contrib.Render.EPL/
+
+    PM> Install-Package Svg.Contrib.Render.EPL
+
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.ZPL.svg?style=flat)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/) https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/
+
+    PM> Install-Package Svg.Contrib.Render.ZPL
+
 ## Developing
 
 Open [`src/Svg.Contrib.Render.sln`](src/Svg.Contrib.Render.sln) with Microsoft Visual Studio 2015 and build it.
