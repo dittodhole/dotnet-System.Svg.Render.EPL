@@ -26,7 +26,6 @@ namespace Svg.Contrib.Render
 
     [Pure]
     [MustUseReturnValue]
-    // ReSharper disable UnusedParameter.Global
     protected virtual float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase)
     {
       var svgText = svgTextBase as SvgText ?? svgTextBase.Parent as SvgText;
@@ -52,8 +51,6 @@ namespace Svg.Contrib.Render
 
       return result;
     }
-
-    // ReSharper restore UnusedParameter.Global
 
     [Pure]
     protected virtual void ApplyMatrixOnPoint(float x,
@@ -280,12 +277,10 @@ namespace Svg.Contrib.Render
                                   out float startY,
                                   out float fontSize)
     {
-      // ReSharper disable ExceptionNotDocumentedOptional
       startX = this.SvgUnitReader.GetValue(svgTextBase,
-                                           (svgTextBase.X ?? Enumerable.Empty<SvgUnit>()).FirstOrDefault());
+                                           svgTextBase.X.FirstOrDefault());
       startY = this.SvgUnitReader.GetValue(svgTextBase,
-                                           (svgTextBase.Y ?? Enumerable.Empty<SvgUnit>()).FirstOrDefault());
-      // ReSharper restore ExceptionNotDocumentedOptional
+                                           svgTextBase.Y.FirstOrDefault());
       fontSize = this.SvgUnitReader.GetValue(svgTextBase,
                                              svgTextBase.FontSize);
 
