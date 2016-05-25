@@ -21,6 +21,7 @@ var bootstrapper = new DefaultBootstrapper();
 var eplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
                                        destinationDpi: 203f,
                                        printerCodepage: PrinterCodepage.Dos850,
+                                       countryCode: 850,
                                        viewRotation: ViewRotation.Normal);
 var encoding = eplRenderer.GetEncoding();
 
