@@ -118,9 +118,17 @@ namespace Svg.Contrib.Render.EPL
           return;
         }
 
-        container.Body.Add(this.EplCommands.GraphicDirectWrite(bitmap,
-                                                               horizontalStart,
-                                                               verticalStart));
+        int numberOfBytesPerRow;
+        var rawBinaryData = this.EplTransformer.GetRawBinaryData(bitmap,
+                                                                 true,
+                                                                 out numberOfBytesPerRow);
+        var rows = bitmap.Height;
+
+        container.Body.Add(this.EplCommands.GraphicDirectWrite(horizontalStart,
+                                                               verticalStart,
+                                                               rawBinaryData,
+                                                               numberOfBytesPerRow,
+                                                               rows));
       }
     }
 

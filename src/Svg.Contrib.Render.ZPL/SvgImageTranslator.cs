@@ -95,8 +95,12 @@ namespace Svg.Contrib.Render.ZPL
             return null;
           }
 
-          container.Header.Add(this.ZplCommands.DownloadGraphics(bitmap,
-                                                                 variableName));
+          int numberOfBytesPerRow;
+          var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap, false, out numberOfBytesPerRow);
+
+          container.Header.Add(this.ZplCommands.DownloadGraphics(variableName,
+                                                                 rawBinaryData,
+                                                                 numberOfBytesPerRow));
         }
       }
 

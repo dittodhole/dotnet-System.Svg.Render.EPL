@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -442,6 +443,72 @@ namespace Svg.Contrib.Render
     protected virtual bool StretchImage([NotNull] SvgImage svgImage)
     {
       return false;
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
+                                                      bool invertByte,
+                                                      out int numberOfBytesPerRow)
+    {
+      // TODO merge with MagickImage, as we are having different thresholds here
+
+      numberOfBytesPerRow = (int) Math.Ceiling(bitmap.Width / 8f);
+
+      var rawBinaryData = this.GetRawBinaryData(bitmap,
+                                                invertByte,
+                                                numberOfBytesPerRow);
+
+      return rawBinaryData;
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
+                                                      bool invertByte,
+                                                      int numberOfBytesPerRow)
+    {
+      var height = bitmap.Height;
+      var width = bitmap.Width;
+
+      for (var y = 0;
+           y < height;
+           y++)
+      {
+        for (var octett = 0;
+             octett < numberOfBytesPerRow;
+             octett++)
+        {
+          var value = (int) byte.MinValue;
+
+          for (var i = 0;
+               i < 8;
+               i++)
+          {
+            var x = octett * 8 + i;
+            var bitIndex = 7 - i;
+            if (x < width)
+            {
+              var color = bitmap.GetPixel(x,
+                                          y);
+              if (color.A > 0x32
+                  || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
+              {
+                value |= 1 << bitIndex;
+              }
+            }
+          }
+
+          if (invertByte)
+          {
+            value = ~value;
+          }
+
+          yield return (byte) value;
+        }
+      }
     }
   }
 }

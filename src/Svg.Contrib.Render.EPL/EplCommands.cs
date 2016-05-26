@@ -124,62 +124,17 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream GraphicDirectWrite([NotNull] Bitmap bitmap,
-                                                int horizontalStart,
-                                                int verticalStart)
+    public virtual EplStream GraphicDirectWrite(int horizontalStart,
+                                                int verticalStart,
+                                                [NotNull] IEnumerable<byte> rawBinaryData,
+                                                int numberOfBytesPerRow,
+                                                int rows)
     {
-      var octetts = (int) Math.Ceiling(bitmap.Width / 8f);
-
       var eplStream = this.CreateEplStream();
-      eplStream.Add($"GW{horizontalStart},{verticalStart},{octetts},{bitmap.Height}");
-      eplStream.Add(this.GetRawBinaryData(bitmap,
-                                          octetts));
+      eplStream.Add($"GW{horizontalStart},{verticalStart},{numberOfBytesPerRow},{rows}");
+      eplStream.Add(rawBinaryData);
 
       return eplStream;
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
-                                                      int octetts)
-    {
-      // TODO merge with MagickImage, as we are having different thresholds here
-
-      var height = bitmap.Height;
-      var width = bitmap.Width;
-
-      for (var y = 0;
-           y < height;
-           y++)
-      {
-        for (var octett = 0;
-             octett < octetts;
-             octett++)
-        {
-          var value = (int) byte.MaxValue;
-
-          for (var i = 0;
-               i < 8;
-               i++)
-          {
-            var x = octett * 8 + i;
-            var bitIndex = 7 - i;
-            if (x < width)
-            {
-              var color = bitmap.GetPixel(x,
-                                          y);
-              if (color.A > 0x32
-                  || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
-              {
-                value &= ~(1 << bitIndex);
-              }
-            }
-          }
-
-          yield return (byte) value;
-        }
-      }
     }
 
     [NotNull]
