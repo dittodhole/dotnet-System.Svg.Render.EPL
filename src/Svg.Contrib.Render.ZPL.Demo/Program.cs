@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using PInvoke;
 
+// ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedParameter.Local
 // ReSharper disable NonLocalizedString
 // ReSharper disable ExceptionNotDocumented
 // ReSharper disable ExceptionNotDocumentedOptional
-// ReSharper disable ClassNeverInstantiated.Global
 
 namespace Svg.Contrib.Render.ZPL.Demo
 {
@@ -24,6 +24,15 @@ namespace Svg.Contrib.Render.ZPL.Demo
 
       var encoding = zplRenderer.GetEncoding();
 
+      var stopwatch = Stopwatch.StartNew();
+      var zplContainer = zplRenderer.GetTranslation(svgDocument);
+      stopwatch.Stop();
+      Console.WriteLine(stopwatch.Elapsed);
+
+      var array = zplContainer.Combine()
+                              .ToByteArray(encoding);
+      var arraySegment = new ArraySegment<byte>(array);
+
       var classGuid = new Guid("{28d78fad-5a12-11d1-ae5b-0000f803a8c2}");
       using (var safeDeviceInfoSetHandle = SetupApi.SetupDiGetClassDevs(classGuid,
                                                                         null,
@@ -37,14 +46,6 @@ namespace Svg.Contrib.Render.ZPL.Demo
           var deviceInterfaceDetail = SetupApi.SetupDiGetDeviceInterfaceDetail(safeDeviceInfoSetHandle,
                                                                                deviceInterfaceData,
                                                                                IntPtr.Zero);
-          var stopwatch = Stopwatch.StartNew();
-          var zplContainer = zplRenderer.GetTranslation(svgDocument);
-          stopwatch.Stop();
-          Console.WriteLine(stopwatch.Elapsed);
-
-          var array = zplContainer.Combine()
-                                  .ToByteArray(encoding);
-          var arraySegment = new ArraySegment<byte>(array);
           using (var safeObjectHandle = Kernel32.CreateFile(deviceInterfaceDetail,
                                                             Kernel32.FileAccess.FILE_GENERIC_WRITE,
                                                             Kernel32.FileShare.FILE_SHARE_WRITE,
