@@ -2,6 +2,7 @@ language: csharp
 solution: src/Svg.Contrib.Render.sln
 install:
  - sudo apt-get install nunit-console
+ - sudo nuget install NUnit.Runners -Version 3.2.1 -OutputDirectory testrunner
 after_script:
- - nunit-console src/Svg.Contrib.Render.EPL.Tests/bin/Release/Svg.Contrib.Render.EPL.Tests.dll
- - nunit-console src/Svg.Contrib.Render.ZPL.Tests/bin/Release/Svg.Contrib.Render.ZPL.Tests.dll
+ - mono testrunner/NUnit.Runners.3.2.1/tools/nunit-console.exe src/Svg.Contrib.Render.EPL.Tests/bin/Release/Svg.Contrib.Render.EPL.Tests.dll
+ - mono testrunner/NUnit.Runners.3.2.1/tools/nunit-console.exe src/Svg.Contrib.Render.ZPL.Tests/bin/Release/Svg.Contrib.Render.ZPL.Tests.dll
