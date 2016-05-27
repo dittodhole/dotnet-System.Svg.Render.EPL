@@ -8,7 +8,7 @@ This demo converts [`assets/label.svg`](assets/label.svg) into [Zebra Programmin
 
 ## Features
 
-This demo has some additional hacks to show off the extensibility of [Svg.Contrib.Render.ZPL](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/Svg.Contrib.Render.ZPL):
+This demo has some additional hacks to show off the extensibility of [Svg.Contrib.Render.ZPL](../Svg.Contrib.Render.ZPL):
 
 - [`Svg.Contrib.Render.ZPL.Demo.CustomBootstrapper`](CustomBootstrapper.cs)
   - adapts some factories

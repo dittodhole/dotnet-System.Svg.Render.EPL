@@ -8,7 +8,7 @@ This demo converts [`assets/label.svg`](assets/label.svg) into [Eltron Programmi
 
 ## Features
 
-This demo has some additional hacks to show off the extensibility of [Svg.Contrib.Render.EPL](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/Svg.Contrib.Render.EPL):
+This demo has some additional hacks to show off the extensibility of [Svg.Contrib.Render.EPL](../Svg.Contrib.Render.EPL):
 
 - [`Svg.Contrib.Render.EPL.Demo.CustomBootstrapper`](CustomBootstrapper.cs)
   - adapts some factories

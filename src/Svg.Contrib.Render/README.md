@@ -4,8 +4,9 @@
 
 This project provides base functionality used by following [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)-compilers:
 
-- [dotnet-Svg.Contrib.Render.EPL](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/Svg.Contrib.Render.EPL)
-- [dotnet-Svg.Contrib.Render.ZPL](https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/Svg.Contrib.Render.ZPL)
+- [dotnet-Svg.Contrib.Render.EPL](../Svg.Contrib.Render.EPL)
+- [dotnet-Svg.Contrib.Render.ZPL](../Svg.Contrib.Render.ZPL)
+- [dotnet-Svg.Contrib.Render.FingerPrint](../Svg.Contrib.Render.FingerPrint)
 
 ## Installing
 

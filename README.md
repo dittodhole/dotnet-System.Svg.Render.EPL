@@ -13,6 +13,10 @@
 
     PM> Install-Package Svg.Contrib.Render.ZPL
 
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.FingerPrint.svg?style=flat-square)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/) https://www.nuget.org/packages/Svg.Contrib.Render.FingerPrint/
+
+    PM> Install-Package Svg.Contrib.Render.FingerPrint
+
 ## Developing
 
 [![Travis](https://img.shields.io/travis/dittodhole/dotnet-Svg.Contrib.Render.svg?style=flat-square)](https://travis-ci.org/dittodhole/dotnet-Svg.Contrib.Render)
