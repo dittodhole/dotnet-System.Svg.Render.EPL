@@ -32,12 +32,43 @@ namespace Svg.Contrib.Render.ZPL
                                    [NotNull] Matrix matrix,
                                    [NotNull] ZplContainer container)
     {
+      float sourceAlignmentWidth;
+      float sourceAlignmentHeight;
+      int horizontalStart;
+      int verticalStart;
+      int sector;
+      this.GetPosition(svgElement,
+                       matrix,
+                       out sourceAlignmentWidth,
+                       out sourceAlignmentHeight,
+                       out horizontalStart,
+                       out verticalStart,
+                       out sector);
+
+      // TODO implement direct write!
+
+      this.AddTranslationToContainer(svgElement,
+                                     matrix,
+                                     sourceAlignmentWidth,
+                                     sourceAlignmentHeight,
+                                     horizontalStart,
+                                     verticalStart,
+                                     sector,
+                                     container);
+    }
+
+    protected virtual void GetPosition([NotNull] SvgImage svgElement,
+                                       [NotNull] Matrix matrix,
+                                       out float sourceAlignmentWidth,
+                                       out float sourceAlignmentHeight,
+                                       out int horizontalStart,
+                                       out int verticalStart,
+                                       out int sector)
+    {
       float startX;
       float startY;
       float endX;
       float endY;
-      float sourceAlignmentWidth;
-      float sourceAlignmentHeight;
       this.ZplTransformer.Transform(svgElement,
                                     matrix,
                                     out startX,
@@ -47,9 +78,20 @@ namespace Svg.Contrib.Render.ZPL
                                     out sourceAlignmentWidth,
                                     out sourceAlignmentHeight);
 
-      var horizontalStart = (int) startX;
-      var verticalStart = (int) startY;
+      horizontalStart = (int) startX;
+      verticalStart = (int) startY;
+      sector = this.ZplTransformer.GetRotationSector(matrix);
+    }
 
+    protected virtual void AddTranslationToContainer([NotNull] SvgImage svgElement,
+                                                     [NotNull] Matrix matrix,
+                                                     float sourceAlignmentWidth,
+                                                     float sourceAlignmentHeight,
+                                                     int horizontalStart,
+                                                     int verticalStart,
+                                                     int sector,
+                                                     [NotNull] ZplContainer container)
+    {
       var variableName = this.StoreGraphics(svgElement,
                                             matrix,
                                             sourceAlignmentWidth,
@@ -97,7 +139,9 @@ namespace Svg.Contrib.Render.ZPL
           }
 
           int numberOfBytesPerRow;
-          var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap, false, out numberOfBytesPerRow);
+          var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap,
+                                                                   false,
+                                                                   out numberOfBytesPerRow);
 
           container.Header.Add(this.ZplCommands.DownloadGraphics(variableName,
                                                                  rawBinaryData,

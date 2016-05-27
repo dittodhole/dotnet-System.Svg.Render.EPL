@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
@@ -25,22 +27,23 @@ namespace Svg.Contrib.Render.ZPL
                                    [NotNull] Matrix matrix,
                                    [NotNull] ZplContainer container)
     {
-      float startX;
-      float startY;
-      float endX;
-      float endY;
+      int horizontalStart;
+      int verticalStart;
+      int width;
+      int height;
+      int verticalEnd;
       float strokeWidth;
-      this.ZplTransformer.Transform(svgElement,
-                                    matrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
-                                    out strokeWidth);
+      this.GetPosition(svgElement,
+                       matrix,
+                       out horizontalStart,
+                       out verticalStart,
+                       out width,
+                       out height,
+                       out verticalEnd,
+                       out strokeWidth);
 
-      // TODO find a good TOLERANCE
-      if (Math.Abs(startY - endY) < 0.5f
-          || Math.Abs(startX - endX) < 0.5f)
+      if (width == 0
+          || height == 0)
       {
         LineColor lineColor;
         var strokeShouldBeWhite = (svgElement.Stroke as SvgColourServer)?.Colour == Color.White;
@@ -53,10 +56,6 @@ namespace Svg.Contrib.Render.ZPL
           lineColor = LineColor.Black;
         }
 
-        var horizontalStart = (int) startX;
-        var verticalStart = (int) endY;
-        var width = (int) (endX - startX);
-        var height = (int) (endY - startY);
         var thickness = (int) strokeWidth;
 
         container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
@@ -70,6 +69,49 @@ namespace Svg.Contrib.Render.ZPL
       {
         // TODO
         throw new NotImplementedException();
+      }
+    }
+
+    protected virtual void GetPosition([NotNull] SvgLine svgElement,
+                                       [NotNull] Matrix matrix,
+                                       out int horizontalStart,
+                                       out int verticalStart,
+                                       out int width,
+                                       out int height,
+                                       out int verticalEnd,
+                                       out float strokeWidth)
+    {
+      float startX;
+      float startY;
+      float endX;
+      float endY;
+      this.ZplTransformer.Transform(svgElement,
+                                    matrix,
+                                    out startX,
+                                    out startY,
+                                    out endX,
+                                    out endY,
+                                    out strokeWidth);
+
+      // TODO find a good TOLERANCE
+      if (Math.Abs(startY - endY) < 0.5f
+          || Math.Abs(startX - endX) < 0.5f)
+      {
+        horizontalStart = (int) startX;
+        verticalStart = (int) startY;
+        width = (int) (endX - startX);
+        height = (int) (endY - startY);
+        verticalEnd = (int) endY;
+      }
+      else
+      {
+        // TODO
+        throw new NotImplementedException();
+        horizontalStart = (int) startX;
+        verticalStart = (int) startY;
+        width = (int) strokeWidth;
+        height = (int) endX;
+        verticalEnd = (int) endY;
       }
     }
   }

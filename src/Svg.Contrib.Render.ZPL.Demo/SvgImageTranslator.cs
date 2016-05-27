@@ -24,39 +24,56 @@ namespace Svg.Contrib.Render.ZPL.Demo
       : base(zplTransformer,
              zplCommands) {}
 
-    public override void Translate([NotNull] SvgImage svgElement,
-                                   [NotNull] Matrix matrix,
-                                   [NotNull] ZplContainer container)
+    protected override void GetPosition(SvgImage svgElement,
+                                        Matrix matrix,
+                                        out float sourceAlignmentWidth,
+                                        out float sourceAlignmentHeight,
+                                        out int horizontalStart,
+                                        out int verticalStart,
+                                        out int sector)
+    {
+      base.GetPosition(svgElement,
+                       matrix,
+                       out sourceAlignmentWidth,
+                       out sourceAlignmentHeight,
+                       out horizontalStart,
+                       out verticalStart,
+                       out sector);
+
+      if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
+      {
+        if (sector % 2 == 0)
+        {
+          horizontalStart += (int) sourceAlignmentWidth;
+          verticalStart -= (int) sourceAlignmentHeight;
+        }
+        else
+        {
+          horizontalStart += (int) sourceAlignmentHeight;
+        }
+      }
+
+      if (svgElement.ID == "RouteBc")
+      {
+        verticalStart -= 30;
+      }
+    }
+
+    protected override void AddTranslationToContainer(SvgImage svgElement,
+                                                      Matrix matrix,
+                                                      float sourceAlignmentWidth,
+                                                      float sourceAlignmentHeight,
+                                                      int horizontalStart,
+                                                      int verticalStart,
+                                                      int sector,
+                                                      ZplContainer container)
     {
       if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
       {
         var barcode = svgElement.CustomAttributes["data-barcode"];
 
-        float startX;
-        float startY;
-        float endX;
-        float endY;
-        float sourceAlignmentWidth;
-        float sourceAlignmentHeight;
-        this.ZplTransformer.Transform(svgElement,
-                                      matrix,
-                                      out startX,
-                                      out startY,
-                                      out endX,
-                                      out endY,
-                                      out sourceAlignmentWidth,
-                                      out sourceAlignmentHeight);
-
-        var horizontalStart = (int) endX;
-        var verticalStart = (int) startY;
         var height = (int) sourceAlignmentHeight;
         var fieldOrientation = this.ZplTransformer.GetFieldOrientation(matrix);
-
-        var sector = this.ZplTransformer.GetRotationSector(matrix);
-        if (sector % 2 == 0)
-        {
-          verticalStart -= height;
-        }
 
         if (svgElement.ID == "CargoIdBc")
         {
@@ -72,7 +89,6 @@ namespace Svg.Contrib.Render.ZPL.Demo
         }
         else if (svgElement.ID == "RouteBc")
         {
-          verticalStart -= 30;
           container.Body.Add(this.ZplCommands.BarCodeFieldDefaut(3,
                                                                  2,
                                                                  height));
@@ -102,9 +118,14 @@ namespace Svg.Contrib.Render.ZPL.Demo
       }
       else
       {
-        base.Translate(svgElement,
-                       matrix,
-                       container);
+        base.AddTranslationToContainer(svgElement,
+                                       matrix,
+                                       sourceAlignmentWidth,
+                                       sourceAlignmentHeight,
+                                       horizontalStart,
+                                       verticalStart,
+                                       sector,
+                                       container);
       }
     }
   }

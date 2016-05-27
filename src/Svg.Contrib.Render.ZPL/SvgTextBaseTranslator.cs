@@ -40,18 +40,16 @@ namespace Svg.Contrib.Render.ZPL
         return;
       }
 
-      float x;
-      float y;
       float fontSize;
-      this.ZplTransformer.Transform(svgElement,
-                                    matrix,
-                                    out x,
-                                    out y,
-                                    out fontSize);
-
-      var horizontalStart = (int) x;
-      var verticalStart = (int) y;
-      var fieldOrientation = this.ZplTransformer.GetFieldOrientation(matrix);
+      int horizontalStart;
+      int verticalStart;
+      FieldOrientation fieldOrientation;
+      this.GetPosition(svgElement,
+                       matrix,
+                       out horizontalStart,
+                       out verticalStart,
+                       out fieldOrientation,
+                       out fontSize);
 
       string fontName;
       int characterHeight;
@@ -62,15 +60,17 @@ namespace Svg.Contrib.Render.ZPL
                                            out characterHeight,
                                            out width);
 
-      container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                       verticalStart));
-      container.Body.Add(this.ZplCommands.Font(fontName,
-                                               fieldOrientation,
-                                               characterHeight,
-                                               width,
-                                               text));
+      this.AddTranslationToContainer(horizontalStart,
+                                     verticalStart,
+                                     fontName,
+                                     fieldOrientation,
+                                     characterHeight,
+                                     width,
+                                     text,
+                                     container);
     }
 
+    [NotNull]
     [Pure]
     [MustUseReturnValue]
     protected virtual string RemoveIllegalCharacters([NotNull] string text)
@@ -81,6 +81,44 @@ namespace Svg.Contrib.Render.ZPL
       return text.Replace("^",
                           string.Empty);
       // ReSharper restore ExceptionNotDocumentedOptional
+    }
+
+    protected virtual void GetPosition([NotNull] T svgElement,
+                                       [NotNull] Matrix matrix,
+                                       out int horizontalStart,
+                                       out int verticalStart,
+                                       out FieldOrientation fieldOrientation,
+                                       out float fontSize)
+    {
+      float x;
+      float y;
+      this.ZplTransformer.Transform(svgElement,
+                                    matrix,
+                                    out x,
+                                    out y,
+                                    out fontSize);
+
+      horizontalStart = (int) x;
+      verticalStart = (int) y;
+      fieldOrientation = this.ZplTransformer.GetFieldOrientation(matrix);
+    }
+
+    protected virtual void AddTranslationToContainer(int horizontalStart,
+                                                     int verticalStart,
+                                                     [NotNull] string fontName,
+                                                     FieldOrientation fieldOrientation,
+                                                     int characterHeight,
+                                                     int width,
+                                                     [NotNull] string text,
+                                                     [NotNull] ZplContainer container)
+    {
+      container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                       verticalStart));
+      container.Body.Add(this.ZplCommands.Font(fontName,
+                                               fieldOrientation,
+                                               characterHeight,
+                                               width,
+                                               text));
     }
   }
 }

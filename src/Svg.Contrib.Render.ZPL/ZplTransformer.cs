@@ -83,7 +83,7 @@ namespace Svg.Contrib.Render.ZPL
 
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
-                                         out string fontName,
+                                         [NotNull] out string fontName,
                                          out int characterHeight,
                                          out int width)
     {
