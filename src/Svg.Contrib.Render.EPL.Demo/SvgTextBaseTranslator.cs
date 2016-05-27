@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.EPL.Demo
@@ -12,7 +8,7 @@ namespace Svg.Contrib.Render.EPL.Demo
     where T : SvgTextBase
   {
     public SvgTextBaseTranslator([NotNull] EPL.EplTransformer eplTransformer,
-             [NotNull] EplCommands eplCommands)
+                                 [NotNull] EplCommands eplCommands)
       : base(eplTransformer,
              eplCommands) {}
 

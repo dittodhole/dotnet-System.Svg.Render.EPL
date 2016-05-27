@@ -78,7 +78,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Svg.Contrib.Render\Svg.Contrib.Render.csproj">
       <Project>{f5bacb04-0644-40a0-b93e-7c285caf78ae}</Project>
-      <Name>System.Svg.Render</Name>
+      <Name>Svg.Contrib.Render</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

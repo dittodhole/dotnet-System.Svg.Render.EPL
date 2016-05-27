@@ -76,11 +76,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Svg.Contrib.Render.EPL\Svg.Contrib.Render.EPL.csproj">
       <Project>{9b74d70d-21f7-41da-b146-eff862672606}</Project>
-      <Name>System.Svg.Render.EPL</Name>
+      <Name>Svg.Contrib.Render.EPL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Svg.Contrib.Render\Svg.Contrib.Render.csproj">
       <Project>{f5bacb04-0644-40a0-b93e-7c285caf78ae}</Project>
-      <Name>System.Svg.Render</Name>
+      <Name>Svg.Contrib.Render</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
