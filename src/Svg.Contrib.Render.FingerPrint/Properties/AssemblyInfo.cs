@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Svg.Contrib.Render.Fingerprint")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Convert SVG to Intermec FingerPrint")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Svg.Contrib.Render.Fingerprint")]
 [assembly: AssemblyCulture("")]
