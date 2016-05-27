@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable VirtualMemberNeverOverriden.Global
 
 namespace Svg.Contrib.Render.EPL
 {
@@ -41,18 +42,16 @@ namespace Svg.Contrib.Render.EPL
         return;
       }
 
-      float x;
-      float y;
       float fontSize;
-      this.EplTransformer.Transform(svgElement,
-                                    matrix,
-                                    out x,
-                                    out y,
-                                    out fontSize);
-
-      var horizontalStart = (int) x;
-      var verticalStart = (int) y;
-      var sector = this.EplTransformer.GetRotationSector(matrix);
+      int horizontalStart;
+      int verticalStart;
+      int sector;
+      this.GetPosition(svgElement,
+                       matrix,
+                       out horizontalStart,
+                       out verticalStart,
+                       out sector,
+                       out fontSize);
 
       int fontSelection;
       int horizontalMultiplier;
@@ -63,6 +62,59 @@ namespace Svg.Contrib.Render.EPL
                                            out horizontalMultiplier,
                                            out verticalMultiplier);
 
+      this.AddTranslationToContainer(svgElement,
+                                     horizontalStart,
+                                     verticalStart,
+                                     sector,
+                                     fontSelection,
+                                     horizontalMultiplier,
+                                     verticalMultiplier,
+                                     text,
+                                     container);
+    }
+
+    protected virtual void GetPosition([NotNull] T svgElement,
+                                       [NotNull] Matrix matrix,
+                                       out int horizontalStart,
+                                       out int verticalStart,
+                                       out int sector,
+                                       out float fontSize)
+    {
+      float x;
+      float y;
+      this.EplTransformer.Transform(svgElement,
+                                    matrix,
+                                    out x,
+                                    out y,
+                                    out fontSize);
+
+      horizontalStart = (int) x;
+      verticalStart = (int) y;
+      sector = this.EplTransformer.GetRotationSector(matrix);
+    }
+
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual string RemoveIllegalCharacters([NotNull] string text)
+    {
+      // TODO add regex for removing illegal characters ...
+
+      // ReSharper disable ExceptionNotDocumentedOptional
+      return text.Replace("\"",
+                          "'");
+      // ReSharper restore ExceptionNotDocumentedOptional
+    }
+
+    protected virtual void AddTranslationToContainer([NotNull] T svgElement,
+                                                     int horizontalStart,
+                                                     int verticalStart,
+                                                     int sector,
+                                                     int fontSelection,
+                                                     int horizontalMultiplier,
+                                                     int verticalMultiplier,
+                                                     [NotNull] string text,
+                                                     [NotNull] EplContainer container)
+    {
       ReverseImage reverseImage;
       if ((svgElement.Fill as SvgColourServer)?.Colour == Color.White)
       {
@@ -81,18 +133,6 @@ namespace Svg.Contrib.Render.EPL
                                                     verticalMultiplier,
                                                     reverseImage,
                                                     text));
-    }
-
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual string RemoveIllegalCharacters([NotNull] string text)
-    {
-      // TODO add regex for removing illegal characters ...
-
-      // ReSharper disable ExceptionNotDocumentedOptional
-      return text.Replace("\"",
-                          "'");
-      // ReSharper restore ExceptionNotDocumentedOptional
     }
   }
 }

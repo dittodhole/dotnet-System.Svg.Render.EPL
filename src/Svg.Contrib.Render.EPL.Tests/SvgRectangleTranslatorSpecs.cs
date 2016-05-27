@@ -81,7 +81,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       [Test]
       public void return_valid_epl_code()
       {
-        Assert.AreEqual("LO30,70,100,50",
+        Assert.AreEqual("LO29,69,101,51",
                         this.Actual);
       }
     }

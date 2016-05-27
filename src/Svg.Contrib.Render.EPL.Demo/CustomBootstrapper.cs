@@ -22,5 +22,25 @@ namespace Svg.Contrib.Render.EPL.Demo
       return new SvgImageTranslator(eplTransformer,
                                     eplCommands);
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected override EPL.SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator(EPL.EplTransformer eplTransformer,
+                                                                                          EplCommands eplCommands)
+    {
+      return new SvgTextBaseTranslator<SvgTextSpan>(eplTransformer,
+                                                    eplCommands);
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected override EPL.SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator(EPL.EplTransformer eplTransformer,
+                                                                                  EplCommands eplCommands)
+    {
+      return new SvgTextBaseTranslator<SvgText>(eplTransformer,
+                                                eplCommands);
+    }
   }
 }

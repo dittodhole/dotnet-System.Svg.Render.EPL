@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -26,11 +28,44 @@ namespace Svg.Contrib.Render.EPL
                                    [NotNull] EplContainer container)
 
     {
+      int horizontalStart;
+      int verticalStart;
+      int horizontalLength;
+      int verticalLength;
+      int verticalEnd;
+      float strokeWidth;
+      this.GetPosition(svgElement,
+                       matrix,
+                       out horizontalStart,
+                       out verticalStart,
+                       out horizontalLength,
+                       out verticalLength,
+                       out verticalEnd,
+                       out strokeWidth);
+
+      this.AddTranslationToContainer(svgElement,
+                                     horizontalStart,
+                                     verticalStart,
+                                     verticalEnd,
+                                     horizontalLength,
+                                     verticalLength,
+                                     strokeWidth,
+                                     container);
+    }
+
+    protected virtual void GetPosition([NotNull] SvgLine svgElement,
+                                       [NotNull] Matrix matrix,
+                                       out int horizontalStart,
+                                       out int verticalStart,
+                                       out int horizontalLength,
+                                       out int verticalLength,
+                                       out int verticalEnd,
+                                       out float strokeWidth)
+    {
       float startX;
       float startY;
       float endX;
       float endY;
-      float strokeWidth;
       this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out startX,
@@ -43,20 +78,44 @@ namespace Svg.Contrib.Render.EPL
       if (Math.Abs(startY - endY) < 0.5f
           || Math.Abs(startX - endX) < 0.5f)
       {
-        var strokeShouldBeWhite = (svgElement.Stroke as SvgColourServer)?.Colour == Color.White;
-        var horizontalStart = (int) startX;
-        var verticalStart = (int) startY;
-        var horizontalLength = (int) (endX - startX);
+        horizontalStart = (int) startX;
+        verticalStart = (int) startY;
+        horizontalLength = (int) (endX - startX);
+        verticalLength = (int) (endY - startY);
+        verticalEnd = (int) endY;
+      }
+      else
+      {
+        horizontalStart = (int) startX;
+        verticalStart = (int) startY;
+        horizontalLength = (int) strokeWidth;
+        verticalLength = (int) endX;
+        verticalEnd = (int) endY;
+      }
+    }
+
+    protected virtual void AddTranslationToContainer([NotNull] SvgLine svgElement,
+                                                     int horizontalStart,
+                                                     int verticalStart,
+                                                     int verticalEnd,
+                                                     int horizontalLength,
+                                                     int verticalLength,
+                                                     float strokeWidth,
+                                                     [NotNull] EplContainer container)
+    {
+      if (horizontalLength == 0
+          || verticalLength == 0)
+      {
         if (horizontalLength == 0)
         {
           horizontalLength = (int) strokeWidth;
         }
-        var verticalLength = (int) (endY - startY);
         if (verticalLength == 0)
         {
           verticalLength = (int) strokeWidth;
         }
 
+        var strokeShouldBeWhite = (svgElement.Stroke as SvgColourServer)?.Colour == Color.White;
         if (strokeShouldBeWhite)
         {
           container.Body.Add(this.EplCommands.LineDrawWhite(horizontalStart,
@@ -74,12 +133,6 @@ namespace Svg.Contrib.Render.EPL
       }
       else
       {
-        var horizontalStart = (int) startX;
-        var verticalStart = (int) startY;
-        var horizontalLength = (int) strokeWidth;
-        var verticalLength = (int) endX;
-        var verticalEnd = (int) endY;
-
         container.Body.Add(this.EplCommands.LineDrawDiagonal(horizontalStart,
                                                              verticalStart,
                                                              horizontalLength,

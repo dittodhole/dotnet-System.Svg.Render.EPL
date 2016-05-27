@@ -51,39 +51,21 @@ namespace Svg.Contrib.Render.EPL
                                               [NotNull] Matrix matrix,
                                               [NotNull] EplContainer container)
     {
-      var startX = this.SvgUnitReader.GetValue(instance,
-                                               instance.X);
-      var startY = this.SvgUnitReader.GetValue(instance,
-                                               instance.Y);
-      var endX = startX + this.SvgUnitReader.GetValue(instance,
-                                                      instance.Width);
-      var endY = startY + this.SvgUnitReader.GetValue(instance,
-                                                      instance.Height);
+      int horizontalStart;
+      int verticalStart;
+      int lineThickness;
+      int horizontalEnd;
+      int verticalEnd;
+      this.GetPosition(instance,
+                       matrix,
+                       out horizontalStart,
+                       out verticalStart,
+                       out lineThickness,
+                       out horizontalEnd,
+                       out verticalEnd);
 
-      var svgLine = new SvgLine
-                    {
-                      Color = instance.Color,
-                      Stroke = SvgPaintServer.None,
-                      StrokeWidth = instance.StrokeWidth,
-                      StartX = startX,
-                      StartY = startY,
-                      EndX = endX,
-                      EndY = endY
-                    };
-
-      float strokeWidth;
-      this.EplTransformer.Transform(svgLine,
-                                    matrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
-                                    out strokeWidth);
-
-      var horizontalStart = (int) startX;
-      var verticalStart = (int) startY;
-      var horizontalLength = (int) (endX - startX);
-      var verticalLength = (int) (endY - startY);
+      var horizontalLength = horizontalEnd - horizontalStart;
+      var verticalLength = verticalEnd - verticalStart;
 
       container.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
                                                         verticalStart,
@@ -94,6 +76,34 @@ namespace Svg.Contrib.Render.EPL
     protected virtual void TranslateBox([NotNull] SvgRectangle instance,
                                         [NotNull] Matrix matrix,
                                         [NotNull] EplContainer container)
+    {
+      int horizontalStart;
+      int verticalStart;
+      int lineThickness;
+      int horizontalEnd;
+      int verticalEnd;
+      this.GetPosition(instance,
+                       matrix,
+                       out horizontalStart,
+                       out verticalStart,
+                       out lineThickness,
+                       out horizontalEnd,
+                       out verticalEnd);
+
+      container.Body.Add(this.EplCommands.DrawBox(horizontalStart,
+                                                  verticalStart,
+                                                  lineThickness,
+                                                  horizontalEnd,
+                                                  verticalEnd));
+    }
+
+    protected virtual void GetPosition([NotNull] SvgRectangle instance,
+                                       [NotNull] Matrix matrix,
+                                       out int horizontalStart,
+                                       out int verticalStart,
+                                       out int lineThickness,
+                                       out int horizontalEnd,
+                                       out int verticalEnd)
     {
       float startX;
       float endX;
@@ -108,17 +118,11 @@ namespace Svg.Contrib.Render.EPL
                                     out endY,
                                     out strokeWidth);
 
-      var horizontalStart = (int) startX;
-      var verticalStart = (int) startY;
-      var lineThickness = (int) strokeWidth;
-      var horizontalEnd = (int) endX;
-      var verticalEnd = (int) endY;
-
-      container.Body.Add(this.EplCommands.DrawBox(horizontalStart,
-                                                  verticalStart,
-                                                  lineThickness,
-                                                  horizontalEnd,
-                                                  verticalEnd));
+      horizontalStart = (int) startX;
+      verticalStart = (int) startY;
+      lineThickness = (int) strokeWidth;
+      horizontalEnd = (int) endX;
+      verticalEnd = (int) endY;
     }
   }
 }

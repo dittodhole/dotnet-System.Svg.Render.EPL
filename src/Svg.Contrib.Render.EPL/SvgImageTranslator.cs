@@ -59,6 +59,43 @@ namespace Svg.Contrib.Render.EPL
       float endY;
       float sourceAlignmentWidth;
       float sourceAlignmentHeight;
+      int horizontalStart;
+      int verticalStart;
+      int sector;
+      this.GetPosition(svgElement,
+                       matrix,
+                       out startX,
+                       out startY,
+                       out endX,
+                       out endY,
+                       out sourceAlignmentWidth,
+                       out sourceAlignmentHeight,
+                       out horizontalStart,
+                       out verticalStart,
+                       out sector);
+
+      this.AddTranslationToContainer(svgElement,
+                                     matrix,
+                                     sourceAlignmentWidth,
+                                     sourceAlignmentHeight,
+                                     horizontalStart,
+                                     verticalStart,
+                                     sector,
+                                     container);
+    }
+
+    protected virtual void GetPosition([NotNull] SvgImage svgElement,
+                                       [NotNull] Matrix matrix,
+                                       out float startX,
+                                       out float startY,
+                                       out float endX,
+                                       out float endY,
+                                       out float sourceAlignmentWidth,
+                                       out float sourceAlignmentHeight,
+                                       out int horizontalStart,
+                                       out int verticalStart,
+                                       out int sector)
+    {
       this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out startX,
@@ -68,9 +105,20 @@ namespace Svg.Contrib.Render.EPL
                                     out sourceAlignmentWidth,
                                     out sourceAlignmentHeight);
 
-      var horizontalStart = (int) startX;
-      var verticalStart = (int) startY;
+      horizontalStart = (int) startX;
+      verticalStart = (int) startY;
+      sector = this.EplTransformer.GetRotationSector(matrix);
+    }
 
+    protected virtual void AddTranslationToContainer([NotNull] SvgImage svgElement,
+                                                     [NotNull] Matrix matrix,
+                                                     float sourceAlignmentWidth,
+                                                     float sourceAlignmentHeight,
+                                                     int horizontalStart,
+                                                     int verticalStart,
+                                                     int sector,
+                                                     [NotNull] EplContainer container)
+    {
       var forceDirectWrite = this.ForceDirectWrite(svgElement);
       if (forceDirectWrite)
       {

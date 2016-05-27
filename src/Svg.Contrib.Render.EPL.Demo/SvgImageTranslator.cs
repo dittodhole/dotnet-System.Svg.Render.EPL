@@ -23,45 +23,60 @@ namespace Svg.Contrib.Render.EPL.Demo
       : base(eplTransformer,
              eplCommands) {}
 
-    public override void Translate([NotNull] SvgImage svgElement,
-                                   [NotNull] Matrix matrix,
-                                   [NotNull] EplContainer container)
+    protected override void GetPosition([NotNull] SvgImage svgElement,
+                                        [NotNull] Matrix matrix,
+                                        out float startX,
+                                        out float startY,
+                                        out float endX,
+                                        out float endY,
+                                        out float sourceAlignmentWidth,
+                                        out float sourceAlignmentHeight,
+                                        out int horizontalStart,
+                                        out int verticalStart,
+                                        out int sector)
+    {
+      base.GetPosition(svgElement,
+                       matrix,
+                       out startX,
+                       out startY,
+                       out endX,
+                       out endY,
+                       out sourceAlignmentWidth,
+                       out sourceAlignmentHeight,
+                       out horizontalStart,
+                       out verticalStart,
+                       out sector);
+
+      if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
+      {
+        if (sector % 2 > 0)
+        {
+          horizontalStart += (int) sourceAlignmentHeight;
+        }
+
+        if (svgElement.ID == "CargoIdBc")
+        {
+          horizontalStart = horizontalStart - 30;
+        }
+        else if (svgElement.ID == "RouteBc")
+        {
+          verticalStart = verticalStart + 35;
+        }
+      }
+    }
+
+    protected override void AddTranslationToContainer([NotNull] SvgImage svgElement,
+                                                      [NotNull] Matrix matrix,
+                                                      float sourceAlignmentWidth,
+                                                      float sourceAlignmentHeight,
+                                                      int horizontalStart,
+                                                      int verticalStart,
+                                                      int sector,
+                                                      [NotNull] EplContainer container)
     {
       if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
       {
         var barcode = svgElement.CustomAttributes["data-barcode"];
-
-        float startX;
-        float startY;
-        float endX;
-        float endY;
-        float sourceAlignmentWidth;
-        float sourceAlignmentHeight;
-        this.EplTransformer.Transform(svgElement,
-                                      matrix,
-                                      out startX,
-                                      out startY,
-                                      out endX,
-                                      out endY,
-                                      out sourceAlignmentWidth,
-                                      out sourceAlignmentHeight);
-
-        var sector = this.EplTransformer.GetRotationSector(matrix);
-
-        var horizontalStart = (int) startX;
-        var verticalStart = (int) startY;
-        var height = (int) sourceAlignmentHeight;
-
-        if (sector % 2 > 0)
-        {
-          horizontalStart += height;
-        }
-
-        this.AdaptPositionOfBarcode(svgElement,
-                                    horizontalStart,
-                                    verticalStart,
-                                    out horizontalStart,
-                                    out verticalStart);
 
         BarCodeSelection barCodeSelection;
         int narrowBarWidth;
@@ -73,6 +88,7 @@ namespace Svg.Contrib.Render.EPL.Demo
                                         out wideBarWidth,
                                         out printHumanReadable))
         {
+          var height = (int) sourceAlignmentHeight;
           container.Body.Add(this.EplCommands.BarCode(horizontalStart,
                                                       verticalStart,
                                                       sector,
@@ -86,37 +102,14 @@ namespace Svg.Contrib.Render.EPL.Demo
         }
       }
 
-      base.Translate(svgElement,
-                     matrix,
-                     container);
-    }
-
-    private void AdaptPositionOfBarcode([NotNull] SvgImage svgImage,
-                                        int horizontalStart,
-                                        int verticalStart,
-                                        out int newHorizontalStart,
-                                        out int newVerticalStart)
-    {
-      if (svgImage.ID == "CargoIdBc")
-      {
-        newHorizontalStart = horizontalStart - 30;
-        newVerticalStart = verticalStart;
-      }
-      else if (svgImage.ID == "RouteBc")
-      {
-        newHorizontalStart = horizontalStart;
-        newVerticalStart = verticalStart + 35;
-      }
-      else if (svgImage.ID == "ReceiverBc")
-      {
-        newHorizontalStart = horizontalStart;
-        newVerticalStart = verticalStart;
-      }
-      else
-      {
-        newHorizontalStart = horizontalStart;
-        newVerticalStart = verticalStart;
-      }
+      base.AddTranslationToContainer(svgElement,
+                                     matrix,
+                                     sourceAlignmentWidth,
+                                     sourceAlignmentHeight,
+                                     horizontalStart,
+                                     verticalStart,
+                                     sector,
+                                     container);
     }
 
     [Pure]

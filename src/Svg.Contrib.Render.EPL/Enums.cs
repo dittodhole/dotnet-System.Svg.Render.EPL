@@ -38,10 +38,10 @@ namespace Svg.Contrib.Render.EPL
   public enum BarCodeSelection
   {
     // TODO implement other barcode types
-    Code39,
-    Code39WithCheckDigit,
-    Code93,
-    Code128UCC,
+    //Code39,
+    //Code39WithCheckDigit,
+    //Code93,
+    //Code128UCC,
     Code128Auto,
     Code128A,
     Code128B,

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using ImageMagick;
 using JetBrains.Annotations;
@@ -15,18 +14,6 @@ namespace Svg.Contrib.Render.EPL
     [ItemNotNull]
     private IDictionary<BarCodeSelection, string> BarCodeSelectionMappings { get; } = new Dictionary<BarCodeSelection, string>
                                                                                       {
-                                                                                        {
-                                                                                          BarCodeSelection.Code39, "3"
-                                                                                        },
-                                                                                        {
-                                                                                          BarCodeSelection.Code39WithCheckDigit, "3C"
-                                                                                        },
-                                                                                        {
-                                                                                          BarCodeSelection.Code93, "9"
-                                                                                        },
-                                                                                        {
-                                                                                          BarCodeSelection.Code128UCC, "0"
-                                                                                        },
                                                                                         {
                                                                                           BarCodeSelection.Code128Auto, "1"
                                                                                         },
