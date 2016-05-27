@@ -1,5 +1,7 @@
 ﻿using JetBrains.Annotations;
 
+// ReSharper disable VirtualMemberNeverOverriden.Global
+
 namespace Svg.Contrib.Render
 {
   [PublicAPI]

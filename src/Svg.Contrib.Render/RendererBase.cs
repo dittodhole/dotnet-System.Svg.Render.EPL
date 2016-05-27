@@ -4,6 +4,8 @@ using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 using Svg.Transforms;
 
+// ReSharper disable VirtualMemberNeverOverriden.Global
+
 namespace Svg.Contrib.Render
 {
   [PublicAPI]

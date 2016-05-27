@@ -3,6 +3,7 @@ using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 
 namespace Svg.Contrib.Render.EPL
 {

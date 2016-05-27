@@ -3,6 +3,8 @@ using System.Linq;
 using JetBrains.Annotations;
 using Svg.Pathing;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]

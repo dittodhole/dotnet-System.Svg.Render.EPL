@@ -3,6 +3,8 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
 
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]

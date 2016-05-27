@@ -1,6 +1,8 @@
 ﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable VirtualMemberNeverOverriden.Global
+
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]

@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 // ReSharper disable UnusedParameter.Global
+// ReSharper disable VirtualMemberNeverOverriden.Global
 
 namespace Svg.Contrib.Render.EPL
 {
