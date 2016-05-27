@@ -2,9 +2,6 @@ language: csharp
 solution: src/Svg.Contrib.Render.sln
 install:
  - sudo apt-get install nunit-console
- - sudo apt-get install -y gtk-sharp2
-before_script:
- - nuget restore src/Svg.Contrib.Render.sln
 after_script:
  - nunit-console src/Svg.Contrib.Render.EPL.Tests/bin/Release/Svg.Contrib.Render.EPL.Tests.dll
  - nunit-console src/Svg.Contrib.Render.ZPL.Tests/bin/Release/Svg.Contrib.Render.ZPL.Tests.dll
