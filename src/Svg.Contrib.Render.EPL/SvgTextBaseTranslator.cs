@@ -93,6 +93,7 @@ namespace Svg.Contrib.Render.EPL
       sector = this.EplTransformer.GetRotationSector(matrix);
     }
 
+    [NotNull]
     [Pure]
     [MustUseReturnValue]
     protected virtual string RemoveIllegalCharacters([NotNull] string text)
