@@ -92,19 +92,63 @@ namespace Svg.Contrib.Render.ZPL
                                                      int sector,
                                                      [NotNull] ZplContainer container)
     {
-      var variableName = this.StoreGraphics(svgElement,
-                                            matrix,
-                                            sourceAlignmentWidth,
-                                            sourceAlignmentHeight,
-                                            horizontalStart,
-                                            verticalStart,
-                                            container);
-      if (variableName != null)
+      var forceDirectWrite = this.ForceDirectWrite(svgElement);
+      if (forceDirectWrite)
       {
-        this.PrintGraphics(horizontalStart,
-                           verticalStart,
-                           variableName,
-                           container);
+        this.GraphicField(svgElement,
+                          matrix,
+                          sourceAlignmentWidth,
+                          sourceAlignmentHeight,
+                          horizontalStart,
+                          verticalStart,
+                          container);
+      }
+      else
+      {
+        var variableName = this.StoreGraphics(svgElement,
+                                              matrix,
+                                              sourceAlignmentWidth,
+                                              sourceAlignmentHeight,
+                                              horizontalStart,
+                                              verticalStart,
+                                              container);
+        if (variableName != null)
+        {
+          this.PrintGraphics(horizontalStart,
+                             verticalStart,
+                             variableName,
+                             container);
+        }
+      }
+    }
+
+    protected virtual void GraphicField([NotNull] SvgImage svgElement,
+                                        [NotNull] Matrix matrix,
+                                        float sourceAlignmentWidth,
+                                        float sourceAlignmentHeight,
+                                        int horizontalStart,
+                                        int verticalStart,
+                                        [NotNull] ZplContainer container)
+    {
+      using (var bitmap = this.ZplTransformer.ConvertToBitmap(svgElement,
+                                                              matrix,
+                                                              (int) sourceAlignmentWidth,
+                                                              (int) sourceAlignmentHeight))
+      {
+        if (bitmap == null)
+        {
+          return;
+        }
+
+        int numberOfBytesPerRow;
+        var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap,
+                                                                 false,
+                                                                 out numberOfBytesPerRow);
+
+        container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                         verticalStart));
+        container.Body.Add(this.ZplCommands.GraphicField(rawBinaryData,
+                                                         numberOfBytesPerRow));
       }
     }
 
@@ -119,14 +163,16 @@ namespace Svg.Contrib.Render.ZPL
                                            int verticalStart,
                                            [NotNull] ZplContainer container)
     {
+      var imageIdentifier = string.Concat(svgElement.OwnerDocument.ID,
+                                          "::",
+                                          svgElement.ID);
+
       string variableName;
-      var imageIdentifier = this.CalculateImageIdentifier(svgElement);
       if (!this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
                                                              out variableName))
       {
         variableName = this.CalculateVariableName(imageIdentifier);
-        this.StoreVariableNameForImageIdentifier(imageIdentifier,
-                                                 variableName);
+        this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
 
         using (var bitmap = this.ZplTransformer.ConvertToBitmap(svgElement,
                                                                 matrix,
@@ -150,26 +196,6 @@ namespace Svg.Contrib.Render.ZPL
       }
 
       return variableName;
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual string CalculateImageIdentifier([NotNull] SvgImage svgImage)
-    {
-      var result = string.Concat(svgImage.OwnerDocument.ID,
-                                 "::",
-                                 svgImage.ID);
-
-      return result;
-    }
-
-    protected virtual void StoreVariableNameForImageIdentifier([NotNull] string imageIdentifier,
-                                                               [NotNull] string variableName)
-    {
-      // ReSharper disable ExceptionNotDocumentedOptional
-      this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
-      // ReSharper restore ExceptionNotDocumentedOptional
     }
 
     [NotNull]
@@ -203,5 +229,9 @@ namespace Svg.Contrib.Render.ZPL
                                                        verticalStart));
       container.Body.Add(this.ZplCommands.RecallGraphic(variableName));
     }
+
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual bool ForceDirectWrite([NotNull] SvgImage svgImage) => false;
   }
 }

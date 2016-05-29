@@ -120,7 +120,7 @@ namespace Svg.Contrib.Render.ZPL
     {
       var binaryData = rawBinaryData.ToArray();
       var totalNumberOfBytes = binaryData.Count();
-      var data = BitConverter.ToString(binaryData.ToArray())
+      var data = BitConverter.ToString(binaryData)
                              .Replace("-",
                                       string.Empty);
 
@@ -171,5 +171,21 @@ namespace Svg.Contrib.Render.ZPL
     {
       return $"^B2{(char) fieldOrientation},{barCodeHeight},{(char) printInterpretationLine},{(char) printInterpretationLineAboveCode},{(char) calculateAndPrintMod10CheckDigit}^FD{content}^FS";
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string GraphicField([NotNull] IEnumerable<byte> rawBinaryData,
+                                       int numberOfBytesPerRow)
+    {
+      var binaryData = rawBinaryData.ToArray();
+      var totalNumberOfBytes = binaryData.Count();
+      var data = BitConverter.ToString(binaryData)
+                             .Replace("-",
+                                      string.Empty);
+
+      return $"^GFA,{totalNumberOfBytes},{totalNumberOfBytes},{numberOfBytesPerRow},{data}";
+    }
+
   }
 }
