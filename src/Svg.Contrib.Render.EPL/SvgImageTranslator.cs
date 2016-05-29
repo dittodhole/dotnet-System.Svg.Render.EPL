@@ -28,26 +28,6 @@ namespace Svg.Contrib.Render.EPL
     [ItemNotNull]
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; } = new Dictionary<string, string>();
 
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual string CalculateImageIdentifier([NotNull] SvgImage svgImage)
-    {
-      var result = string.Concat(svgImage.OwnerDocument.ID,
-                                 "::",
-                                 svgImage.ID);
-
-      return result;
-    }
-
-    protected virtual void StoreVariableNameForImageIdentifier([NotNull] string imageIdentifier,
-                                                               [NotNull] string variableName)
-    {
-      // ReSharper disable ExceptionNotDocumentedOptional
-      this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
-      // ReSharper restore ExceptionNotDocumentedOptional
-    }
-
     public override void Translate([NotNull] SvgImage svgElement,
                                    [NotNull] Matrix matrix,
                                    [NotNull] EplContainer container)
@@ -181,6 +161,48 @@ namespace Svg.Contrib.Render.EPL
       }
     }
 
+    [CanBeNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual string StoreGraphics([NotNull] SvgImage svgElement,
+                                           [NotNull] Matrix matrix,
+                                           float sourceAlignmentWidth,
+                                           float sourceAlignmentHeight,
+                                           int horizontalStart,
+                                           int verticalStart,
+                                           [NotNull] EplContainer container)
+    {
+      var imageIdentifier = string.Concat(svgElement.OwnerDocument.ID,
+                                          "::",
+                                          svgElement.ID);
+
+      string variableName;
+      if (!this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
+                                                             out variableName))
+      {
+        variableName = this.CalculateVariableName(imageIdentifier);
+        this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
+
+        using (var bitmap = this.EplTransformer.ConvertToBitmap(svgElement,
+                                                                matrix,
+                                                                (int) sourceAlignmentWidth,
+                                                                (int) sourceAlignmentHeight))
+        {
+          if (bitmap == null)
+          {
+            return null;
+          }
+
+          container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
+          container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
+          container.Header.Add(this.EplCommands.StoreGraphics(bitmap,
+                                                              variableName));
+        }
+      }
+
+      return variableName;
+    }
+
     [NotNull]
     [Pure]
     [MustUseReturnValue]
@@ -203,46 +225,6 @@ namespace Svg.Contrib.Render.EPL
       return variableName;
     }
 
-    [CanBeNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual string StoreGraphics([NotNull] SvgImage svgElement,
-                                           [NotNull] Matrix matrix,
-                                           float sourceAlignmentWidth,
-                                           float sourceAlignmentHeight,
-                                           int horizontalStart,
-                                           int verticalStart,
-                                           [NotNull] EplContainer container)
-    {
-      string variableName;
-      var imageIdentifier = this.CalculateImageIdentifier(svgElement);
-      if (!this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
-                                                             out variableName))
-      {
-        variableName = this.CalculateVariableName(imageIdentifier);
-        this.StoreVariableNameForImageIdentifier(imageIdentifier,
-                                                 variableName);
-
-        using (var bitmap = this.EplTransformer.ConvertToBitmap(svgElement,
-                                                                matrix,
-                                                                (int) sourceAlignmentWidth,
-                                                                (int) sourceAlignmentHeight))
-        {
-          if (bitmap == null)
-          {
-            return null;
-          }
-
-          container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
-          container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
-          container.Header.Add(this.EplCommands.StoreGraphics(bitmap,
-                                                              variableName));
-        }
-      }
-
-      return variableName;
-    }
-
     protected virtual void PrintGraphics(int horizontalStart,
                                          int verticalStart,
                                          [NotNull] string variableName,
@@ -255,9 +237,6 @@ namespace Svg.Contrib.Render.EPL
 
     [Pure]
     [MustUseReturnValue]
-    protected virtual bool ForceDirectWrite([NotNull] SvgImage svgImage)
-    {
-      return false;
-    }
+    protected virtual bool ForceDirectWrite([NotNull] SvgImage svgImage) => false;
   }
 }
