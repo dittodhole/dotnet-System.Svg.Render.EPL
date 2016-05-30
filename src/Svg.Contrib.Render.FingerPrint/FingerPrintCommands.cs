@@ -14,7 +14,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                    int y)
     {
       // PRPOS
-      return $"PP {x},{y}";
+      return $"PP {y},{x}";
     }
 
     [NotNull]
