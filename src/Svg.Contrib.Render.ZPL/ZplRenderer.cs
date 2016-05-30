@@ -65,9 +65,7 @@ namespace Svg.Contrib.Render.ZPL
     public override ZplContainer GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();
-      var zplContainer = new ZplContainer(this.ZplCommands.CreateZplStream(),
-                                          this.ZplCommands.CreateZplStream(),
-                                          this.ZplCommands.CreateZplStream());
+      var zplContainer = new ZplContainer();
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
                                 zplContainer);

@@ -155,9 +155,9 @@ namespace Svg.Contrib.Render.EPL
 
         container.Body.Add(this.EplCommands.GraphicDirectWrite(horizontalStart,
                                                                verticalStart,
-                                                               rawBinaryData,
                                                                numberOfBytesPerRow,
                                                                rows));
+        container.Body.Add(rawBinaryData);
       }
     }
 
@@ -193,10 +193,13 @@ namespace Svg.Contrib.Render.EPL
             return null;
           }
 
+          var pcxByteArray = this.EplTransformer.ConvertToPcx(bitmap);
+
           container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
           container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
-          container.Header.Add(this.EplCommands.StoreGraphics(bitmap,
-                                                              variableName));
+          container.Header.Add(this.EplCommands.StoreGraphics(variableName,
+                                                              pcxByteArray.Length));
+          container.Header.Add(pcxByteArray);
         }
       }
 

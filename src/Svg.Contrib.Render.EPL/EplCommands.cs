@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
-using ImageMagick;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 
 namespace Svg.Contrib.Render.EPL
 {
@@ -106,22 +105,12 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream CreateEplStream() => new EplStream();
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    public virtual EplStream GraphicDirectWrite(int horizontalStart,
-                                                int verticalStart,
-                                                [NotNull] IEnumerable<byte> rawBinaryData,
-                                                int numberOfBytesPerRow,
-                                                int rows)
+    public virtual string GraphicDirectWrite(int horizontalStart,
+                                             int verticalStart,
+                                             int numberOfBytesPerRow,
+                                             int rows)
     {
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($"GW{horizontalStart},{verticalStart},{numberOfBytesPerRow},{rows}");
-      eplStream.Add(rawBinaryData);
-
-      return eplStream;
+      return $"GW{horizontalStart},{verticalStart},{numberOfBytesPerRow},{rows}";
     }
 
     [NotNull]
@@ -135,48 +124,10 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplStream StoreGraphics([NotNull] Bitmap bitmap,
-                                           [NotNull] string name)
+    public virtual string StoreGraphics([NotNull] string name,
+                                        int length)
     {
-      MagickImage magickImage;
-
-      var mod = bitmap.Width % 8;
-      if (mod > 0)
-      {
-        var newWidth = bitmap.Width + 8 - mod;
-        using (var resizedBitmap = new Bitmap(newWidth,
-                                              bitmap.Height))
-        {
-          using (var graphics = Graphics.FromImage(resizedBitmap))
-          {
-            graphics.DrawImageUnscaled(bitmap,
-                                       0,
-                                       0);
-            graphics.Save();
-          }
-
-          magickImage = new MagickImage(resizedBitmap);
-        }
-      }
-      else
-      {
-        magickImage = new MagickImage(bitmap);
-      }
-
-      byte[] array;
-      using (magickImage)
-      {
-        // TODO threshold
-        magickImage.ColorType = ColorType.Bilevel;
-        magickImage.Negate();
-        array = magickImage.ToByteArray(MagickFormat.Pcx);
-      }
-
-      var eplStream = this.CreateEplStream();
-      eplStream.Add($@"GM""{name}""{array.Length}");
-      eplStream.Add(array);
-
-      return eplStream;
+      return $@"GM""{name}""{length}";
     }
 
     [NotNull]

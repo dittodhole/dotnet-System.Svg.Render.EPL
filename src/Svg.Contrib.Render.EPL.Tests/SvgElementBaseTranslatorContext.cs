@@ -11,9 +11,7 @@ namespace Svg.Contrib.Render.EPL.Tests
   {
     protected SvgElementBaseTranslatorContext()
     {
-      this.EplContainer = new EplContainer(new EplStream(),
-                                           new EplStream(),
-                                           new EplStream());
+      this.EplContainer = new EplContainer();
       this.SvgUnitReader = new SvgUnitReader();
       this.EplCommands = new EplCommands();
       this.EplTransformer = new EplTransformer(this.SvgUnitReader);

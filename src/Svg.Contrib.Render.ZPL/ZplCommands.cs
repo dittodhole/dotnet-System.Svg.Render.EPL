@@ -4,17 +4,13 @@ using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
   public class ZplCommands
   {
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    public virtual ZplStream CreateZplStream() => new ZplStream();
-
     [NotNull]
     [Pure]
     [MustUseReturnValue]
@@ -106,9 +102,7 @@ namespace Svg.Contrib.Render.ZPL
     [MustUseReturnValue]
     public virtual string ChangeInternationalFont(CharacterSet characterSet)
     {
-      // ReSharper disable ExceptionNotDocumentedOptional
       return $"^CI{characterSet.ToString("D")}";
-      // ReSharper restore ExceptionNotDocumentedOptional
     }
 
     [NotNull]
@@ -124,7 +118,7 @@ namespace Svg.Contrib.Render.ZPL
                              .Replace("-",
                                       string.Empty);
 
-      return $@"~DGR:{name},{totalNumberOfBytes},{numberOfBytesPerRow},{data}";
+      return $"~DGR:{name},{totalNumberOfBytes},{numberOfBytesPerRow},{data}";
     }
 
     [NotNull]

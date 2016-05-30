@@ -60,7 +60,6 @@
     <Compile Include="ZplCommands.cs" />
     <Compile Include="ZplContainer.cs" />
     <Compile Include="ZplRenderer.cs" />
-    <Compile Include="ZplStream.cs" />
     <Compile Include="ZplTransformer.cs" />
   </ItemGroup>
   <ItemGroup>

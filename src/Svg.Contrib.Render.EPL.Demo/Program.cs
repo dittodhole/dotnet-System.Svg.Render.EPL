@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using PInvoke;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -29,8 +30,8 @@ namespace Svg.Contrib.Render.EPL.Demo
       var eplContainer = eplRenderer.GetTranslation(svgDocument);
       stopwatch.Stop();
       Console.WriteLine(stopwatch.Elapsed);
-      var array = eplContainer.Combine()
-                              .ToByteArray(encoding);
+      var array = eplContainer.ToByteStream(encoding)
+                              .ToArray();
       var arraySegment = new ArraySegment<byte>(array);
 
       var classGuid = new Guid("{28d78fad-5a12-11d1-ae5b-0000f803a8c2}");

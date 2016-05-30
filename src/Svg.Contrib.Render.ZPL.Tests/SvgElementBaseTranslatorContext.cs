@@ -11,9 +11,7 @@ namespace Svg.Contrib.Render.ZPL.Tests
   {
     protected SvgElementBaseTranslatorContext()
     {
-      this.ZplContainer = new ZplContainer(new ZplStream(),
-                                           new ZplStream(),
-                                           new ZplStream());
+      this.ZplContainer = new ZplContainer();
       this.SvgUnitReader = new SvgUnitReader();
       this.ZplCommands = new ZplCommands();
       this.ZplTransformer = new ZplTransformer(this.SvgUnitReader);

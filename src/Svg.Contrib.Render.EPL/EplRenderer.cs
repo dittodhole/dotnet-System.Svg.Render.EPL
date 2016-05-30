@@ -55,9 +55,7 @@ namespace Svg.Contrib.Render.EPL
     public override EplContainer GetTranslation([NotNull] SvgDocument svgDocument)
     {
       var parentMatrix = this.CreateParentMatrix();
-      var eplContainer = new EplContainer(this.EplCommands.CreateEplStream(),
-                                          this.EplCommands.CreateEplStream(),
-                                          this.EplCommands.CreateEplStream());
+      var eplContainer = new EplContainer();
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
                                 eplContainer);

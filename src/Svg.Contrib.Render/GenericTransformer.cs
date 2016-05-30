@@ -6,6 +6,7 @@ using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
+// ReSharper disable VirtualMemberNeverOverriden.Global
 
 namespace Svg.Contrib.Render
 {
