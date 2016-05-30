@@ -51,7 +51,7 @@ namespace Svg.Contrib.Render.FingerPrint
     [MustUseReturnValue]
     public virtual string PrintFeed(int copies = 1)
     {
-      return $"PR {copies}";
+      return $"PF {copies}";
     }
   }
 }
