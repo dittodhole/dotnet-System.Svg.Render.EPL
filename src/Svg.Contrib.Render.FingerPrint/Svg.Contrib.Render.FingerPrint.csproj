@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FingerPrintCommands.cs" />
     <Compile Include="FingerPrintContainer.cs" />
