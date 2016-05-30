@@ -80,30 +80,22 @@ namespace Svg.Contrib.Render.FingerPrint
 
       var x = (int) startX;
       var y = (int) startY;
-      var horizontalLength = (int) (endX - startX);
-      if (horizontalLength == 0)
+      var length = (int) (endX - startX);
+      if (length == 0)
       {
-        horizontalLength = (int) strokeWidth;
+        length = (int) strokeWidth;
       }
 
-      var verticalLength = (int) (endY - startY);
-      if (verticalLength == 0)
+      var lineWeight = (int) (endY - startY);
+      if (lineWeight == 0)
       {
-        verticalLength = (int) strokeWidth;
-      }
-
-      var sector = this.FingerPrintTransformer.GetRotationSector(matrix);
-      if (sector % 2 == 0)
-      {
-        var temp = horizontalLength;
-        horizontalLength = verticalLength;
-        verticalLength = temp;
+        lineWeight = (int) strokeWidth;
       }
 
       container.Body.Add(this.FingerPrintCommands.Position(x,
                                                            y));
-      container.Body.Add(this.FingerPrintCommands.Line(horizontalLength,
-                                                       verticalLength));
+      container.Body.Add(this.FingerPrintCommands.Line(length,
+                                                       lineWeight));
     }
   }
 }

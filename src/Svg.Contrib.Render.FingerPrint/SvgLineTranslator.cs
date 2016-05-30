@@ -28,33 +28,25 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       int x;
       int y;
-      int horizontalLength;
-      int verticalLength;
+      int length;
+      int lineWeight;
       int verticalEnd;
       float strokeWidth;
       this.GetPosition(svgElement,
                        matrix,
                        out x,
                        out y,
-                       out horizontalLength,
-                       out verticalLength,
+                       out length,
+                       out lineWeight,
                        out verticalEnd,
                        out strokeWidth);
-
-      var sector = this.FingerPrintTransformer.GetRotationSector(matrix);
-      if (sector % 2 == 0)
-      {
-        var temp = horizontalLength;
-        horizontalLength = verticalLength;
-        verticalLength = temp;
-      }
 
       this.AddTranslationToContainer(svgElement,
                                      x,
                                      y,
                                      verticalEnd,
-                                     horizontalLength,
-                                     verticalLength,
+                                     length,
+                                     lineWeight,
                                      strokeWidth,
                                      container);
     }
@@ -105,27 +97,27 @@ namespace Svg.Contrib.Render.FingerPrint
                                                      int x,
                                                      int y,
                                                      int verticalEnd,
-                                                     int horizontalLength,
-                                                     int verticalLength,
+                                                     int length,
+                                                     int lineWeight,
                                                      float strokeWidth,
                                                      [NotNull] FingerPrintContainer container)
     {
-      if (horizontalLength == 0
-          || verticalLength == 0)
+      if (length == 0
+          || lineWeight == 0)
       {
-        if (horizontalLength == 0)
+        if (length == 0)
         {
-          horizontalLength = (int) strokeWidth;
+          length = (int) strokeWidth;
         }
-        if (verticalLength == 0)
+        if (lineWeight == 0)
         {
-          verticalLength = (int) strokeWidth;
+          lineWeight = (int) strokeWidth;
         }
 
         container.Body.Add(this.FingerPrintCommands.Position(x,
                                                              y));
-        container.Body.Add(this.FingerPrintCommands.Line(horizontalLength,
-                                                         verticalLength));
+        container.Body.Add(this.FingerPrintCommands.Line(length,
+                                                         lineWeight));
       }
       else
       {

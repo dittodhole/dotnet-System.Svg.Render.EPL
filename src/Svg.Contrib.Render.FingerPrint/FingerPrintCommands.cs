@@ -20,12 +20,12 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual string Box(int height,
-                              int width,
+    public virtual string Box(int width,
+                              int height,
                               int lineWeight)
     {
       // PRBOX
-      return $"PX {height},{width},{lineWeight}";
+      return $"PX {width},{height},{lineWeight}";
     }
 
     [NotNull]
@@ -35,7 +35,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                int lineWeight)
     {
       // PRLINE
-      return $"PL {length},{lineWeight}";
+      return $"PL {lineWeight},{length}";
     }
 
     [NotNull]
