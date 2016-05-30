@@ -54,6 +54,8 @@ Define the rotation of the label.
 
 ## Features
 
+- `SvgText`
+- `SvgTextSpan`
 - `SvgRectangle`
 - `SvgLineSegment`
 - `SvgLine`
