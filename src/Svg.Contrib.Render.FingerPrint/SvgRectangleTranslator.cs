@@ -63,8 +63,20 @@ namespace Svg.Contrib.Render.FingerPrint
                        out horizontalEnd,
                        out verticalEnd);
 
-      var width = horizontalEnd - x;
-      var lineWeight = verticalEnd - y;
+      int width;
+      int lineWeight;
+
+      var sector = this.FingerPrintTransformer.GetRotationSector(matrix);
+      if (sector % 2 == 0)
+      {
+        width = verticalEnd - y;
+        lineWeight = horizontalEnd - x;
+      }
+      else
+      {
+        width = horizontalEnd - x;
+        lineWeight = verticalEnd - y;
+      }
 
       container.Body.Add(this.FingerPrintCommands.Position(x,
                                                            y));
