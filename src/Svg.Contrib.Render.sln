@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FingerPrint", "FingerPrint"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render.FingerPrint", "Svg.Contrib.Render.FingerPrint\Svg.Contrib.Render.FingerPrint.csproj", "{69928AB3-7AA8-4420-9556-A90CD5A18739}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render.FingerPrint.Demo", "Svg.Contrib.Render.FingerPrint.Demo\Svg.Contrib.Render.FingerPrint.Demo.csproj", "{849CD5A4-2CD7-4C4B-896E-FBC376E861BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{69928AB3-7AA8-4420-9556-A90CD5A18739}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69928AB3-7AA8-4420-9556-A90CD5A18739}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69928AB3-7AA8-4420-9556-A90CD5A18739}.Release|Any CPU.Build.0 = Release|Any CPU
+		{849CD5A4-2CD7-4C4B-896E-FBC376E861BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{849CD5A4-2CD7-4C4B-896E-FBC376E861BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{849CD5A4-2CD7-4C4B-896E-FBC376E861BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{849CD5A4-2CD7-4C4B-896E-FBC376E861BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,5 +88,6 @@ Global
 		{49AF042E-46F6-4F2A-88F6-C34A181C24B6} = {5468AF0F-DCEF-44F0-B35B-6B2EC4CFA635}
 		{EC38DEB3-6E56-492E-B488-679B73FCF560} = {5468AF0F-DCEF-44F0-B35B-6B2EC4CFA635}
 		{69928AB3-7AA8-4420-9556-A90CD5A18739} = {73636700-BA77-44AA-AAEA-34FEE1AFC529}
+		{849CD5A4-2CD7-4C4B-896E-FBC376E861BB} = {73636700-BA77-44AA-AAEA-34FEE1AFC529}
 	EndGlobalSection
 EndGlobal
