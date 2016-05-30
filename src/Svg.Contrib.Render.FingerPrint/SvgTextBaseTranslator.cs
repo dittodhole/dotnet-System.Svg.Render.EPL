@@ -43,11 +43,13 @@ namespace Svg.Contrib.Render.FingerPrint
       float fontSize;
       int horizontalStart;
       int verticalStart;
+      Direction direction;
       this.GetPosition(svgElement,
                        matrix,
                        out horizontalStart,
                        out verticalStart,
-                       out fontSize);
+                       out fontSize,
+                       out direction);
 
       string fontName;
       int characterHeight;
@@ -60,6 +62,7 @@ namespace Svg.Contrib.Render.FingerPrint
 
       this.AddTranslationToContainer(horizontalStart,
                                      verticalStart,
+                                     direction,
                                      fontName,
                                      characterHeight,
                                      slant,
@@ -84,7 +87,8 @@ namespace Svg.Contrib.Render.FingerPrint
                                        [NotNull] Matrix matrix,
                                        out int horizontalStart,
                                        out int verticalStart,
-                                       out float fontSize)
+                                       out float fontSize,
+                                       out Direction direction)
     {
       float x;
       float y;
@@ -96,10 +100,14 @@ namespace Svg.Contrib.Render.FingerPrint
 
       horizontalStart = (int) x;
       verticalStart = (int) y;
+
+      var sector = this.FingerPrintTransformer.GetRotationSector(matrix);
+      direction = (Direction) (5 - sector);
     }
 
     protected virtual void AddTranslationToContainer(int horizontalStart,
                                                      int verticalStart,
+                                                     Direction direction,
                                                      [NotNull] string fontName,
                                                      int characterHeight,
                                                      int slant,
@@ -111,6 +119,7 @@ namespace Svg.Contrib.Render.FingerPrint
       container.Body.Add(this.FingerPrintCommands.Font(fontName,
                                                        characterHeight,
                                                        slant));
+      container.Body.Add(this.FingerPrintCommands.Direction(direction));
       container.Body.Add(this.FingerPrintCommands.PrintText(text));
     }
   }

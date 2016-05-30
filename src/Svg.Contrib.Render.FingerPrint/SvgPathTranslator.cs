@@ -94,6 +94,7 @@ namespace Svg.Contrib.Render.FingerPrint
 
       container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                            verticalStart));
+      container.Body.Add(this.FingerPrintCommands.Direction(Direction.Direction1));
       container.Body.Add(this.FingerPrintCommands.Line(length,
                                                        lineWeight));
     }

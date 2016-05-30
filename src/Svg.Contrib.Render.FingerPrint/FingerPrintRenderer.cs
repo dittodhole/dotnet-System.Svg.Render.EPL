@@ -54,6 +54,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                                 [NotNull] Matrix parentMatrix,
                                                 [NotNull] FingerPrintContainer container)
     {
+      container.Body.Add(this.FingerPrintCommands.Align(Alignment.BaseLineLeft));
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
                                           this.ViewMatrix,

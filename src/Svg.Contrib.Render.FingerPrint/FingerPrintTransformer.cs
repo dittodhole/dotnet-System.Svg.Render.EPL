@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Drawing2D;
+using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -103,14 +104,24 @@ namespace Svg.Contrib.Render.FingerPrint
                                    out float startY,
                                    out float fontSize)
     {
-      base.Transform(svgTextBase,
-                     matrix,
-                     out startX,
-                     out startY,
-                     out fontSize);
-
+      startX = this.SvgUnitReader.GetValue(svgTextBase,
+                                           svgTextBase.X.FirstOrDefault());
+      startY = this.SvgUnitReader.GetValue(svgTextBase,
+                                           svgTextBase.Y.FirstOrDefault());
       fontSize = this.SvgUnitReader.GetValue(svgTextBase,
                                              svgTextBase.FontSize);
+
+      var sector = this.GetRotationSector(matrix);
+      if (sector % 2 == 0)
+      {
+        startX -= fontSize / this.GetLineHeightFactor(svgTextBase);
+      }
+
+      this.ApplyMatrixOnPoint(startX,
+                              startY,
+                              matrix,
+                              out startX,
+                              out startY);
     }
 
     [Pure]

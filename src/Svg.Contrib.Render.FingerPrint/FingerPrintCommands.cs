@@ -63,5 +63,21 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       return $@"FT ""{fontName}"",{height},{slant}";
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string Direction(Direction direction)
+    {
+      return $"DIR {(int) direction}";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string Align(Alignment alignment)
+    {
+      return $"AN {(int) alignment}";
+    }
   }
 }
