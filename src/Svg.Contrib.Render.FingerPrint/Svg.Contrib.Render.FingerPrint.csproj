@@ -54,6 +54,7 @@
     <Compile Include="FingerPrintTransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SvgElementTranslatorBase.cs" />
+    <Compile Include="SvgRectangleTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\934-019-002.pdf" />
