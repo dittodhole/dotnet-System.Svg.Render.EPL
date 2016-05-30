@@ -114,12 +114,13 @@ namespace Svg.Contrib.Render.FingerPrint
                                                      [NotNull] string text,
                                                      [NotNull] FingerPrintContainer container)
     {
+      container.Body.Add(this.FingerPrintCommands.Direction(direction));
+      container.Body.Add(this.FingerPrintCommands.Align(Alignment.BaseLineLeft));
       container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                            verticalStart));
       container.Body.Add(this.FingerPrintCommands.Font(fontName,
                                                        characterHeight,
                                                        slant));
-      container.Body.Add(this.FingerPrintCommands.Direction(direction));
       container.Body.Add(this.FingerPrintCommands.PrintText(text));
     }
   }
