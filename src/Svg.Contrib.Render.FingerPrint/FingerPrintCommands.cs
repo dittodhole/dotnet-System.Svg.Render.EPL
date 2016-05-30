@@ -14,7 +14,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                    int y)
     {
       // PRPOS
-      return $"PP {y},{x}";
+      return $"PP {x},{y}";
     }
 
     [NotNull]
@@ -25,7 +25,7 @@ namespace Svg.Contrib.Render.FingerPrint
                               int lineWeight)
     {
       // PRBOX
-      return $"PX {width},{height},{lineWeight}";
+      return $"PX {height},{width},{lineWeight}";
     }
 
     [NotNull]
@@ -35,15 +35,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                int lineWeight)
     {
       // PRLINE
-      return $"PL {lineWeight},{length}";
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    public virtual string Direction(Direction direction)
-    {
-      return $"DIR {(int) direction}";
+      return $"PL {length},{lineWeight}";
     }
 
     [NotNull]

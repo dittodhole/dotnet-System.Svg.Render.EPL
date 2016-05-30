@@ -18,7 +18,8 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       var svgDocument = SvgDocument.Open(file);
       var bootstrapper = new DefaultBootstrapper();
       var fingerPrintRenderer = bootstrapper.BuildUp(90f,
-                                                     203f);
+                                                     203f,
+                                                     ViewRotation.RotateBy90Degrees);
 
       var stopwatch = Stopwatch.StartNew();
       var fingerPrintContainer = fingerPrintRenderer.GetTranslation(svgDocument);
