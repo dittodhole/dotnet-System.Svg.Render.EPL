@@ -11,7 +11,25 @@
 
 ## Example
 
-tbd
+```
+using System.Linq;
+using Svg;
+using Svg.Contrib.Render.FingerPrint;
+
+var file = "";
+var svgDocument = SvgDocument.Open(file);
+var bootstrapper = new DefaultBootstrapper();
+var fingerPrintRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
+                                               destinationDpi: 203f,
+                                               viewRotation: ViewRotation.Normal);
+
+var fingerPrintContainer = fingerPrintRenderer.GetTranslation(svgDocument);
+var array = fingerPrintContainer.ToByteStream(encoding)
+                                .ToArray();
+
+// TODO send to printer over USB/COM/Network
+```
+
 
 ## Configuration
 
@@ -19,7 +37,10 @@ tbd
 
 ## Features
 
-tbd
+- `SvgRectangle`
+- `SvgLineSegment`
+- `SvgLine`
+- ... tbd
 
 ## License
 
