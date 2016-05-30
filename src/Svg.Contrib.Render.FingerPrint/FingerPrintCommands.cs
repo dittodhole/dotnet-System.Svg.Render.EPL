@@ -13,7 +13,6 @@ namespace Svg.Contrib.Render.FingerPrint
     public virtual string Position(int horizontalStart,
                                    int verticalStart)
     {
-      // PRPOS
       return $"PP {horizontalStart},{verticalStart}";
     }
 
@@ -24,7 +23,6 @@ namespace Svg.Contrib.Render.FingerPrint
                               int height,
                               int lineWeight)
     {
-      // PRBOX
       return $"PX {height},{width},{lineWeight}";
     }
 
@@ -34,7 +32,6 @@ namespace Svg.Contrib.Render.FingerPrint
     public virtual string Line(int length,
                                int lineWeight)
     {
-      // PRLINE
       return $"PL {length},{lineWeight}";
     }
 

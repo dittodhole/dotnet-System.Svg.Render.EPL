@@ -105,13 +105,15 @@ namespace Svg.Contrib.Render.ZPL
       }
       else
       {
-        var variableName = this.StoreGraphics(svgElement,
-                                              matrix,
-                                              sourceAlignmentWidth,
-                                              sourceAlignmentHeight,
-                                              horizontalStart,
-                                              verticalStart,
-                                              container);
+        string variableName;
+        this.StoreGraphics(svgElement,
+                           matrix,
+                           sourceAlignmentWidth,
+                           sourceAlignmentHeight,
+                           horizontalStart,
+                           verticalStart,
+                           container,
+                           out variableName);
         if (variableName != null)
         {
           this.PrintGraphics(horizontalStart,
@@ -152,22 +154,20 @@ namespace Svg.Contrib.Render.ZPL
       }
     }
 
-    [CanBeNull]
     [Pure]
-    [MustUseReturnValue]
-    protected virtual string StoreGraphics([NotNull] SvgImage svgElement,
-                                           [NotNull] Matrix matrix,
-                                           float sourceAlignmentWidth,
-                                           float sourceAlignmentHeight,
-                                           int horizontalStart,
-                                           int verticalStart,
-                                           [NotNull] ZplContainer container)
+    protected virtual void StoreGraphics([NotNull] SvgImage svgElement,
+                                         [NotNull] Matrix matrix,
+                                         float sourceAlignmentWidth,
+                                         float sourceAlignmentHeight,
+                                         int horizontalStart,
+                                         int verticalStart,
+                                         [NotNull] ZplContainer container,
+                                         [CanBeNull] out string variableName)
     {
       var imageIdentifier = string.Concat(svgElement.OwnerDocument.ID,
                                           "::",
                                           svgElement.ID);
 
-      string variableName;
       if (!this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
                                                              out variableName))
       {
@@ -181,7 +181,8 @@ namespace Svg.Contrib.Render.ZPL
         {
           if (bitmap == null)
           {
-            return null;
+            variableName = null;
+            return;
           }
 
           int numberOfBytesPerRow;
@@ -194,8 +195,6 @@ namespace Svg.Contrib.Render.ZPL
                                                                  numberOfBytesPerRow));
         }
       }
-
-      return variableName;
     }
 
     [NotNull]

@@ -441,10 +441,7 @@ namespace Svg.Contrib.Render
 
     [Pure]
     [MustUseReturnValue]
-    protected virtual bool StretchImage([NotNull] SvgImage svgImage)
-    {
-      return false;
-    }
+    protected virtual bool StretchImage([NotNull] SvgImage svgImage) => false;
 
     [NotNull]
     [Pure]
