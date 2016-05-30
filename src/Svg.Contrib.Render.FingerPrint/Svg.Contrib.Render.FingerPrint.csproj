@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="FingerPrintContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SvgElementTranslatorBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\934-019-002.pdf" />
