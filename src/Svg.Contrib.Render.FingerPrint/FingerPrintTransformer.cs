@@ -1,6 +1,8 @@
 ﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
+// ReSharper disable NonLocalizedString
+
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
@@ -92,6 +94,51 @@ namespace Svg.Contrib.Render.FingerPrint
       endX += strokeWidth / 2f;
       startY -= strokeWidth / 2f;
       endY += strokeWidth / 2f;
+    }
+
+    [Pure]
+    public override void Transform([NotNull] SvgTextBase svgTextBase,
+                                   [NotNull] Matrix matrix,
+                                   out float startX,
+                                   out float startY,
+                                   out float fontSize)
+    {
+      base.Transform(svgTextBase,
+                     matrix,
+                     out startX,
+                     out startY,
+                     out fontSize);
+
+      fontSize = this.SvgUnitReader.GetValue(svgTextBase,
+                                             svgTextBase.FontSize);
+    }
+
+    [Pure]
+    public void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+                                 float fontSize,
+                                 out string fontName,
+                                 out int characterHeight,
+                                 out int slant)
+    {
+      if (svgTextBase.FontWeight > SvgFontWeight.Normal)
+      {
+        fontName = "Swiss 721 Bold BT";
+      }
+      else
+      {
+        fontName = "Swiss 721 BT";
+      }
+
+      characterHeight = (int) fontSize;
+
+      if ((svgTextBase.FontStyle & SvgFontStyle.Italic) != 0)
+      {
+        slant = 20;
+      }
+      else
+      {
+        slant = 0;
+      }
     }
   }
 }

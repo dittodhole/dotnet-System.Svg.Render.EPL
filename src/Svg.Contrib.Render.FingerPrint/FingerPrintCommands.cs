@@ -45,5 +45,23 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       return $"PF {copies}";
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string PrintText([NotNull] string text)
+    {
+      return $@"PT ""{text}""";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string Font([NotNull] string fontName,
+                               int height,
+                               int slant)
+    {
+      return $@"FT ""{fontName}"",{height},{slant}";
+    }
   }
 }

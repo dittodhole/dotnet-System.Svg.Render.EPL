@@ -59,6 +59,7 @@
     <Compile Include="SvgLineTranslator.cs" />
     <Compile Include="SvgPathTranslator.cs" />
     <Compile Include="SvgRectangleTranslator.cs" />
+    <Compile Include="SvgTextBaseTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\934-019-002.pdf" />
