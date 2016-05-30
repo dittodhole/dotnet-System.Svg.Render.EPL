@@ -30,7 +30,6 @@ var array = fingerPrintContainer.ToByteStream(encoding)
 // TODO send to printer over USB/COM/Network
 ```
 
-
 ## Configuration
 
 I strongly encourage you to use the [`DefaultBootstrapper`](DefaultBootstrapper.cs) (or extend it) to build up [`FingerPrintRenderer`](FingerPrintRenderer.cs)-instances.
