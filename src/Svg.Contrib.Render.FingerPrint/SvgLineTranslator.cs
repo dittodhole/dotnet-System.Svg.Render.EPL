@@ -26,24 +26,24 @@ namespace Svg.Contrib.Render.FingerPrint
                                    [NotNull] Matrix matrix,
                                    [NotNull] FingerPrintContainer container)
     {
-      int x;
-      int y;
+      int horizontalStart;
+      int verticalStart;
       int length;
       int lineWeight;
       int verticalEnd;
       float strokeWidth;
       this.GetPosition(svgElement,
                        matrix,
-                       out x,
-                       out y,
+                       out horizontalStart,
+                       out verticalStart,
                        out length,
                        out lineWeight,
                        out verticalEnd,
                        out strokeWidth);
 
       this.AddTranslationToContainer(svgElement,
-                                     x,
-                                     y,
+                                     horizontalStart,
+                                     verticalStart,
                                      verticalEnd,
                                      length,
                                      lineWeight,
@@ -53,8 +53,8 @@ namespace Svg.Contrib.Render.FingerPrint
 
     protected virtual void GetPosition([NotNull] SvgLine svgElement,
                                        [NotNull] Matrix matrix,
-                                       out int x,
-                                       out int y,
+                                       out int horizontalStart,
+                                       out int verticalStart,
                                        out int horizontalLength,
                                        out int verticalLength,
                                        out int verticalEnd,
@@ -76,8 +76,8 @@ namespace Svg.Contrib.Render.FingerPrint
       if (Math.Abs(startY - endY) < 0.5f
           || Math.Abs(startX - endX) < 0.5f)
       {
-        x = (int) startX;
-        y = (int) startY;
+        horizontalStart = (int) startX;
+        verticalStart = (int) startY;
         horizontalLength = (int) (endX - startX);
         verticalLength = (int) (endY - startY);
         verticalEnd = (int) endY;
@@ -85,8 +85,8 @@ namespace Svg.Contrib.Render.FingerPrint
       else
       {
         throw new NotImplementedException();
-        x = (int) startX;
-        y = (int) startY;
+        horizontalStart = (int) startX;
+        verticalStart = (int) startY;
         horizontalLength = (int) strokeWidth;
         verticalLength = (int) endX;
         verticalEnd = (int) endY;
@@ -94,8 +94,8 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     protected virtual void AddTranslationToContainer([NotNull] SvgLine svgElement,
-                                                     int x,
-                                                     int y,
+                                                     int horizontalStart,
+                                                     int verticalStart,
                                                      int verticalEnd,
                                                      int length,
                                                      int lineWeight,
@@ -114,8 +114,8 @@ namespace Svg.Contrib.Render.FingerPrint
           lineWeight = (int) strokeWidth;
         }
 
-        container.Body.Add(this.FingerPrintCommands.Position(x,
-                                                             y));
+        container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
+                                                             verticalStart));
         container.Body.Add(this.FingerPrintCommands.Line(length,
                                                          lineWeight));
       }

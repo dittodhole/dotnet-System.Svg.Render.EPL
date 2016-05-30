@@ -50,24 +50,24 @@ namespace Svg.Contrib.Render.FingerPrint
                                               [NotNull] Matrix matrix,
                                               [NotNull] FingerPrintContainer container)
     {
-      int x;
-      int y;
+      int horizontalStart;
+      int verticalStart;
       int lineThickness;
       int horizontalEnd;
       int verticalEnd;
       this.GetPosition(instance,
                        matrix,
-                       out x,
-                       out y,
+                       out horizontalStart,
+                       out verticalStart,
                        out lineThickness,
                        out horizontalEnd,
                        out verticalEnd);
 
-      var length = horizontalEnd - x;
-      var lineWeight = verticalEnd - y;
+      var length = horizontalEnd - horizontalStart;
+      var lineWeight = verticalEnd - verticalStart;
 
-      container.Body.Add(this.FingerPrintCommands.Position(x,
-                                                           y));
+      container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
+                                                           verticalStart));
       container.Body.Add(this.FingerPrintCommands.Line(length,
                                                        lineWeight));
     }
@@ -76,24 +76,24 @@ namespace Svg.Contrib.Render.FingerPrint
                                         [NotNull] Matrix matrix,
                                         [NotNull] FingerPrintContainer container)
     {
-      int x;
-      int y;
+      int horizontalStart;
+      int verticalStart;
       int lineWeight;
       int horizontalEnd;
       int verticalEnd;
       this.GetPosition(instance,
                        matrix,
-                       out x,
-                       out y,
+                       out horizontalStart,
+                       out verticalStart,
                        out lineWeight,
                        out horizontalEnd,
                        out verticalEnd);
 
-      var width = horizontalEnd - x;
-      var height = verticalEnd - y;
+      var width = horizontalEnd - horizontalStart;
+      var height = verticalEnd - verticalStart;
 
-      container.Body.Add(this.FingerPrintCommands.Position(x,
-                                                           y));
+      container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
+                                                           verticalStart));
       container.Body.Add(this.FingerPrintCommands.Box(width,
                                                       height,
                                                       lineWeight));

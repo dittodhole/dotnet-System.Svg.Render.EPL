@@ -10,11 +10,11 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual string Position(int x,
-                                   int y)
+    public virtual string Position(int horizontalStart,
+                                   int verticalStart)
     {
       // PRPOS
-      return $"PP {x},{y}";
+      return $"PP {horizontalStart},{verticalStart}";
     }
 
     [NotNull]

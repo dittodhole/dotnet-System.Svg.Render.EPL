@@ -78,8 +78,8 @@ namespace Svg.Contrib.Render.FingerPrint
                                             out endY,
                                             out strokeWidth);
 
-      var x = (int) startX;
-      var y = (int) startY;
+      var horizontalStart = (int) startX;
+      var verticalStart = (int) startY;
       var length = (int) (endX - startX);
       if (length == 0)
       {
@@ -92,8 +92,8 @@ namespace Svg.Contrib.Render.FingerPrint
         lineWeight = (int) strokeWidth;
       }
 
-      container.Body.Add(this.FingerPrintCommands.Position(x,
-                                                           y));
+      container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
+                                                           verticalStart));
       container.Body.Add(this.FingerPrintCommands.Line(length,
                                                        lineWeight));
     }
