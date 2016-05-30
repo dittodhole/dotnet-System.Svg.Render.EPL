@@ -8,7 +8,11 @@ namespace Svg.Contrib.Render.FingerPrint
     Direction1 = 1,
     Direction2 = 2,
     Direction3 = 3,
-    Direction4 = 4
+    Direction4 = 4,
+    LeftToRight = Direction.Direction1,
+    TopToBottom = Direction.Direction2,
+    RightToLeft = Direction.Direction3,
+    BottomToTop = Direction.Direction4
   }
 
   [PublicAPI]
