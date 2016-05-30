@@ -33,7 +33,23 @@ var array = fingerPrintContainer.ToByteStream(encoding)
 
 ## Configuration
 
-tbd
+I strongly encourage you to use the [`DefaultBootstrapper`](DefaultBootstrapper.cs) (or extend it) to build up [`FingerPrintRenderer`](FingerPrintRenderer.cs)-instances.
+
+#### sourceDpi
+Type: `float`
+
+Define the DPI used to create the [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)-file (if using [Inkscape](https://inkscape.org): `90f`).
+
+#### destinationDpi
+Type: `float`
+
+Define the DPI of the printer (usually `203f`).
+
+#### viewRotation
+Type: [`ViewRotation`](../Svg.Contrib.Render/Enums.cs#L6)  
+Default: `ViewRotation.Normal`
+
+Define the rotation of the label.
 
 ## Features
 

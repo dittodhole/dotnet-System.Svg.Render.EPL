@@ -65,7 +65,6 @@ Default: `ViewRotation.Normal`
 
 Define the rotation of the label.
 
-
 ## Features
 
 - `SvgText`
