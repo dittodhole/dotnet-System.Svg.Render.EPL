@@ -12,6 +12,7 @@
 ## Example
 
 ```
+using System.Linq;
 using Svg;
 using Svg.Contrib.Render.EPL;
 
@@ -26,8 +27,8 @@ var eplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
 var encoding = eplRenderer.GetEncoding();
 
 var eplContainer = eplRenderer.GetTranslation(svgDocument);
-var array = eplContainer.Combine()
-                        .GetByteArray(encoding);
+var array = eplContainer.ToByteStream(encoding)
+                        .ToArray();
 
 // TODO send to printer over USB/COM/Network
 ```

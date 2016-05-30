@@ -12,6 +12,7 @@
 ## Example
 
 ```
+using System.Linq;
 using Svg;
 using Svg.Contrib.Render.ZPL;
 
@@ -25,8 +26,8 @@ var zplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
 var encoding = zplRenderer.GetEncoding();
 
 var zplContainer = zplRenderer.GetTranslation(svgDocument);
-var array = zplContainer.Combine()
-                        .GetByteArray(encoding);
+var array = zplContainer.ToByteStream(encoding)
+                        .ToArray();
 
 // TODO send to printer over USB/COM/Network
 ```
