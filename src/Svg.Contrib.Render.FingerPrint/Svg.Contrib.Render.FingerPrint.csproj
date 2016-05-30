@@ -62,6 +62,12 @@
     <Content Include="assets\icon.png" />
     <Content Include="assets\noun_286941_cc.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Svg.Contrib.Render\Svg.Contrib.Render.csproj">
+      <Project>{f5bacb04-0644-40a0-b93e-7c285caf78ae}</Project>
+      <Name>Svg.Contrib.Render</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
