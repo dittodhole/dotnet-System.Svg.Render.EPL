@@ -96,13 +96,11 @@ namespace Svg.Contrib.Render.FingerPrint
                                             matrix,
                                             out x,
                                             out y,
-                                            out fontSize);
+                                            out fontSize,
+                                            out direction);
 
       horizontalStart = (int) x;
       verticalStart = (int) y;
-
-      var sector = this.FingerPrintTransformer.GetRotationSector(matrix);
-      direction = (Direction) ((4 - sector) % 4 + 1);
     }
 
     protected virtual void AddTranslationToContainer(int horizontalStart,

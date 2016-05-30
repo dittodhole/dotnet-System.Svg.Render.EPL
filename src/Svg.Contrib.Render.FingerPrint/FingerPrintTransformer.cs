@@ -3,6 +3,7 @@ using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 
 namespace Svg.Contrib.Render.FingerPrint
 {
@@ -98,11 +99,12 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     [Pure]
-    public override void Transform([NotNull] SvgTextBase svgTextBase,
-                                   [NotNull] Matrix matrix,
-                                   out float startX,
-                                   out float startY,
-                                   out float fontSize)
+    public void Transform([NotNull] SvgTextBase svgTextBase,
+                          [NotNull] Matrix matrix,
+                          out float startX,
+                          out float startY,
+                          out float fontSize,
+                          out Direction direction)
     {
       startX = this.SvgUnitReader.GetValue(svgTextBase,
                                            svgTextBase.X.FirstOrDefault());
@@ -111,10 +113,15 @@ namespace Svg.Contrib.Render.FingerPrint
       fontSize = this.SvgUnitReader.GetValue(svgTextBase,
                                              svgTextBase.FontSize);
 
-      var sector = this.GetRotationSector(matrix);
-      if (sector % 2 == 0)
+      direction = this.GetDirection(matrix);
+
+      if ((int) direction % 2 == 0)
       {
         startX -= fontSize / this.GetLineHeightFactor(svgTextBase);
+      }
+      else
+      {
+        startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
       }
 
       this.ApplyMatrixOnPoint(startX,
@@ -122,6 +129,16 @@ namespace Svg.Contrib.Render.FingerPrint
                               matrix,
                               out startX,
                               out startY);
+    }
+
+    [MustUseReturnValue]
+    [Pure]
+    public virtual Direction GetDirection([NotNull] Matrix matrix)
+    {
+      var sector = this.GetRotationSector(matrix);
+      var direction = (Direction) ((4 - sector) % 4 + 1);
+
+      return direction;
     }
 
     [Pure]
