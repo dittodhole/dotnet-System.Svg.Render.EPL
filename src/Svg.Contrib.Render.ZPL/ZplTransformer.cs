@@ -57,6 +57,7 @@ namespace Svg.Contrib.Render.ZPL
       return fieldOrientation;
     }
 
+    [Pure]
     public override void Transform([NotNull] SvgImage svgImage,
                                    [NotNull] Matrix matrix,
                                    out float startX,
@@ -81,6 +82,7 @@ namespace Svg.Contrib.Render.ZPL
       endY += height;
     }
 
+    [Pure]
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
                                          [NotNull] out string fontName,
@@ -93,6 +95,7 @@ namespace Svg.Contrib.Render.ZPL
       width = 0;
     }
 
+    [Pure]
     public override void Transform([NotNull] SvgTextBase svgTextBase,
                                    [NotNull] Matrix matrix,
                                    out float startX,
@@ -115,6 +118,7 @@ namespace Svg.Contrib.Render.ZPL
       }
     }
 
+    [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix matrix,
                                    out float startX,

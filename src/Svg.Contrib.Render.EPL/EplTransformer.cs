@@ -30,6 +30,7 @@ namespace Svg.Contrib.Render.EPL
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
 
+    [Pure]
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
                                          out int fontSelection,
@@ -181,6 +182,7 @@ namespace Svg.Contrib.Render.EPL
       }
     }
 
+    [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix matrix,
                                    out float startX,
