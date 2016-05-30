@@ -3,7 +3,7 @@
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
-  public enum PrintDirection
+  public enum Direction
   {
     Normal = 4,
     RotatedBy90Degrees = 3,

@@ -41,9 +41,9 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual string Direction(PrintDirection printDirection)
+    public virtual string Direction(Direction direction)
     {
-      return $"DIR {(int) printDirection}";
+      return $"DIR {(int) direction}";
     }
 
     [NotNull]
