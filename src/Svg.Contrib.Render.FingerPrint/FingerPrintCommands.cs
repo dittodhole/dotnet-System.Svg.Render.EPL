@@ -45,5 +45,13 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       return $"DIR {(int) printDirection}";
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string PrintFeed(int copies = 1)
+    {
+      return $"PR {copies}";
+    }
   }
 }
