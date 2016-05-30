@@ -46,7 +46,6 @@ namespace Svg.Contrib.Render.FingerPrint
                    magnificationFactor);
       if (viewRotation == ViewRotation.Normal)
       {
-        // TODO test this orientation!
         matrix.Translate(0,
                          this.OutputHeight,
                          MatrixOrder.Append);
