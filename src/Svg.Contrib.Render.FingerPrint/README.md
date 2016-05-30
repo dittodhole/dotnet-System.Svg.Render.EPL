@@ -27,4 +27,4 @@ dotnet-Svg.Contrib.Render.FingerPrint is published under [WTFNMFPLv3](https://gi
 
 ## Icon
 
-[Zebra](https://thenounproject.com/term/fingerprint/286941/) by [Roselin Christina.S](https://thenounproject.com/rosttarose) from the Noun Project
+[Fingerprint](https://thenounproject.com/term/fingerprint/286941/) by [Roselin Christina.S](https://thenounproject.com/rosttarose) from the Noun Project
