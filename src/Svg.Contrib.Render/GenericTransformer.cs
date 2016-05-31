@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using ImageMagick;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -507,6 +508,48 @@ namespace Svg.Contrib.Render
           yield return (byte) value;
         }
       }
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)
+    {
+      MagickImage magickImage;
+
+      var mod = bitmap.Width % 8;
+      if (mod > 0)
+      {
+        var newWidth = bitmap.Width + 8 - mod;
+        using (var resizedBitmap = new Bitmap(newWidth,
+                                              bitmap.Height))
+        {
+          using (var graphics = Graphics.FromImage(resizedBitmap))
+          {
+            graphics.DrawImageUnscaled(bitmap,
+                                       0,
+                                       0);
+            graphics.Save();
+          }
+
+          magickImage = new MagickImage(resizedBitmap);
+        }
+      }
+      else
+      {
+        magickImage = new MagickImage(bitmap);
+      }
+
+      byte[] array;
+      using (magickImage)
+      {
+        // TODO threshold
+        magickImage.ColorType = ColorType.Bilevel;
+        magickImage.Negate();
+        array = magickImage.ToByteArray(MagickFormat.Pcx);
+      }
+
+      return array;
     }
   }
 }
