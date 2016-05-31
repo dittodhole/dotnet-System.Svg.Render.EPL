@@ -28,7 +28,6 @@ namespace Svg.Contrib.Render.EPL
     [ItemNotNull]
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; } = new Dictionary<string, string>();
 
-    [Pure]
     protected void StoreGraphics([NotNull] SvgImage svgElement,
                                  [NotNull] Matrix matrix,
                                  float sourceAlignmentWidth,
@@ -106,6 +105,7 @@ namespace Svg.Contrib.Render.EPL
                                      container);
     }
 
+    [Pure]
     protected virtual void GetPosition([NotNull] SvgImage svgElement,
                                        [NotNull] Matrix matrix,
                                        out float startX,

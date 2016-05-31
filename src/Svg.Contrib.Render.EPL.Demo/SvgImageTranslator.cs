@@ -23,6 +23,7 @@ namespace Svg.Contrib.Render.EPL.Demo
       : base(eplTransformer,
              eplCommands) {}
 
+    [Pure]
     protected override void GetPosition([NotNull] SvgImage svgElement,
                                         [NotNull] Matrix matrix,
                                         out float startX,
