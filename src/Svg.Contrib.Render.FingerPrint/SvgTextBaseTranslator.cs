@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -60,7 +61,8 @@ namespace Svg.Contrib.Render.FingerPrint
                                                    out characterHeight,
                                                    out slant);
 
-      this.AddTranslationToContainer(horizontalStart,
+      this.AddTranslationToContainer(svgElement,
+                                     horizontalStart,
                                      verticalStart,
                                      direction,
                                      fontName,
@@ -104,7 +106,8 @@ namespace Svg.Contrib.Render.FingerPrint
       verticalStart = (int) y;
     }
 
-    protected virtual void AddTranslationToContainer(int horizontalStart,
+    protected virtual void AddTranslationToContainer([NotNull] T svgElement,
+                                                     int horizontalStart,
                                                      int verticalStart,
                                                      Direction direction,
                                                      [NotNull] string fontName,
@@ -113,10 +116,19 @@ namespace Svg.Contrib.Render.FingerPrint
                                                      [NotNull] string text,
                                                      [NotNull] FingerPrintContainer container)
     {
-      container.Body.Add(this.FingerPrintCommands.Direction(direction));
-      container.Body.Add(this.FingerPrintCommands.Align(Alignment.BaseLineLeft));
       container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                            verticalStart));
+      container.Body.Add(this.FingerPrintCommands.Direction(direction));
+      container.Body.Add(this.FingerPrintCommands.Align(Alignment.BaseLineLeft));
+      if ((svgElement.Fill as SvgColourServer)?.Colour == Color.White)
+      {
+        container.Body.Add(this.FingerPrintCommands.InvertImage());
+      }
+      else
+      {
+        container.Body.Add(this.FingerPrintCommands.NormalImage());
+      }
+
       container.Body.Add(this.FingerPrintCommands.Font(fontName,
                                                        characterHeight,
                                                        slant));

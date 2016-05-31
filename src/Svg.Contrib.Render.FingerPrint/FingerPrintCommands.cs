@@ -101,5 +101,21 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       return "INPUT OFF";
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string NormalImage()
+    {
+      return "NI";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string InvertImage()
+    {
+      return "INVIMAGE";
+    }
   }
 }
