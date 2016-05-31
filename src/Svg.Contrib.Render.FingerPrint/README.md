@@ -23,7 +23,7 @@ var bootstrapper = new DefaultBootstrapper();
 var fingerPrintRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
                                                destinationDpi: 203f,
                                                viewRotation: ViewRotation.Normal);
-var encoding = Encoding.Default;
+var encoding = fingerPrintRenderer.GetEncoding();
 
 var fingerPrintContainer = fingerPrintRenderer.GetTranslation(svgDocument);
 var array = fingerPrintContainer.ToByteStream(encoding)

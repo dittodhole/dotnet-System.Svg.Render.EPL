@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
-using System.Text;
 
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedParameter.Local
@@ -20,13 +19,13 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       var fingerPrintRenderer = bootstrapper.BuildUp(90f,
                                                      203f,
                                                      ViewRotation.RotateBy90Degrees);
+      var encoding = fingerPrintRenderer.GetEncoding();
 
       var stopwatch = Stopwatch.StartNew();
       var fingerPrintContainer = fingerPrintRenderer.GetTranslation(svgDocument);
       stopwatch.Stop();
       Console.WriteLine(stopwatch.Elapsed);
 
-      var encoding = Encoding.Default;
       var array = fingerPrintContainer.ToByteStream(encoding)
                                       .ToArray();
 

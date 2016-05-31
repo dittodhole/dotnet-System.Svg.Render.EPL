@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Drawing2D;
+using System.Text;
 using JetBrains.Annotations;
 
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
@@ -68,6 +69,14 @@ namespace Svg.Contrib.Render.FingerPrint
                                                   [NotNull] FingerPrintContainer container)
     {
       container.Footer.Add(this.FingerPrintCommands.PrintFeed());
+    }
+
+    [Pure]
+    [NotNull]
+    [MustUseReturnValue]
+    public virtual Encoding GetEncoding()
+    {
+      return Encoding.UTF8;
     }
   }
 }
