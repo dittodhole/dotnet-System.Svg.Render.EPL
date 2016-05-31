@@ -23,7 +23,6 @@ namespace Svg.Contrib.Render.EPL.Demo
                                              PrinterCodepage.Dos850,
                                              850,
                                              ViewRotation.RotateBy90Degrees);
-
       var encoding = eplRenderer.GetEncoding();
 
       var stopwatch = Stopwatch.StartNew();

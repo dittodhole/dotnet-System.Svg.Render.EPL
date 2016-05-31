@@ -22,7 +22,6 @@ namespace Svg.Contrib.Render.ZPL.Demo
                                              203f,
                                              CharacterSet.ZebraCodePage850,
                                              ViewRotation.RotateBy270Degress);
-
       var encoding = zplRenderer.GetEncoding();
 
       var stopwatch = Stopwatch.StartNew();
