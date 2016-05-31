@@ -10,6 +10,7 @@ namespace Svg.Contrib.Render.EPL.Demo
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader) {}
 
+    [Pure]
     public override void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                           float fontSize,
                                           out int fontSelection,

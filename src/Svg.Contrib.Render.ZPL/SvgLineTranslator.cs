@@ -67,11 +67,11 @@ namespace Svg.Contrib.Render.ZPL
       }
       else
       {
-        // TODO
         throw new NotImplementedException();
       }
     }
 
+    [Pure]
     protected virtual void GetPosition([NotNull] SvgLine svgElement,
                                        [NotNull] Matrix matrix,
                                        out int horizontalStart,
@@ -105,7 +105,6 @@ namespace Svg.Contrib.Render.ZPL
       }
       else
       {
-        // TODO
         throw new NotImplementedException();
         horizontalStart = (int) startX;
         verticalStart = (int) startY;

@@ -12,6 +12,7 @@ namespace Svg.Contrib.Render.EPL.Demo
       : base(eplTransformer,
              eplCommands) {}
 
+    [Pure]
     protected override void GetPosition([NotNull] T svgElement,
                                         [NotNull] Matrix matrix,
                                         out int horizontalStart,

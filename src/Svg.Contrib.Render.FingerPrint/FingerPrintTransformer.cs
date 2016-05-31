@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
 
@@ -56,7 +57,7 @@ namespace Svg.Contrib.Render.FingerPrint
       }
       else if (viewRotation == ViewRotation.RotateBy180Degrees)
       {
-        // TODO test this orientation!
+        throw new NotImplementedException();
         matrix.Rotate(180f);
         matrix.Translate(-this.OutputWidth,
                          this.OutputHeight,
@@ -64,7 +65,7 @@ namespace Svg.Contrib.Render.FingerPrint
       }
       else if (viewRotation == ViewRotation.RotateBy270Degress)
       {
-        // TODO test this orientation!
+        throw new NotImplementedException();
         matrix.Rotate(90f);
         matrix.Translate(0,
                          this.OutputHeight,

@@ -45,8 +45,6 @@ namespace Svg.Contrib.Render.ZPL
                        out verticalStart,
                        out sector);
 
-      // TODO implement direct write!
-
       this.AddTranslationToContainer(svgElement,
                                      matrix,
                                      sourceAlignmentWidth,
@@ -57,6 +55,7 @@ namespace Svg.Contrib.Render.ZPL
                                      container);
     }
 
+    [Pure]
     protected virtual void GetPosition([NotNull] SvgImage svgElement,
                                        [NotNull] Matrix matrix,
                                        out float sourceAlignmentWidth,

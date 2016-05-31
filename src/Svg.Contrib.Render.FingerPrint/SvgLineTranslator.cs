@@ -51,6 +51,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                      container);
     }
 
+    [Pure]
     protected virtual void GetPosition([NotNull] SvgLine svgElement,
                                        [NotNull] Matrix matrix,
                                        out int horizontalStart,

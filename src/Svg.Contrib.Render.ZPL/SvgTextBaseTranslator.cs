@@ -83,6 +83,7 @@ namespace Svg.Contrib.Render.ZPL
       // ReSharper restore ExceptionNotDocumentedOptional
     }
 
+    [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
                                        [NotNull] Matrix matrix,
                                        out int horizontalStart,

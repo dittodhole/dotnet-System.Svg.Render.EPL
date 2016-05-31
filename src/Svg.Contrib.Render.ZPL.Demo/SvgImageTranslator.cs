@@ -24,8 +24,9 @@ namespace Svg.Contrib.Render.ZPL.Demo
       : base(zplTransformer,
              zplCommands) {}
 
-    protected override void GetPosition(SvgImage svgElement,
-                                        Matrix matrix,
+    [Pure]
+    protected override void GetPosition([NotNull] SvgImage svgElement,
+                                        [NotNull] Matrix matrix,
                                         out float sourceAlignmentWidth,
                                         out float sourceAlignmentHeight,
                                         out int horizontalStart,
@@ -59,14 +60,14 @@ namespace Svg.Contrib.Render.ZPL.Demo
       }
     }
 
-    protected override void AddTranslationToContainer(SvgImage svgElement,
-                                                      Matrix matrix,
+    protected override void AddTranslationToContainer([NotNull] SvgImage svgElement,
+                                                      [NotNull] Matrix matrix,
                                                       float sourceAlignmentWidth,
                                                       float sourceAlignmentHeight,
                                                       int horizontalStart,
                                                       int verticalStart,
                                                       int sector,
-                                                      ZplContainer container)
+                                                      [NotNull] ZplContainer container)
     {
       if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
       {

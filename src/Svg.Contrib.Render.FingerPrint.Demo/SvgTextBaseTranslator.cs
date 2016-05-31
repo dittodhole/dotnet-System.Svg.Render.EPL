@@ -12,6 +12,7 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       : base(fingerPrintTransformer,
              fingerPrintCommands) {}
 
+    [Pure]
     protected override void GetPosition([NotNull] T svgElement,
                                         [NotNull] Matrix matrix,
                                         out int horizontalStart,

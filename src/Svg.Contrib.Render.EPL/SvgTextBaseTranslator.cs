@@ -73,6 +73,7 @@ namespace Svg.Contrib.Render.EPL
                                      container);
     }
 
+    [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
                                        [NotNull] Matrix matrix,
                                        out int horizontalStart,

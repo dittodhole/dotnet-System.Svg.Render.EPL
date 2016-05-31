@@ -103,6 +103,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                                       lineWeight));
     }
 
+    [Pure]
     protected virtual void GetPosition([NotNull] SvgRectangle instance,
                                        [NotNull] Matrix matrix,
                                        out int horizontalStart,

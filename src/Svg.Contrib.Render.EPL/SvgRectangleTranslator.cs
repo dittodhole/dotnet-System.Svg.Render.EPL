@@ -97,6 +97,7 @@ namespace Svg.Contrib.Render.EPL
                                                   verticalEnd));
     }
 
+    [Pure]
     protected virtual void GetPosition([NotNull] SvgRectangle instance,
                                        [NotNull] Matrix matrix,
                                        out int horizontalStart,

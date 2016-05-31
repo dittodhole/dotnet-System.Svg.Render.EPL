@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable VirtualMemberNeverOverriden.Global
 
 namespace Svg.Contrib.Render.FingerPrint
 {
@@ -83,6 +83,7 @@ namespace Svg.Contrib.Render.FingerPrint
       // ReSharper restore ExceptionNotDocumentedOptional
     }
 
+    [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
                                        [NotNull] Matrix matrix,
                                        out int horizontalStart,
