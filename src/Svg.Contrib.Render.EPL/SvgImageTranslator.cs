@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
-  public class SvgImageTranslator : SvgElementTranslatorBase<SvgImage>
+  public class SvgImageTranslator : SvgElementTranslatorBase<EplContainer, SvgImage>
   {
     public SvgImageTranslator([NotNull] EplTransformer eplTransformer,
                               [NotNull] EplCommands eplCommands)
@@ -74,10 +74,6 @@ namespace Svg.Contrib.Render.EPL
                                    [NotNull] EplContainer container)
 
     {
-      float startX;
-      float startY;
-      float endX;
-      float endY;
       float sourceAlignmentWidth;
       float sourceAlignmentHeight;
       int horizontalStart;
@@ -85,10 +81,6 @@ namespace Svg.Contrib.Render.EPL
       int sector;
       this.GetPosition(svgElement,
                        matrix,
-                       out startX,
-                       out startY,
-                       out endX,
-                       out endY,
                        out sourceAlignmentWidth,
                        out sourceAlignmentHeight,
                        out horizontalStart,
@@ -108,16 +100,16 @@ namespace Svg.Contrib.Render.EPL
     [Pure]
     protected virtual void GetPosition([NotNull] SvgImage svgElement,
                                        [NotNull] Matrix matrix,
-                                       out float startX,
-                                       out float startY,
-                                       out float endX,
-                                       out float endY,
                                        out float sourceAlignmentWidth,
                                        out float sourceAlignmentHeight,
                                        out int horizontalStart,
                                        out int verticalStart,
                                        out int sector)
     {
+      float startX;
+      float startY;
+      float endX;
+      float endY;
       this.EplTransformer.Transform(svgElement,
                                     matrix,
                                     out startX,
