@@ -31,11 +31,12 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
 
       using (var serialPort = new SerialPort("COM1",
                                              115200,
-                                             Parity.None)
+                                             Parity.None,
+                                             8,
+                                             StopBits.Two)
                               {
-                                DataBits = 8,
-                                StopBits = StopBits.Two,
-                                Encoding = encoding
+                                Encoding = encoding,
+                                NewLine = Environment.NewLine
                               })
       {
         serialPort.Open();
