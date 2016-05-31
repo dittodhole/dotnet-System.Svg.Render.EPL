@@ -1,7 +1,7 @@
 ﻿using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable VirtualMemberNeverOverriden.Global
 
 namespace Svg.Contrib.Render.FingerPrint
 {
