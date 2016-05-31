@@ -34,7 +34,7 @@ namespace Svg.Contrib.Render.EPL
     [MustUseReturnValue]
     public virtual Matrix CreateViewMatrix(float sourceDpi,
                                            float destinationDpi,
-                                           ViewRotation viewRotation)
+                                           ViewRotation viewRotation = ViewRotation.Normal)
     {
       var eplTransformer = this.CreateEplTransformer();
       var viewMatrix = this.CreateViewMatrix(eplTransformer,
@@ -51,18 +51,18 @@ namespace Svg.Contrib.Render.EPL
     protected virtual Matrix CreateViewMatrix([NotNull] EplTransformer eplTransformer,
                                               float sourceDpi,
                                               float destinationDpi,
-                                              ViewRotation viewRotation) => eplTransformer.CreateViewMatrix(sourceDpi,
-                                                                                                            destinationDpi,
-                                                                                                            viewRotation);
+                                              ViewRotation viewRotation = ViewRotation.Normal) => eplTransformer.CreateViewMatrix(sourceDpi,
+                                                                                                                                  destinationDpi,
+                                                                                                                                  viewRotation);
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
     protected virtual EplRenderer CreateEplRenderer([NotNull] EplCommands eplCommands,
-                                                    PrinterCodepage printerCodepage,
-                                                    int countryCode) => new EplRenderer(eplCommands,
-                                                                                        printerCodepage,
-                                                                                        countryCode);
+                                                    PrinterCodepage printerCodepage = PrinterCodepage.Dos850,
+                                                    int countryCode = 850) => new EplRenderer(eplCommands,
+                                                                                              printerCodepage,
+                                                                                              countryCode);
 
     [NotNull]
     [Pure]

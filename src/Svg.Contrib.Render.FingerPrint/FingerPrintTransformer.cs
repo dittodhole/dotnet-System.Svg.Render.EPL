@@ -33,7 +33,7 @@ namespace Svg.Contrib.Render.FingerPrint
     [MustUseReturnValue]
     public override Matrix CreateViewMatrix(float sourceDpi,
                                             float destinationDpi,
-                                            ViewRotation viewRotation)
+                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
       var magnificationFactor = destinationDpi / sourceDpi;
 

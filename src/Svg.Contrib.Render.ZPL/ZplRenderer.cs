@@ -11,7 +11,7 @@ namespace Svg.Contrib.Render.ZPL
   public class ZplRenderer : RendererBase<ZplContainer>
   {
     public ZplRenderer([NotNull] ZplCommands zplCommands,
-                       CharacterSet characterSet)
+                       CharacterSet characterSet = CharacterSet.ZebraCodePage850)
     {
       this.ZplCommands = zplCommands;
       this.CharacterSet = characterSet;

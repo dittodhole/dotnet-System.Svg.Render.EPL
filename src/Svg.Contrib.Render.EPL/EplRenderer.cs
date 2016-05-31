@@ -11,8 +11,8 @@ namespace Svg.Contrib.Render.EPL
   public class EplRenderer : RendererBase<EplContainer>
   {
     public EplRenderer([NotNull] EplCommands eplCommands,
-                       PrinterCodepage printerCodepage,
-                       int countryCode)
+                       PrinterCodepage printerCodepage = PrinterCodepage.Dos850,
+                       int countryCode = 850)
     {
       this.EplCommands = eplCommands;
       this.PrinterCodepage = printerCodepage;

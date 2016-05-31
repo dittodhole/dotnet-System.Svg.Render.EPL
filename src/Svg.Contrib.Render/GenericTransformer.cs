@@ -306,7 +306,7 @@ namespace Svg.Contrib.Render
     [MustUseReturnValue]
     public virtual Matrix CreateViewMatrix(float sourceDpi,
                                            float destinationDpi,
-                                           ViewRotation viewRotation)
+                                           ViewRotation viewRotation = ViewRotation.Normal)
     {
       var magnificationFactor = destinationDpi / sourceDpi;
 

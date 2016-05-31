@@ -59,8 +59,8 @@ namespace Svg.Contrib.Render.ZPL
     [Pure]
     [MustUseReturnValue]
     protected virtual ZplRenderer CreateZplRenderer([NotNull] ZplCommands zplCommands,
-                                                    CharacterSet characterSet) => new ZplRenderer(zplCommands,
-                                                                                                  characterSet);
+                                                    CharacterSet characterSet = CharacterSet.ZebraCodePage850) => new ZplRenderer(zplCommands,
+                                                                                                                                  characterSet);
 
     [NotNull]
     [Pure]
