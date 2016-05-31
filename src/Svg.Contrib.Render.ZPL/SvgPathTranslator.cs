@@ -8,7 +8,7 @@ using Svg.Pathing;
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
-  public class SvgPathTranslator : SvgElementTranslatorBase<SvgPath>
+  public class SvgPathTranslator : SvgElementTranslatorBase<ZplContainer, SvgPath>
   {
     public SvgPathTranslator([NotNull] ZplTransformer zplTransformer,
                              [NotNull] ZplCommands zplCommands)

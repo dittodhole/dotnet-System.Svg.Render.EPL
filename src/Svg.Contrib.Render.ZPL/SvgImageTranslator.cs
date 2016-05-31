@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
-  public class SvgImageTranslator : SvgElementTranslatorBase<SvgImage>
+  public class SvgImageTranslator : SvgElementTranslatorBase<ZplContainer, SvgImage>
   {
     public SvgImageTranslator([NotNull] ZplTransformer zplTransformer,
                               [NotNull] ZplCommands zplCommands)
