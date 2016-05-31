@@ -55,6 +55,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                                 [NotNull] Matrix parentMatrix,
                                                 [NotNull] FingerPrintContainer container)
     {
+      container.Header.Add(this.FingerPrintCommands.ImmediateOn());
       container.Header.Add(this.FingerPrintCommands.SelectCharacterSet(CharacterSet.Utf8));
       container.Body.Add(this.FingerPrintCommands.VerbOff());
       this.TranslateSvgElementAndChildren(svgDocument,
@@ -69,6 +70,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                                   [NotNull] FingerPrintContainer container)
     {
       container.Footer.Add(this.FingerPrintCommands.PrintFeed());
+      container.Footer.Add(string.Empty);
     }
 
     [Pure]

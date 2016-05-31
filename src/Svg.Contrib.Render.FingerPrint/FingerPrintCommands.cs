@@ -105,6 +105,14 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
+    public virtual string ImmediateOn()
+    {
+      return "IMMEDIATE ON";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual string NormalImage()
     {
       return "NI";
