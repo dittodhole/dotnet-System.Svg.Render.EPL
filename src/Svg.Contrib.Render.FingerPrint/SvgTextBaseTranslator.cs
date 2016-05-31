@@ -120,6 +120,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                                            verticalStart));
       container.Body.Add(this.FingerPrintCommands.Direction(direction));
       container.Body.Add(this.FingerPrintCommands.Align(Alignment.BaseLineLeft));
+
       if ((svgElement.Fill as SvgColourServer)?.Colour == Color.White)
       {
         container.Body.Add(this.FingerPrintCommands.InvertImage());
