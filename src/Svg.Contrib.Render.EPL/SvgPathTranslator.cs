@@ -8,7 +8,7 @@ using Svg.Pathing;
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
-  public class SvgPathTranslator : SvgElementTranslatorBase<SvgPath>
+  public class SvgPathTranslator : SvgElementTranslatorBase<EplContainer, SvgPath>
   {
     public SvgPathTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)

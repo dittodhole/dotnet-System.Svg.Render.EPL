@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
-  public class SvgTextBaseTranslator<T> : SvgElementTranslatorBase<T>
+  public class SvgTextBaseTranslator<T> : SvgElementTranslatorBase<EplContainer, T>
     where T : SvgTextBase
   {
     // TODO translate dX and dY

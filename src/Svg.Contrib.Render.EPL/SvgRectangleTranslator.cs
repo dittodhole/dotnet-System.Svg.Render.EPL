@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
-  public class SvgRectangleTranslator : SvgElementTranslatorBase<SvgRectangle>
+  public class SvgRectangleTranslator : SvgElementTranslatorBase<EplContainer, SvgRectangle>
   {
     public SvgRectangleTranslator([NotNull] EplTransformer eplTransformer,
                                   [NotNull] EplCommands eplCommands,

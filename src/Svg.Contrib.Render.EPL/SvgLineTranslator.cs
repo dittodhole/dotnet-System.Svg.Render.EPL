@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
-  public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>
+  public class SvgLineTranslator : SvgElementTranslatorBase<EplContainer, SvgLine>
   {
     public SvgLineTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)
