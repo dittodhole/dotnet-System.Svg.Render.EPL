@@ -11,7 +11,18 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual SvgUnitReader CreateSvgUnitReader(float sourceDpi) => new SvgUnitReader(sourceDpi);
+    protected virtual SvgUnitReader CreateSvgUnitReader() => new SvgUnitReader();
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual FingerPrintTransformer CreateFingerPrintTransformer()
+    {
+      var svgUnitReader = this.CreateSvgUnitReader();
+      var fingerPrintTransformer = this.CreateFingerPrintTransformer(svgUnitReader);
+
+      return fingerPrintTransformer;
+    }
 
     [NotNull]
     [Pure]
@@ -21,19 +32,33 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual Matrix CreateViewMatrix([NotNull] FingerPrintTransformer fingerPrintTransformer,
-                                              float sourceDpi,
-                                              float destinationDpi,
-                                              ViewRotation viewRotation) => fingerPrintTransformer.CreateViewMatrix(sourceDpi,
-                                                                                                                    destinationDpi,
-                                                                                                                    viewRotation);
+    public virtual Matrix CreateViewMatrix(float sourceDpi,
+                                           float destinationDpi,
+                                           ViewRotation viewRotation = ViewRotation.Normal)
+    {
+      var fingerPrintTransformer = this.CreateFingerPrintTransformer();
+      var viewMatrix = this.CreateViewMatrix(fingerPrintTransformer,
+                                             sourceDpi,
+                                             destinationDpi,
+                                             viewRotation);
+
+      return viewMatrix;
+    }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] Matrix viewMatrix,
-                                                                    [NotNull] FingerPrintCommands fingerPrintCommands) => new FingerPrintRenderer(viewMatrix,
-                                                                                                                                                  fingerPrintCommands);
+    protected virtual Matrix CreateViewMatrix([NotNull] FingerPrintTransformer fingerPrintTransformer,
+                                              float sourceDpi,
+                                              float destinationDpi,
+                                              ViewRotation viewRotation = ViewRotation.Normal) => fingerPrintTransformer.CreateViewMatrix(sourceDpi,
+                                                                                                                                          destinationDpi,
+                                                                                                                                          viewRotation);
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintCommands fingerPrintCommands) => new FingerPrintRenderer(fingerPrintCommands);
 
     [NotNull]
     [Pure]
@@ -87,19 +112,11 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual FingerPrintRenderer BuildUp(float sourceDpi,
-                                               float destinationDpi,
-                                               ViewRotation viewRotation = ViewRotation.Normal)
+    public virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintTransformer fingerPrintTransformer)
     {
-      var svgUnitReader = this.CreateSvgUnitReader(sourceDpi);
-      var fingerPrintTransformer = this.CreateFingerPrintTransformer(svgUnitReader);
-      var viewMatrix = this.CreateViewMatrix(fingerPrintTransformer,
-                                             sourceDpi,
-                                             destinationDpi,
-                                             viewRotation);
+      var svgUnitReader = this.CreateSvgUnitReader();
       var fingerPrintCommands = this.CreateFingerPrintCommands();
-      var fingerPrintRenderer = this.CreateFingerPrintRenderer(viewMatrix,
-                                                               fingerPrintCommands);
+      var fingerPrintRenderer = this.CreateFingerPrintRenderer(fingerPrintCommands);
       var svgLineTranslator = this.CreateSvgLineTranslator(fingerPrintTransformer,
                                                            fingerPrintCommands);
       var svgRectangleTranslator = this.CreateSvgRectangleTranslator(fingerPrintTransformer,

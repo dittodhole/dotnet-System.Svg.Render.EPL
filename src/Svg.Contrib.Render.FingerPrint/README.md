@@ -20,37 +20,20 @@ using Svg.Contrib.Render.FingerPrint;
 var file = "";
 var svgDocument = SvgDocument.Open(file);
 var bootstrapper = new DefaultBootstrapper();
-var fingerPrintRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
+var fingerPrintTransformer = bootstrapper.CreateFingerPrintTransformer();
+var fingerPrintRenderer = bootstrapper.CreateFingerPrintRenderer(fingerPrintTransformer);
+var viewMatrix = bootstrapper.CreateViewMatrix(sourceDpi: 90f,
                                                destinationDpi: 203f,
                                                viewRotation: ViewRotation.Normal);
-var encoding = fingerPrintRenderer.GetEncoding();
+var fingerPrintContainer = fingerPrintRenderer.GetTranslation(svgDocument,
+                                                              viewMatrix);
 
-var fingerPrintContainer = fingerPrintRenderer.GetTranslation(svgDocument);
+var encoding = fingerPrintRenderer.GetEncoding();
 var array = fingerPrintContainer.ToByteStream(encoding)
                                 .ToArray();
 
 // TODO send to printer over USB/COM/Network
 ```
-
-## Configuration
-
-I strongly encourage you to use the [`DefaultBootstrapper`](DefaultBootstrapper.cs) (or extend it) to build up [`FingerPrintRenderer`](FingerPrintRenderer.cs)-instances.
-
-#### sourceDpi
-Type: `float`
-
-Define the DPI used to create the [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)-file (if using [Inkscape](https://inkscape.org): `90f`).
-
-#### destinationDpi
-Type: `float`
-
-Define the DPI of the printer (usually `203f`).
-
-#### viewRotation
-Type: [`ViewRotation`](../Svg.Contrib.Render/Enums.cs#L6)  
-Default: `ViewRotation.Normal`
-
-Define the rotation of the label.
 
 ## Features
 

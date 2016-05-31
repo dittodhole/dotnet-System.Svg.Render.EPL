@@ -11,12 +11,39 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual SvgUnitReader CreateSvgUnitReader(float sourceDpi) => new SvgUnitReader(sourceDpi);
+    protected virtual SvgUnitReader CreateSvgUnitReader() => new SvgUnitReader();
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual EplTransformer CreateEplTransformer()
+    {
+      var svgUnitReader = this.CreateSvgUnitReader();
+      var eplTransformer = this.CreateEplTransformer(svgUnitReader);
+
+      return eplTransformer;
+    }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
     protected virtual EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader) => new EplTransformer(svgUnitReader);
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual Matrix CreateViewMatrix(float sourceDpi,
+                                           float destinationDpi,
+                                           ViewRotation viewRotation)
+    {
+      var eplTransformer = this.CreateEplTransformer();
+      var viewMatrix = this.CreateViewMatrix(eplTransformer,
+                                             sourceDpi,
+                                             destinationDpi,
+                                             viewRotation);
+
+      return viewMatrix;
+    }
 
     [NotNull]
     [Pure]
@@ -31,11 +58,9 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual EplRenderer CreateEplRenderer([NotNull] Matrix viewMatrix,
-                                                    [NotNull] EplCommands eplCommands,
+    protected virtual EplRenderer CreateEplRenderer([NotNull] EplCommands eplCommands,
                                                     PrinterCodepage printerCodepage,
-                                                    int countryCode) => new EplRenderer(viewMatrix,
-                                                                                        eplCommands,
+                                                    int countryCode) => new EplRenderer(eplCommands,
                                                                                         printerCodepage,
                                                                                         countryCode);
 
@@ -91,21 +116,13 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual EplRenderer BuildUp(float sourceDpi,
-                                       float destinationDpi,
-                                       PrinterCodepage printerCodepage = PrinterCodepage.Dos850,
-                                       int countryCode = 850,
-                                       ViewRotation viewRotation = ViewRotation.Normal)
+    public virtual EplRenderer CreateEplRenderer([NotNull] EplTransformer eplTransformer,
+                                                 PrinterCodepage printerCodepage = PrinterCodepage.Dos850,
+                                                 int countryCode = 850)
     {
-      var svgUnitReader = this.CreateSvgUnitReader(sourceDpi);
-      var eplTransformer = this.CreateEplTransformer(svgUnitReader);
-      var viewMatrix = this.CreateViewMatrix(eplTransformer,
-                                             sourceDpi,
-                                             destinationDpi,
-                                             viewRotation);
+      var svgUnitReader = this.CreateSvgUnitReader();
       var eplCommands = this.CreateEplCommands();
-      var eplRenderer = this.CreateEplRenderer(viewMatrix,
-                                               eplCommands,
+      var eplRenderer = this.CreateEplRenderer(eplCommands,
                                                printerCodepage,
                                                countryCode);
       var svgLineTranslator = this.CreateSvgLineTranslator(eplTransformer,

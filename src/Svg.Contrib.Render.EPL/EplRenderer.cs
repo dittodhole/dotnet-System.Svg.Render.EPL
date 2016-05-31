@@ -10,19 +10,14 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public class EplRenderer : RendererBase<EplContainer>
   {
-    public EplRenderer([NotNull] Matrix viewMatrix,
-                       [NotNull] EplCommands eplCommands,
+    public EplRenderer([NotNull] EplCommands eplCommands,
                        PrinterCodepage printerCodepage,
                        int countryCode)
     {
-      this.ViewMatrix = viewMatrix;
       this.EplCommands = eplCommands;
       this.PrinterCodepage = printerCodepage;
       this.CountryCode = countryCode;
     }
-
-    [NotNull]
-    protected Matrix ViewMatrix { get; }
 
     [NotNull]
     protected EplCommands EplCommands { get; }
@@ -52,18 +47,22 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public override EplContainer GetTranslation([NotNull] SvgDocument svgDocument)
+    public override EplContainer GetTranslation([NotNull] SvgDocument svgDocument,
+                                                [NotNull] Matrix viewMatrix)
     {
       var parentMatrix = this.CreateParentMatrix();
       var eplContainer = new EplContainer();
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
+                                viewMatrix,
                                 eplContainer);
       this.AddHeaderToTranslation(svgDocument,
                                   parentMatrix,
+                                  viewMatrix,
                                   eplContainer);
       this.AddFooterToTranslation(svgDocument,
                                   parentMatrix,
+                                  viewMatrix,
                                   eplContainer);
 
       return eplContainer;
@@ -71,6 +70,7 @@ namespace Svg.Contrib.Render.EPL
 
     protected virtual void AddHeaderToTranslation([NotNull] SvgDocument svgDocument,
                                                   [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Matrix viewMatrix,
                                                   [NotNull] EplContainer eplContainer)
     {
       eplContainer.Header.Add(this.EplCommands.SetReferencePoint(0,
@@ -83,18 +83,20 @@ namespace Svg.Contrib.Render.EPL
 
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix parentMatrix,
+                                                [NotNull] Matrix viewMatrix,
                                                 [NotNull] EplContainer container)
     {
       container.Body.Add(string.Empty);
       container.Body.Add(this.EplCommands.ClearImageBuffer());
       this.TranslateSvgElementAndChildren(svgDocument,
                                           parentMatrix,
-                                          this.ViewMatrix,
+                                          viewMatrix,
                                           container);
     }
 
     protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
                                                   [NotNull] Matrix parentMatrix,
+                                                  Matrix viewMatrix,
                                                   [NotNull] EplContainer eplContainer)
     {
       eplContainer.Footer.Add(this.EplCommands.Print(1));

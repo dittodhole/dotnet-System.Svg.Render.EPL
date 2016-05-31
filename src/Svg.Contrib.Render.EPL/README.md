@@ -19,51 +19,22 @@ using Svg.Contrib.Render.EPL;
 var file = "";
 var svgDocument = SvgDocument.Open(file);
 var bootstrapper = new DefaultBootstrapper();
-var eplRenderer = bootstrapper.BuildUp(sourceDpi: 90f,
-                                       destinationDpi: 203f,
-                                       printerCodepage: PrinterCodepage.Dos850,
-                                       countryCode: 850,
-                                       viewRotation: ViewRotation.Normal);
-var encoding = eplRenderer.GetEncoding();
+var eplTransformer = bootstrapper.CreateEplTransformer();
+var eplRenderer = bootstrapper.CreateEplRenderer(eplTransformer,
+                                                 printerCodepage: PrinterCodepage.Dos850,
+                                                 countryCode: 850);
+var viewMatrix = bootstrapper.CreateViewMatrix(sourceDpi: 90f,
+                                               destinationDpi: 203f,
+                                               viewRotation: ViewRotation.Normal);
+var eplContainer = eplRenderer.GetTranslation(svgDocument,
+                                              viewMatrix);
 
-var eplContainer = eplRenderer.GetTranslation(svgDocument);
+var encoding = eplRenderer.GetEncoding();
 var array = eplContainer.ToByteStream(encoding)
                         .ToArray();
 
 // TODO send to printer over USB/COM/Network
 ```
-
-## Configuration
-
-I strongly encourage you to use the [`DefaultBootstrapper`](DefaultBootstrapper.cs) (or extend it) to build up [`EplRenderer`](EplRenderer.cs)-instances.
-
-#### sourceDpi
-Type: `float`
-
-Define the DPI used to create the [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)-file (if using [Inkscape](https://inkscape.org): `90f`).
-
-#### destinationDpi
-Type: `float`
-
-Define the DPI of the printer (usually `203f`).
-
-#### printerCodepage
-Type: [`PrinterCodepage`](Enums.cs#L6)  
-Default: `PrinterCodepage.Dos850`
-
-Depending on the text used in `A`-command you can set a codepage to guarantee a correct output.
-
-#### countryCode
-Type: `int`  
-Default: `850`
-
-See [`printerCodepage`](#printercodepage)
-
-#### viewRotation
-Type: [`ViewRotation`](../Svg.Contrib.Render/Enums.cs#L6)  
-Default: `ViewRotation.Normal`
-
-Define the rotation of the label.
 
 ## Features
 

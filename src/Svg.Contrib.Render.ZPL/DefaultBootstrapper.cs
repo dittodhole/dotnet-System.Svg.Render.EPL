@@ -11,7 +11,18 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual SvgUnitReader CreateSvgUnitReader(float sourceDpi) => new SvgUnitReader(sourceDpi);
+    protected virtual SvgUnitReader CreateSvgUnitReader() => new SvgUnitReader();
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual ZplTransformer CreateZplTransformer()
+    {
+      var svgUnitReader = this.CreateSvgUnitReader();
+      var zplTransformer = this.CreateZplTransformer(svgUnitReader);
+
+      return zplTransformer;
+    }
 
     [NotNull]
     [Pure]
@@ -21,20 +32,34 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual Matrix CreateViewMatrix([NotNull] ZplTransformer zplTransformer,
-                                              float sourceDpi,
-                                              float destinationDpi,
-                                              ViewRotation viewRotation) => zplTransformer.CreateViewMatrix(sourceDpi,
-                                                                                                            destinationDpi,
-                                                                                                            viewRotation);
+    public virtual Matrix CreateViewMatrix(float sourceDpi,
+                                           float destinationDpi,
+                                           ViewRotation viewRotation = ViewRotation.Normal)
+    {
+      var zplTransformer = this.CreateZplTransformer();
+      var viewMatrix = this.CreateViewMatrix(zplTransformer,
+                                             sourceDpi,
+                                             destinationDpi,
+                                             viewRotation);
+
+      return viewMatrix;
+    }
 
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual ZplRenderer CreateZplRenderer([NotNull] Matrix viewMatrix,
-                                                    [NotNull] ZplCommands zplCommands,
-                                                    CharacterSet characterSet) => new ZplRenderer(viewMatrix,
-                                                                                                  zplCommands,
+    protected virtual Matrix CreateViewMatrix([NotNull] ZplTransformer zplTransformer,
+                                              float sourceDpi,
+                                              float destinationDpi,
+                                              ViewRotation viewRotation = ViewRotation.Normal) => zplTransformer.CreateViewMatrix(sourceDpi,
+                                                                                                                                  destinationDpi,
+                                                                                                                                  viewRotation);
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual ZplRenderer CreateZplRenderer([NotNull] ZplCommands zplCommands,
+                                                    CharacterSet characterSet) => new ZplRenderer(zplCommands,
                                                                                                   characterSet);
 
     [NotNull]
@@ -89,20 +114,12 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual ZplRenderer BuildUp(float sourceDpi,
-                                       float destinationDpi,
-                                       CharacterSet characterSet = CharacterSet.ZebraCodePage850,
-                                       ViewRotation viewRotation = ViewRotation.Normal)
+    public virtual ZplRenderer CreateZplRenderer([NotNull] ZplTransformer zplTransformer,
+                                                 CharacterSet characterSet = CharacterSet.ZebraCodePage850)
     {
-      var svgUnitReader = this.CreateSvgUnitReader(sourceDpi);
-      var zplTransformer = this.CreateZplTransformer(svgUnitReader);
-      var viewMatrix = this.CreateViewMatrix(zplTransformer,
-                                             sourceDpi,
-                                             destinationDpi,
-                                             viewRotation);
+      var svgUnitReader = this.CreateSvgUnitReader();
       var zplCommands = this.CreateZplCommands();
-      var zplRenderer = this.CreateZplRenderer(viewMatrix,
-                                               zplCommands,
+      var zplRenderer = this.CreateZplRenderer(zplCommands,
                                                characterSet);
       var svgLineTranslator = this.CreateSvgLineTranslator(zplTransformer,
                                                            zplCommands);

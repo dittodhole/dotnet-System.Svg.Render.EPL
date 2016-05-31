@@ -107,7 +107,8 @@ namespace Svg.Contrib.Render
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public abstract TContainer GetTranslation([NotNull] SvgDocument svgDocument);
+    public abstract TContainer GetTranslation([NotNull] SvgDocument svgDocument,
+                                              [NotNull] Matrix viewMatrix);
 
     protected virtual void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
                                                           [NotNull] Matrix parentMatrix,

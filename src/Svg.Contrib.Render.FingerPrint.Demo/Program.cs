@@ -16,16 +16,18 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       var file = "assets/label.svg";
       var svgDocument = SvgDocument.Open(file);
       var bootstrapper = new CustomBootstrapper();
-      var fingerPrintRenderer = bootstrapper.BuildUp(90f,
+      var fingerPrintTransformer = bootstrapper.CreateFingerPrintTransformer();
+      var fingerPrintRenderer = bootstrapper.CreateFingerPrintRenderer(fingerPrintTransformer);
+      var viewMatrix = bootstrapper.CreateViewMatrix(90f,
                                                      203f,
                                                      ViewRotation.RotateBy90Degrees);
-      var encoding = fingerPrintRenderer.GetEncoding();
-
       var stopwatch = Stopwatch.StartNew();
-      var fingerPrintContainer = fingerPrintRenderer.GetTranslation(svgDocument);
+      var fingerPrintContainer = fingerPrintRenderer.GetTranslation(svgDocument,
+                                                                    viewMatrix);
       stopwatch.Stop();
       Console.WriteLine(stopwatch.Elapsed);
 
+      var encoding = fingerPrintRenderer.GetEncoding();
       var array = fingerPrintContainer.ToByteStream(encoding)
                                       .ToArray();
 

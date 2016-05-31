@@ -61,7 +61,6 @@
     <Compile Include="SvgLineTranslatorSpecs.cs" />
     <Compile Include="SvgRectangleTranslatorSpecs.cs" />
     <Compile Include="SvgTextBaseTranslatorSpecs.cs" />
-    <Compile Include="SvgUnitReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

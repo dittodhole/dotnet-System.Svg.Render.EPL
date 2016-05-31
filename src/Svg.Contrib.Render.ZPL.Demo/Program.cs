@@ -18,17 +18,18 @@ namespace Svg.Contrib.Render.ZPL.Demo
       var file = "assets/label.svg";
       var svgDocument = SvgDocument.Open(file);
       var bootstrapper = new CustomBootstrapper();
-      var zplRenderer = bootstrapper.BuildUp(90f,
-                                             203f,
-                                             CharacterSet.ZebraCodePage850,
-                                             ViewRotation.RotateBy270Degress);
-      var encoding = zplRenderer.GetEncoding();
-
+      var zplTransformer = bootstrapper.CreateZplTransformer();
+      var zplRenderer = bootstrapper.CreateZplRenderer(zplTransformer);
+      var viewMatrix = bootstrapper.CreateViewMatrix(90f,
+                                                     203f,
+                                                     ViewRotation.RotateBy270Degress);
       var stopwatch = Stopwatch.StartNew();
-      var zplContainer = zplRenderer.GetTranslation(svgDocument);
+      var zplContainer = zplRenderer.GetTranslation(svgDocument,
+                                                    viewMatrix);
       stopwatch.Stop();
       Console.WriteLine(stopwatch.Elapsed);
 
+      var encoding = zplRenderer.GetEncoding();
       var array = zplContainer.ToByteStream(encoding)
                               .ToArray();
       var arraySegment = new ArraySegment<byte>(array);

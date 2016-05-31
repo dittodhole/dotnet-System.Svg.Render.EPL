@@ -18,17 +18,19 @@ namespace Svg.Contrib.Render.EPL.Demo
       var file = "assets/label.svg";
       var svgDocument = SvgDocument.Open(file);
       var bootstrapper = new CustomBootstrapper();
-      var eplRenderer = bootstrapper.BuildUp(90f,
-                                             203f,
-                                             PrinterCodepage.Dos850,
-                                             850,
-                                             ViewRotation.RotateBy90Degrees);
-      var encoding = eplRenderer.GetEncoding();
+      var eplTransformer = bootstrapper.CreateEplTransformer();
+      var eplRenderer = bootstrapper.CreateEplRenderer(eplTransformer);
+      var viewMatrix = bootstrapper.CreateViewMatrix(90f,
+                                                     203f,
+                                                     ViewRotation.RotateBy270Degress);
 
       var stopwatch = Stopwatch.StartNew();
-      var eplContainer = eplRenderer.GetTranslation(svgDocument);
+      var eplContainer = eplRenderer.GetTranslation(svgDocument,
+                                                    viewMatrix);
       stopwatch.Stop();
       Console.WriteLine(stopwatch.Elapsed);
+
+      var encoding = eplRenderer.GetEncoding();
       var array = eplContainer.ToByteStream(encoding)
                               .ToArray();
       var arraySegment = new ArraySegment<byte>(array);
