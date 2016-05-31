@@ -94,10 +94,10 @@ namespace Svg.Contrib.Render.FingerPrint
         lineWeight = (int) strokeWidth;
       }
 
-      container.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
-      container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                            verticalStart));
+      container.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
+      container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       container.Body.Add(this.FingerPrintCommands.Line(length,
                                                        lineWeight));
     }

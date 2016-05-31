@@ -66,10 +66,10 @@ namespace Svg.Contrib.Render.FingerPrint
       var length = horizontalEnd - horizontalStart;
       var lineWeight = verticalEnd - verticalStart;
 
-      container.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
-      container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                            verticalStart));
+      container.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
+      container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       container.Body.Add(this.FingerPrintCommands.Line(length,
                                                        lineWeight));
     }
@@ -94,10 +94,10 @@ namespace Svg.Contrib.Render.FingerPrint
       var width = horizontalEnd - horizontalStart;
       var height = verticalEnd - verticalStart;
 
-      container.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
-      container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                            verticalStart));
+      container.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
+      container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       container.Body.Add(this.FingerPrintCommands.Box(width,
                                                       height,
                                                       lineWeight));
