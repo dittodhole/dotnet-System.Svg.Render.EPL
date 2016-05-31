@@ -8,7 +8,7 @@ using Svg.Pathing;
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
-  public class SvgPathTranslator : SvgElementTranslatorBase<SvgPath>
+  public class SvgPathTranslator : SvgElementTranslatorBase<FingerPrintContainer, SvgPath>
   {
     public SvgPathTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                              [NotNull] FingerPrintCommands fingerPrintCommands)

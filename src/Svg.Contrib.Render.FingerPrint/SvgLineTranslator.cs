@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
-  public class SvgLineTranslator : SvgElementTranslatorBase<SvgLine>
+  public class SvgLineTranslator : SvgElementTranslatorBase<FingerPrintContainer, SvgLine>
   {
     public SvgLineTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                              [NotNull] FingerPrintCommands fingerPrintCommands)
