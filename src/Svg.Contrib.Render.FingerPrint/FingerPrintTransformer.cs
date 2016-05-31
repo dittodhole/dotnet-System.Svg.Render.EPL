@@ -116,11 +116,11 @@ namespace Svg.Contrib.Render.FingerPrint
 
       if ((int) direction % 2 == 0)
       {
-        startX -= fontSize / this.GetLineHeightFactor(svgTextBase);
+        //startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
       }
       else
       {
-        startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
+        startX -= fontSize / this.GetLineHeightFactor(svgTextBase);
       }
 
       this.ApplyMatrixOnPoint(startX,
