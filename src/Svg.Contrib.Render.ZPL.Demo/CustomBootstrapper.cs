@@ -9,10 +9,7 @@ namespace Svg.Contrib.Render.ZPL.Demo
     [Pure]
     [MustUseReturnValue]
     protected override ZPL.SvgImageTranslator CreateSvgImageTranslator([NotNull] ZplTransformer zplTransformer,
-                                                                       [NotNull] ZplCommands zplCommands)
-    {
-      return new SvgImageTranslator(zplTransformer,
-                                    zplCommands);
-    }
+                                                                       [NotNull] ZplCommands zplCommands) => new SvgImageTranslator(zplTransformer,
+                                                                                                                                    zplCommands);
   }
 }
