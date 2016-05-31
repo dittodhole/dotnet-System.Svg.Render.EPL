@@ -77,12 +77,12 @@ namespace Svg.Contrib.Render.FingerPrint
                                                                 [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgPathTranslator(fingerPrintTransformer,
                                                                                                                                             fingerPrintCommands);
 
-    //[NotNull]
-    //[Pure]
-    //[MustUseReturnValue]
-    //protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
-    //                                                              [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgImageTranslator(fingerPrintTransformer,
-    //                                                                                                                           fingerPrintCommands);
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
+                                                                  [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgImageTranslator(fingerPrintTransformer,
+                                                                                                                                               fingerPrintCommands);
 
     [NotNull]
     [Pure]
@@ -111,15 +111,15 @@ namespace Svg.Contrib.Render.FingerPrint
                                                                    fingerPrintCommands);
       var svgPathTranslator = this.CreateSvgPathTranslator(fingerPrintTransformer,
                                                            fingerPrintCommands);
-      //var svgImageTranslator = this.CreateSvgImageTranslator(fingerPrintTransformer,
-      //                                                       fingerPrintCommands);
+      var svgImageTranslator = this.CreateSvgImageTranslator(fingerPrintTransformer,
+                                                             fingerPrintCommands);
 
       fingerPrintRenderer.RegisterTranslator(svgLineTranslator);
       fingerPrintRenderer.RegisterTranslator(svgRectangleTranslator);
       fingerPrintRenderer.RegisterTranslator(svgTextTranslator);
       fingerPrintRenderer.RegisterTranslator(svgTextSpanTranslator);
       fingerPrintRenderer.RegisterTranslator(svgPathTranslator);
-      //fingerPrintRenderer.RegisterTranslator(svgImageTranslator);
+      fingerPrintRenderer.RegisterTranslator(svgImageTranslator);
 
       return fingerPrintRenderer;
     }

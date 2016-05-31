@@ -1,4 +1,6 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using System.Linq;
+using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
@@ -81,6 +83,25 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
+    public virtual string ImageLoad([NotNull] string name,
+                                    int totalNumberOfBytes)
+    {
+      var skip = Environment.NewLine.ToCharArray()
+                            .Count() - 1;
+      return $@"IMAGE LOAD {skip},""{name}"",{totalNumberOfBytes},""""";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string PrintImage([NotNull] string name)
+    {
+      return $@"PM ""{name}""";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual string SelectCharacterSet(CharacterSet characterSet)
     {
       return $"NASC {characterSet.ToString("D")}";
@@ -124,6 +145,22 @@ namespace Svg.Contrib.Render.FingerPrint
     public virtual string InvertImage()
     {
       return "INVIMAGE";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string RemoveImage([NotNull] string name)
+    {
+      return $@"REMOVE IMAGE ""{name}""";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string PrintBuffer(int totalNumberOfBytes)
+    {
+      return $"PRBUF {totalNumberOfBytes}";
     }
   }
 }

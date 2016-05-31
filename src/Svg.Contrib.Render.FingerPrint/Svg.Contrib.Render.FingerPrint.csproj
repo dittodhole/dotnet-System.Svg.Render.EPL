@@ -55,6 +55,7 @@
     <Compile Include="FingerPrintRenderer.cs" />
     <Compile Include="FingerPrintTransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SvgImageTranslator.cs" />
     <Compile Include="SvgLineTranslator.cs" />
     <Compile Include="SvgPathTranslator.cs" />
     <Compile Include="SvgRectangleTranslator.cs" />

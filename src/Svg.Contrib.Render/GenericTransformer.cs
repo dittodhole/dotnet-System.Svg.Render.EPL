@@ -447,9 +447,9 @@ namespace Svg.Contrib.Render
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
-                                                      bool invertByte,
-                                                      out int numberOfBytesPerRow)
+    public virtual byte[] GetRawBinaryData([NotNull] Bitmap bitmap,
+                                           bool invertByte,
+                                           out int numberOfBytesPerRow)
     {
       // TODO merge with MagickImage, as we are having different thresholds here
 
@@ -457,7 +457,8 @@ namespace Svg.Contrib.Render
 
       var rawBinaryData = this.GetRawBinaryData(bitmap,
                                                 invertByte,
-                                                numberOfBytesPerRow);
+                                                numberOfBytesPerRow)
+                              .ToArray();
 
       return rawBinaryData;
     }
@@ -548,7 +549,8 @@ namespace Svg.Contrib.Render
       {
         // TODO threshold
         magickImage.Format = MagickFormat.Pcx;
-        magickImage.ColorType = ColorType.Bilevel;
+        magickImage.ColorType = ColorType.Palette;
+        magickImage.ColorSpace = ColorSpace.Gray;
         if (invert)
         {
           magickImage.Negate();

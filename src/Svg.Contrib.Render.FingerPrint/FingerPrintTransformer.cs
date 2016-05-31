@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
@@ -167,6 +169,24 @@ namespace Svg.Contrib.Render.FingerPrint
       {
         slant = 0;
       }
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public override IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
+                                                       bool invertByte,
+                                                       int numberOfBytesPerRow)
+    {
+      var result = new byte[]
+                   {
+                     0x40,
+                     0x00
+                   }.Concat(base.GetRawBinaryData(bitmap,
+                                                  invertByte,
+                                                  numberOfBytesPerRow));
+
+      return result;
     }
   }
 }
