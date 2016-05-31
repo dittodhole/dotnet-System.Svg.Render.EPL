@@ -513,16 +513,19 @@ namespace Svg.Contrib.Render
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)
+    public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap,
+                                       bool invert)
     {
       MagickImage magickImage;
 
-      var mod = bitmap.Width % 8;
+      var width = bitmap.Width;
+      var mod = width % 8;
+      var height = bitmap.Height;
       if (mod > 0)
       {
-        var newWidth = bitmap.Width + 8 - mod;
-        using (var resizedBitmap = new Bitmap(newWidth,
-                                              bitmap.Height))
+        width += 8 - mod;
+        using (var resizedBitmap = new Bitmap(width,
+                                              height))
         {
           using (var graphics = Graphics.FromImage(resizedBitmap))
           {
@@ -544,9 +547,14 @@ namespace Svg.Contrib.Render
       using (magickImage)
       {
         // TODO threshold
+        magickImage.Format = MagickFormat.Pcx;
         magickImage.ColorType = ColorType.Bilevel;
-        magickImage.Negate();
-        array = magickImage.ToByteArray(MagickFormat.Pcx);
+        if (invert)
+        {
+          magickImage.Negate();
+        }
+
+        array = magickImage.ToByteArray();
       }
 
       return array;
