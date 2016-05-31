@@ -57,6 +57,7 @@
     <Compile Include="RendererBase.cs" />
     <Compile Include="CompoundContainer.cs" />
     <Compile Include="SvgElementTranslatorBase.cs" />
+    <Compile Include="SvgImageTranslatorBase.cs" />
     <Compile Include="SvgUnitReader.cs" />
   </ItemGroup>
   <ItemGroup>
