@@ -16,7 +16,7 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
     {
       var file = "assets/label.svg";
       var svgDocument = SvgDocument.Open(file);
-      var bootstrapper = new DefaultBootstrapper();
+      var bootstrapper = new CustomBootstrapper();
       var fingerPrintRenderer = bootstrapper.BuildUp(90f,
                                                      203f,
                                                      ViewRotation.RotateBy90Degrees);

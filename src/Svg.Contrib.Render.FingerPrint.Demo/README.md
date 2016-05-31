@@ -8,4 +8,9 @@ This demo converts [`assets/label.svg`](assets/label.svg) into [Intermec FingerP
 
 ## Features
 
-tbd
+This demo has some additional hacks to show off the extensibility of [Svg.Contrib.Render.EPL](../Svg.Contrib.Render.EPL):
+
+- [`CustomBootstrapper`](CustomBootstrapper.cs)
+  - adapts some factories
+- [`SvgTextBaseTranslator`](SvgTextBaseTranslator.cs)
+  - adapts the position of some labels
