@@ -84,5 +84,21 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       return $"NASC {characterSet.ToString("D")}";
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string VerbOff()
+    {
+      return "VERBOFF";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string InputOff()
+    {
+      return "INPUT OFF";
+    }
   }
 }
