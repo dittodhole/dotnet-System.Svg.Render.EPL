@@ -76,5 +76,13 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       return $"AN {(int) alignment}";
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string SelectCharacterSet(CharacterSet characterSet)
+    {
+      return $"NASC {characterSet.ToString("D")}";
+    }
   }
 }
