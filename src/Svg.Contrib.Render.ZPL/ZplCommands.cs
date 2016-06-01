@@ -180,6 +180,5 @@ namespace Svg.Contrib.Render.ZPL
 
       return $"^GFA,{totalNumberOfBytes},{totalNumberOfBytes},{numberOfBytesPerRow},{data}";
     }
-
   }
 }

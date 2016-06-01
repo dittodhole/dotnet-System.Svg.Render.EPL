@@ -236,10 +236,10 @@ namespace Svg.Contrib.Render.EPL
         magickImage.ColorAlpha(MagickColors.White);
 
         var quantizeSettings = new QuantizeSettings
-        {
-          Colors = 2,
-          DitherMethod = DitherMethod.No
-        };
+                               {
+                                 Colors = 2,
+                                 DitherMethod = DitherMethod.No
+                               };
         magickImage.Quantize(quantizeSettings);
         magickImage.ColorSpace = ColorSpace.Gray;
         magickImage.ContrastStretch(new ImageMagick.Percentage(0));

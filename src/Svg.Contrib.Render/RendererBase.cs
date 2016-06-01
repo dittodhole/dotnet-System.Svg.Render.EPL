@@ -126,7 +126,7 @@ namespace Svg.Contrib.Render
       }
 
       sourceMatrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
-                                                             sourceMatrix);
+                                                               sourceMatrix);
 
       this.TranslateSvgElement(svgElement,
                                sourceMatrix,
