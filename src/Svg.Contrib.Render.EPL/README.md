@@ -23,7 +23,8 @@ var eplTransformer = bootstrapper.CreateEplTransformer();
 var eplRenderer = bootstrapper.CreateEplRenderer(eplTransformer,
                                                  printerCodepage: PrinterCodepage.Dos850,
                                                  countryCode: 850);
-var viewMatrix = bootstrapper.CreateViewMatrix(sourceDpi: 90f,
+var viewMatrix = bootstrapper.CreateViewMatrix(eplTransformer,
+                                               sourceDpi: 90f,
                                                destinationDpi: 203f,
                                                viewRotation: ViewRotation.Normal);
 var eplContainer = eplRenderer.GetTranslation(svgDocument,

@@ -22,7 +22,8 @@ var svgDocument = SvgDocument.Open(file);
 var bootstrapper = new DefaultBootstrapper();
 var fingerPrintTransformer = bootstrapper.CreateFingerPrintTransformer();
 var fingerPrintRenderer = bootstrapper.CreateFingerPrintRenderer(fingerPrintTransformer);
-var viewMatrix = bootstrapper.CreateViewMatrix(sourceDpi: 90f,
+var viewMatrix = bootstrapper.CreateViewMatrix(fingerPrintTransformer,
+                                               sourceDpi: 90f,
                                                destinationDpi: 203f,
                                                viewRotation: ViewRotation.Normal);
 var fingerPrintContainer = fingerPrintRenderer.GetTranslation(svgDocument,

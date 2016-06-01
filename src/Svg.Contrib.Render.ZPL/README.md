@@ -22,7 +22,8 @@ var bootstrapper = new DefaultBootstrapper();
 var zplTransformer = bootstrapper.CreateZplTransformer();
 var zplRenderer = bootstrapper.CreateZplRenderer(zplTransformer,
                                                  characterSet: CharacterSet.ZebraCodePage850);
-var viewMatrix = bootstrapper.CreateViewMatrix(sourceDpi: 90f,
+var viewMatrix = bootstrapper.CreateViewMatrix(zplTransformer,
+                                               sourceDpi: 90f,
                                                destinationDpi: 203f,
                                                viewRotation: ViewRotation.Normal);
 var zplContainer = zplRenderer.GetTranslation(svgDocument,

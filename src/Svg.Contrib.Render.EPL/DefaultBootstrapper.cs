@@ -32,13 +32,13 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual Matrix CreateViewMatrix(float sourceDpi,
+    public virtual Matrix CreateViewMatrix([NotNull] EplTransformer eplTransformer,
+                                           float sourceDpi,
                                            float destinationDpi,
                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
       var magnificationFactor = destinationDpi / sourceDpi;
 
-      var eplTransformer = this.CreateEplTransformer();
       var viewMatrix = eplTransformer.CreateViewMatrix(magnificationFactor,
                                                        viewRotation);
 

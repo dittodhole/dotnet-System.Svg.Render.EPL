@@ -18,7 +18,8 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       var bootstrapper = new CustomBootstrapper();
       var fingerPrintTransformer = bootstrapper.CreateFingerPrintTransformer();
       var fingerPrintRenderer = bootstrapper.CreateFingerPrintRenderer(fingerPrintTransformer);
-      var viewMatrix = bootstrapper.CreateViewMatrix(90f,
+      var viewMatrix = bootstrapper.CreateViewMatrix(fingerPrintTransformer,
+                                                     90f,
                                                      203f,
                                                      ViewRotation.RotateBy90Degrees);
       var stopwatch = Stopwatch.StartNew();

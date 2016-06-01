@@ -20,7 +20,8 @@ namespace Svg.Contrib.Render.ZPL.Demo
       var bootstrapper = new CustomBootstrapper();
       var zplTransformer = bootstrapper.CreateZplTransformer();
       var zplRenderer = bootstrapper.CreateZplRenderer(zplTransformer);
-      var viewMatrix = bootstrapper.CreateViewMatrix(90f,
+      var viewMatrix = bootstrapper.CreateViewMatrix(zplTransformer,
+                                                     90f,
                                                      203f,
                                                      ViewRotation.RotateBy270Degress);
       var stopwatch = Stopwatch.StartNew();

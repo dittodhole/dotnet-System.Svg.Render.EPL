@@ -20,7 +20,8 @@ namespace Svg.Contrib.Render.EPL.Demo
       var bootstrapper = new CustomBootstrapper();
       var eplTransformer = bootstrapper.CreateEplTransformer();
       var eplRenderer = bootstrapper.CreateEplRenderer(eplTransformer);
-      var viewMatrix = bootstrapper.CreateViewMatrix(90f,
+      var viewMatrix = bootstrapper.CreateViewMatrix(eplTransformer,
+                                                     90f,
                                                      203f,
                                                      ViewRotation.RotateBy270Degress);
 
