@@ -219,6 +219,15 @@ namespace Svg.Contrib.Render.FingerPrint
           magickImage.Resize(magickGeometry);
         }
 
+        magickImage.ColorAlpha(MagickColors.White);
+
+        var quantizeSettings = new QuantizeSettings
+        {
+          Colors = 2,
+          DitherMethod = DitherMethod.No
+        };
+        magickImage.Quantize(quantizeSettings);
+
         magickImage.Format = MagickFormat.Pcx;
         magickImage.ColorType = ColorType.Palette;
         magickImage.ColorSpace = ColorSpace.Gray;
