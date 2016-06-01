@@ -47,19 +47,27 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [MustUseReturnValue]
     protected override Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
+                                                              float magnificationFactor,
                                                               ViewRotation viewRotation = ViewRotation.Normal)
     {
       var viewMatrix = deviceMatrix.Clone();
 
       if (viewRotation == ViewRotation.Normal)
       {
+        viewMatrix.Scale(magnificationFactor,
+                         magnificationFactor,
+                         MatrixOrder.Prepend);
         viewMatrix.Translate(0,
                              this.OutputHeight,
                              MatrixOrder.Append);
       }
       else if (viewRotation == ViewRotation.RotateBy90Degrees)
       {
-        viewMatrix.Rotate(270f);
+        viewMatrix.Scale(magnificationFactor,
+                         magnificationFactor,
+                         MatrixOrder.Prepend);
+        viewMatrix.Rotate(270f,
+                          MatrixOrder.Prepend);
       }
       else if (viewRotation == ViewRotation.RotateBy180Degrees)
       {

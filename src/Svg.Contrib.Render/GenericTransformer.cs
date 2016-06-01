@@ -329,10 +329,9 @@ namespace Svg.Contrib.Render
                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
       var deviceMatrix = this.CreateDeviceMatrix();
-      deviceMatrix.Scale(magnificationFactor,
-                         magnificationFactor);
 
       var viewMatrix = this.ApplyViewRotationOnDeviceMatrix(deviceMatrix,
+                                                            magnificationFactor,
                                                             viewRotation);
 
       return viewMatrix;
@@ -352,12 +351,20 @@ namespace Svg.Contrib.Render
     [NotNull]
     [MustUseReturnValue]
     protected virtual Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
+                                                             float magnificationFactor,
                                                              ViewRotation viewRotation = ViewRotation.Normal)
     {
       var viewMatrix = deviceMatrix.Clone();
 
-      if (viewRotation == ViewRotation.RotateBy90Degrees)
+      if (viewRotation == ViewRotation.Normal)
       {
+        viewMatrix.Scale(magnificationFactor,
+                         magnificationFactor);
+      }
+      else if (viewRotation == ViewRotation.RotateBy90Degrees)
+      {
+        viewMatrix.Scale(magnificationFactor,
+                         magnificationFactor);
         viewMatrix.Rotate(90f);
         viewMatrix.Translate(this.OutputWidth,
                              0,
@@ -366,6 +373,8 @@ namespace Svg.Contrib.Render
       else if (viewRotation == ViewRotation.RotateBy180Degrees)
       {
         // TODO test this orientation!
+        viewMatrix.Scale(magnificationFactor,
+                         magnificationFactor);
         viewMatrix.Rotate(180f);
         viewMatrix.Translate(-this.OutputWidth,
                              -this.OutputHeight,
@@ -373,6 +382,8 @@ namespace Svg.Contrib.Render
       }
       else if (viewRotation == ViewRotation.RotateBy270Degress)
       {
+        viewMatrix.Scale(magnificationFactor,
+                         magnificationFactor);
         viewMatrix.Rotate(270f);
         viewMatrix.Translate(0,
                              this.OutputHeight,
