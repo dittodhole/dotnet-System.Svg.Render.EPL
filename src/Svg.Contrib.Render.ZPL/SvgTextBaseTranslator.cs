@@ -26,7 +26,8 @@ namespace Svg.Contrib.Render.ZPL
     protected ZplCommands ZplCommands { get; }
 
     public override void Translate([NotNull] T svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] ZplContainer container)
     {
       if (svgElement.Text == null)
@@ -45,7 +46,8 @@ namespace Svg.Contrib.Render.ZPL
       int verticalStart;
       FieldOrientation fieldOrientation;
       this.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out horizontalStart,
                        out verticalStart,
                        out fieldOrientation,
@@ -85,7 +87,8 @@ namespace Svg.Contrib.Render.ZPL
 
     [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
-                                       [NotNull] Matrix matrix,
+                                       [NotNull] Matrix sourceMatrix,
+                                       [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
                                        out int verticalStart,
                                        out FieldOrientation fieldOrientation,
@@ -94,14 +97,16 @@ namespace Svg.Contrib.Render.ZPL
       float x;
       float y;
       this.ZplTransformer.Transform(svgElement,
-                                    matrix,
+                                    sourceMatrix,
+                                    viewMatrix,
                                     out x,
                                     out y,
                                     out fontSize);
 
       horizontalStart = (int) x;
       verticalStart = (int) y;
-      fieldOrientation = this.ZplTransformer.GetFieldOrientation(matrix);
+      fieldOrientation = this.ZplTransformer.GetFieldOrientation(sourceMatrix,
+                                                                 viewMatrix);
     }
 
     protected virtual void AddTranslationToContainer(int horizontalStart,

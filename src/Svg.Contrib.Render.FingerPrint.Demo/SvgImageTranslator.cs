@@ -26,7 +26,8 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
 
     [Pure]
     protected override void GetPosition([NotNull] SvgImage svgElement,
-                                        [NotNull] Matrix matrix,
+                                        [NotNull] Matrix sourceMatrix,
+                                        [NotNull] Matrix viewMatrix,
                                         out float sourceAlignmentWidth,
                                         out float sourceAlignmentHeight,
                                         out int horizontalStart,
@@ -34,7 +35,8 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
                                         out int sector)
     {
       base.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out sourceAlignmentWidth,
                        out sourceAlignmentHeight,
                        out horizontalStart,
@@ -61,7 +63,8 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
     }
 
     protected override void AddTranslationToContainer([NotNull] SvgImage svgElement,
-                                                      [NotNull] Matrix matrix,
+                                                      [NotNull] Matrix sourceMatrix,
+                                                      [NotNull] Matrix viewMatrix,
                                                       float sourceAlignmentWidth,
                                                       float sourceAlignmentHeight,
                                                       int horizontalStart,
@@ -73,7 +76,8 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       {
         var barcode = svgElement.CustomAttributes["data-barcode"];
         var height = (int) sourceAlignmentHeight;
-        var direction = this.FingerPrintTransformer.GetDirection(matrix);
+        var direction = this.FingerPrintTransformer.GetDirection(sourceMatrix,
+                                                                 viewMatrix);
 
         container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                              verticalStart));
@@ -105,7 +109,8 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       else
       {
         base.AddTranslationToContainer(svgElement,
-                                       matrix,
+                                       sourceMatrix,
+                                       viewMatrix,
                                        sourceAlignmentWidth,
                                        sourceAlignmentHeight,
                                        horizontalStart,

@@ -26,7 +26,8 @@ namespace Svg.Contrib.Render.ZPL.Demo
 
     [Pure]
     protected override void GetPosition([NotNull] SvgImage svgElement,
-                                        [NotNull] Matrix matrix,
+                                        [NotNull] Matrix sourceMatrix,
+                                        [NotNull] Matrix viewMatrix,
                                         out float sourceAlignmentWidth,
                                         out float sourceAlignmentHeight,
                                         out int horizontalStart,
@@ -34,7 +35,8 @@ namespace Svg.Contrib.Render.ZPL.Demo
                                         out int sector)
     {
       base.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out sourceAlignmentWidth,
                        out sourceAlignmentHeight,
                        out horizontalStart,
@@ -61,7 +63,8 @@ namespace Svg.Contrib.Render.ZPL.Demo
     }
 
     protected override void AddTranslationToContainer([NotNull] SvgImage svgElement,
-                                                      [NotNull] Matrix matrix,
+                                                      [NotNull] Matrix sourceMatrix,
+                                                      [NotNull] Matrix viewMatrix,
                                                       float sourceAlignmentWidth,
                                                       float sourceAlignmentHeight,
                                                       int horizontalStart,
@@ -74,7 +77,8 @@ namespace Svg.Contrib.Render.ZPL.Demo
         var barcode = svgElement.CustomAttributes["data-barcode"];
 
         var height = (int) sourceAlignmentHeight;
-        var fieldOrientation = this.ZplTransformer.GetFieldOrientation(matrix);
+        var fieldOrientation = this.ZplTransformer.GetFieldOrientation(sourceMatrix,
+                                                                       viewMatrix);
 
         if (svgElement.ID == "CargoIdBc")
         {
@@ -120,7 +124,8 @@ namespace Svg.Contrib.Render.ZPL.Demo
       else
       {
         base.AddTranslationToContainer(svgElement,
-                                       matrix,
+                                       sourceMatrix,
+                                       viewMatrix,
                                        sourceAlignmentWidth,
                                        sourceAlignmentHeight,
                                        horizontalStart,

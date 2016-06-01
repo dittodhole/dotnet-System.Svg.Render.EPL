@@ -59,7 +59,8 @@ namespace Svg.Contrib.Render
     [Pure]
     protected virtual void ApplyMatrixOnPoint(float x,
                                               float y,
-                                              [NotNull] Matrix matrix,
+                                              [NotNull] Matrix sourceMatrix,
+                                              [NotNull] Matrix viewMatrix,
                                               out float newX,
                                               out float newY)
     {
@@ -70,7 +71,8 @@ namespace Svg.Contrib.Render
                    {
                      originalPoint
                    };
-      matrix.TransformPoints(points);
+      sourceMatrix.TransformPoints(points);
+      viewMatrix.TransformPoints(points);
 
       var transformedPoint = points[0];
       newX = transformedPoint.X;
@@ -80,13 +82,15 @@ namespace Svg.Contrib.Render
     [Pure]
     [MustUseReturnValue]
     protected virtual float ApplyMatrixOnLength(float length,
-                                                [NotNull] Matrix matrix)
+                                                [NotNull] Matrix sourceMatrix,
+                                                [NotNull] Matrix viewMatrix)
     {
       var vector = new PointF(length,
                               0f);
 
       vector = this.ApplyMatrixOnVector(vector,
-                                        matrix);
+                                        sourceMatrix,
+                                        viewMatrix);
 
       var result = this.GetLengthOfVector(vector);
 
@@ -96,14 +100,16 @@ namespace Svg.Contrib.Render
     [Pure]
     [MustUseReturnValue]
     protected virtual PointF ApplyMatrixOnVector(PointF vector,
-                                                 [NotNull] Matrix matrix)
+                                                 [NotNull] Matrix sourceMatrix,
+                                                 [NotNull] Matrix viewMatrix)
     {
       var vectors = new[]
                     {
                       vector
                     };
 
-      matrix.TransformVectors(vectors);
+      sourceMatrix.TransformVectors(vectors);
+      viewMatrix.TransformVectors(vectors);
 
       var result = vectors[0];
 
@@ -123,7 +129,8 @@ namespace Svg.Contrib.Render
 
     [Pure]
     public virtual void Transform([NotNull] SvgLine svgLine,
-                                  [NotNull] Matrix matrix,
+                                  [NotNull] Matrix sourceMatrix,
+                                  [NotNull] Matrix viewMatrix,
                                   out float startX,
                                   out float startY,
                                   out float endX,
@@ -143,13 +150,15 @@ namespace Svg.Contrib.Render
 
       this.ApplyMatrixOnPoint(startX,
                               startY,
-                              matrix,
+                              sourceMatrix,
+                              viewMatrix,
                               out startX,
                               out startY);
 
       this.ApplyMatrixOnPoint(endX,
                               endY,
-                              matrix,
+                              sourceMatrix,
+                              viewMatrix,
                               out endX,
                               out endY);
 
@@ -168,12 +177,14 @@ namespace Svg.Contrib.Render
       }
 
       strokeWidth = this.ApplyMatrixOnLength(strokeWidth,
-                                             matrix);
+                                             sourceMatrix,
+                                             viewMatrix);
     }
 
     [Pure]
     public virtual void Transform([NotNull] SvgImage svgImage,
-                                  [NotNull] Matrix matrix,
+                                  [NotNull] Matrix sourceMatrix,
+                                  [NotNull] Matrix viewMatrix,
                                   out float startX,
                                   out float startY,
                                   out float endX,
@@ -194,13 +205,15 @@ namespace Svg.Contrib.Render
 
       this.ApplyMatrixOnPoint(startX,
                               startY,
-                              matrix,
+                              sourceMatrix,
+                              viewMatrix,
                               out startX,
                               out startY);
 
       this.ApplyMatrixOnPoint(endX,
                               endY,
-                              matrix,
+                              sourceMatrix,
+                              viewMatrix,
                               out endX,
                               out endY);
 
@@ -219,14 +232,17 @@ namespace Svg.Contrib.Render
       }
 
       sourceAlignmentWidth = this.ApplyMatrixOnLength(sourceAlignmentWidth,
-                                                      matrix);
+                                                      sourceMatrix,
+                                                      viewMatrix);
       sourceAlignmentHeight = this.ApplyMatrixOnLength(sourceAlignmentHeight,
-                                                       matrix);
+                                                       sourceMatrix,
+                                                       viewMatrix);
     }
 
     [Pure]
     public virtual void Transform([NotNull] SvgRectangle svgRectangle,
-                                  [NotNull] Matrix matrix,
+                                  [NotNull] Matrix sourceMatrix,
+                                  [NotNull] Matrix viewMatrix,
                                   out float startX,
                                   out float startY,
                                   out float endX,
@@ -246,13 +262,15 @@ namespace Svg.Contrib.Render
 
       this.ApplyMatrixOnPoint(startX,
                               startY,
-                              matrix,
+                              sourceMatrix,
+                              viewMatrix,
                               out startX,
                               out startY);
 
       this.ApplyMatrixOnPoint(endX,
                               endY,
-                              matrix,
+                              sourceMatrix,
+                              viewMatrix,
                               out endX,
                               out endY);
 
@@ -271,12 +289,14 @@ namespace Svg.Contrib.Render
       }
 
       strokeWidth = this.ApplyMatrixOnLength(strokeWidth,
-                                             matrix);
+                                             sourceMatrix,
+                                             viewMatrix);
     }
 
     [Pure]
     public virtual void Transform([NotNull] SvgTextBase svgTextBase,
-                                  [NotNull] Matrix matrix,
+                                  [NotNull] Matrix sourceMatrix,
+                                  [NotNull] Matrix viewMatrix,
                                   out float startX,
                                   out float startY,
                                   out float fontSize)
@@ -292,12 +312,14 @@ namespace Svg.Contrib.Render
 
       this.ApplyMatrixOnPoint(startX,
                               startY,
-                              matrix,
+                              sourceMatrix,
+                              viewMatrix,
                               out startX,
                               out startY);
 
       fontSize = this.ApplyMatrixOnLength(fontSize,
-                                          matrix);
+                                          sourceMatrix,
+                                          viewMatrix);
     }
 
     [Pure]
@@ -362,13 +384,15 @@ namespace Svg.Contrib.Render
 
     [Pure]
     [MustUseReturnValue]
-    public virtual int GetRotationSector([NotNull] Matrix matrix)
+    public virtual int GetRotationSector([NotNull] Matrix sourceMatrix,
+                                         [NotNull] Matrix viewMatrix)
     {
       var vector = new PointF(10f,
                               0f);
 
       vector = this.ApplyMatrixOnVector(vector,
-                                        matrix);
+                                        sourceMatrix,
+                                        viewMatrix);
 
       var radians = Math.Atan2(vector.Y,
                                vector.X);
@@ -387,7 +411,8 @@ namespace Svg.Contrib.Render
     [Pure]
     [MustUseReturnValue]
     public virtual Bitmap ConvertToBitmap([NotNull] SvgImage svgElement,
-                                          [NotNull] Matrix matrix,
+                                          [NotNull] Matrix sourceMatrix,
+                                          [NotNull] Matrix viewMatrix,
                                           int sourceAlignmentWidth,
                                           int sourceAlignmentHeight)
     {
@@ -441,7 +466,8 @@ namespace Svg.Contrib.Render
           }
         }
 
-        var rotateFlipType = (RotateFlipType) this.GetRotationSector(matrix);
+        var rotateFlipType = (RotateFlipType) this.GetRotationSector(sourceMatrix,
+                                                                     viewMatrix);
         bitmap.RotateFlip(rotateFlipType);
 
         return bitmap;

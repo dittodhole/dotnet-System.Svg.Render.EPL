@@ -24,7 +24,8 @@ namespace Svg.Contrib.Render.ZPL
     protected ZplCommands ZplCommands { get; }
 
     public override void Translate([NotNull] SvgLine svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] ZplContainer container)
     {
       int horizontalStart;
@@ -34,7 +35,8 @@ namespace Svg.Contrib.Render.ZPL
       int verticalEnd;
       float strokeWidth;
       this.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out horizontalStart,
                        out verticalStart,
                        out width,
@@ -73,7 +75,8 @@ namespace Svg.Contrib.Render.ZPL
 
     [Pure]
     protected virtual void GetPosition([NotNull] SvgLine svgElement,
-                                       [NotNull] Matrix matrix,
+                                       [NotNull] Matrix sourceMatrix,
+                                       [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
                                        out int verticalStart,
                                        out int width,
@@ -86,7 +89,8 @@ namespace Svg.Contrib.Render.ZPL
       float endX;
       float endY;
       this.ZplTransformer.Transform(svgElement,
-                                    matrix,
+                                    sourceMatrix,
+                                    viewMatrix,
                                     out startX,
                                     out startY,
                                     out endX,

@@ -28,26 +28,30 @@ namespace Svg.Contrib.Render.ZPL
     protected SvgUnitReader SvgUnitReader { get; }
 
     public override void Translate([NotNull] SvgRectangle svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] ZplContainer container)
     {
       if (svgElement.Fill != SvgPaintServer.None
           && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
       {
         this.TranslateFilledBox(svgElement,
-                                matrix,
+                                sourceMatrix,
+                                viewMatrix,
                                 container);
       }
       else if (svgElement.Stroke != SvgPaintServer.None)
       {
         this.TranslateBox(svgElement,
-                          matrix,
+                          sourceMatrix,
+                          viewMatrix,
                           container);
       }
     }
 
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
-                                              [NotNull] Matrix matrix,
+                                              [NotNull] Matrix sourceMatrix,
+                                              [NotNull] Matrix viewMatrix,
                                               [NotNull] ZplContainer container)
     {
       // TODO fix this! square gets rendered ...
@@ -74,7 +78,8 @@ namespace Svg.Contrib.Render.ZPL
 
       float strokeWidth;
       this.ZplTransformer.Transform(svgLine,
-                                    matrix,
+                                    sourceMatrix,
+                                    viewMatrix,
                                     out startX,
                                     out startY,
                                     out endX,
@@ -87,7 +92,8 @@ namespace Svg.Contrib.Render.ZPL
       int height;
       int thickness;
 
-      var sector = this.ZplTransformer.GetRotationSector(matrix);
+      var sector = this.ZplTransformer.GetRotationSector(sourceMatrix,
+                                                         viewMatrix);
       if (sector % 2 == 0)
       {
         width = (int) (endX - startX);
@@ -110,7 +116,8 @@ namespace Svg.Contrib.Render.ZPL
     }
 
     protected virtual void TranslateBox([NotNull] SvgRectangle instance,
-                                        [NotNull] Matrix matrix,
+                                        [NotNull] Matrix sourceMatrix,
+                                        [NotNull] Matrix viewMatrix,
                                         [NotNull] ZplContainer container)
     {
       float startX;
@@ -119,7 +126,8 @@ namespace Svg.Contrib.Render.ZPL
       float endY;
       float strokeWidth;
       this.ZplTransformer.Transform(instance,
-                                    matrix,
+                                    sourceMatrix,
+                                    viewMatrix,
                                     out startX,
                                     out startY,
                                     out endX,

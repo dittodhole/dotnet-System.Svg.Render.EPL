@@ -14,14 +14,16 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
 
     [Pure]
     protected override void GetPosition([NotNull] T svgElement,
-                                        [NotNull] Matrix matrix,
+                                        [NotNull] Matrix sourceMatrix,
+                                        [NotNull] Matrix viewMatrix,
                                         out int horizontalStart,
                                         out int verticalStart,
                                         out float fontSize,
                                         out Direction direction)
     {
       base.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out horizontalStart,
                        out verticalStart,
                        out fontSize,

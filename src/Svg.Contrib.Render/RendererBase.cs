@@ -125,43 +125,36 @@ namespace Svg.Contrib.Render
         }
       }
 
-      var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
+      sourceMatrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
                                                              sourceMatrix);
 
       this.TranslateSvgElement(svgElement,
-                               matrix,
+                               sourceMatrix,
                                viewMatrix,
                                container);
 
       foreach (var child in svgElement.Children)
       {
         this.TranslateSvgElementAndChildren(child,
-                                            matrix,
+                                            sourceMatrix,
                                             viewMatrix,
                                             container);
       }
     }
 
     protected virtual void TranslateSvgElement([NotNull] SvgElement svgElement,
-                                               [NotNull] Matrix matrix,
+                                               [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
                                                [NotNull] TContainer container)
     {
       var type = svgElement.GetType();
 
       var svgElementTranslator = this.GetTranslator(type);
-      if (svgElementTranslator == null)
-      {
-        return;
-      }
 
-      matrix = matrix.Clone();
-      matrix.Multiply(viewMatrix,
-                      MatrixOrder.Append);
-
-      svgElementTranslator.Translate(svgElement,
-                                     matrix,
-                                     container);
+      svgElementTranslator?.Translate(svgElement,
+                                      sourceMatrix,
+                                      viewMatrix,
+                                      container);
     }
   }
 }

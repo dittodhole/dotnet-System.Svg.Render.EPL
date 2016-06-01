@@ -46,9 +46,11 @@ namespace Svg.Contrib.Render.ZPL
 
     [Pure]
     [MustUseReturnValue]
-    public virtual FieldOrientation GetFieldOrientation([NotNull] Matrix matrix)
+    public virtual FieldOrientation GetFieldOrientation([NotNull] Matrix sourceMatrix,
+                                                        [NotNull] Matrix viewMatrix)
     {
-      var sector = this.GetRotationSector(matrix);
+      var sector = this.GetRotationSector(sourceMatrix,
+                                          viewMatrix);
 
       // ReSharper disable ExceptionNotDocumentedOptional
       var fieldOrientation = this.SectorMappings[sector];
@@ -59,7 +61,8 @@ namespace Svg.Contrib.Render.ZPL
 
     [Pure]
     public override void Transform([NotNull] SvgImage svgImage,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    out float startX,
                                    out float startY,
                                    out float endX,
@@ -68,7 +71,8 @@ namespace Svg.Contrib.Render.ZPL
                                    out float sourceAlignmentHeight)
     {
       base.Transform(svgImage,
-                     matrix,
+                     sourceMatrix,
+                     viewMatrix,
                      out startX,
                      out startY,
                      out endX,
@@ -97,18 +101,21 @@ namespace Svg.Contrib.Render.ZPL
 
     [Pure]
     public override void Transform([NotNull] SvgTextBase svgTextBase,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    out float startX,
                                    out float startY,
                                    out float fontSize)
     {
       base.Transform(svgTextBase,
-                     matrix,
+                     sourceMatrix,
+                     viewMatrix,
                      out startX,
                      out startY,
                      out fontSize);
 
-      if (this.GetRotationSector(matrix) % 2 == 0)
+      if (this.GetRotationSector(sourceMatrix,
+                                 viewMatrix) % 2 == 0)
       {
         startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
       }
@@ -120,7 +127,8 @@ namespace Svg.Contrib.Render.ZPL
 
     [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    out float startX,
                                    out float startY,
                                    out float endX,
@@ -128,7 +136,8 @@ namespace Svg.Contrib.Render.ZPL
                                    out float strokeWidth)
     {
       base.Transform(svgRectangle,
-                     matrix,
+                     sourceMatrix,
+                     viewMatrix,
                      out startX,
                      out startY,
                      out endX,

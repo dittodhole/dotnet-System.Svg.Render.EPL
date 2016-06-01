@@ -184,7 +184,8 @@ namespace Svg.Contrib.Render.EPL
 
     [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    out float startX,
                                    out float startY,
                                    out float endX,
@@ -192,7 +193,8 @@ namespace Svg.Contrib.Render.EPL
                                    out float strokeWidth)
     {
       base.Transform(svgRectangle,
-                     matrix,
+                     sourceMatrix,
+                     viewMatrix,
                      out startX,
                      out startY,
                      out endX,

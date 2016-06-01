@@ -28,7 +28,8 @@ namespace Svg.Contrib.Render.EPL
     protected EplCommands EplCommands { get; }
 
     public override void Translate([NotNull] T svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] EplContainer container)
     {
       if (svgElement.Text == null)
@@ -47,7 +48,8 @@ namespace Svg.Contrib.Render.EPL
       int verticalStart;
       int sector;
       this.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out horizontalStart,
                        out verticalStart,
                        out sector,
@@ -75,7 +77,8 @@ namespace Svg.Contrib.Render.EPL
 
     [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
-                                       [NotNull] Matrix matrix,
+                                       [NotNull] Matrix sourceMatrix,
+                                       [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
                                        out int verticalStart,
                                        out int sector,
@@ -84,14 +87,16 @@ namespace Svg.Contrib.Render.EPL
       float x;
       float y;
       this.EplTransformer.Transform(svgElement,
-                                    matrix,
+                                    sourceMatrix,
+                                    viewMatrix,
                                     out x,
                                     out y,
                                     out fontSize);
 
       horizontalStart = (int) x;
       verticalStart = (int) y;
-      sector = this.EplTransformer.GetRotationSector(matrix);
+      sector = this.EplTransformer.GetRotationSector(sourceMatrix,
+                                                     viewMatrix);
     }
 
     [NotNull]

@@ -24,7 +24,8 @@ namespace Svg.Contrib.Render.FingerPrint
     protected FingerPrintCommands FingerPrintCommands { get; }
 
     public override void Translate([NotNull] SvgPath svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] FingerPrintContainer container)
     {
       // TODO translate C (curveto)
@@ -46,14 +47,16 @@ namespace Svg.Contrib.Render.FingerPrint
       {
         this.TranslateSvgLineSegment(svgElement,
                                      svgLineSegment,
-                                     matrix,
+                                     sourceMatrix,
+                                     viewMatrix,
                                      container);
       }
     }
 
     protected virtual void TranslateSvgLineSegment([NotNull] SvgPath instance,
                                                    [NotNull] SvgLineSegment svgLineSegment,
-                                                   [NotNull] Matrix matrix,
+                                                   [NotNull] Matrix sourceMatrix,
+                                                   [NotNull] Matrix viewMatrix,
                                                    [NotNull] FingerPrintContainer container)
     {
       var svgLine = new SvgLine
@@ -73,7 +76,8 @@ namespace Svg.Contrib.Render.FingerPrint
       float endY;
       float strokeWidth;
       this.FingerPrintTransformer.Transform(svgLine,
-                                            matrix,
+                                            sourceMatrix,
+                                            viewMatrix,
                                             out startX,
                                             out startY,
                                             out endX,

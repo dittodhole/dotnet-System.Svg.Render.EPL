@@ -9,13 +9,16 @@ namespace Svg.Contrib.Render
     where TContainer : Container
   {
     void ISvgElementTranslator<TContainer>.Translate([NotNull] SvgElement svgElement,
-                                                     [NotNull] Matrix matrix,
+                                                     [NotNull] Matrix sourceMatrix,
+                                                     [NotNull] Matrix viewMatrix,
                                                      [NotNull] TContainer container) => this.Translate((TSvgElement) svgElement,
-                                                                                                       matrix,
+                                                                                                       sourceMatrix,
+                                                                                                       viewMatrix,
                                                                                                        container);
 
     public abstract void Translate([NotNull] TSvgElement svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] TContainer container);
   }
 }

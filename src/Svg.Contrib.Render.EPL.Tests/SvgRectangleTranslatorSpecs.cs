@@ -27,6 +27,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       {
         this.SvgRectangleTranslator.Translate(this.SvgRectangle,
                                               this.Matrix,
+                                              this.Matrix,
                                               this.EplContainer);
 
         base.BecauseOf();

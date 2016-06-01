@@ -91,7 +91,7 @@ namespace Svg.Contrib.Render.EPL
 
     protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
                                                   [NotNull] Matrix sourceMatrix,
-                                                  Matrix viewMatrix,
+                                                  [NotNull] Matrix viewMatrix,
                                                   [NotNull] EplContainer eplContainer)
     {
       eplContainer.Footer.Add(this.EplCommands.Print(1));

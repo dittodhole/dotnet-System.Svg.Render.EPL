@@ -39,7 +39,8 @@ namespace Svg.Contrib.Render.ZPL
     }
 
     protected override void GraphicDirectWrite([NotNull] SvgImage svgElement,
-                                               [NotNull] Matrix matrix,
+                                               [NotNull] Matrix sourceMatrix,
+                                               [NotNull] Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
@@ -47,7 +48,8 @@ namespace Svg.Contrib.Render.ZPL
                                                [NotNull] ZplContainer container)
     {
       using (var bitmap = this.ZplTransformer.ConvertToBitmap(svgElement,
-                                                              matrix,
+                                                              sourceMatrix,
+                                                              viewMatrix,
                                                               (int) sourceAlignmentWidth,
                                                               (int) sourceAlignmentHeight))
       {
@@ -69,7 +71,8 @@ namespace Svg.Contrib.Render.ZPL
     }
 
     protected override void PrintGraphics([NotNull] SvgImage svgElement,
-                                          [NotNull] Matrix matrix,
+                                          [NotNull] Matrix sourceMatrix,
+                                          [NotNull] Matrix viewMatrix,
                                           int horizontalStart,
                                           int verticalStart,
                                           int sector,

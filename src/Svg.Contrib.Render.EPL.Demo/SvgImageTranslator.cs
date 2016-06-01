@@ -25,7 +25,8 @@ namespace Svg.Contrib.Render.EPL.Demo
 
     [Pure]
     protected override void GetPosition([NotNull] SvgImage svgElement,
-                                        [NotNull] Matrix matrix,
+                                        [NotNull] Matrix sourceMatrix,
+                                        [NotNull] Matrix viewMatrix,
                                         out float sourceAlignmentWidth,
                                         out float sourceAlignmentHeight,
                                         out int horizontalStart,
@@ -33,7 +34,8 @@ namespace Svg.Contrib.Render.EPL.Demo
                                         out int sector)
     {
       base.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out sourceAlignmentWidth,
                        out sourceAlignmentHeight,
                        out horizontalStart,
@@ -59,7 +61,8 @@ namespace Svg.Contrib.Render.EPL.Demo
     }
 
     protected override void AddTranslationToContainer([NotNull] SvgImage svgElement,
-                                                      [NotNull] Matrix matrix,
+                                                      [NotNull] Matrix sourceMatrix,
+                                                      [NotNull] Matrix viewMatrix,
                                                       float sourceAlignmentWidth,
                                                       float sourceAlignmentHeight,
                                                       int horizontalStart,
@@ -96,7 +99,8 @@ namespace Svg.Contrib.Render.EPL.Demo
       }
 
       base.AddTranslationToContainer(svgElement,
-                                     matrix,
+                                     sourceMatrix,
+                                     viewMatrix,
                                      sourceAlignmentWidth,
                                      sourceAlignmentHeight,
                                      horizontalStart,

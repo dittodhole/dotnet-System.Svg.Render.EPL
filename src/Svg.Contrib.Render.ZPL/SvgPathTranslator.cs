@@ -24,7 +24,8 @@ namespace Svg.Contrib.Render.ZPL
     protected ZplCommands ZplCommands { get; }
 
     public override void Translate([NotNull] SvgPath svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] ZplContainer container)
     {
       // TODO translate C (curveto)
@@ -46,14 +47,16 @@ namespace Svg.Contrib.Render.ZPL
       {
         this.TranslateSvgLineSegment(svgElement,
                                      svgLineSegment,
-                                     matrix,
+                                     sourceMatrix,
+                                     viewMatrix,
                                      container);
       }
     }
 
     protected virtual void TranslateSvgLineSegment([NotNull] SvgPath instance,
                                                    [NotNull] SvgLineSegment svgLineSegment,
-                                                   [NotNull] Matrix matrix,
+                                                   [NotNull] Matrix sourceMatrix,
+                                                   [NotNull] Matrix viewMatrix,
                                                    [NotNull] ZplContainer container)
     {
       var svgLine = new SvgLine
@@ -73,7 +76,8 @@ namespace Svg.Contrib.Render.ZPL
       float endY;
       float strokeWidth;
       this.ZplTransformer.Transform(svgLine,
-                                    matrix,
+                                    sourceMatrix,
+                                    viewMatrix,
                                     out startX,
                                     out startY,
                                     out endX,

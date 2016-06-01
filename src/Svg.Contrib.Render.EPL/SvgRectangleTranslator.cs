@@ -28,27 +28,31 @@ namespace Svg.Contrib.Render.EPL
     protected SvgUnitReader SvgUnitReader { get; }
 
     public override void Translate([NotNull] SvgRectangle svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] EplContainer container)
     {
       if (svgElement.Fill != SvgPaintServer.None
           && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
       {
         this.TranslateFilledBox(svgElement,
-                                matrix,
+                                sourceMatrix,
+                                viewMatrix,
                                 container);
       }
 
       if (svgElement.Stroke != SvgPaintServer.None)
       {
         this.TranslateBox(svgElement,
-                          matrix,
+                          sourceMatrix,
+                          viewMatrix,
                           container);
       }
     }
 
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
-                                              [NotNull] Matrix matrix,
+                                              [NotNull] Matrix sourceMatrix,
+                                              [NotNull] Matrix viewMatrix,
                                               [NotNull] EplContainer container)
     {
       int horizontalStart;
@@ -57,7 +61,8 @@ namespace Svg.Contrib.Render.EPL
       int horizontalEnd;
       int verticalEnd;
       this.GetPosition(instance,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out horizontalStart,
                        out verticalStart,
                        out lineThickness,
@@ -74,7 +79,8 @@ namespace Svg.Contrib.Render.EPL
     }
 
     protected virtual void TranslateBox([NotNull] SvgRectangle instance,
-                                        [NotNull] Matrix matrix,
+                                        [NotNull] Matrix sourceMatrix,
+                                        [NotNull] Matrix viewMatrix,
                                         [NotNull] EplContainer container)
     {
       int horizontalStart;
@@ -83,7 +89,8 @@ namespace Svg.Contrib.Render.EPL
       int horizontalEnd;
       int verticalEnd;
       this.GetPosition(instance,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out horizontalStart,
                        out verticalStart,
                        out lineThickness,
@@ -99,7 +106,8 @@ namespace Svg.Contrib.Render.EPL
 
     [Pure]
     protected virtual void GetPosition([NotNull] SvgRectangle instance,
-                                       [NotNull] Matrix matrix,
+                                       [NotNull] Matrix sourceMatrix,
+                                       [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
                                        out int verticalStart,
                                        out int lineThickness,
@@ -112,7 +120,8 @@ namespace Svg.Contrib.Render.EPL
       float endY;
       float strokeWidth;
       this.EplTransformer.Transform(instance,
-                                    matrix,
+                                    sourceMatrix,
+                                    viewMatrix,
                                     out startX,
                                     out startY,
                                     out endX,

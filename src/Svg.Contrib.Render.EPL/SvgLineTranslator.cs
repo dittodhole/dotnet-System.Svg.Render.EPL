@@ -24,7 +24,8 @@ namespace Svg.Contrib.Render.EPL
     protected EplCommands EplCommands { get; }
 
     public override void Translate([NotNull] SvgLine svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] EplContainer container)
 
     {
@@ -35,7 +36,8 @@ namespace Svg.Contrib.Render.EPL
       int verticalEnd;
       float strokeWidth;
       this.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out horizontalStart,
                        out verticalStart,
                        out horizontalLength,
@@ -55,7 +57,8 @@ namespace Svg.Contrib.Render.EPL
 
     [Pure]
     protected virtual void GetPosition([NotNull] SvgLine svgElement,
-                                       [NotNull] Matrix matrix,
+                                       [NotNull] Matrix sourceMatrix,
+                                       [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
                                        out int verticalStart,
                                        out int horizontalLength,
@@ -68,7 +71,8 @@ namespace Svg.Contrib.Render.EPL
       float endX;
       float endY;
       this.EplTransformer.Transform(svgElement,
-                                    matrix,
+                                    sourceMatrix,
+                                    viewMatrix,
                                     out startX,
                                     out startY,
                                     out endX,

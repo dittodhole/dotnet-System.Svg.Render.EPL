@@ -26,6 +26,7 @@ namespace Svg.Contrib.Render.ZPL.Tests
       {
         this.SvgTextTranslator.Translate(this.SvgText,
                                          this.Matrix,
+                                         this.Matrix,
                                          this.ZplContainer);
 
         base.BecauseOf();

@@ -27,7 +27,8 @@ namespace Svg.Contrib.Render.FingerPrint
     protected FingerPrintCommands FingerPrintCommands { get; }
 
     public override void Translate([NotNull] T svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] FingerPrintContainer container)
     {
       if (svgElement.Text == null)
@@ -46,7 +47,8 @@ namespace Svg.Contrib.Render.FingerPrint
       int verticalStart;
       Direction direction;
       this.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out horizontalStart,
                        out verticalStart,
                        out fontSize,
@@ -87,7 +89,8 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
-                                       [NotNull] Matrix matrix,
+                                       [NotNull] Matrix sourceMatrix,
+                                       [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
                                        out int verticalStart,
                                        out float fontSize,
@@ -96,7 +99,8 @@ namespace Svg.Contrib.Render.FingerPrint
       float x;
       float y;
       this.FingerPrintTransformer.Transform(svgElement,
-                                            matrix,
+                                            sourceMatrix,
+                                            viewMatrix,
                                             out x,
                                             out y,
                                             out fontSize,

@@ -26,7 +26,8 @@ namespace Svg.Contrib.Render
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; } = new Dictionary<string, string>();
 
     protected virtual void StoreGraphics([NotNull] SvgImage svgElement,
-                                         [NotNull] Matrix matrix,
+                                         [NotNull] Matrix sourceMatrix,
+                                         [NotNull] Matrix viewMatrix,
                                          float sourceAlignmentWidth,
                                          float sourceAlignmentHeight,
                                          int horizontalStart,
@@ -45,7 +46,8 @@ namespace Svg.Contrib.Render
         this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
 
         using (var bitmap = this.GenericTransformer.ConvertToBitmap(svgElement,
-                                                                    matrix,
+                                                                    sourceMatrix,
+                                                                    viewMatrix,
                                                                     (int) sourceAlignmentWidth,
                                                                     (int) sourceAlignmentHeight))
         {
@@ -67,7 +69,8 @@ namespace Svg.Contrib.Render
                                           [NotNull] TContainer container);
 
     public override void Translate([NotNull] SvgImage svgElement,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    [NotNull] TContainer container)
 
     {
@@ -77,7 +80,8 @@ namespace Svg.Contrib.Render
       int verticalStart;
       int sector;
       this.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out sourceAlignmentWidth,
                        out sourceAlignmentHeight,
                        out horizontalStart,
@@ -85,7 +89,8 @@ namespace Svg.Contrib.Render
                        out sector);
 
       this.AddTranslationToContainer(svgElement,
-                                     matrix,
+                                     sourceMatrix,
+                                     viewMatrix,
                                      sourceAlignmentWidth,
                                      sourceAlignmentHeight,
                                      horizontalStart,
@@ -96,7 +101,8 @@ namespace Svg.Contrib.Render
 
     [Pure]
     protected virtual void GetPosition([NotNull] SvgImage svgElement,
-                                       [NotNull] Matrix matrix,
+                                       [NotNull] Matrix sourceMatrix,
+                                       [NotNull] Matrix viewMatrix,
                                        out float sourceAlignmentWidth,
                                        out float sourceAlignmentHeight,
                                        out int horizontalStart,
@@ -108,7 +114,8 @@ namespace Svg.Contrib.Render
       float endX;
       float endY;
       this.GenericTransformer.Transform(svgElement,
-                                        matrix,
+                                        sourceMatrix,
+                                        viewMatrix,
                                         out startX,
                                         out startY,
                                         out endX,
@@ -118,11 +125,13 @@ namespace Svg.Contrib.Render
 
       horizontalStart = (int) startX;
       verticalStart = (int) startY;
-      sector = this.GenericTransformer.GetRotationSector(matrix);
+      sector = this.GenericTransformer.GetRotationSector(sourceMatrix,
+                                                         viewMatrix);
     }
 
     protected virtual void AddTranslationToContainer([NotNull] SvgImage svgElement,
-                                                     [NotNull] Matrix matrix,
+                                                     [NotNull] Matrix sourceMatrix,
+                                                     [NotNull] Matrix viewMatrix,
                                                      float sourceAlignmentWidth,
                                                      float sourceAlignmentHeight,
                                                      int horizontalStart,
@@ -134,7 +143,8 @@ namespace Svg.Contrib.Render
       if (forceDirectWrite)
       {
         this.GraphicDirectWrite(svgElement,
-                                matrix,
+                                sourceMatrix,
+                                viewMatrix,
                                 sourceAlignmentWidth,
                                 sourceAlignmentHeight,
                                 horizontalStart,
@@ -145,7 +155,8 @@ namespace Svg.Contrib.Render
       {
         string variableName;
         this.StoreGraphics(svgElement,
-                           matrix,
+                           sourceMatrix,
+                           viewMatrix,
                            sourceAlignmentWidth,
                            sourceAlignmentHeight,
                            horizontalStart,
@@ -155,7 +166,8 @@ namespace Svg.Contrib.Render
         if (variableName != null)
         {
           this.PrintGraphics(svgElement,
-                             matrix,
+                             sourceMatrix,
+                             viewMatrix,
                              horizontalStart,
                              verticalStart,
                              sector,
@@ -166,7 +178,8 @@ namespace Svg.Contrib.Render
     }
 
     protected abstract void GraphicDirectWrite([NotNull] SvgImage svgElement,
-                                               [NotNull] Matrix matrix,
+                                               [NotNull] Matrix sourceMatrix,
+                                               [NotNull] Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
@@ -196,7 +209,8 @@ namespace Svg.Contrib.Render
     }
 
     protected abstract void PrintGraphics([NotNull] SvgImage svgElement,
-                                          [NotNull] Matrix matrix,
+                                          [NotNull] Matrix sourceMatrix,
+                                          [NotNull] Matrix viewMatrix,
                                           int horizontalStart,
                                           int verticalStart,
                                           int sector,

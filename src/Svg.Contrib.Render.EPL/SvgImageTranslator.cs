@@ -38,7 +38,8 @@ namespace Svg.Contrib.Render.EPL
     }
 
     protected override void GraphicDirectWrite([NotNull] SvgImage svgElement,
-                                               [NotNull] Matrix matrix,
+                                               [NotNull] Matrix sourceMatrix,
+                                               [NotNull] Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
@@ -46,7 +47,8 @@ namespace Svg.Contrib.Render.EPL
                                                [NotNull] EplContainer container)
     {
       using (var bitmap = this.EplTransformer.ConvertToBitmap(svgElement,
-                                                              matrix,
+                                                              sourceMatrix,
+                                                              viewMatrix,
                                                               (int) sourceAlignmentWidth,
                                                               (int) sourceAlignmentHeight))
       {
@@ -70,7 +72,8 @@ namespace Svg.Contrib.Render.EPL
     }
 
     protected override void PrintGraphics([NotNull] SvgImage svgElement,
-                                          [NotNull] Matrix matrix,
+                                          [NotNull] Matrix sourceMatrix,
+                                          [NotNull] Matrix viewMatrix,
                                           int horizontalStart,
                                           int verticalStart,
                                           int sector,

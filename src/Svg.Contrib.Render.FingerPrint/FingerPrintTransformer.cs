@@ -83,7 +83,8 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix matrix,
+                                   [NotNull] Matrix sourceMatrix,
+                                   [NotNull] Matrix viewMatrix,
                                    out float startX,
                                    out float startY,
                                    out float endX,
@@ -91,7 +92,8 @@ namespace Svg.Contrib.Render.FingerPrint
                                    out float strokeWidth)
     {
       base.Transform(svgRectangle,
-                     matrix,
+                     sourceMatrix,
+                     viewMatrix,
                      out startX,
                      out startY,
                      out endX,
@@ -106,7 +108,8 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [Pure]
     public void Transform([NotNull] SvgTextBase svgTextBase,
-                          [NotNull] Matrix matrix,
+                          [NotNull] Matrix sourceMatrix,
+                          [NotNull] Matrix viewMatrix,
                           out float startX,
                           out float startY,
                           out float fontSize,
@@ -119,7 +122,8 @@ namespace Svg.Contrib.Render.FingerPrint
       fontSize = this.SvgUnitReader.GetValue(svgTextBase,
                                              svgTextBase.FontSize);
 
-      direction = this.GetDirection(matrix);
+      direction = this.GetDirection(sourceMatrix,
+                                    viewMatrix);
 
       if ((int) direction % 2 > 0)
       {
@@ -128,16 +132,19 @@ namespace Svg.Contrib.Render.FingerPrint
 
       this.ApplyMatrixOnPoint(startX,
                               startY,
-                              matrix,
+                              sourceMatrix,
+                              viewMatrix,
                               out startX,
                               out startY);
     }
 
     [MustUseReturnValue]
     [Pure]
-    public virtual Direction GetDirection([NotNull] Matrix matrix)
+    public virtual Direction GetDirection([NotNull] Matrix sourceMatrix,
+                                          [NotNull] Matrix viewMatrix)
     {
-      var sector = this.GetRotationSector(matrix);
+      var sector = this.GetRotationSector(sourceMatrix,
+                                          viewMatrix);
       var direction = (Direction) ((4 - sector) % 4 + 1);
 
       return direction;

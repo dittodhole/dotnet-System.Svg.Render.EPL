@@ -36,7 +36,8 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     protected override void GraphicDirectWrite([NotNull] SvgImage svgElement,
-                                               [NotNull] Matrix matrix,
+                                               [NotNull] Matrix sourceMatrix,
+                                               [NotNull] Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
@@ -45,7 +46,8 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       throw new NotImplementedException();
       using (var bitmap = this.FingerPrintTransformer.ConvertToBitmap(svgElement,
-                                                                      matrix,
+                                                                      sourceMatrix,
+                                                                      viewMatrix,
                                                                       (int) sourceAlignmentWidth,
                                                                       (int) sourceAlignmentHeight))
       {
@@ -70,7 +72,8 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     protected override void PrintGraphics([NotNull] SvgImage svgElement,
-                                          [NotNull] Matrix matrix,
+                                          [NotNull] Matrix sourceMatrix,
+                                          [NotNull] Matrix viewMatrix,
                                           int horizontalStart,
                                           int verticalStart,
                                           int sector,
@@ -99,7 +102,8 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [Pure]
     protected override void GetPosition([NotNull] SvgImage svgElement,
-                                        [NotNull] Matrix matrix,
+                                        [NotNull] Matrix sourceMatrix,
+                                        [NotNull] Matrix viewMatrix,
                                         out float sourceAlignmentWidth,
                                         out float sourceAlignmentHeight,
                                         out int horizontalStart,
@@ -107,7 +111,8 @@ namespace Svg.Contrib.Render.FingerPrint
                                         out int sector)
     {
       base.GetPosition(svgElement,
-                       matrix,
+                       sourceMatrix,
+                       viewMatrix,
                        out sourceAlignmentWidth,
                        out sourceAlignmentHeight,
                        out horizontalStart,
