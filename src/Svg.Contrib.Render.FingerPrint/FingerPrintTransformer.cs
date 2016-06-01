@@ -53,8 +53,8 @@ namespace Svg.Contrib.Render.FingerPrint
 
       if (viewRotation == ViewRotation.Normal)
       {
-        viewMatrix.Translate(0,
-                             this.OutputHeight,
+        viewMatrix.Translate(10,
+                             this.OutputHeight - 33,
                              MatrixOrder.Append);
       }
       else if (viewRotation == ViewRotation.RotateBy90Degrees)
@@ -121,11 +121,7 @@ namespace Svg.Contrib.Render.FingerPrint
 
       direction = this.GetDirection(matrix);
 
-      if ((int) direction % 2 == 0)
-      {
-        //startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
-      }
-      else
+      if ((int) direction % 2 > 0)
       {
         startX -= fontSize / this.GetLineHeightFactor(svgTextBase);
       }
