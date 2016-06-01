@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using JetBrains.Annotations;
 
 // ReSharper disable VirtualMemberNeverOverriden.Global
@@ -61,9 +62,11 @@ namespace Svg.Contrib.Render
         }
       }
 
-      sourceMatrix = sourceMatrix.Clone();
-      sourceMatrix.Multiply(svgElement.Transforms.GetMatrix(),
-                            MatrixOrder.Append);
+      if (svgElement.Transforms.Any())
+      {
+        sourceMatrix = sourceMatrix.Clone();
+        sourceMatrix.Multiply(svgElement.Transforms.GetMatrix());
+      }
 
       this.TranslateSvgElement(svgElement,
                                sourceMatrix,
