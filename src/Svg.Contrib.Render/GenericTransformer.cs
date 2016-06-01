@@ -358,14 +358,19 @@ namespace Svg.Contrib.Render
 
       if (viewRotation == ViewRotation.Normal)
       {
+        // TODO test this orientation!
         viewMatrix.Scale(magnificationFactor,
-                         magnificationFactor);
+                         magnificationFactor,
+                         MatrixOrder.Prepend);
       }
       else if (viewRotation == ViewRotation.RotateBy90Degrees)
       {
+        // TODO test this orientation!
         viewMatrix.Scale(magnificationFactor,
-                         magnificationFactor);
-        viewMatrix.Rotate(90f);
+                         magnificationFactor,
+                         MatrixOrder.Prepend);
+        viewMatrix.Rotate(90f,
+                          MatrixOrder.Prepend);
         viewMatrix.Translate(this.OutputWidth,
                              0,
                              MatrixOrder.Append);
@@ -374,17 +379,22 @@ namespace Svg.Contrib.Render
       {
         // TODO test this orientation!
         viewMatrix.Scale(magnificationFactor,
-                         magnificationFactor);
-        viewMatrix.Rotate(180f);
+                         magnificationFactor,
+                         MatrixOrder.Prepend);
+        viewMatrix.Rotate(180f,
+                          MatrixOrder.Prepend);
         viewMatrix.Translate(-this.OutputWidth,
                              -this.OutputHeight,
                              MatrixOrder.Append);
       }
       else if (viewRotation == ViewRotation.RotateBy270Degress)
       {
+        // TODO test this orientation!
         viewMatrix.Scale(magnificationFactor,
-                         magnificationFactor);
-        viewMatrix.Rotate(270f);
+                         magnificationFactor,
+                         MatrixOrder.Prepend);
+        viewMatrix.Rotate(270f,
+                          MatrixOrder.Prepend);
         viewMatrix.Translate(0,
                              this.OutputHeight,
                              MatrixOrder.Append);
