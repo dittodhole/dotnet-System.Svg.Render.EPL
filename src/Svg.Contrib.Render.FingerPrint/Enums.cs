@@ -34,4 +34,14 @@ namespace Svg.Contrib.Render.FingerPrint
   {
     Utf8 = 8
   }
+
+  [PublicAPI]
+  public enum BarCodeType
+  {
+    Code128,
+    Code128A,
+    Code128B,
+    Code128C,
+    Interleaved2Of5
+  }
 }

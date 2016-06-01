@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 
@@ -10,6 +11,27 @@ namespace Svg.Contrib.Render.FingerPrint
   [PublicAPI]
   public class FingerPrintCommands
   {
+    [NotNull]
+    [ItemNotNull]
+    private IDictionary<BarCodeType, string> BarCodeTypeMappings { get; } = new Dictionary<BarCodeType, string>
+                                                                            {
+                                                                              {
+                                                                                FingerPrint.BarCodeType.Code128, "CODE128"
+                                                                              },
+                                                                              {
+                                                                                FingerPrint.BarCodeType.Code128A, "CODE128A"
+                                                                              },
+                                                                              {
+                                                                                FingerPrint.BarCodeType.Code128B, "CODE128B"
+                                                                              },
+                                                                              {
+                                                                                FingerPrint.BarCodeType.Code128C, "CODE128C"
+                                                                              },
+                                                                              {
+                                                                                FingerPrint.BarCodeType.Interleaved2Of5, "INT2OF5"
+                                                                              }
+                                                                            };
+
     [NotNull]
     [Pure]
     [MustUseReturnValue]
@@ -166,10 +188,53 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
+    public virtual string PrintBarCode([NotNull] string data)
+    {
+      return $@"PB ""{data}""";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
     public virtual string Magnify(int widthFactor,
                                   int heightFactor)
     {
       return $"MAG {heightFactor},{widthFactor}";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string BarCodeMagnify(int widthFactor)
+    {
+      return $"BM {widthFactor}";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string BarCodeHeight(int height)
+    {
+      return $"BH {height}";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string BarCodeRatio(int wideBarFactor,
+                                       decimal narrowBarFactor)
+    {
+      return $"BR {wideBarFactor},{narrowBarFactor}";
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string BarCodeType(BarCodeType barCodeType)
+    {
+      var barcode = this.BarCodeTypeMappings[barCodeType];
+
+      return $@"BT ""{barcode}""";
     }
   }
 }
