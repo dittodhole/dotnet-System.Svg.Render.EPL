@@ -18,5 +18,12 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
     protected override FingerPrint.SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                                                                                           [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgTextBaseTranslator<SvgText>(fingerPrintTransformer,
                                                                                                                                                                                    fingerPrintCommands);
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    protected override FingerPrint.SvgImageTranslator CreateSvgImageTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
+                                                                               [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgImageTranslator(fingerPrintTransformer,
+                                                                                                                                                            fingerPrintCommands);
   }
 }
