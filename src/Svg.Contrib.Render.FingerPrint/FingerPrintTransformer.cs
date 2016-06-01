@@ -71,17 +71,23 @@ namespace Svg.Contrib.Render.FingerPrint
       }
       else if (viewRotation == ViewRotation.RotateBy180Degrees)
       {
-        throw new NotImplementedException();
-        viewMatrix.Rotate(180f);
-        viewMatrix.Translate(-this.OutputWidth,
-                             this.OutputHeight,
+        viewMatrix.Scale(magnificationFactor,
+                         magnificationFactor,
+                         MatrixOrder.Prepend);
+        viewMatrix.Rotate(180f,
+                          MatrixOrder.Prepend);
+        viewMatrix.Translate(this.OutputWidth,
+                             0,
                              MatrixOrder.Append);
       }
       else if (viewRotation == ViewRotation.RotateBy270Degress)
       {
-        throw new NotImplementedException();
-        viewMatrix.Rotate(90f);
-        viewMatrix.Translate(0,
+        viewMatrix.Scale(magnificationFactor,
+                         magnificationFactor,
+                         MatrixOrder.Prepend);
+        viewMatrix.Rotate(90f,
+                          MatrixOrder.Prepend);
+        viewMatrix.Translate(this.OutputWidth,
                              this.OutputHeight,
                              MatrixOrder.Append);
       }
