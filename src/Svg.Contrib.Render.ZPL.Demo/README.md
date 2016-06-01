@@ -10,8 +10,8 @@ This demo converts [`assets/label.svg`](assets/label.svg) into [Zebra Programmin
 
 This demo has some additional hacks to show off the extensibility of [Svg.Contrib.Render.ZPL](../Svg.Contrib.Render.ZPL):
 
-- [`Svg.Contrib.Render.ZPL.Demo.CustomBootstrapper`](CustomBootstrapper.cs)
+- [`CustomBootstrapper`](CustomBootstrapper.cs)
   - adapts some factories
-- [`Svg.Contrib.Render.ZPL.Demo.SvgImageTranslator`](SvgImageTranslator.cs)
+- [`SvgImageTranslator`](SvgImageTranslator.cs)
   - when encountering a `SvgImage`-instance with `data-barcode` attribute set, the barcode is written directly instead of writing a graphic
   - adapts the barcode selection for some images

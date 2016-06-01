@@ -14,3 +14,6 @@ This demo has some additional hacks to show off the extensibility of [Svg.Contri
   - adapts some factories
 - [`SvgTextBaseTranslator`](SvgTextBaseTranslator.cs)
   - adapts the position of some labels
+- [`SvgImageTranslator`](SvgImageTranslator.cs)
+  - when encountering a `SvgImage`-instance with `data-barcode` attribute set, the barcode is written directly instead of writing a graphic
+  - adapts the barcode selection for some images
