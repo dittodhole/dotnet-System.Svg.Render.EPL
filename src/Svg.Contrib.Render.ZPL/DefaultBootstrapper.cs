@@ -36,24 +36,14 @@ namespace Svg.Contrib.Render.ZPL
                                            float destinationDpi,
                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
+      var magnificationFactor = destinationDpi / sourceDpi;
+
       var zplTransformer = this.CreateZplTransformer();
-      var viewMatrix = this.CreateViewMatrix(zplTransformer,
-                                             sourceDpi,
-                                             destinationDpi,
-                                             viewRotation);
+      var viewMatrix = zplTransformer.CreateViewMatrix(magnificationFactor,
+                                                       viewRotation);
 
       return viewMatrix;
     }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual Matrix CreateViewMatrix([NotNull] ZplTransformer zplTransformer,
-                                              float sourceDpi,
-                                              float destinationDpi,
-                                              ViewRotation viewRotation = ViewRotation.Normal) => zplTransformer.CreateViewMatrix(sourceDpi,
-                                                                                                                                  destinationDpi,
-                                                                                                                                  viewRotation);
 
     [NotNull]
     [Pure]

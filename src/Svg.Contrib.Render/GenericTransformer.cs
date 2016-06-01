@@ -301,44 +301,64 @@ namespace Svg.Contrib.Render
                                           matrix);
     }
 
-    [NotNull]
     [Pure]
+    [NotNull]
     [MustUseReturnValue]
-    public virtual Matrix CreateViewMatrix(float sourceDpi,
-                                           float destinationDpi,
+    public virtual Matrix CreateViewMatrix(float magnificationFactor,
                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
-      var magnificationFactor = destinationDpi / sourceDpi;
+      var deviceMatrix = this.CreateDeviceMatrix();
+      deviceMatrix.Scale(magnificationFactor,
+                         magnificationFactor);
 
-      // TODO test this shit!
+      var viewMatrix = this.ApplyViewRotationOnDeviceMatrix(deviceMatrix,
+                                                            viewRotation);
 
-      var matrix = new Matrix();
-      matrix.Scale(magnificationFactor,
-                   magnificationFactor);
+      return viewMatrix;
+    }
+
+    [Pure]
+    [NotNull]
+    [MustUseReturnValue]
+    protected virtual Matrix CreateDeviceMatrix()
+    {
+      var deviceMatrix = new Matrix();
+
+      return deviceMatrix;
+    }
+
+    [Pure]
+    [NotNull]
+    [MustUseReturnValue]
+    protected virtual Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
+                                                             ViewRotation viewRotation = ViewRotation.Normal)
+    {
+      var viewMatrix = deviceMatrix.Clone();
+
       if (viewRotation == ViewRotation.RotateBy90Degrees)
       {
-        matrix.Rotate(90f);
-        matrix.Translate(this.OutputWidth,
-                         0,
-                         MatrixOrder.Append);
+        viewMatrix.Rotate(90f);
+        viewMatrix.Translate(this.OutputWidth,
+                             0,
+                             MatrixOrder.Append);
       }
       else if (viewRotation == ViewRotation.RotateBy180Degrees)
       {
         // TODO test this orientation!
-        matrix.Rotate(180f);
-        matrix.Translate(-this.OutputWidth,
-                         -this.OutputHeight,
-                         MatrixOrder.Append);
+        viewMatrix.Rotate(180f);
+        viewMatrix.Translate(-this.OutputWidth,
+                             -this.OutputHeight,
+                             MatrixOrder.Append);
       }
       else if (viewRotation == ViewRotation.RotateBy270Degress)
       {
-        matrix.Rotate(270f);
-        matrix.Translate(0,
-                         this.OutputHeight,
-                         MatrixOrder.Append);
+        viewMatrix.Rotate(270f);
+        viewMatrix.Translate(0,
+                             this.OutputHeight,
+                             MatrixOrder.Append);
       }
 
-      return matrix;
+      return viewMatrix;
     }
 
     [Pure]

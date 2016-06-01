@@ -36,24 +36,14 @@ namespace Svg.Contrib.Render.FingerPrint
                                            float destinationDpi,
                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
+      var magnificationFactor = destinationDpi / sourceDpi;
+
       var fingerPrintTransformer = this.CreateFingerPrintTransformer();
-      var viewMatrix = this.CreateViewMatrix(fingerPrintTransformer,
-                                             sourceDpi,
-                                             destinationDpi,
-                                             viewRotation);
+      var viewMatrix = fingerPrintTransformer.CreateViewMatrix(magnificationFactor,
+                                                               viewRotation);
 
       return viewMatrix;
     }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual Matrix CreateViewMatrix([NotNull] FingerPrintTransformer fingerPrintTransformer,
-                                              float sourceDpi,
-                                              float destinationDpi,
-                                              ViewRotation viewRotation = ViewRotation.Normal) => fingerPrintTransformer.CreateViewMatrix(sourceDpi,
-                                                                                                                                          destinationDpi,
-                                                                                                                                          viewRotation);
 
     [NotNull]
     [Pure]
