@@ -154,8 +154,11 @@ namespace Svg.Contrib.Render
                            out variableName);
         if (variableName != null)
         {
-          this.PrintGraphics(horizontalStart,
+          this.PrintGraphics(svgElement,
+                             matrix,
+                             horizontalStart,
                              verticalStart,
+                             sector,
                              variableName,
                              container);
         }
@@ -192,8 +195,11 @@ namespace Svg.Contrib.Render
       return variableName;
     }
 
-    protected abstract void PrintGraphics(int horizontalStart,
+    protected abstract void PrintGraphics([NotNull] SvgImage svgElement,
+                                          [NotNull] Matrix matrix,
+                                          int horizontalStart,
                                           int verticalStart,
+                                          int sector,
                                           [NotNull] string variableName,
                                           [NotNull] TContainer container);
 

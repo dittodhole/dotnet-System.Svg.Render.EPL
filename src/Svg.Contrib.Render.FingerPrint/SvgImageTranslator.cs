@@ -69,8 +69,11 @@ namespace Svg.Contrib.Render.FingerPrint
       }
     }
 
-    protected override void PrintGraphics(int horizontalStart,
+    protected override void PrintGraphics([NotNull] SvgImage svgElement,
+                                          [NotNull] Matrix matrix,
+                                          int horizontalStart,
                                           int verticalStart,
+                                          int sector,
                                           [NotNull] string variableName,
                                           [NotNull] FingerPrintContainer container)
     {
