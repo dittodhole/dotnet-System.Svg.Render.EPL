@@ -77,11 +77,21 @@ namespace Svg.Contrib.Render.FingerPrint
                                           [NotNull] string variableName,
                                           [NotNull] FingerPrintContainer container)
     {
+      Direction direction;
+      if (sector % 2 == 0)
+      {
+        direction = Direction.Direction4;
+      }
+      else
+      {
+        direction = Direction.Direction3;
+      }
+
       container.Body.Add(this.FingerPrintCommands.Magnify(1,
                                                           1));
       container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                            verticalStart));
-      container.Body.Add(this.FingerPrintCommands.Direction(Direction.Direction3));
+      container.Body.Add(this.FingerPrintCommands.Direction(direction));
       container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       container.Body.Add(this.FingerPrintCommands.NormalImage());
       container.Body.Add(this.FingerPrintCommands.PrintImage(variableName));
