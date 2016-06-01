@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using ImageMagick;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -178,7 +179,7 @@ namespace Svg.Contrib.Render.FingerPrint
     [Pure]
     [MustUseReturnValue]
     public override IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
-                                                       bool invertByte,
+                                                       bool invertBytes,
                                                        int numberOfBytesPerRow)
     {
       var result = new byte[]
@@ -186,10 +187,46 @@ namespace Svg.Contrib.Render.FingerPrint
                      0x40,
                      0x00
                    }.Concat(base.GetRawBinaryData(bitmap,
-                                                  invertByte,
+                                                  invertBytes,
                                                   numberOfBytesPerRow));
 
       return result;
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)
+    {
+      var width = bitmap.Width;
+      var mod = width % 8;
+      if (mod > 0)
+      {
+        width += 8 - mod;
+      }
+      var height = bitmap.Height;
+
+      using (var magickImage = new MagickImage(bitmap))
+      {
+        if (mod > 0)
+        {
+          var magickGeometry = new MagickGeometry
+          {
+            Width = width,
+            Height = height,
+            IgnoreAspectRatio = true
+          };
+          magickImage.Resize(magickGeometry);
+        }
+
+        magickImage.Format = MagickFormat.Pcx;
+        magickImage.ColorType = ColorType.Palette;
+        magickImage.ColorSpace = ColorSpace.Gray;
+
+        var array = magickImage.ToByteArray();
+
+        return array;
+      }
     }
   }
 }

@@ -27,8 +27,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                           [NotNull] Bitmap bitmap,
                                           [NotNull] FingerPrintContainer container)
     {
-      var pcxByteArray = this.FingerPrintTransformer.ConvertToPcx(bitmap,
-                                                                  false);
+      var pcxByteArray = this.FingerPrintTransformer.ConvertToPcx(bitmap);
 
       container.Header.Add(this.FingerPrintCommands.RemoveImage(variableName));
       container.Header.Add(this.FingerPrintCommands.ImageLoad(variableName,

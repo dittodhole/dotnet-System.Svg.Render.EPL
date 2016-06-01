@@ -28,8 +28,7 @@ namespace Svg.Contrib.Render.EPL
                                           [NotNull] Bitmap bitmap,
                                           [NotNull] EplContainer container)
     {
-      var pcxByteArray = this.EplTransformer.ConvertToPcx(bitmap,
-                                                          true);
+      var pcxByteArray = this.EplTransformer.ConvertToPcx(bitmap);
 
       container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
       container.Header.Add(this.EplCommands.DeleteGraphics(variableName));

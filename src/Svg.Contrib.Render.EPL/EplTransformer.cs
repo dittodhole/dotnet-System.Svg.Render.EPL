@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using ImageMagick;
 using JetBrains.Annotations;
 
 // ReSharper disable UnusedParameter.Global
@@ -201,6 +203,52 @@ namespace Svg.Contrib.Render.EPL
       endX += strokeWidth / 4f;
       startY -= strokeWidth / 4f;
       endY += strokeWidth / 4f;
+    }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)
+    {
+      var width = bitmap.Width;
+      var mod = width % 8;
+      if (mod > 0)
+      {
+        width += 8 - mod;
+      }
+      var height = bitmap.Height;
+
+      using (var magickImage = new MagickImage(bitmap))
+      {
+        if (mod > 0)
+        {
+          var magickGeometry = new MagickGeometry
+                               {
+                                 Width = width,
+                                 Height = height,
+                                 IgnoreAspectRatio = true
+                               };
+          magickImage.Resize(magickGeometry);
+        }
+
+        var quantizeSettings = new QuantizeSettings
+        {
+          Colors = 2,
+          DitherMethod = DitherMethod.No
+        };
+        magickImage.Quantize(quantizeSettings);
+        magickImage.ColorSpace = ColorSpace.Gray;
+        magickImage.ContrastStretch(new ImageMagick.Percentage(0));
+
+        magickImage.Format = MagickFormat.Pcx;
+        magickImage.ColorType = ColorType.Bilevel;
+        magickImage.ColorSpace = ColorSpace.Gray;
+        magickImage.Negate();
+
+        var array = magickImage.ToByteArray();
+
+        return array;
+      }
     }
 
     private class FontDefinitionCandidate

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using ImageMagick;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -392,8 +391,6 @@ namespace Svg.Contrib.Render
                                           int sourceAlignmentWidth,
                                           int sourceAlignmentHeight)
     {
-      var stretchImage = this.StretchImage(svgElement);
-
       using (var image = svgElement.GetImage() as Image)
       {
         if (image == null)
@@ -401,8 +398,12 @@ namespace Svg.Contrib.Render
           return null;
         }
 
+        var sourceRatio = (float) sourceAlignmentWidth / sourceAlignmentHeight;
+        var destinationRatio = (float) image.Width / image.Height;
+
+        // TODO find a good TOLERANCE
         Bitmap bitmap;
-        if (stretchImage)
+        if (Math.Abs(sourceRatio - destinationRatio) < 0.5f)
         {
           bitmap = new Bitmap(image,
                               sourceAlignmentWidth,
@@ -410,46 +411,33 @@ namespace Svg.Contrib.Render
         }
         else
         {
-          var sourceRatio = (float) sourceAlignmentWidth / sourceAlignmentHeight;
-          var destinationRatio = (float) image.Width / image.Height;
+          int destinationWidth;
+          int destinationHeight;
 
-          // TODO find a good TOLERANCE
-          if (Math.Abs(sourceRatio - destinationRatio) < 0.5f)
+          if (sourceRatio < destinationRatio)
           {
-            bitmap = new Bitmap(image,
-                                sourceAlignmentWidth,
-                                sourceAlignmentHeight);
+            destinationWidth = sourceAlignmentWidth;
+            destinationHeight = (int) (sourceAlignmentWidth / destinationRatio);
           }
           else
           {
-            int destinationWidth;
-            int destinationHeight;
+            destinationWidth = (int) (sourceAlignmentHeight * destinationRatio);
+            destinationHeight = sourceAlignmentHeight;
+          }
 
-            if (sourceRatio < destinationRatio)
-            {
-              destinationWidth = sourceAlignmentWidth;
-              destinationHeight = (int) (sourceAlignmentWidth / destinationRatio);
-            }
-            else
-            {
-              destinationWidth = (int) (sourceAlignmentHeight * destinationRatio);
-              destinationHeight = sourceAlignmentHeight;
-            }
+          var x = (sourceAlignmentWidth - destinationWidth) / 2;
+          var y = (sourceAlignmentHeight - destinationHeight) / 2;
 
-            var x = (sourceAlignmentWidth - destinationWidth) / 2;
-            var y = (sourceAlignmentHeight - destinationHeight) / 2;
-
-            bitmap = new Bitmap(sourceAlignmentWidth,
-                                sourceAlignmentHeight);
-            using (var graphics = Graphics.FromImage(bitmap))
-            {
-              var rect = new Rectangle(x,
-                                       y,
-                                       destinationWidth,
-                                       destinationHeight);
-              graphics.DrawImage(image,
-                                 rect);
-            }
+          bitmap = new Bitmap(sourceAlignmentWidth,
+                              sourceAlignmentHeight);
+          using (var graphics = Graphics.FromImage(bitmap))
+          {
+            var rect = new Rectangle(x,
+                                     y,
+                                     destinationWidth,
+                                     destinationHeight);
+            graphics.DrawImage(image,
+                               rect);
           }
         }
 
@@ -460,15 +448,11 @@ namespace Svg.Contrib.Render
       }
     }
 
-    [Pure]
-    [MustUseReturnValue]
-    protected virtual bool StretchImage([NotNull] SvgImage svgImage) => false;
-
     [NotNull]
     [Pure]
     [MustUseReturnValue]
     public virtual byte[] GetRawBinaryData([NotNull] Bitmap bitmap,
-                                           bool invertByte,
+                                           bool invertBytes,
                                            out int numberOfBytesPerRow)
     {
       // TODO merge with MagickImage, as we are having different thresholds here
@@ -476,7 +460,7 @@ namespace Svg.Contrib.Render
       numberOfBytesPerRow = (int) Math.Ceiling(bitmap.Width / 8f);
 
       var rawBinaryData = this.GetRawBinaryData(bitmap,
-                                                invertByte,
+                                                invertBytes,
                                                 numberOfBytesPerRow)
                               .ToArray();
 
@@ -487,7 +471,7 @@ namespace Svg.Contrib.Render
     [Pure]
     [MustUseReturnValue]
     public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
-                                                      bool invertByte,
+                                                      bool invertBytes,
                                                       int numberOfBytesPerRow)
     {
       var height = bitmap.Height;
@@ -521,7 +505,7 @@ namespace Svg.Contrib.Render
             }
           }
 
-          if (invertByte)
+          if (invertBytes)
           {
             value = ~value;
           }
@@ -529,57 +513,6 @@ namespace Svg.Contrib.Render
           yield return (byte) value;
         }
       }
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
-    public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap,
-                                       bool invert)
-    {
-      MagickImage magickImage;
-
-      var width = bitmap.Width;
-      var mod = width % 8;
-      var height = bitmap.Height;
-      if (mod > 0)
-      {
-        width += 8 - mod;
-        using (var resizedBitmap = new Bitmap(width,
-                                              height))
-        {
-          using (var graphics = Graphics.FromImage(resizedBitmap))
-          {
-            graphics.DrawImageUnscaled(bitmap,
-                                       0,
-                                       0);
-            graphics.Save();
-          }
-
-          magickImage = new MagickImage(resizedBitmap);
-        }
-      }
-      else
-      {
-        magickImage = new MagickImage(bitmap);
-      }
-
-      byte[] array;
-      using (magickImage)
-      {
-        // TODO threshold
-        magickImage.Format = MagickFormat.Pcx;
-        magickImage.ColorType = ColorType.Palette;
-        magickImage.ColorSpace = ColorSpace.Gray;
-        if (invert)
-        {
-          magickImage.Negate();
-        }
-
-        array = magickImage.ToByteArray();
-      }
-
-      return array;
     }
   }
 }
