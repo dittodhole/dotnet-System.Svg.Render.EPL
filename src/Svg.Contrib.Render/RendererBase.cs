@@ -111,7 +111,7 @@ namespace Svg.Contrib.Render
                                               [NotNull] Matrix viewMatrix);
 
     protected virtual void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
-                                                          [NotNull] Matrix parentMatrix,
+                                                          [NotNull] Matrix sourceMatrix,
                                                           [NotNull] Matrix viewMatrix,
                                                           [NotNull] TContainer container)
     {
@@ -126,7 +126,7 @@ namespace Svg.Contrib.Render
       }
 
       var matrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
-                                                             parentMatrix);
+                                                             sourceMatrix);
 
       this.TranslateSvgElement(svgElement,
                                matrix,

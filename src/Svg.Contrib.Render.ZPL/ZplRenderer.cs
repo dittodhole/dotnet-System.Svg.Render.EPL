@@ -55,18 +55,18 @@ namespace Svg.Contrib.Render.ZPL
     public override ZplContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix viewMatrix)
     {
-      var parentMatrix = new Matrix();
+      var sourceMatrix = new Matrix();
       var zplContainer = new ZplContainer();
       this.AddBodyToTranslation(svgDocument,
-                                parentMatrix,
+                                sourceMatrix,
                                 viewMatrix,
                                 zplContainer);
       this.AddHeaderToTranslation(svgDocument,
-                                  parentMatrix,
+                                  sourceMatrix,
                                   viewMatrix,
                                   zplContainer);
       this.AddFooterToTranslation(svgDocument,
-                                  parentMatrix,
+                                  sourceMatrix,
                                   viewMatrix,
                                   zplContainer);
 
@@ -74,7 +74,7 @@ namespace Svg.Contrib.Render.ZPL
     }
 
     protected virtual void AddHeaderToTranslation([NotNull] SvgDocument svgDocument,
-                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Matrix sourceMatrix,
                                                   [NotNull] Matrix viewMatrix,
                                                   [NotNull] ZplContainer container)
     {
@@ -82,7 +82,7 @@ namespace Svg.Contrib.Render.ZPL
     }
 
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
-                                                [NotNull] Matrix parentMatrix,
+                                                [NotNull] Matrix sourceMatrix,
                                                 [NotNull] Matrix viewMatrix,
                                                 [NotNull] ZplContainer container)
     {
@@ -91,13 +91,13 @@ namespace Svg.Contrib.Render.ZPL
                                                     8));
       container.Body.Add(this.ZplCommands.PrintOrientation(PrintOrientation.Normal));
       this.TranslateSvgElementAndChildren(svgDocument,
-                                          parentMatrix,
+                                          sourceMatrix,
                                           viewMatrix,
                                           container);
     }
 
     protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
-                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Matrix sourceMatrix,
                                                   [NotNull] Matrix viewMatrix,
                                                   [NotNull] ZplContainer container)
     {

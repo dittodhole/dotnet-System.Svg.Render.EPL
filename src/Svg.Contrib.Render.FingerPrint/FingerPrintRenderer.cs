@@ -23,18 +23,18 @@ namespace Svg.Contrib.Render.FingerPrint
     public override FingerPrintContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                                         [NotNull] Matrix viewMatrix)
     {
-      var parentMatrix = new Matrix();
+      var sourceMatrix = new Matrix();
       var fingerPrintContainer = new FingerPrintContainer();
       this.AddBodyToTranslation(svgDocument,
-                                parentMatrix,
+                                sourceMatrix,
                                 viewMatrix,
                                 fingerPrintContainer);
       this.AddHeaderToTranslation(svgDocument,
-                                  parentMatrix,
+                                  sourceMatrix,
                                   viewMatrix,
                                   fingerPrintContainer);
       this.AddFooterToTranslation(svgDocument,
-                                  parentMatrix,
+                                  sourceMatrix,
                                   viewMatrix,
                                   fingerPrintContainer);
 
@@ -42,12 +42,12 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     protected virtual void AddHeaderToTranslation([NotNull] SvgDocument svgDocument,
-                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Matrix sourceMatrix,
                                                   [NotNull] Matrix viewMatrix,
                                                   [NotNull] FingerPrintContainer container) {}
 
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
-                                                [NotNull] Matrix parentMatrix,
+                                                [NotNull] Matrix sourceMatrix,
                                                 [NotNull] Matrix viewMatrix,
                                                 [NotNull] FingerPrintContainer container)
     {
@@ -55,14 +55,14 @@ namespace Svg.Contrib.Render.FingerPrint
       container.Header.Add(this.FingerPrintCommands.SelectCharacterSet(CharacterSet.Utf8));
       container.Body.Add(this.FingerPrintCommands.VerbOff());
       this.TranslateSvgElementAndChildren(svgDocument,
-                                          parentMatrix,
+                                          sourceMatrix,
                                           viewMatrix,
                                           container);
       container.Body.Add(this.FingerPrintCommands.InputOff());
     }
 
     protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
-                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Matrix sourceMatrix,
                                                   [NotNull] Matrix viewMatrix,
                                                   [NotNull] FingerPrintContainer container)
     {

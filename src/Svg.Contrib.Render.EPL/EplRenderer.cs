@@ -45,18 +45,18 @@ namespace Svg.Contrib.Render.EPL
     public override EplContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix viewMatrix)
     {
-      var parentMatrix = new Matrix();
+      var sourceMatrix = new Matrix();
       var eplContainer = new EplContainer();
       this.AddBodyToTranslation(svgDocument,
-                                parentMatrix,
+                                sourceMatrix,
                                 viewMatrix,
                                 eplContainer);
       this.AddHeaderToTranslation(svgDocument,
-                                  parentMatrix,
+                                  sourceMatrix,
                                   viewMatrix,
                                   eplContainer);
       this.AddFooterToTranslation(svgDocument,
-                                  parentMatrix,
+                                  sourceMatrix,
                                   viewMatrix,
                                   eplContainer);
 
@@ -64,7 +64,7 @@ namespace Svg.Contrib.Render.EPL
     }
 
     protected virtual void AddHeaderToTranslation([NotNull] SvgDocument svgDocument,
-                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Matrix sourceMatrix,
                                                   [NotNull] Matrix viewMatrix,
                                                   [NotNull] EplContainer eplContainer)
     {
@@ -77,20 +77,20 @@ namespace Svg.Contrib.Render.EPL
     }
 
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
-                                                [NotNull] Matrix parentMatrix,
+                                                [NotNull] Matrix sourceMatrix,
                                                 [NotNull] Matrix viewMatrix,
                                                 [NotNull] EplContainer container)
     {
       container.Body.Add(string.Empty);
       container.Body.Add(this.EplCommands.ClearImageBuffer());
       this.TranslateSvgElementAndChildren(svgDocument,
-                                          parentMatrix,
+                                          sourceMatrix,
                                           viewMatrix,
                                           container);
     }
 
     protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
-                                                  [NotNull] Matrix parentMatrix,
+                                                  [NotNull] Matrix sourceMatrix,
                                                   Matrix viewMatrix,
                                                   [NotNull] EplContainer eplContainer)
     {
