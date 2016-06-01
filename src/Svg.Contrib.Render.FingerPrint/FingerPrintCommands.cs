@@ -162,5 +162,14 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       return $"PRBUF {totalNumberOfBytes}";
     }
+
+    [NotNull]
+    [Pure]
+    [MustUseReturnValue]
+    public virtual string Magnify(int widthFactor,
+                                  int heightFactor)
+    {
+      return $"MAG {heightFactor},{widthFactor}";
+    }
   }
 }
