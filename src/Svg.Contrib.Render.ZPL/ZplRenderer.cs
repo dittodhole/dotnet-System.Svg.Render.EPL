@@ -52,15 +52,10 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual Matrix CreateParentMatrix() => new Matrix();
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     public override ZplContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix viewMatrix)
     {
-      var parentMatrix = this.CreateParentMatrix();
+      var parentMatrix = new Matrix();
       var zplContainer = new ZplContainer();
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,

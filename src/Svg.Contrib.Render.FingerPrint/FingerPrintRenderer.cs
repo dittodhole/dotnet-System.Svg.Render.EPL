@@ -20,15 +20,10 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual Matrix CreateParentMatrix() => new Matrix();
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     public override FingerPrintContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                                         [NotNull] Matrix viewMatrix)
     {
-      var parentMatrix = this.CreateParentMatrix();
+      var parentMatrix = new Matrix();
       var fingerPrintContainer = new FingerPrintContainer();
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,

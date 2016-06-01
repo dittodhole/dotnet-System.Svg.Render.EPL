@@ -42,15 +42,10 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    protected virtual Matrix CreateParentMatrix() => new Matrix();
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     public override EplContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix viewMatrix)
     {
-      var parentMatrix = this.CreateParentMatrix();
+      var parentMatrix = new Matrix();
       var eplContainer = new EplContainer();
       this.AddBodyToTranslation(svgDocument,
                                 parentMatrix,
