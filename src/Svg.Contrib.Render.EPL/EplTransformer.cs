@@ -231,6 +231,8 @@ namespace Svg.Contrib.Render.EPL
           magickImage.Resize(magickGeometry);
         }
 
+        magickImage.ColorAlpha(MagickColors.White);
+
         var quantizeSettings = new QuantizeSettings
         {
           Colors = 2,
@@ -241,8 +243,9 @@ namespace Svg.Contrib.Render.EPL
         magickImage.ContrastStretch(new ImageMagick.Percentage(0));
 
         magickImage.Format = MagickFormat.Pcx;
-        magickImage.ColorType = ColorType.Bilevel;
+        magickImage.ColorType = ColorType.Palette;
         magickImage.ColorSpace = ColorSpace.Gray;
+
         magickImage.Negate();
 
         var array = magickImage.ToByteArray();
