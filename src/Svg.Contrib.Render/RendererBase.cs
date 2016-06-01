@@ -61,8 +61,9 @@ namespace Svg.Contrib.Render
         }
       }
 
-      sourceMatrix = this.MultiplyTransformationsIntoNewMatrix(svgElement,
-                                                               sourceMatrix);
+      sourceMatrix = sourceMatrix.Clone();
+      sourceMatrix.Multiply(svgElement.Transforms.GetMatrix(),
+                            MatrixOrder.Append);
 
       this.TranslateSvgElement(svgElement,
                                sourceMatrix,
