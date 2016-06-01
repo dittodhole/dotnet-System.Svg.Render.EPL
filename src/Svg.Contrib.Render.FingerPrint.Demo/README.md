@@ -8,7 +8,7 @@ This demo converts [`assets/label.svg`](assets/label.svg) into [Intermec FingerP
 
 ## Features
 
-This demo has some additional hacks to show off the extensibility of [Svg.Contrib.Render.EPL](../Svg.Contrib.Render.EPL):
+This demo has some additional hacks to show off the extensibility of [Svg.Contrib.Render.FingerPrint](../Svg.Contrib.Render.FingerPrint):
 
 - [`CustomBootstrapper`](CustomBootstrapper.cs)
   - adapts some factories

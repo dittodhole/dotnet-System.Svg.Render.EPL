@@ -42,7 +42,9 @@ var array = fingerPrintContainer.ToByteStream(encoding)
 - `SvgRectangle`
 - `SvgLineSegment`
 - `SvgLine`
-- ... tbd
+- `SvgImage`
+- native barcodes (see [Svg.Contrib.Render.FingerPrint.Demo](../Svg.Contrib.Render.FingerPrint.Demo))
+
 
 ## License
 
