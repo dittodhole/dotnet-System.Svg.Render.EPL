@@ -196,15 +196,6 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     [Pure]
     [MustUseReturnValue]
-    public virtual string Magnify(int widthFactor,
-                                  int heightFactor)
-    {
-      return $"MAG {heightFactor},{widthFactor}";
-    }
-
-    [NotNull]
-    [Pure]
-    [MustUseReturnValue]
     public virtual string BarCodeMagnify(int widthFactor)
     {
       return $"BM {widthFactor}";
