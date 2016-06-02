@@ -13,8 +13,8 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
   {
     private static void Main(string[] args)
     {
-      var file = "assets/label.svg";
-      var svgDocument = SvgDocument.Open(file);
+      var label = new label();
+      var svgDocument = label.SvgDocument;
       var bootstrapper = new CustomBootstrapper();
       var fingerPrintTransformer = bootstrapper.CreateFingerPrintTransformer();
       var fingerPrintRenderer = bootstrapper.CreateFingerPrintRenderer(fingerPrintTransformer);

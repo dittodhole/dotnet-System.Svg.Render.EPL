@@ -15,8 +15,8 @@ namespace Svg.Contrib.Render.ZPL.Demo
   {
     private static void Main(string[] args)
     {
-      var file = "assets/label.svg";
-      var svgDocument = SvgDocument.Open(file);
+      var label = new label();
+      var svgDocument = label.SvgDocument;
       var bootstrapper = new CustomBootstrapper();
       var zplTransformer = bootstrapper.CreateZplTransformer();
       var zplRenderer = bootstrapper.CreateZplRenderer(zplTransformer);
