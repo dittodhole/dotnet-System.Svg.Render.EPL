@@ -248,8 +248,6 @@ namespace Svg.Contrib.Render.EPL
         magickImage.ColorType = ColorType.Palette;
         magickImage.ColorSpace = ColorSpace.Gray;
 
-        magickImage.Negate();
-
         var array = magickImage.ToByteArray();
 
         return array;
