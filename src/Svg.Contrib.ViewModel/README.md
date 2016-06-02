@@ -2,7 +2,9 @@
 
 # dotnet-Svg.Contrib.ViewModel
 
-This project creates *ViewModel*-classes for your embedded [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) files.
+This project creates *ViewModel*-classes for your included [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) files.
+
+*Clarification: Actually the *ViewModel* is a *Controller*, but *ViewModel* sounds more appealing.*
 
 ## Installing
 
@@ -12,7 +14,9 @@ This project creates *ViewModel*-classes for your embedded [SVG](https://en.wiki
 
 ## Features
 
-tbd
+- `SvgVisualElement.Visible`
+- `SvgTextBase.Text`
+- `SvgElement.CustomAttributes("data-barcode")`
 
 ## License
 

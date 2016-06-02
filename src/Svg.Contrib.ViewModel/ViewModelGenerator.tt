@@ -1,0 +1,216 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="EnvDTE" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="$(ProjectDir)$(OutDir)Svg.dll" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Svg" #>
+<#@ import namespace="EnvDTE" #>
+<#@ output extension=".cs" #>
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+
+// namespace
+namespace <#= Host.ResolveAssemblyReference("$(RootNamespace)") #>
+{
+<#
+  var projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");
+  var svgFullFileNames = Directory.GetFiles(projectPath,
+                                            "*.svg",
+                                            SearchOption.AllDirectories);
+  foreach (var svgFullFileName in svgFullFileNames)
+  {
+    var svgDocument = SvgDocument.Open(svgFullFileName);
+#>
+  // class definition
+  public partial class <#= Path.GetFileNameWithoutExtension(svgFullFileName) #>
+  {
+    /// <exception cref="FileNotFoundException">The embedded SVG resource "<#= Path.GetFileName(svgFullFileName) #>" could not be found.</exception>
+    public <#= Path.GetFileNameWithoutExtension(svgFullFileName) #>()
+    {
+      var svgFileName = "<#= Path.GetFileName(svgFullFileName) #>";
+      var manifestResourceName = Assembly.GetExecutingAssembly()
+                                         .GetManifestResourceNames()
+                                         .FirstOrDefault(arg => string.Equals(arg,
+                                                                              svgFileName,
+                                                                              StringComparison.InvariantCultureIgnoreCase));
+      if (manifestResourceName == null)
+      {
+        throw new FileNotFoundException("Could not find embedded SVG resource",
+                                       svgFileName);
+      }
+
+      using (var manifestResourceStream = Assembly.GetExecutingAssembly()
+                                                  .GetManifestResourceStream(manifestResourceName))
+      {
+        var svgDocument = SvgDocument.Open<SvgDocument>(manifestResourceStream);
+        this.SvgDocument = svgDocument;
+      }
+    }
+
+    protected SvgDocument SvgDocument { get; }
+
+    protected virtual string GetText(string id)
+    {
+      var svgTextBase = this.SvgDocument.GetElementById<SvgTextBase>(id);
+      var text = svgTextBase.Text;
+
+      return text;
+    }
+
+    protected virtual void SetText(string id,
+                                   string text)
+    {
+      var svgTextBase = this.SvgDocument.GetElementById<SvgTextBase>(id);
+      svgTextBase.Text = text;
+    }
+
+    protected virtual bool GetVisible(string id)
+    {
+      var svgVisualElement = this.SvgDocument.GetElementById<SvgVisualElement>(id);
+      var visible = svgVisualElement.Visible;
+
+      return visible;
+    }
+
+    protected virtual void SetVisible(string id,
+                                      bool visible)
+    {
+      var svgVisualElement = this.SvgDocument.GetElementById<SvgVisualElement>(id);
+      svgVisualElement.Visible = visible;
+    }
+
+    protected virtual string GetBarcode(string id)
+    {
+      var svgElement = this.SvgDocument.GetElementById(id);
+      var barcode = svgElement.CustomAttributes["data-barcode"];
+
+      return barcode;
+    }
+
+    protected virtual void SetBarcode(string id,
+                                      string barcode)
+    {
+      var svgElement = this.SvgDocument.GetElementById(id);
+      svgElement.CustomAttributes["data-barcode"] = barcode;
+    }
+<#
+    var svgElements = this.Flatten(svgDocument.Children,
+                                   svgElement => svgElement.Children);
+    foreach (var svgElement in svgElements)
+    {
+      if (svgElement == null)
+      {
+        continue;
+      }
+      if (svgElement.ID == null)
+      {
+        continue;
+      }
+
+      var svgVisualElement = svgElement as SvgVisualElement;
+      if (svgVisualElement == null)
+      {
+        continue;
+      }
+
+      var memberName = svgElement.ID;
+      var safeMemberName = this.NormalizeTypeNameForIdentifier(svgElement.ID);
+
+      var svgTextBase = svgElement as SvgTextBase;
+      if (svgTextBase != null)
+      {
+#>
+
+    public virtual string <#= safeMemberName #>
+    {
+      get
+      {
+        return this.GetText("<#= memberName #>");
+      }
+      set
+      {
+        this.SetText("<#= memberName #>", value);
+      }
+    }
+<#
+      } // svgTextBase
+
+      if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
+      {
+#>
+
+    public virtual string Barcode_<#= safeMemberName #>
+    {
+      get
+      {
+        return this.GetBarcode("<#= memberName #>");
+      }
+      set
+      {
+        this.SetBarcode("<#= memberName #>", value);
+      }
+    }
+<#
+      } // "data-barcode"
+#>
+
+    public virtual bool Visible_<#= safeMemberName #>
+    {
+      get
+      {
+        return this.GetVisible("<#= memberName #>");
+      }
+      set
+      {
+        this.SetVisible("<#= memberName #>", value);
+      }
+    }
+<#
+    }
+#>
+  } // class
+<#
+  }
+#>
+} // namespace
+<#+
+  // http://stackoverflow.com/a/27815926/57508
+  public IEnumerable<T> Flatten<T>(IEnumerable<T> items,
+                                   Func<T, IEnumerable<T>> getChildren)
+  {
+    var stack = new Stack<T>();
+    foreach(var item in items)
+    {
+      stack.Push(item);
+    }
+
+    while(stack.Any())
+    {
+      var current = stack.Pop();
+      yield return current;
+
+      var children = getChildren(current);
+      if (children == null)
+      {
+        continue;
+      }
+
+      foreach (var child in children)
+      {
+        stack.Push(child);
+      }
+    }
+  }
+
+  public string NormalizeTypeNameForIdentifier(string typeName)
+  {
+    return typeName.Replace("-", "_");
+  }
+#>
