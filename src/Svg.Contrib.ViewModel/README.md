@@ -4,7 +4,7 @@
 
 This project creates *ViewModel*-classes for your included [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) files.
 
-*Clarification: Actually the *ViewModel* is a *Controller*, but *ViewModel* sounds more appealing.*
+*Clarification: Actually the ViewModel is a Controller, but ViewModel sounds more appealing.*
 
 ## Installing
 
