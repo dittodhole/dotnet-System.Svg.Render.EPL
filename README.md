@@ -34,6 +34,7 @@ Following [NuGet](https://www.nuget.org/) packages will be restored:
 - [PInvoke.Kernel32](https://www.nuget.org/packages/PInvoke.Kernel32)
 - [PInvoke.SetupApi](https://www.nuget.org/packages/PInvoke.SetupApi)
 - [PInvoke.Windows.Core](https://www.nuget.org/packages/PInvoke.Windows.Core)
+- [Svg.Contrib.ViewModel](https://www.nuget.org/packages/Svg.Contrib.ViewModel)
 
 ### Deploying
 
