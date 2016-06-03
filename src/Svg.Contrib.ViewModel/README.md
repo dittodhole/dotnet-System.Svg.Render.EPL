@@ -12,6 +12,22 @@ This project creates *ViewModel*-classes for your included [SVG](https://en.wiki
 
     PM> Install-Package Svg.Contrib.ViewModel
 
+## Example
+
+![](assets/screenshot1.PNG)
+
+    PM> Install-Package Svg.Contrib.ViewModel
+
+![](assets/screenshot2.PNG)
+
+![](assets/screenshot3.PNG)
+
+    var label = new label();
+    label.LabelInfo = "some text";
+    label.Visible_LabelInfo = false;
+    label.Barcode_RouteBc = "1234567890";
+    var svgDocument = label.SvgDocument;
+
 ## Features
 
 - `SvgVisualElement.Visible`
