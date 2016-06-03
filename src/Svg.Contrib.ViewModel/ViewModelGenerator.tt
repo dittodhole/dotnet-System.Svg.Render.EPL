@@ -1,7 +1,8 @@
 ﻿<#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ assembly name="EnvDTE" #>
 <#@ assembly name="System.Xml" #>
+<#@ assembly name="EnvDTE" #>
+<#@ assembly name="VSLangProj" #>
 <#@ assembly name="$(ProjectDir)$(OutDir)Svg.dll" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
@@ -10,6 +11,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Svg" #>
 <#@ import namespace="EnvDTE" #>
+<#@ import namespace="VSLangProj" #>
 <#@ output extension=".cs" #>
 using System;
 using System.IO;
@@ -17,24 +19,33 @@ using System.Linq;
 using System.Reflection;
 
 // namespace
-namespace <#= Host.ResolveAssemblyReference("$(RootNamespace)") #>
+namespace <#= this.Host.ResolveAssemblyReference("$(RootNamespace)") #>
 {
 <#
-  var projectPath = Host.ResolveAssemblyReference("$(ProjectDir)");
-  var svgFullFileNames = Directory.GetFiles(projectPath,
-                                            "*.svg",
-                                            SearchOption.AllDirectories);
-  foreach (var svgFullFileName in svgFullFileNames)
+  var dte = (this.Host as IServiceProvider).GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+  var project = (Project) dte.Solution.FindProjectItem(this.Host.TemplateFile).ContainingProject;
+  var embeddedProjectItems = this.Flatten(project.ProjectItems.Cast<ProjectItem>(),
+                                          projectItem => projectItem.ProjectItems.Cast<ProjectItem>())
+                                  .Select(projectItem => new
+                                                         {
+                                                           BuildAction = projectItem.Properties.OfType<Property>().FirstOrDefault(property => property.Name == "BuildAction")?.Value,
+                                                           FullPath = projectItem.Properties.OfType<Property>().FirstOrDefault(property => property.Name == "FullPath")?.Value as string
+                                                         })
+                                  .Where(arg => arg.BuildAction != null)
+                                  .Where(arg => (prjBuildAction) arg.BuildAction == prjBuildAction.prjBuildActionEmbeddedResource)
+                                  .Where(arg => arg.FullPath != null);
+  foreach (var embeddedProjectItem in embeddedProjectItems)
   {
-    var svgDocument = SvgDocument.Open(svgFullFileName);
+    var path = embeddedProjectItem.FullPath;
+    var svgDocument = SvgDocument.Open(path);
 #>
   // class definition
-  public partial class <#= Path.GetFileNameWithoutExtension(svgFullFileName) #>
+  public partial class <#= Path.GetFileNameWithoutExtension(path) #>
   {
-    /// <exception cref="FileNotFoundException">The embedded SVG resource "<#= Path.GetFileName(svgFullFileName) #>" could not be found.</exception>
-    public <#= Path.GetFileNameWithoutExtension(svgFullFileName) #>()
+    /// <exception cref="FileNotFoundException">The embedded SVG resource "<#= Path.GetFileName(path) #>" could not be found.</exception>
+    public <#= Path.GetFileNameWithoutExtension(path) #>()
     {
-      var svgFileName = "<#= Path.GetFileName(svgFullFileName) #>";
+      var svgFileName = "<#= Path.GetFileName(path) #>";
       var manifestResourceName = Assembly.GetExecutingAssembly()
                                          .GetManifestResourceNames()
                                          .FirstOrDefault(arg => arg.EndsWith(svgFileName,
