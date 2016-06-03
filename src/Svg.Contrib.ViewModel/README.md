@@ -20,8 +20,6 @@ This project creates *ViewModel*-classes for your included [SVG](https://en.wiki
 
 ![](assets/screenshot2.PNG)
 
-![](assets/screenshot3.PNG)
-
     var label = new label();
     label.LabelInfo = "some text";
     label.Visible_LabelInfo = false;
