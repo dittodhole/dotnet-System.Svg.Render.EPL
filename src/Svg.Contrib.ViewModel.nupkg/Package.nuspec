@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Svg.Contrib.ViewModel</id>
-    <version>0.0.0</version>
+    <version>0.0.1</version>
     <title>Svg.Contrib.ViewModel</title>
     <authors>Andreas Niedermair</authors>
     <description>This project creates ViewModel-classes for your included SVG files.</description>
