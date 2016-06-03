@@ -5,6 +5,10 @@
 
 ## Installing
 
+[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.svg?style=flat-square)](https://www.nuget.org/packages/Svg.Contrib.Render/) https://www.nuget.org/packages/Svg.Contrib.Render/
+
+    PM> Install-Package Svg.Contrib.Render
+
 [![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg?style=flat-square)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL/) https://www.nuget.org/packages/Svg.Contrib.Render.EPL/
 
     PM> Install-Package Svg.Contrib.Render.EPL
