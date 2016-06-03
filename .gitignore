@@ -6,5 +6,8 @@ packages/
 *.user
 *.suo
 *.nupkg
+!*.nupkg/
 *.nupkg.bak
 *.log
+NuGet.exe
+NuGet.config
