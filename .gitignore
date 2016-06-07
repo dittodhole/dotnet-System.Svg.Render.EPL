@@ -9,5 +9,3 @@ packages/
 !*.nupkg/
 *.nupkg.bak
 *.log
-NuGet.exe
-NuGet.config
