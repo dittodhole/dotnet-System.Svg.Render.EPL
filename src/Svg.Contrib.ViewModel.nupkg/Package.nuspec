@@ -8,6 +8,7 @@
     <description>This project creates ViewModel-classes for your included SVG files.</description>
     <projectUrl>https://github.com/dittodhole/dotnet-Svg.Contrib.Render/tree/master/src/Svg.Contrib.ViewModel</projectUrl>
     <iconUrl>https://github.com/dittodhole/dotnet-Svg.Contrib.Render/raw/master/src/Svg.Contrib.ViewModel/assets/icon.png</iconUrl>
+    <licenseUrl>https://github.com/dittodhole/WTFNMFPLv3</licenseUrl>
     <dependencies>
         <group targetFramework="net35">
           <dependency id="Svg" version="[2.2.1, 3)" />
