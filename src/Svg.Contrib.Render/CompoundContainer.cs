@@ -52,7 +52,8 @@ namespace Svg.Contrib.Render
     public override string ToString()
     {
       return string.Join(Environment.NewLine,
-                         this.OfType<string>());
+                         this.OfType<string>()
+                             .ToArray());
     }
 
     [NotNull]

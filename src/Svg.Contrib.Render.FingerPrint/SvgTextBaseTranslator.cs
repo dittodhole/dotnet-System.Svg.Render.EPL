@@ -37,7 +37,7 @@ namespace Svg.Contrib.Render.FingerPrint
       }
 
       var text = this.RemoveIllegalCharacters(svgElement.Text);
-      if (string.IsNullOrWhiteSpace(text))
+      if (string.IsNullOrEmpty(text))
       {
         return;
       }
