@@ -38,7 +38,7 @@ namespace Svg.Contrib.Render.EPL
       }
 
       var text = this.RemoveIllegalCharacters(svgElement.Text);
-      if (string.IsNullOrWhiteSpace(text))
+      if (string.IsNullOrEmpty(text))
       {
         return;
       }
