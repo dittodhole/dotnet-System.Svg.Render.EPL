@@ -544,8 +544,13 @@ namespace Svg.Contrib.Render
             {
               var color = bitmap.GetPixel(x,
                                           y);
-              if (color.A > 0x32
-                  || color.R > 0x96 && color.G > 0x96 && color.B > 0x96)
+
+              var r = color.R * color.A / byte.MaxValue + byte.MaxValue * (byte.MaxValue - color.A) / byte.MaxValue;
+              var g = color.G * color.A / byte.MaxValue + byte.MaxValue * (byte.MaxValue - color.A) / byte.MaxValue;
+              var b = color.B * color.A / byte.MaxValue + byte.MaxValue * (byte.MaxValue - color.A) / byte.MaxValue;
+
+              var data = (r + g + b) / 3;
+              if (data < 200)
               {
                 value |= 1 << bitIndex;
               }
