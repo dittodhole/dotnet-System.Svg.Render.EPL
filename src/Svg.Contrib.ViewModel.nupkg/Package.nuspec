@@ -13,6 +13,9 @@
           <dependency id="Svg" version="[2.2.1, 3)" />
         </group>
     </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing" targetFramework="net40" />
+    </frameworkAssemblies>
   </metadata>
   <files>
     <file src="..\Svg.Contrib.ViewModel\ViewModelGenerator.tt" target="content" />
