@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -165,11 +164,11 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     [Pure]
-    public void GetFontSelection([NotNull] SvgTextBase svgTextBase,
-                                 float fontSize,
-                                 out string fontName,
-                                 out int characterHeight,
-                                 out int slant)
+    public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+                                         float fontSize,
+                                         out string fontName,
+                                         out int characterHeight,
+                                         out int slant)
     {
       if (svgTextBase.FontWeight > SvgFontWeight.Normal)
       {
