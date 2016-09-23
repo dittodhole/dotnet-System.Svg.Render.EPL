@@ -13,8 +13,13 @@ namespace Svg.Contrib.Render
   public abstract class SvgImageTranslatorBase<TContainer> : SvgElementTranslatorBase<TContainer, SvgImage>
     where TContainer : Container
   {
+    /// <exception cref="ArgumentNullException"><paramref name="genericTransformer"/> is <see langword="null" />.</exception>
     protected SvgImageTranslatorBase([NotNull] GenericTransformer genericTransformer)
     {
+      if (genericTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(genericTransformer));
+      }
       this.GenericTransformer = genericTransformer;
     }
 
@@ -25,7 +30,11 @@ namespace Svg.Contrib.Render
     [ItemNotNull]
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; } = new Dictionary<string, string>();
 
-    protected virtual void StoreGraphics([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    protected virtual void StoreGraphics([NotNull] SvgImage svgImage,
                                          [NotNull] Matrix sourceMatrix,
                                          [NotNull] Matrix viewMatrix,
                                          float sourceAlignmentWidth,
@@ -35,9 +44,26 @@ namespace Svg.Contrib.Render
                                          [NotNull] TContainer container,
                                          [CanBeNull] out string variableName)
     {
-      var imageIdentifier = string.Concat(svgElement.OwnerDocument.ID,
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (container == null)
+      {
+        throw new ArgumentNullException(nameof(container));
+      }
+
+      var imageIdentifier = string.Concat(svgImage.OwnerDocument.ID,
                                           "::",
-                                          svgElement.ID);
+                                          svgImage.ID);
 
       if (!this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
                                                              out variableName))
@@ -45,7 +71,7 @@ namespace Svg.Contrib.Render
         variableName = this.CalculateVariableName(imageIdentifier);
         this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
 
-        using (var bitmap = this.GenericTransformer.ConvertToBitmap(svgElement,
+        using (var bitmap = this.GenericTransformer.ConvertToBitmap(svgImage,
                                                                     sourceMatrix,
                                                                     viewMatrix,
                                                                     (int) sourceAlignmentWidth,
@@ -64,16 +90,40 @@ namespace Svg.Contrib.Render
       }
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
     protected abstract void StoreGraphics([NotNull] string variableName,
                                           [NotNull] Bitmap bitmap,
                                           [NotNull] TContainer container);
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgImage svgElement,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
                                    [NotNull] TContainer container)
 
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (container == null)
+      {
+        throw new ArgumentNullException(nameof(container));
+      }
+
       float sourceAlignmentWidth;
       float sourceAlignmentHeight;
       int horizontalStart;
@@ -99,8 +149,11 @@ namespace Svg.Contrib.Render
                                      container);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
-    protected virtual void GetPosition([NotNull] SvgImage svgElement,
+    protected virtual void GetPosition([NotNull] SvgImage svgImage,
                                        [NotNull] Matrix sourceMatrix,
                                        [NotNull] Matrix viewMatrix,
                                        out float sourceAlignmentWidth,
@@ -109,11 +162,24 @@ namespace Svg.Contrib.Render
                                        out int verticalStart,
                                        out int sector)
     {
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       float startX;
       float startY;
       float endX;
       float endY;
-      this.GenericTransformer.Transform(svgElement,
+      this.GenericTransformer.Transform(svgImage,
                                         sourceMatrix,
                                         viewMatrix,
                                         out startX,
@@ -129,7 +195,11 @@ namespace Svg.Contrib.Render
                                                          viewMatrix);
     }
 
-    protected virtual void AddTranslationToContainer([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    protected virtual void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                      [NotNull] Matrix sourceMatrix,
                                                      [NotNull] Matrix viewMatrix,
                                                      float sourceAlignmentWidth,
@@ -139,10 +209,27 @@ namespace Svg.Contrib.Render
                                                      int sector,
                                                      [NotNull] TContainer container)
     {
-      var forceDirectWrite = this.ForceDirectWrite(svgElement);
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (container == null)
+      {
+        throw new ArgumentNullException(nameof(container));
+      }
+
+      var forceDirectWrite = this.ForceDirectWrite(svgImage);
       if (forceDirectWrite)
       {
-        this.GraphicDirectWrite(svgElement,
+        this.GraphicDirectWrite(svgImage,
                                 sourceMatrix,
                                 viewMatrix,
                                 sourceAlignmentWidth,
@@ -154,7 +241,7 @@ namespace Svg.Contrib.Render
       else
       {
         string variableName;
-        this.StoreGraphics(svgElement,
+        this.StoreGraphics(svgImage,
                            sourceMatrix,
                            viewMatrix,
                            sourceAlignmentWidth,
@@ -165,7 +252,7 @@ namespace Svg.Contrib.Render
                            out variableName);
         if (variableName != null)
         {
-          this.PrintGraphics(svgElement,
+          this.PrintGraphics(svgImage,
                              sourceMatrix,
                              viewMatrix,
                              horizontalStart,
@@ -177,6 +264,10 @@ namespace Svg.Contrib.Render
       }
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
     protected abstract void GraphicDirectWrite([NotNull] SvgImage svgElement,
                                                [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
@@ -186,10 +277,16 @@ namespace Svg.Contrib.Render
                                                int verticalStart,
                                                [NotNull] TContainer container);
 
+    /// <exception cref="ArgumentNullException"><paramref name="imageIdentifier"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual string CalculateVariableName([NotNull] string imageIdentifier)
     {
+      if (imageIdentifier == null)
+      {
+        throw new ArgumentNullException(nameof(imageIdentifier));
+      }
+
       // TODO this is magic
       // on purpose: the imageIdentifier should be hashed to 8 chars
       // long, and should always be the same for the same imageIdentifier
@@ -207,7 +304,12 @@ namespace Svg.Contrib.Render
       return variableName;
     }
 
-    protected abstract void PrintGraphics([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    protected abstract void PrintGraphics([NotNull] SvgImage svgImage,
                                           [NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix,
                                           int horizontalStart,
@@ -216,7 +318,16 @@ namespace Svg.Contrib.Render
                                           [NotNull] string variableName,
                                           [NotNull] TContainer container);
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     [Pure]
-    protected virtual bool ForceDirectWrite([NotNull] SvgImage svgImage) => false;
+    protected virtual bool ForceDirectWrite([NotNull] SvgImage svgImage)
+    {
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+
+      return false;
+    }
   }
 }

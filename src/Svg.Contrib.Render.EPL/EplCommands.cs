@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -112,27 +113,45 @@ namespace Svg.Contrib.Render.EPL
       return $"GW{horizontalStart},{verticalStart},{numberOfBytesPerRow},{rows}";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string DeleteGraphics([NotNull] string name)
     {
+      if (name == null)
+      {
+        throw new ArgumentNullException(nameof(name));
+      }
+
       return $@"GK""{name}""";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string StoreGraphics([NotNull] string name,
                                         int length)
     {
+      if (name == null)
+      {
+        throw new ArgumentNullException(nameof(name));
+      }
+
       return $@"GM""{name}""{length}";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string PrintGraphics(int horizontalStart,
                                         int verticalStart,
                                         [NotNull] string name)
     {
+      if (name == null)
+      {
+        throw new ArgumentNullException(nameof(name));
+      }
+
       return $@"GG{horizontalStart},{verticalStart},""{name}""";
     }
 
@@ -178,6 +197,7 @@ namespace Svg.Contrib.Render.EPL
       return $"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string AsciiText(int horizontalStart,
@@ -189,9 +209,15 @@ namespace Svg.Contrib.Render.EPL
                                     ReverseImage reverseImage,
                                     [NotNull] string text)
     {
+      if (text == null)
+      {
+        throw new ArgumentNullException(nameof(text));
+      }
+
       return $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{(char) reverseImage},""{text}""";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="content"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string BarCode(int horizontalStart,
@@ -204,6 +230,11 @@ namespace Svg.Contrib.Render.EPL
                                   PrintHumanReadable printHumanReadable,
                                   [NotNull] string content)
     {
+      if (content == null)
+      {
+        throw new ArgumentNullException(nameof(content));
+      }
+
       // ReSharper disable ExceptionNotDocumentedOptional
       var barcode = this.BarCodeSelectionMappings[barCodeSelection];
       // ReSharper restore ExceptionNotDocumentedOptional

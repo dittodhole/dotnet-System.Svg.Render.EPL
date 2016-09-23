@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 // ReSharper disable ExceptionNotDocumentedOptional
@@ -18,13 +19,28 @@ namespace Svg.Contrib.Render.EPL.Demo
     //    reusable abstraction for multiple printer languages.
     //    in short: yes! you have to get your hands dirty...
 
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     public SvgImageTranslator([NotNull] EPL.EplTransformer eplTransformer,
                               [NotNull] EplCommands eplCommands)
       : base(eplTransformer,
-             eplCommands) {}
+             eplCommands)
+    {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
+    }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
-    protected override void GetPosition([NotNull] SvgImage svgElement,
+    protected override void GetPosition([NotNull] SvgImage svgImage,
                                         [NotNull] Matrix sourceMatrix,
                                         [NotNull] Matrix viewMatrix,
                                         out float sourceAlignmentWidth,
@@ -33,7 +49,20 @@ namespace Svg.Contrib.Render.EPL.Demo
                                         out int verticalStart,
                                         out int sector)
     {
-      base.GetPosition(svgElement,
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
+      base.GetPosition(svgImage,
                        sourceMatrix,
                        viewMatrix,
                        out sourceAlignmentWidth,
@@ -42,25 +71,29 @@ namespace Svg.Contrib.Render.EPL.Demo
                        out verticalStart,
                        out sector);
 
-      if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
+      if (svgImage.HasNonEmptyCustomAttribute("data-barcode"))
       {
         if (sector % 2 > 0)
         {
           horizontalStart += (int) sourceAlignmentHeight;
         }
 
-        if (svgElement.ID == "CargoIdBc")
+        if (svgImage.ID == "CargoIdBc")
         {
           horizontalStart = horizontalStart - 30;
         }
-        else if (svgElement.ID == "RouteBc")
+        else if (svgImage.ID == "RouteBc")
         {
           verticalStart = verticalStart + 35;
         }
       }
     }
 
-    protected override void AddTranslationToContainer([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    protected override void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                       [NotNull] Matrix sourceMatrix,
                                                       [NotNull] Matrix viewMatrix,
                                                       float sourceAlignmentWidth,
@@ -70,15 +103,32 @@ namespace Svg.Contrib.Render.EPL.Demo
                                                       int sector,
                                                       [NotNull] EplContainer container)
     {
-      if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
+      if (svgImage == null)
       {
-        var barcode = svgElement.CustomAttributes["data-barcode"];
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (container == null)
+      {
+        throw new ArgumentNullException(nameof(container));
+      }
+
+      if (svgImage.HasNonEmptyCustomAttribute("data-barcode"))
+      {
+        var barcode = svgImage.CustomAttributes["data-barcode"];
 
         BarCodeSelection barCodeSelection;
         int narrowBarWidth;
         int wideBarWidth;
         PrintHumanReadable printHumanReadable;
-        if (this.TryGetBarCodeSelection(svgElement,
+        if (this.TryGetBarCodeSelection(svgImage,
                                         out barCodeSelection,
                                         out narrowBarWidth,
                                         out wideBarWidth,
@@ -98,7 +148,7 @@ namespace Svg.Contrib.Render.EPL.Demo
         }
       }
 
-      base.AddTranslationToContainer(svgElement,
+      base.AddTranslationToContainer(svgImage,
                                      sourceMatrix,
                                      viewMatrix,
                                      sourceAlignmentWidth,
@@ -109,6 +159,7 @@ namespace Svg.Contrib.Render.EPL.Demo
                                      container);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     [Pure]
     private bool TryGetBarCodeSelection([NotNull] SvgImage svgImage,
                                         out BarCodeSelection barCodeSelection,
@@ -116,6 +167,11 @@ namespace Svg.Contrib.Render.EPL.Demo
                                         out int wideBarWidth,
                                         out PrintHumanReadable printHumanReadable)
     {
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+
       if (svgImage.ID == "CargoIdBc")
       {
         barCodeSelection = BarCodeSelection.Interleaved2Of5;

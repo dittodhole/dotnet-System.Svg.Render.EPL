@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
 using Svg.Pathing;
@@ -10,9 +11,19 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public class SvgPathTranslator : SvgElementTranslatorBase<EplContainer, SvgPath>
   {
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     public SvgPathTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)
     {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
       this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
     }
@@ -23,11 +34,32 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected EplCommands EplCommands { get; }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgPath svgElement,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
                                    [NotNull] EplContainer container)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (container == null)
+      {
+        throw new ArgumentNullException(nameof(container));
+      }
+
       // TODO translate C (curveto)
       // TODO translate S (smooth curveto)
       // TODO translate Q (quadratic bézier curve)
@@ -53,17 +85,43 @@ namespace Svg.Contrib.Render.EPL
       }
     }
 
-    protected virtual void TranslateSvgLineSegment([NotNull] SvgPath instance,
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLineSegment"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    protected virtual void TranslateSvgLineSegment([NotNull] SvgPath svgPath,
                                                    [NotNull] SvgLineSegment svgLineSegment,
                                                    [NotNull] Matrix sourceMatrix,
                                                    [NotNull] Matrix viewMatrix,
-                                                   [NotNull] EplContainer container)
+                                                   [NotNull] EplContainer eplContainer)
     {
+      if (svgPath == null)
+      {
+        throw new ArgumentNullException(nameof(svgPath));
+      }
+      if (svgLineSegment == null)
+      {
+        throw new ArgumentNullException(nameof(svgLineSegment));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
+      }
+
       var svgLine = new SvgLine
                     {
-                      Color = instance.Color,
-                      Stroke = instance.Stroke,
-                      StrokeWidth = instance.StrokeWidth,
+                      Color = svgPath.Color,
+                      Stroke = svgPath.Stroke,
+                      StrokeWidth = svgPath.StrokeWidth,
                       StartX = svgLineSegment.Start.X,
                       StartY = svgLineSegment.Start.Y,
                       EndX = svgLineSegment.End.X,
@@ -98,7 +156,7 @@ namespace Svg.Contrib.Render.EPL
         verticalLength = (int) strokeWidth;
       }
 
-      container.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
+      eplContainer.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
                                                         verticalStart,
                                                         horizontalLength,
                                                         verticalLength));

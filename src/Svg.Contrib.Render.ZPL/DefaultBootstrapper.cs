@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 // ReSharper disable VirtualMemberNeverOverriden.Global
@@ -22,10 +23,22 @@ namespace Svg.Contrib.Render.ZPL
       return zplTransformer;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    protected virtual ZplTransformer CreateZplTransformer([NotNull] SvgUnitReader svgUnitReader) => new ZplTransformer(svgUnitReader);
+    protected virtual ZplTransformer CreateZplTransformer([NotNull] SvgUnitReader svgUnitReader)
+    {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
 
+      var zplTransformer = new ZplTransformer(svgUnitReader);
+
+      return zplTransformer;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual Matrix CreateViewMatrix([NotNull] ZplTransformer zplTransformer,
@@ -33,6 +46,11 @@ namespace Svg.Contrib.Render.ZPL
                                            float destinationDpi,
                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+
       var magnificationFactor = destinationDpi / sourceDpi;
 
       var viewMatrix = zplTransformer.CreateViewMatrix(magnificationFactor,
@@ -41,59 +59,177 @@ namespace Svg.Contrib.Render.ZPL
       return viewMatrix;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual ZplRenderer CreateZplRenderer([NotNull] ZplCommands zplCommands,
-                                                    CharacterSet characterSet = CharacterSet.ZebraCodePage850) => new ZplRenderer(zplCommands,
-                                                                                                                                  characterSet);
+                                                    CharacterSet characterSet = CharacterSet.ZebraCodePage850)
+    {
+      if (zplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(zplCommands));
+      }
+
+      var zplRenderer = new ZplRenderer(zplCommands,
+                                        characterSet);
+
+      return zplRenderer;
+    }
 
     [NotNull]
     [Pure]
     protected virtual ZplCommands CreateZplCommands() => new ZplCommands();
 
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgLineTranslator CreateSvgLineTranslator([NotNull] ZplTransformer zplTransformer,
-                                                                [NotNull] ZplCommands zplCommands) => new SvgLineTranslator(zplTransformer,
-                                                                                                                            zplCommands);
+                                                                [NotNull] ZplCommands zplCommands)
+    {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+      if (zplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(zplCommands));
+      }
 
+      var svgLineTranslator = new SvgLineTranslator(zplTransformer,
+                                                    zplCommands);
+
+      return svgLineTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgRectangleTranslator CreateSvgRectangleTranslator([NotNull] ZplTransformer zplTransformer,
                                                                           [NotNull] ZplCommands zplCommands,
-                                                                          [NotNull] SvgUnitReader svgUnitReader) => new SvgRectangleTranslator(zplTransformer,
-                                                                                                                                               zplCommands,
-                                                                                                                                               svgUnitReader);
+                                                                          [NotNull] SvgUnitReader svgUnitReader)
+    {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+      if (zplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(zplCommands));
+      }
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
 
+      var svgRectangleTranslator = new SvgRectangleTranslator(zplTransformer,
+                                                              zplCommands,
+                                                              svgUnitReader);
+
+      return svgRectangleTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] ZplTransformer zplTransformer,
-                                                                             [NotNull] ZplCommands zplCommands) => new SvgTextBaseTranslator<SvgText>(zplTransformer,
-                                                                                                                                                      zplCommands);
+                                                                             [NotNull] ZplCommands zplCommands)
+    {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+      if (zplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(zplCommands));
+      }
 
+      var svgTextBaseTranslator = new SvgTextBaseTranslator<SvgText>(zplTransformer,
+                                                                     zplCommands);
+
+      return svgTextBaseTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] ZplTransformer zplTransformer,
-                                                                                     [NotNull] ZplCommands zplCommands) => new SvgTextBaseTranslator<SvgTextSpan>(zplTransformer,
-                                                                                                                                                                  zplCommands);
+                                                                                     [NotNull] ZplCommands zplCommands)
+    {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+      if (zplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(zplCommands));
+      }
 
+      var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(zplTransformer,
+                                                                         zplCommands);
+
+      return svgTextSpanTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgPathTranslator CreateSvgPathTranslator([NotNull] ZplTransformer zplTransformer,
-                                                                [NotNull] ZplCommands zplCommands) => new SvgPathTranslator(zplTransformer,
-                                                                                                                            zplCommands);
+                                                                [NotNull] ZplCommands zplCommands)
+    {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+      if (zplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(zplCommands));
+      }
 
+      var svgPathTranslator = new SvgPathTranslator(zplTransformer,
+                                                    zplCommands);
+
+      return svgPathTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] ZplTransformer zplTransformer,
-                                                                  [NotNull] ZplCommands zplCommands) => new SvgImageTranslator(zplTransformer,
-                                                                                                                               zplCommands);
+                                                                  [NotNull] ZplCommands zplCommands)
+    {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+      if (zplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(zplCommands));
+      }
 
+      var svgImageTranslator = new SvgImageTranslator(zplTransformer,
+                                                      zplCommands);
+
+      return svgImageTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual ZplRenderer CreateZplRenderer([NotNull] ZplTransformer zplTransformer,
                                                  CharacterSet characterSet = CharacterSet.ZebraCodePage850)
     {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+
       var svgUnitReader = this.CreateSvgUnitReader();
       var zplCommands = this.CreateZplCommands();
       var zplRenderer = this.CreateZplRenderer(zplCommands,

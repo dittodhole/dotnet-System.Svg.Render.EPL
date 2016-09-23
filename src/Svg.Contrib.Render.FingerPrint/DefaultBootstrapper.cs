@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 // ReSharper disable VirtualMemberNeverOverriden.Global
@@ -22,10 +23,22 @@ namespace Svg.Contrib.Render.FingerPrint
       return fingerPrintTransformer;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    protected virtual FingerPrintTransformer CreateFingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader) => new FingerPrintTransformer(svgUnitReader);
+    protected virtual FingerPrintTransformer CreateFingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader)
+    {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
 
+      var fingerPrintTransformer = new FingerPrintTransformer(svgUnitReader);
+
+      return fingerPrintTransformer;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual Matrix CreateViewMatrix([NotNull] FingerPrintTransformer fingerPrintTransformer,
@@ -33,6 +46,11 @@ namespace Svg.Contrib.Render.FingerPrint
                                            float destinationDpi,
                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+
       var magnificationFactor = destinationDpi / sourceDpi;
 
       var viewMatrix = fingerPrintTransformer.CreateViewMatrix(magnificationFactor,
@@ -41,56 +59,174 @@ namespace Svg.Contrib.Render.FingerPrint
       return viewMatrix;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    protected virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintCommands fingerPrintCommands) => new FingerPrintRenderer(fingerPrintCommands);
+    protected virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintCommands fingerPrintCommands)
+    {
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
+
+      var fingerPrintRenderer = new FingerPrintRenderer(fingerPrintCommands);
+
+      return fingerPrintRenderer;
+    }
 
     [NotNull]
     [Pure]
     protected virtual FingerPrintCommands CreateFingerPrintCommands() => new FingerPrintCommands();
 
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgLineTranslator CreateSvgLineTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
-                                                                [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgLineTranslator(fingerPrintTransformer,
-                                                                                                                                            fingerPrintCommands);
+                                                                [NotNull] FingerPrintCommands fingerPrintCommands)
+    {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
 
+      var svgLineTranslator = new SvgLineTranslator(fingerPrintTransformer,
+                                                    fingerPrintCommands);
+
+      return svgLineTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgRectangleTranslator CreateSvgRectangleTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                                                                           [NotNull] FingerPrintCommands fingerPrintCommands,
-                                                                          [NotNull] SvgUnitReader svgUnitReader) => new SvgRectangleTranslator(fingerPrintTransformer,
-                                                                                                                                               fingerPrintCommands,
-                                                                                                                                               svgUnitReader);
+                                                                          [NotNull] SvgUnitReader svgUnitReader)
+    {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
 
+      var svgRectangleTranslator = new SvgRectangleTranslator(fingerPrintTransformer,
+                                                              fingerPrintCommands,
+                                                              svgUnitReader);
+
+      return svgRectangleTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
-                                                                             [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgTextBaseTranslator<SvgText>(fingerPrintTransformer,
-                                                                                                                                                                      fingerPrintCommands);
+                                                                             [NotNull] FingerPrintCommands fingerPrintCommands)
+    {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
 
+      var svgTextBaseTranslator = new SvgTextBaseTranslator<SvgText>(fingerPrintTransformer,
+                                                                     fingerPrintCommands);
+
+      return svgTextBaseTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
-                                                                                     [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgTextBaseTranslator<SvgTextSpan>(fingerPrintTransformer,
-                                                                                                                                                                                  fingerPrintCommands);
+                                                                                     [NotNull] FingerPrintCommands fingerPrintCommands)
+    {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
 
+      var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(fingerPrintTransformer,
+                                                                         fingerPrintCommands);
+
+      return svgTextSpanTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgPathTranslator CreateSvgPathTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
-                                                                [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgPathTranslator(fingerPrintTransformer,
-                                                                                                                                            fingerPrintCommands);
+                                                                [NotNull] FingerPrintCommands fingerPrintCommands)
+    {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
 
+      var svgPathTranslator = new SvgPathTranslator(fingerPrintTransformer,
+                                                    fingerPrintCommands);
+
+      return svgPathTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
-                                                                  [NotNull] FingerPrintCommands fingerPrintCommands) => new SvgImageTranslator(fingerPrintTransformer,
-                                                                                                                                               fingerPrintCommands);
+                                                                  [NotNull] FingerPrintCommands fingerPrintCommands)
+    {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
 
+      var svgImageTranslator = new SvgImageTranslator(fingerPrintTransformer,
+                                                      fingerPrintCommands);
+
+      return svgImageTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintTransformer fingerPrintTransformer)
     {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+
       var svgUnitReader = this.CreateSvgUnitReader();
       var fingerPrintCommands = this.CreateFingerPrintCommands();
       var fingerPrintRenderer = this.CreateFingerPrintRenderer(fingerPrintCommands);

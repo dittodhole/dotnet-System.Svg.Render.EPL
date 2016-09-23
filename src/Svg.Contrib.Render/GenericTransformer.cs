@@ -13,10 +13,15 @@ namespace Svg.Contrib.Render
   [PublicAPI]
   public class GenericTransformer
   {
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
     public GenericTransformer([NotNull] SvgUnitReader svgUnitReader,
                               int outputWidth,
                               int outputHeight)
     {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
       this.SvgUnitReader = svgUnitReader;
       this.OutputWidth = outputWidth;
       this.OutputHeight = outputHeight;
@@ -28,9 +33,15 @@ namespace Svg.Contrib.Render
     [NotNull]
     protected SvgUnitReader SvgUnitReader { get; }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
     [Pure]
     protected virtual float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase)
     {
+      if (svgTextBase == null)
+      {
+        throw new ArgumentNullException(nameof(svgTextBase));
+      }
+
       var svgText = svgTextBase as SvgText ?? svgTextBase.Parent as SvgText;
       if (svgText == null)
       {
@@ -55,6 +66,8 @@ namespace Svg.Contrib.Render
       return result;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void ApplyMatrixOnPoint(float x,
                                               float y,
@@ -63,6 +76,15 @@ namespace Svg.Contrib.Render
                                               out float newX,
                                               out float newY)
     {
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       var originalPoint = new PointF(x,
                                      y);
 
@@ -78,11 +100,22 @@ namespace Svg.Contrib.Render
       newY = transformedPoint.Y;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     protected virtual float ApplyMatrixOnLength(float length,
                                                 [NotNull] Matrix sourceMatrix,
                                                 [NotNull] Matrix viewMatrix)
     {
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       var vector = new PointF(length,
                               0f);
 
@@ -95,11 +128,22 @@ namespace Svg.Contrib.Render
       return result;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     protected virtual PointF ApplyMatrixOnVector(PointF vector,
                                                  [NotNull] Matrix sourceMatrix,
                                                  [NotNull] Matrix viewMatrix)
     {
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       var vectors = new[]
                     {
                       vector
@@ -123,6 +167,9 @@ namespace Svg.Contrib.Render
       return (int) result;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public virtual void Transform([NotNull] SvgLine svgLine,
                                   [NotNull] Matrix sourceMatrix,
@@ -133,6 +180,19 @@ namespace Svg.Contrib.Render
                                   out float endY,
                                   out float strokeWidth)
     {
+      if (svgLine == null)
+      {
+        throw new ArgumentNullException(nameof(svgLine));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       startX = this.SvgUnitReader.GetValue(svgLine,
                                            svgLine.StartX);
       startY = this.SvgUnitReader.GetValue(svgLine,
@@ -177,6 +237,9 @@ namespace Svg.Contrib.Render
                                              viewMatrix);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public virtual void Transform([NotNull] SvgImage svgImage,
                                   [NotNull] Matrix sourceMatrix,
@@ -188,6 +251,19 @@ namespace Svg.Contrib.Render
                                   out float sourceAlignmentWidth,
                                   out float sourceAlignmentHeight)
     {
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       startX = this.SvgUnitReader.GetValue(svgImage,
                                            svgImage.X);
       startY = this.SvgUnitReader.GetValue(svgImage,
@@ -235,6 +311,9 @@ namespace Svg.Contrib.Render
                                                        viewMatrix);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public virtual void Transform([NotNull] SvgRectangle svgRectangle,
                                   [NotNull] Matrix sourceMatrix,
@@ -245,6 +324,19 @@ namespace Svg.Contrib.Render
                                   out float endY,
                                   out float strokeWidth)
     {
+      if (svgRectangle == null)
+      {
+        throw new ArgumentNullException(nameof(svgRectangle));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       startX = this.SvgUnitReader.GetValue(svgRectangle,
                                            svgRectangle.X);
       endX = startX + this.SvgUnitReader.GetValue(svgRectangle,
@@ -289,6 +381,9 @@ namespace Svg.Contrib.Render
                                              viewMatrix);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public virtual void Transform([NotNull] SvgTextBase svgTextBase,
                                   [NotNull] Matrix sourceMatrix,
@@ -297,6 +392,19 @@ namespace Svg.Contrib.Render
                                   out float startY,
                                   out float fontSize)
     {
+      if (svgTextBase == null)
+      {
+        throw new ArgumentNullException(nameof(svgTextBase));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       startX = this.SvgUnitReader.GetValue(svgTextBase,
                                            svgTextBase.X.FirstOrDefault());
       startY = this.SvgUnitReader.GetValue(svgTextBase,
@@ -341,12 +449,18 @@ namespace Svg.Contrib.Render
       return deviceMatrix;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="deviceMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     [NotNull]
     protected virtual Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
                                                              float magnificationFactor,
                                                              ViewRotation viewRotation = ViewRotation.Normal)
     {
+      if (deviceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(deviceMatrix));
+      }
+
       var viewMatrix = deviceMatrix.Clone();
 
       if (viewRotation == ViewRotation.Normal)
@@ -396,10 +510,21 @@ namespace Svg.Contrib.Render
       return viewMatrix;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public virtual int GetRotationSector([NotNull] Matrix sourceMatrix,
                                          [NotNull] Matrix viewMatrix)
     {
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       var vector = new PointF(10f,
                               0f);
 
@@ -420,15 +545,31 @@ namespace Svg.Contrib.Render
       return sector;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [CanBeNull]
     [Pure]
-    public virtual Bitmap ConvertToBitmap([NotNull] SvgImage svgElement,
+    public virtual Bitmap ConvertToBitmap([NotNull] SvgImage svgImage,
                                           [NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix,
                                           int sourceAlignmentWidth,
                                           int sourceAlignmentHeight)
     {
-      using (var image = svgElement.GetImage() as Image)
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
+      using (var image = svgImage.GetImage() as Image)
       {
         if (image == null)
         {
@@ -486,12 +627,18 @@ namespace Svg.Contrib.Render
       }
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual byte[] GetRawBinaryData([NotNull] Bitmap bitmap,
                                            bool invertBytes,
                                            out int numberOfBytesPerRow)
     {
+      if (bitmap == null)
+      {
+        throw new ArgumentNullException(nameof(bitmap));
+      }
+
       // TODO merge with MagickImage, as we are having different thresholds here
 
       numberOfBytesPerRow = (int) Math.Ceiling(bitmap.Width / 8f);
@@ -504,12 +651,18 @@ namespace Svg.Contrib.Render
       return rawBinaryData;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
                                                       bool invertBytes,
                                                       int numberOfBytesPerRow)
     {
+      if (bitmap == null)
+      {
+        throw new ArgumentNullException(nameof(bitmap));
+      }
+
       var height = bitmap.Height;
       var width = bitmap.Width;
 

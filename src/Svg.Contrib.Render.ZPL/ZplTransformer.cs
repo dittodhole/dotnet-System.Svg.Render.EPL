@@ -14,17 +14,31 @@ namespace Svg.Contrib.Render.ZPL
     public const int DefaultOutputHeight = 1296;
     public const int DefaultOutputWidth = 816;
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
     public ZplTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader,
              ZplTransformer.DefaultOutputWidth,
-             ZplTransformer.DefaultOutputHeight) {}
+             ZplTransformer.DefaultOutputHeight)
+    {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
+    }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
     public ZplTransformer([NotNull] SvgUnitReader svgUnitReader,
                           int outputWidth,
                           int outputHeight)
       : base(svgUnitReader,
              outputWidth,
-             outputHeight) {}
+             outputHeight)
+    {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
+    }
 
     [NotNull]
     [ItemNotNull]
@@ -44,10 +58,21 @@ namespace Svg.Contrib.Render.ZPL
                                                                            }
                                                                          };
 
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public virtual FieldOrientation GetFieldOrientation([NotNull] Matrix sourceMatrix,
                                                         [NotNull] Matrix viewMatrix)
     {
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       var sector = this.GetRotationSector(sourceMatrix,
                                           viewMatrix);
 
@@ -58,6 +83,9 @@ namespace Svg.Contrib.Render.ZPL
       return fieldOrientation;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public override void Transform([NotNull] SvgImage svgImage,
                                    [NotNull] Matrix sourceMatrix,
@@ -69,6 +97,19 @@ namespace Svg.Contrib.Render.ZPL
                                    out float sourceAlignmentWidth,
                                    out float sourceAlignmentHeight)
     {
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       base.Transform(svgImage,
                      sourceMatrix,
                      viewMatrix,
@@ -85,6 +126,7 @@ namespace Svg.Contrib.Render.ZPL
       endY += height;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
     [Pure]
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
@@ -92,12 +134,20 @@ namespace Svg.Contrib.Render.ZPL
                                          out int characterHeight,
                                          out int width)
     {
+      if (svgTextBase == null)
+      {
+        throw new ArgumentNullException(nameof(svgTextBase));
+      }
+
       fontName = "0";
       characterHeight = (int) Math.Max(fontSize,
                                        10f);
       width = 0;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public override void Transform([NotNull] SvgTextBase svgTextBase,
                                    [NotNull] Matrix sourceMatrix,
@@ -106,6 +156,19 @@ namespace Svg.Contrib.Render.ZPL
                                    out float startY,
                                    out float fontSize)
     {
+      if (svgTextBase == null)
+      {
+        throw new ArgumentNullException(nameof(svgTextBase));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       base.Transform(svgTextBase,
                      sourceMatrix,
                      viewMatrix,
@@ -124,6 +187,9 @@ namespace Svg.Contrib.Render.ZPL
       }
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix sourceMatrix,
@@ -134,6 +200,19 @@ namespace Svg.Contrib.Render.ZPL
                                    out float endY,
                                    out float strokeWidth)
     {
+      if (svgRectangle == null)
+      {
+        throw new ArgumentNullException(nameof(svgRectangle));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       base.Transform(svgRectangle,
                      sourceMatrix,
                      viewMatrix,

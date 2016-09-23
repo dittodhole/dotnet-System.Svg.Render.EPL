@@ -17,10 +17,16 @@ namespace Svg.Contrib.Render
     [ItemNotNull]
     private IDictionary<Type, ISvgElementTranslator<TContainer>> SvgElementTranslators { get; } = new Dictionary<Type, ISvgElementTranslator<TContainer>>();
 
+    /// <exception cref="ArgumentNullException"><paramref name="type"/> is <see langword="null" />.</exception>
     [CanBeNull]
     [Pure]
     protected virtual ISvgElementTranslator<TContainer> GetTranslator([NotNull] Type type)
     {
+      if (type == null)
+      {
+        throw new ArgumentNullException(nameof(type));
+      }
+
       ISvgElementTranslator<TContainer> svgElementTranslator;
       // ReSharper disable ExceptionNotDocumentedOptional
       if (!this.SvgElementTranslators.TryGetValue(type,
@@ -33,23 +39,52 @@ namespace Svg.Contrib.Render
       return svgElementTranslator;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElementTranslator"/> is <see langword="null" />.</exception>
     public virtual void RegisterTranslator<TSvgElement>([NotNull] ISvgElementTranslator<TContainer, TSvgElement> svgElementTranslator) where TSvgElement : SvgElement
     {
+      if (svgElementTranslator == null)
+      {
+        throw new ArgumentNullException(nameof(svgElementTranslator));
+      }
+
       // ReSharper disable ExceptionNotDocumentedOptional
       this.SvgElementTranslators[typeof(TSvgElement)] = svgElementTranslator;
       // ReSharper restore ExceptionNotDocumentedOptional
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgDocument"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public abstract TContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                               [NotNull] Matrix viewMatrix);
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
     protected virtual void TranslateSvgElementAndChildren([NotNull] SvgElement svgElement,
                                                           [NotNull] Matrix sourceMatrix,
                                                           [NotNull] Matrix viewMatrix,
                                                           [NotNull] TContainer container)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (container == null)
+      {
+        throw new ArgumentNullException(nameof(container));
+      }
+
       var svgVisualElement = svgElement as SvgVisualElement;
       if (svgVisualElement != null)
       {
@@ -80,11 +115,32 @@ namespace Svg.Contrib.Render
       }
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
     protected virtual void TranslateSvgElement([NotNull] SvgElement svgElement,
                                                [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
                                                [NotNull] TContainer container)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (container == null)
+      {
+        throw new ArgumentNullException(nameof(container));
+      }
+
       var type = svgElement.GetType();
 
       var svgElementTranslator = this.GetTranslator(type);

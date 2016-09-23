@@ -19,13 +19,28 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
     //    reusable abstraction for multiple printer languages.
     //    in short: yes! you have to get your hands dirty...
 
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
     public SvgImageTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                               [NotNull] FingerPrintCommands fingerPrintCommands)
       : base(fingerPrintTransformer,
-             fingerPrintCommands) {}
+             fingerPrintCommands)
+    {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
+    }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
-    protected override void GetPosition([NotNull] SvgImage svgElement,
+    protected override void GetPosition([NotNull] SvgImage svgImage,
                                         [NotNull] Matrix sourceMatrix,
                                         [NotNull] Matrix viewMatrix,
                                         out float sourceAlignmentWidth,
@@ -34,7 +49,20 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
                                         out int verticalStart,
                                         out int sector)
     {
-      base.GetPosition(svgElement,
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
+      base.GetPosition(svgImage,
                        sourceMatrix,
                        viewMatrix,
                        out sourceAlignmentWidth,
@@ -43,7 +71,7 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
                        out verticalStart,
                        out sector);
 
-      if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
+      if (svgImage.HasNonEmptyCustomAttribute("data-barcode"))
       {
         if (sector % 2 == 0)
         {
@@ -55,14 +83,18 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
           verticalStart += (int) sourceAlignmentHeight;
         }
 
-        if (svgElement.ID == "RouteBc")
+        if (svgImage.ID == "RouteBc")
         {
           verticalStart -= 100;
         }
       }
     }
 
-    protected override void AddTranslationToContainer([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    protected override void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                       [NotNull] Matrix sourceMatrix,
                                                       [NotNull] Matrix viewMatrix,
                                                       float sourceAlignmentWidth,
@@ -72,9 +104,26 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
                                                       int sector,
                                                       [NotNull] FingerPrintContainer container)
     {
-      if (svgElement.HasNonEmptyCustomAttribute("data-barcode"))
+      if (svgImage == null)
       {
-        var barcode = svgElement.CustomAttributes["data-barcode"];
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (container == null)
+      {
+        throw new ArgumentNullException(nameof(container));
+      }
+
+      if (svgImage.HasNonEmptyCustomAttribute("data-barcode"))
+      {
+        var barcode = svgImage.CustomAttributes["data-barcode"];
         var height = (int) sourceAlignmentHeight;
         var direction = this.FingerPrintTransformer.GetDirection(sourceMatrix,
                                                                  viewMatrix);
@@ -85,17 +134,17 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
         container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
         container.Body.Add(this.FingerPrintCommands.BarCodeHeight(height));
 
-        if (svgElement.ID == "CargoIdBc")
+        if (svgImage.ID == "CargoIdBc")
         {
           container.Body.Add(this.FingerPrintCommands.BarCodeMagnify(3));
           container.Body.Add(this.FingerPrintCommands.BarCodeType(BarCodeType.Code128));
         }
-        else if (svgElement.ID == "RouteBc")
+        else if (svgImage.ID == "RouteBc")
         {
           container.Body.Add(this.FingerPrintCommands.BarCodeMagnify(2));
           container.Body.Add(this.FingerPrintCommands.BarCodeType(BarCodeType.Code128));
         }
-        else if (svgElement.ID == "ReceiverBc")
+        else if (svgImage.ID == "ReceiverBc")
         {
           container.Body.Add(this.FingerPrintCommands.BarCodeMagnify(1));
           container.Body.Add(this.FingerPrintCommands.BarCodeType(BarCodeType.Code128));
@@ -108,7 +157,7 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       }
       else
       {
-        base.AddTranslationToContainer(svgElement,
+        base.AddTranslationToContainer(svgImage,
                                        sourceMatrix,
                                        viewMatrix,
                                        sourceAlignmentWidth,

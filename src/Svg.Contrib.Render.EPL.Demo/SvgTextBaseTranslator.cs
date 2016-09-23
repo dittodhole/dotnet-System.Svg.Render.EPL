@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.EPL.Demo
@@ -7,11 +8,26 @@ namespace Svg.Contrib.Render.EPL.Demo
   public class SvgTextBaseTranslator<T> : EPL.SvgTextBaseTranslator<T>
     where T : SvgTextBase
   {
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     public SvgTextBaseTranslator([NotNull] EPL.EplTransformer eplTransformer,
                                  [NotNull] EplCommands eplCommands)
       : base(eplTransformer,
-             eplCommands) {}
+             eplCommands)
+    {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
+    }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     protected override void GetPosition([NotNull] T svgElement,
                                         [NotNull] Matrix sourceMatrix,
@@ -21,6 +37,19 @@ namespace Svg.Contrib.Render.EPL.Demo
                                         out int sector,
                                         out float fontSize)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       base.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,

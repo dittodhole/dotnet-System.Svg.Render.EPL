@@ -16,20 +16,35 @@ namespace Svg.Contrib.Render.EPL
     public const int DefaultOutputWidth = 816;
     public const int DefaultOutputHeight = 1296;
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader,
              EplTransformer.DefaultOutputWidth,
-             EplTransformer.DefaultOutputHeight) {}
+             EplTransformer.DefaultOutputHeight)
+    {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
+    }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader,
                           int outputWidth,
                           int outputHeight)
       : base(svgUnitReader,
              outputWidth,
-             outputHeight) {}
+             outputHeight)
+    {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
+    }
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
     [Pure]
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
@@ -37,6 +52,11 @@ namespace Svg.Contrib.Render.EPL
                                          out int horizontalMultiplier,
                                          out int verticalMultiplier)
     {
+      if (svgTextBase == null)
+      {
+        throw new ArgumentNullException(nameof(svgTextBase));
+      }
+
       // VALUE    203dpi        300dpi
       // ==================================
       //  1       20.3cpi       25cpi
@@ -182,6 +202,9 @@ namespace Svg.Contrib.Render.EPL
       }
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix sourceMatrix,
@@ -192,6 +215,19 @@ namespace Svg.Contrib.Render.EPL
                                    out float endY,
                                    out float strokeWidth)
     {
+      if (svgRectangle == null)
+      {
+        throw new ArgumentNullException(nameof(svgRectangle));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       base.Transform(svgRectangle,
                      sourceMatrix,
                      viewMatrix,
@@ -207,10 +243,16 @@ namespace Svg.Contrib.Render.EPL
       endY += strokeWidth / 4f;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)
     {
+      if (bitmap == null)
+      {
+        throw new ArgumentNullException(nameof(bitmap));
+      }
+
       var width = bitmap.Width;
       var mod = width % 8;
       if (mod > 0)

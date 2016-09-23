@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 // ReSharper disable VirtualMemberNeverOverriden.Global
@@ -22,10 +23,22 @@ namespace Svg.Contrib.Render.EPL
       return eplTransformer;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    protected virtual EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader) => new EplTransformer(svgUnitReader);
+    protected virtual EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader)
+    {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
 
+      var eplTransformer = new EplTransformer(svgUnitReader);
+
+      return eplTransformer;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual Matrix CreateViewMatrix([NotNull] EplTransformer eplTransformer,
@@ -33,6 +46,11 @@ namespace Svg.Contrib.Render.EPL
                                            float destinationDpi,
                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+
       var magnificationFactor = destinationDpi / sourceDpi;
 
       var viewMatrix = eplTransformer.CreateViewMatrix(magnificationFactor,
@@ -41,62 +59,180 @@ namespace Svg.Contrib.Render.EPL
       return viewMatrix;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual EplRenderer CreateEplRenderer([NotNull] EplCommands eplCommands,
                                                     PrinterCodepage printerCodepage = PrinterCodepage.Dos850,
-                                                    int countryCode = 850) => new EplRenderer(eplCommands,
-                                                                                              printerCodepage,
-                                                                                              countryCode);
+                                                    int countryCode = 850)
+    {
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
+
+      var eplRenderer = new EplRenderer(eplCommands,
+                                        printerCodepage,
+                                        countryCode);
+
+      return eplRenderer;
+    }
 
     [NotNull]
     [Pure]
     protected virtual EplCommands CreateEplCommands() => new EplCommands();
 
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgLineTranslator CreateSvgLineTranslator([NotNull] EplTransformer eplTransformer,
-                                                                [NotNull] EplCommands eplCommands) => new SvgLineTranslator(eplTransformer,
-                                                                                                                            eplCommands);
+                                                                [NotNull] EplCommands eplCommands)
+    {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
 
+      var svgLineTranslator = new SvgLineTranslator(eplTransformer,
+                                                    eplCommands);
+
+      return svgLineTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgRectangleTranslator CreateSvgRectangleTranslator([NotNull] EplTransformer eplTransformer,
                                                                           [NotNull] EplCommands eplCommands,
-                                                                          [NotNull] SvgUnitReader svgUnitReader) => new SvgRectangleTranslator(eplTransformer,
-                                                                                                                                               eplCommands,
-                                                                                                                                               svgUnitReader);
+                                                                          [NotNull] SvgUnitReader svgUnitReader)
+    {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
 
+      var svgRectangleTranslator = new SvgRectangleTranslator(eplTransformer,
+                                                              eplCommands,
+                                                              svgUnitReader);
+
+      return svgRectangleTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] EplTransformer eplTransformer,
-                                                                             [NotNull] EplCommands eplCommands) => new SvgTextBaseTranslator<SvgText>(eplTransformer,
-                                                                                                                                                      eplCommands);
+                                                                             [NotNull] EplCommands eplCommands)
+    {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
 
+      var svgTextBaseTranslator = new SvgTextBaseTranslator<SvgText>(eplTransformer,
+                                                                     eplCommands);
+
+      return svgTextBaseTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] EplTransformer eplTransformer,
-                                                                                     [NotNull] EplCommands eplCommands) => new SvgTextBaseTranslator<SvgTextSpan>(eplTransformer,
-                                                                                                                                                                  eplCommands);
+                                                                                     [NotNull] EplCommands eplCommands)
+    {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
 
+      var svgTextSpanTranslator = new SvgTextBaseTranslator<SvgTextSpan>(eplTransformer,
+                                                                         eplCommands);
+
+      return svgTextSpanTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgPathTranslator CreateSvgPathTranslator([NotNull] EplTransformer eplTransformer,
-                                                                [NotNull] EplCommands eplCommands) => new SvgPathTranslator(eplTransformer,
-                                                                                                                            eplCommands);
+                                                                [NotNull] EplCommands eplCommands)
+    {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
 
+      var svgPathTranslator = new SvgPathTranslator(eplTransformer,
+                                                    eplCommands);
+
+      return svgPathTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] EplTransformer eplTransformer,
-                                                                  [NotNull] EplCommands eplCommands) => new SvgImageTranslator(eplTransformer,
-                                                                                                                               eplCommands);
+                                                                  [NotNull] EplCommands eplCommands)
+    {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
 
+      var svgImageTranslator = new SvgImageTranslator(eplTransformer,
+                                                      eplCommands);
+
+      return svgImageTranslator;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual EplRenderer CreateEplRenderer([NotNull] EplTransformer eplTransformer,
                                                  PrinterCodepage printerCodepage = PrinterCodepage.Dos850,
                                                  int countryCode = 850)
     {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+
       var svgUnitReader = this.CreateSvgUnitReader();
       var eplCommands = this.CreateEplCommands();
       var eplRenderer = this.CreateEplRenderer(eplCommands,

@@ -64,19 +64,31 @@ namespace Svg.Contrib.Render.FingerPrint
       return $"PF {copies}";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string PrintText([NotNull] string text)
     {
+      if (text == null)
+      {
+        throw new ArgumentNullException(nameof(text));
+      }
+
       return $@"PT ""{text}""";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="fontName"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string Font([NotNull] string fontName,
                                int height,
                                int slant)
     {
+      if (fontName == null)
+      {
+        throw new ArgumentNullException(nameof(fontName));
+      }
+
       return $@"FT ""{fontName}"",{height},{slant}";
     }
 
@@ -94,20 +106,32 @@ namespace Svg.Contrib.Render.FingerPrint
       return $"AN {(int) alignment}";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string ImageLoad([NotNull] string name,
                                     int totalNumberOfBytes)
     {
+      if (name == null)
+      {
+        throw new ArgumentNullException(nameof(name));
+      }
+
       var skip = Environment.NewLine.ToCharArray()
                             .Count() - 1;
       return $@"IMAGE LOAD {skip},""{name}"",{totalNumberOfBytes},""""";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string PrintImage([NotNull] string name)
     {
+      if (name == null)
+      {
+        throw new ArgumentNullException(nameof(name));
+      }
+
       return $@"PM ""{name}""";
     }
 
@@ -153,10 +177,16 @@ namespace Svg.Contrib.Render.FingerPrint
       return "INVIMAGE";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string RemoveImage([NotNull] string name)
     {
+      if (name == null)
+      {
+        throw new ArgumentNullException(nameof(name));
+      }
+
       return $@"REMOVE IMAGE ""{name}""";
     }
 
@@ -167,10 +197,16 @@ namespace Svg.Contrib.Render.FingerPrint
       return $"PRBUF {totalNumberOfBytes}";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string PrintBarCode([NotNull] string data)
     {
+      if (data == null)
+      {
+        throw new ArgumentNullException(nameof(data));
+      }
+
       return $@"PB ""{data}""";
     }
 

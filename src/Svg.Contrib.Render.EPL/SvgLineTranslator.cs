@@ -10,9 +10,19 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public class SvgLineTranslator : SvgElementTranslatorBase<EplContainer, SvgLine>
   {
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
     public SvgLineTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)
     {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
       this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
     }
@@ -23,12 +33,33 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected EplCommands EplCommands { get; }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgLine svgElement,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
                                    [NotNull] EplContainer container)
 
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (container == null)
+      {
+        throw new ArgumentNullException(nameof(container));
+      }
+
       int horizontalStart;
       int verticalStart;
       int horizontalLength;
@@ -55,6 +86,9 @@ namespace Svg.Contrib.Render.EPL
                                      container);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void GetPosition([NotNull] SvgLine svgElement,
                                        [NotNull] Matrix sourceMatrix,
@@ -66,6 +100,19 @@ namespace Svg.Contrib.Render.EPL
                                        out int verticalEnd,
                                        out float strokeWidth)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       float startX;
       float startY;
       float endX;
@@ -99,15 +146,26 @@ namespace Svg.Contrib.Render.EPL
       }
     }
 
-    protected virtual void AddTranslationToContainer([NotNull] SvgLine svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    protected virtual void AddTranslationToContainer([NotNull] SvgLine svgLine,
                                                      int horizontalStart,
                                                      int verticalStart,
                                                      int verticalEnd,
                                                      int horizontalLength,
                                                      int verticalLength,
                                                      float strokeWidth,
-                                                     [NotNull] EplContainer container)
+                                                     [NotNull] EplContainer eplContainer)
     {
+      if (svgLine == null)
+      {
+        throw new ArgumentNullException(nameof(svgLine));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
+      }
+
       if (horizontalLength == 0
           || verticalLength == 0)
       {
@@ -120,17 +178,17 @@ namespace Svg.Contrib.Render.EPL
           verticalLength = (int) strokeWidth;
         }
 
-        var strokeShouldBeWhite = (svgElement.Stroke as SvgColourServer)?.Colour == Color.White;
+        var strokeShouldBeWhite = (svgLine.Stroke as SvgColourServer)?.Colour == Color.White;
         if (strokeShouldBeWhite)
         {
-          container.Body.Add(this.EplCommands.LineDrawWhite(horizontalStart,
+          eplContainer.Body.Add(this.EplCommands.LineDrawWhite(horizontalStart,
                                                             verticalStart,
                                                             horizontalLength,
                                                             verticalLength));
         }
         else
         {
-          container.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
+          eplContainer.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
                                                             verticalStart,
                                                             horizontalLength,
                                                             verticalLength));
@@ -138,7 +196,7 @@ namespace Svg.Contrib.Render.EPL
       }
       else
       {
-        container.Body.Add(this.EplCommands.LineDrawDiagonal(horizontalStart,
+        eplContainer.Body.Add(this.EplCommands.LineDrawDiagonal(horizontalStart,
                                                              verticalStart,
                                                              horizontalLength,
                                                              verticalLength,
