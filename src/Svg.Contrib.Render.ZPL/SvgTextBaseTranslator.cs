@@ -74,7 +74,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     protected virtual string RemoveIllegalCharacters([NotNull] string text)
     {
       // TODO add regex for removing illegal characters ...

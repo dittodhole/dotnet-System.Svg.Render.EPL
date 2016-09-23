@@ -58,7 +58,6 @@ namespace Svg.Contrib.Render
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     [CollectionAccess(CollectionAccessType.Read)]
     public override IEnumerable<byte> ToByteStream([NotNull] Encoding encoding)
     {

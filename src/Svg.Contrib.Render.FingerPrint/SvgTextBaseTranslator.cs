@@ -76,7 +76,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     protected virtual string RemoveIllegalCharacters([NotNull] string text)
     {
       // TODO add regex for removing illegal characters ...

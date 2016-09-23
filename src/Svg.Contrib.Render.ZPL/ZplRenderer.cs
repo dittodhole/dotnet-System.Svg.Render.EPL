@@ -36,7 +36,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual Encoding GetEncoding()
     {
       // ReSharper disable ExceptionNotDocumentedOptional
@@ -51,7 +50,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public override ZplContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix viewMatrix)
     {

@@ -28,7 +28,6 @@ namespace Svg.Contrib.Render.EPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public Encoding GetEncoding()
     {
       var codepage = (int) this.PrinterCodepage;
@@ -41,7 +40,6 @@ namespace Svg.Contrib.Render.EPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public override EplContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix viewMatrix)
     {

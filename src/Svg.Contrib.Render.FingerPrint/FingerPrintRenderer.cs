@@ -19,7 +19,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public override FingerPrintContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                                         [NotNull] Matrix viewMatrix)
     {
@@ -72,7 +71,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [Pure]
     [NotNull]
-    [MustUseReturnValue]
     public virtual Encoding GetEncoding()
     {
       return Encoding.UTF8;

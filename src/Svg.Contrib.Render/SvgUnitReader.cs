@@ -8,7 +8,6 @@ namespace Svg.Contrib.Render
   public class SvgUnitReader
   {
     [Pure]
-    [MustUseReturnValue]
     public virtual float GetValue([NotNull] SvgElement svgElement,
                                   SvgUnit svgUnit)
     {

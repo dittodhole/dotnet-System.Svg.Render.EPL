@@ -9,7 +9,6 @@ namespace Svg.Contrib.Render
   {
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public abstract IEnumerable<byte> ToByteStream([NotNull] Encoding encoding);
   }
 }

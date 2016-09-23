@@ -29,7 +29,6 @@ namespace Svg.Contrib.Render
     protected SvgUnitReader SvgUnitReader { get; }
 
     [Pure]
-    [MustUseReturnValue]
     protected virtual float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase)
     {
       var svgText = svgTextBase as SvgText ?? svgTextBase.Parent as SvgText;
@@ -80,7 +79,6 @@ namespace Svg.Contrib.Render
     }
 
     [Pure]
-    [MustUseReturnValue]
     protected virtual float ApplyMatrixOnLength(float length,
                                                 [NotNull] Matrix sourceMatrix,
                                                 [NotNull] Matrix viewMatrix)
@@ -98,7 +96,6 @@ namespace Svg.Contrib.Render
     }
 
     [Pure]
-    [MustUseReturnValue]
     protected virtual PointF ApplyMatrixOnVector(PointF vector,
                                                  [NotNull] Matrix sourceMatrix,
                                                  [NotNull] Matrix viewMatrix)
@@ -117,7 +114,6 @@ namespace Svg.Contrib.Render
     }
 
     [Pure]
-    [MustUseReturnValue]
     protected virtual float GetLengthOfVector(PointF vector)
     {
       var result = Math.Sqrt(Math.Pow(vector.X,
@@ -324,7 +320,6 @@ namespace Svg.Contrib.Render
 
     [Pure]
     [NotNull]
-    [MustUseReturnValue]
     public virtual Matrix CreateViewMatrix(float magnificationFactor,
                                            ViewRotation viewRotation = ViewRotation.Normal)
     {
@@ -339,7 +334,6 @@ namespace Svg.Contrib.Render
 
     [Pure]
     [NotNull]
-    [MustUseReturnValue]
     protected virtual Matrix CreateDeviceMatrix()
     {
       var deviceMatrix = new Matrix();
@@ -349,7 +343,6 @@ namespace Svg.Contrib.Render
 
     [Pure]
     [NotNull]
-    [MustUseReturnValue]
     protected virtual Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
                                                              float magnificationFactor,
                                                              ViewRotation viewRotation = ViewRotation.Normal)
@@ -404,7 +397,6 @@ namespace Svg.Contrib.Render
     }
 
     [Pure]
-    [MustUseReturnValue]
     public virtual int GetRotationSector([NotNull] Matrix sourceMatrix,
                                          [NotNull] Matrix viewMatrix)
     {
@@ -430,7 +422,6 @@ namespace Svg.Contrib.Render
 
     [CanBeNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual Bitmap ConvertToBitmap([NotNull] SvgImage svgElement,
                                           [NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix,
@@ -497,7 +488,6 @@ namespace Svg.Contrib.Render
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual byte[] GetRawBinaryData([NotNull] Bitmap bitmap,
                                            bool invertBytes,
                                            out int numberOfBytesPerRow)
@@ -516,7 +506,6 @@ namespace Svg.Contrib.Render
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
                                                       bool invertBytes,
                                                       int numberOfBytesPerRow)

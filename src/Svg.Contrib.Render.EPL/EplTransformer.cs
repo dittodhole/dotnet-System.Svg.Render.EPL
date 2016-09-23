@@ -209,7 +209,6 @@ namespace Svg.Contrib.Render.EPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)
     {
       var width = bitmap.Width;

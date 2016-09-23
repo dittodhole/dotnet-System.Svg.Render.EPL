@@ -13,7 +13,6 @@ namespace Svg.Contrib.Render.ZPL
   {
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string FieldOrigin(int horizontalStart,
                                       int verticalStart)
     {
@@ -22,7 +21,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string FieldTypeset(int horizontalStart,
                                        int verticalStart)
     {
@@ -31,7 +29,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string GraphicBox(int width,
                                      int height,
                                      int thickness,
@@ -42,7 +39,6 @@ namespace Svg.Contrib.Render.ZPL
 
     //[NotNull]
     //[Pure]
-    //[MustUseReturnValue]
     //public virtual string GraphicDiagonalLine(int width,
     //                                          int height,
     //                                          int thickness,
@@ -54,7 +50,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Font([NotNull] string fontName,
                                FieldOrientation fieldOrientation,
                                int characterHeight,
@@ -66,7 +61,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string StartFormat()
     {
       return "^XA";
@@ -74,7 +68,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string EndFormat()
     {
       return "^XZ";
@@ -82,7 +75,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string PrintOrientation(PrintOrientation printOrientation)
     {
       return $"^PO{(char) printOrientation}";
@@ -90,7 +82,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string LabelHome(int horizontalStart,
                                     int verticalStart)
     {
@@ -99,7 +90,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string ChangeInternationalFont(CharacterSet characterSet)
     {
       return $"^CI{characterSet.ToString("D")}";
@@ -107,7 +97,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string DownloadGraphics([NotNull] string name,
                                            [NotNull] IEnumerable<byte> rawBinaryData,
                                            int numberOfBytesPerRow)
@@ -123,7 +112,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string RecallGraphic([NotNull] string name)
     {
       return $"^XGR:{name},1,1^FS";
@@ -131,7 +119,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string BarCodeFieldDefaut(int moduleWidth,
                                              decimal wideBarToNarrowBarWidthRatio,
                                              int height)
@@ -141,7 +128,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Code128BarCode(FieldOrientation fieldOrientation,
                                          int barCodeHeight,
                                          [NotNull] string content,
@@ -155,7 +141,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Interleaved2Of5BarCode(FieldOrientation fieldOrientation,
                                                  int barCodeHeight,
                                                  [NotNull] string content,
@@ -168,7 +153,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string GraphicField([NotNull] IEnumerable<byte> rawBinaryData,
                                        int numberOfBytesPerRow)
     {

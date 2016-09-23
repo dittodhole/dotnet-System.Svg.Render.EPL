@@ -110,7 +110,6 @@ namespace Svg.Contrib.Render.EPL.Demo
     }
 
     [Pure]
-    [MustUseReturnValue]
     private bool TryGetBarCodeSelection([NotNull] SvgImage svgImage,
                                         out BarCodeSelection barCodeSelection,
                                         out int narrowBarWidth,

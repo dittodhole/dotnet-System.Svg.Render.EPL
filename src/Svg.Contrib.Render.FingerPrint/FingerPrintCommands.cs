@@ -34,7 +34,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Position(int horizontalStart,
                                    int verticalStart)
     {
@@ -43,7 +42,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Box(int width,
                               int height,
                               int lineWeight)
@@ -53,7 +51,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Line(int length,
                                int lineWeight)
     {
@@ -62,7 +59,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string PrintFeed(int copies = 1)
     {
       return $"PF {copies}";
@@ -70,7 +66,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string PrintText([NotNull] string text)
     {
       return $@"PT ""{text}""";
@@ -78,7 +73,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Font([NotNull] string fontName,
                                int height,
                                int slant)
@@ -88,7 +82,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Direction(Direction direction)
     {
       return $"DIR {(int) direction}";
@@ -96,7 +89,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Align(Alignment alignment)
     {
       return $"AN {(int) alignment}";
@@ -104,7 +96,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string ImageLoad([NotNull] string name,
                                     int totalNumberOfBytes)
     {
@@ -115,7 +106,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string PrintImage([NotNull] string name)
     {
       return $@"PM ""{name}""";
@@ -123,7 +113,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string SelectCharacterSet(CharacterSet characterSet)
     {
       return $"NASC {characterSet.ToString("D")}";
@@ -131,7 +120,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string VerbOff()
     {
       return "VERBOFF";
@@ -139,7 +127,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string InputOff()
     {
       return "INPUT OFF";
@@ -147,7 +134,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string ImmediateOn()
     {
       return "IMMEDIATE ON";
@@ -155,7 +141,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string NormalImage()
     {
       return "NI";
@@ -163,7 +148,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string InvertImage()
     {
       return "INVIMAGE";
@@ -171,7 +155,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string RemoveImage([NotNull] string name)
     {
       return $@"REMOVE IMAGE ""{name}""";
@@ -179,7 +162,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string PrintBuffer(int totalNumberOfBytes)
     {
       return $"PRBUF {totalNumberOfBytes}";
@@ -187,7 +169,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string PrintBarCode([NotNull] string data)
     {
       return $@"PB ""{data}""";
@@ -195,7 +176,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string BarCodeMagnify(int widthFactor)
     {
       return $"BM {widthFactor}";
@@ -203,7 +183,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string BarCodeHeight(int height)
     {
       return $"BH {height}";
@@ -211,7 +190,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string BarCodeRatio(int wideBarFactor,
                                        decimal narrowBarFactor)
     {
@@ -220,7 +198,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string BarCodeType(BarCodeType barCodeType)
     {
       var barcode = this.BarCodeTypeMappings[barCodeType];

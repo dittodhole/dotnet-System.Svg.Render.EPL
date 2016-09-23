@@ -188,7 +188,6 @@ namespace Svg.Contrib.Render
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     protected virtual string CalculateVariableName([NotNull] string imageIdentifier)
     {
       // TODO this is magic
@@ -218,7 +217,6 @@ namespace Svg.Contrib.Render
                                           [NotNull] TContainer container);
 
     [Pure]
-    [MustUseReturnValue]
     protected virtual bool ForceDirectWrite([NotNull] SvgImage svgImage) => false;
   }
 }

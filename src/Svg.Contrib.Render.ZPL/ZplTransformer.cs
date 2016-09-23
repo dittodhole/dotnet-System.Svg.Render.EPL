@@ -45,7 +45,6 @@ namespace Svg.Contrib.Render.ZPL
                                                                          };
 
     [Pure]
-    [MustUseReturnValue]
     public virtual FieldOrientation GetFieldOrientation([NotNull] Matrix sourceMatrix,
                                                         [NotNull] Matrix viewMatrix)
     {

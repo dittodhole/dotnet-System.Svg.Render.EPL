@@ -19,7 +19,6 @@ namespace Svg.Contrib.Render
 
     [CanBeNull]
     [Pure]
-    [MustUseReturnValue]
     protected virtual ISvgElementTranslator<TContainer> GetTranslator([NotNull] Type type)
     {
       ISvgElementTranslator<TContainer> svgElementTranslator;
@@ -43,7 +42,6 @@ namespace Svg.Contrib.Render
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public abstract TContainer GetTranslation([NotNull] SvgDocument svgDocument,
                                               [NotNull] Matrix viewMatrix);
 

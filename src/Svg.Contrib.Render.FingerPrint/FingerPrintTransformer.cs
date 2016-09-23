@@ -30,7 +30,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [Pure]
     [NotNull]
-    [MustUseReturnValue]
     protected override Matrix CreateDeviceMatrix()
     {
       var deviceMatrix = new Matrix(1,
@@ -44,7 +43,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [Pure]
     [NotNull]
-    [MustUseReturnValue]
     protected override Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
                                                               float magnificationFactor,
                                                               ViewRotation viewRotation = ViewRotation.Normal)
@@ -151,7 +149,6 @@ namespace Svg.Contrib.Render.FingerPrint
                               out startY);
     }
 
-    [MustUseReturnValue]
     [Pure]
     public virtual Direction GetDirection([NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix)
@@ -193,7 +190,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public override IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
                                                        bool invertBytes,
                                                        int numberOfBytesPerRow)
@@ -211,7 +207,6 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)
     {
       var width = bitmap.Width;
