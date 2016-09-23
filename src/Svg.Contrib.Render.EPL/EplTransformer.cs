@@ -44,7 +44,7 @@ namespace Svg.Contrib.Render.EPL
 
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
@@ -202,9 +202,9 @@ namespace Svg.Contrib.Render.EPL
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix sourceMatrix,
@@ -243,7 +243,7 @@ namespace Svg.Contrib.Render.EPL
       endY += strokeWidth / 4f;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)

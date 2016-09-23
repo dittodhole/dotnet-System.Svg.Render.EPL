@@ -8,7 +8,7 @@ namespace Svg.Contrib.Render.EPL.Demo
   [PublicAPI]
   public class EplTransformer : EPL.EplTransformer
   {
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader)
     {
@@ -18,7 +18,7 @@ namespace Svg.Contrib.Render.EPL.Demo
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
     [Pure]
     public override void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                           float fontSize,

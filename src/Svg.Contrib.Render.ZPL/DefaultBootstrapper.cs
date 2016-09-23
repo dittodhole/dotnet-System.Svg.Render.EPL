@@ -23,7 +23,7 @@ namespace Svg.Contrib.Render.ZPL
       return zplTransformer;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual ZplTransformer CreateZplTransformer([NotNull] SvgUnitReader svgUnitReader)
@@ -38,7 +38,7 @@ namespace Svg.Contrib.Render.ZPL
       return zplTransformer;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual Matrix CreateViewMatrix([NotNull] ZplTransformer zplTransformer,
@@ -59,7 +59,7 @@ namespace Svg.Contrib.Render.ZPL
       return viewMatrix;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual ZplRenderer CreateZplRenderer([NotNull] ZplCommands zplCommands,
@@ -80,8 +80,8 @@ namespace Svg.Contrib.Render.ZPL
     [Pure]
     protected virtual ZplCommands CreateZplCommands() => new ZplCommands();
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgLineTranslator CreateSvgLineTranslator([NotNull] ZplTransformer zplTransformer,
@@ -102,9 +102,9 @@ namespace Svg.Contrib.Render.ZPL
       return svgLineTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgRectangleTranslator CreateSvgRectangleTranslator([NotNull] ZplTransformer zplTransformer,
@@ -131,8 +131,8 @@ namespace Svg.Contrib.Render.ZPL
       return svgRectangleTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] ZplTransformer zplTransformer,
@@ -153,8 +153,8 @@ namespace Svg.Contrib.Render.ZPL
       return svgTextBaseTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] ZplTransformer zplTransformer,
@@ -175,8 +175,8 @@ namespace Svg.Contrib.Render.ZPL
       return svgTextSpanTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgPathTranslator CreateSvgPathTranslator([NotNull] ZplTransformer zplTransformer,
@@ -197,8 +197,8 @@ namespace Svg.Contrib.Render.ZPL
       return svgPathTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] ZplTransformer zplTransformer,
@@ -219,7 +219,7 @@ namespace Svg.Contrib.Render.ZPL
       return svgImageTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual ZplRenderer CreateZplRenderer([NotNull] ZplTransformer zplTransformer,

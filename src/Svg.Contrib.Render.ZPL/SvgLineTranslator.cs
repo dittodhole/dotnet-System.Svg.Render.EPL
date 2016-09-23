@@ -10,8 +10,8 @@ namespace Svg.Contrib.Render.ZPL
   [PublicAPI]
   public class SvgLineTranslator : SvgElementTranslatorBase<ZplContainer, SvgLine>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     public SvgLineTranslator([NotNull] ZplTransformer zplTransformer,
                              [NotNull] ZplCommands zplCommands)
     {
@@ -33,10 +33,10 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     protected ZplCommands ZplCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgLine svgLine,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -92,11 +92,11 @@ namespace Svg.Contrib.Render.ZPL
         var thickness = (int) strokeWidth;
 
         zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                         verticalStart));
+                                                            verticalStart));
         zplContainer.Body.Add(this.ZplCommands.GraphicBox(width,
-                                                       height,
-                                                       thickness,
-                                                       lineColor));
+                                                          height,
+                                                          thickness,
+                                                          lineColor));
       }
       else
       {
@@ -104,9 +104,9 @@ namespace Svg.Contrib.Render.ZPL
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void GetPosition([NotNull] SvgLine svgLine,
                                        [NotNull] Matrix sourceMatrix,

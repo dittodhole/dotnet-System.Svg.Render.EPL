@@ -113,7 +113,7 @@ namespace Svg.Contrib.Render.EPL
       return $"GW{horizontalStart},{verticalStart},{numberOfBytesPerRow},{rows}";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string DeleteGraphics([NotNull] string name)
@@ -126,7 +126,7 @@ namespace Svg.Contrib.Render.EPL
       return $@"GK""{name}""";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string StoreGraphics([NotNull] string name,
@@ -140,7 +140,7 @@ namespace Svg.Contrib.Render.EPL
       return $@"GM""{name}""{length}";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string PrintGraphics(int horizontalStart,
@@ -197,7 +197,7 @@ namespace Svg.Contrib.Render.EPL
       return $"X{horizontalStart},{verticalStart},{lineThickness},{horizontalEnd},{verticalEnd}";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string AsciiText(int horizontalStart,
@@ -217,7 +217,7 @@ namespace Svg.Contrib.Render.EPL
       return $@"A{horizontalStart},{verticalStart},{rotation},{fontSelection},{horizontalMulitplier},{verticalMulitplier},{(char) reverseImage},""{text}""";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="content"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="content" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string BarCode(int horizontalStart,

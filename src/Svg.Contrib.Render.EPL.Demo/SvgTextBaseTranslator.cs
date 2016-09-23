@@ -8,8 +8,8 @@ namespace Svg.Contrib.Render.EPL.Demo
   public class SvgTextBaseTranslator<T> : EPL.SvgTextBaseTranslator<T>
     where T : SvgTextBase
   {
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     public SvgTextBaseTranslator([NotNull] EPL.EplTransformer eplTransformer,
                                  [NotNull] EplCommands eplCommands)
       : base(eplTransformer,
@@ -25,9 +25,9 @@ namespace Svg.Contrib.Render.EPL.Demo
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected override void GetPosition([NotNull] T svgElement,
                                         [NotNull] Matrix sourceMatrix,

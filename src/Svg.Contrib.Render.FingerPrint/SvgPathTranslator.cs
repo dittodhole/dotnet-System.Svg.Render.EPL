@@ -11,8 +11,8 @@ namespace Svg.Contrib.Render.FingerPrint
   [PublicAPI]
   public class SvgPathTranslator : SvgElementTranslatorBase<FingerPrintContainer, SvgPath>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     public SvgPathTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                              [NotNull] FingerPrintCommands fingerPrintCommands)
     {
@@ -34,10 +34,10 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     protected FingerPrintCommands FingerPrintCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgPath"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgPath svgPath,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -85,11 +85,11 @@ namespace Svg.Contrib.Render.FingerPrint
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgPath"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="svgLineSegment"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLineSegment" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     protected virtual void TranslateSvgLineSegment([NotNull] SvgPath svgPath,
                                                    [NotNull] SvgLineSegment svgLineSegment,
                                                    [NotNull] Matrix sourceMatrix,
@@ -157,11 +157,11 @@ namespace Svg.Contrib.Render.FingerPrint
       }
 
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
-                                                           verticalStart));
+                                                                      verticalStart));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Line(length,
-                                                       lineWeight));
+                                                                  lineWeight));
     }
   }
 }

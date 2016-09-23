@@ -11,8 +11,8 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public class SvgPathTranslator : SvgElementTranslatorBase<EplContainer, SvgPath>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     public SvgPathTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)
     {
@@ -34,10 +34,10 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected EplCommands EplCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgPath"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgPath svgPath,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -85,11 +85,11 @@ namespace Svg.Contrib.Render.EPL
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgPath"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="svgLineSegment"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLineSegment" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected virtual void TranslateSvgLineSegment([NotNull] SvgPath svgPath,
                                                    [NotNull] SvgLineSegment svgLineSegment,
                                                    [NotNull] Matrix sourceMatrix,
@@ -157,9 +157,9 @@ namespace Svg.Contrib.Render.EPL
       }
 
       eplContainer.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
-                                                        verticalStart,
-                                                        horizontalLength,
-                                                        verticalLength));
+                                                           verticalStart,
+                                                           horizontalLength,
+                                                           verticalLength));
     }
   }
 }

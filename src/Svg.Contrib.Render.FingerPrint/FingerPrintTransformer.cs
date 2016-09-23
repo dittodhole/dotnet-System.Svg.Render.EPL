@@ -17,7 +17,7 @@ namespace Svg.Contrib.Render.FingerPrint
     public const int DefaultOutputHeight = 1296;
     public const int DefaultOutputWidth = 816;
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public FingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader,
              FingerPrintTransformer.DefaultOutputWidth,
@@ -29,7 +29,7 @@ namespace Svg.Contrib.Render.FingerPrint
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public FingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader,
                                   int outputWidth,
                                   int outputHeight)
@@ -56,7 +56,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return deviceMatrix;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="deviceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="deviceMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     [NotNull]
     protected override Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
@@ -113,9 +113,9 @@ namespace Svg.Contrib.Render.FingerPrint
       return viewMatrix;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix sourceMatrix,
@@ -154,9 +154,9 @@ namespace Svg.Contrib.Render.FingerPrint
       endY += strokeWidth / 2f;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public void Transform([NotNull] SvgTextBase svgTextBase,
                           [NotNull] Matrix sourceMatrix,
@@ -202,8 +202,8 @@ namespace Svg.Contrib.Render.FingerPrint
                               out startY);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual Direction GetDirection([NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix)
@@ -224,7 +224,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return direction;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
@@ -258,7 +258,7 @@ namespace Svg.Contrib.Render.FingerPrint
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public override IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
@@ -281,7 +281,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return result;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)

@@ -10,9 +10,9 @@ namespace Svg.Contrib.Render.FingerPrint
   [PublicAPI]
   public class SvgRectangleTranslator : SvgElementTranslatorBase<FingerPrintContainer, SvgRectangle>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public SvgRectangleTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                                   [NotNull] FingerPrintCommands fingerPrintCommands,
                                   [NotNull] SvgUnitReader svgUnitReader)
@@ -43,10 +43,10 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     protected FingerPrintTransformer FingerPrintTransformer { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -86,10 +86,10 @@ namespace Svg.Contrib.Render.FingerPrint
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle svgRectangle,
                                               [NotNull] Matrix sourceMatrix,
                                               [NotNull] Matrix viewMatrix,
@@ -130,17 +130,17 @@ namespace Svg.Contrib.Render.FingerPrint
       var lineWeight = verticalEnd - verticalStart;
 
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
-                                                           verticalStart));
+                                                                      verticalStart));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Line(length,
-                                                       lineWeight));
+                                                                  lineWeight));
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     protected virtual void TranslateBox([NotNull] SvgRectangle svgRectangle,
                                         [NotNull] Matrix sourceMatrix,
                                         [NotNull] Matrix viewMatrix,
@@ -181,17 +181,17 @@ namespace Svg.Contrib.Render.FingerPrint
       var height = verticalEnd - verticalStart;
 
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
-                                                           verticalStart));
+                                                                      verticalStart));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Box(width,
-                                                      height,
-                                                      lineWeight));
+                                                                 height,
+                                                                 lineWeight));
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void GetPosition([NotNull] SvgRectangle svgRectangle,
                                        [NotNull] Matrix sourceMatrix,

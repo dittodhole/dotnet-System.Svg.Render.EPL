@@ -10,9 +10,9 @@ namespace Svg.Contrib.Render.ZPL
   [PublicAPI]
   public class SvgRectangleTranslator : SvgElementTranslatorBase<ZplContainer, SvgRectangle>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public SvgRectangleTranslator([NotNull] ZplTransformer zplTransformer,
                                   [NotNull] ZplCommands zplCommands,
                                   [NotNull] SvgUnitReader svgUnitReader)
@@ -43,10 +43,10 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     protected SvgUnitReader SvgUnitReader { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -86,10 +86,10 @@ namespace Svg.Contrib.Render.ZPL
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     protected virtual void TranslateFilledBox([NotNull] SvgRectangle svgRectangle,
                                               [NotNull] Matrix sourceMatrix,
                                               [NotNull] Matrix viewMatrix,
@@ -166,17 +166,17 @@ namespace Svg.Contrib.Render.ZPL
       }
 
       zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                       verticalStart));
+                                                          verticalStart));
       zplContainer.Body.Add(this.ZplCommands.GraphicBox(width,
-                                                     height,
-                                                     thickness,
-                                                     LineColor.Black));
+                                                        height,
+                                                        thickness,
+                                                        LineColor.Black));
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     protected virtual void TranslateBox([NotNull] SvgRectangle svgRectangle,
                                         [NotNull] Matrix sourceMatrix,
                                         [NotNull] Matrix viewMatrix,
@@ -220,11 +220,11 @@ namespace Svg.Contrib.Render.ZPL
       var thickness = (int) strokeWidth;
 
       zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                       verticalStart));
+                                                          verticalStart));
       zplContainer.Body.Add(this.ZplCommands.GraphicBox(width,
-                                                     height,
-                                                     thickness,
-                                                     LineColor.Black));
+                                                        height,
+                                                        thickness,
+                                                        LineColor.Black));
     }
   }
 }

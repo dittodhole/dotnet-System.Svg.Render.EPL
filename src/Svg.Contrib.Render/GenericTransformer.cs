@@ -13,7 +13,7 @@ namespace Svg.Contrib.Render
   [PublicAPI]
   public class GenericTransformer
   {
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public GenericTransformer([NotNull] SvgUnitReader svgUnitReader,
                               int outputWidth,
                               int outputHeight)
@@ -33,7 +33,7 @@ namespace Svg.Contrib.Render
     [NotNull]
     protected SvgUnitReader SvgUnitReader { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase)
     {
@@ -66,8 +66,8 @@ namespace Svg.Contrib.Render
       return result;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void ApplyMatrixOnPoint(float x,
                                               float y,
@@ -100,8 +100,8 @@ namespace Svg.Contrib.Render
       newY = transformedPoint.Y;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual float ApplyMatrixOnLength(float length,
                                                 [NotNull] Matrix sourceMatrix,
@@ -128,8 +128,8 @@ namespace Svg.Contrib.Render
       return result;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual PointF ApplyMatrixOnVector(PointF vector,
                                                  [NotNull] Matrix sourceMatrix,
@@ -167,9 +167,9 @@ namespace Svg.Contrib.Render
       return (int) result;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual void Transform([NotNull] SvgLine svgLine,
                                   [NotNull] Matrix sourceMatrix,
@@ -237,9 +237,9 @@ namespace Svg.Contrib.Render
                                              viewMatrix);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual void Transform([NotNull] SvgImage svgImage,
                                   [NotNull] Matrix sourceMatrix,
@@ -311,9 +311,9 @@ namespace Svg.Contrib.Render
                                                        viewMatrix);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual void Transform([NotNull] SvgRectangle svgRectangle,
                                   [NotNull] Matrix sourceMatrix,
@@ -381,9 +381,9 @@ namespace Svg.Contrib.Render
                                              viewMatrix);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual void Transform([NotNull] SvgTextBase svgTextBase,
                                   [NotNull] Matrix sourceMatrix,
@@ -449,7 +449,7 @@ namespace Svg.Contrib.Render
       return deviceMatrix;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="deviceMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="deviceMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     [NotNull]
     protected virtual Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
@@ -510,8 +510,8 @@ namespace Svg.Contrib.Render
       return viewMatrix;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual int GetRotationSector([NotNull] Matrix sourceMatrix,
                                          [NotNull] Matrix viewMatrix)
@@ -545,9 +545,9 @@ namespace Svg.Contrib.Render
       return sector;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [CanBeNull]
     [Pure]
     public virtual Bitmap ConvertToBitmap([NotNull] SvgImage svgImage,
@@ -627,7 +627,7 @@ namespace Svg.Contrib.Render
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual byte[] GetRawBinaryData([NotNull] Bitmap bitmap,
@@ -651,7 +651,7 @@ namespace Svg.Contrib.Render
       return rawBinaryData;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,

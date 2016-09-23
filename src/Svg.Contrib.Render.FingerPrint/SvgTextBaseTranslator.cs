@@ -14,8 +14,8 @@ namespace Svg.Contrib.Render.FingerPrint
   {
     // TODO translate dX and dY
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     public SvgTextBaseTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                                  [NotNull] FingerPrintCommands fingerPrintCommands)
     {
@@ -37,10 +37,10 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     protected FingerPrintCommands FingerPrintCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] T svgElement,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -106,7 +106,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                      fingerPrintContainer);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual string RemoveIllegalCharacters([NotNull] string text)
@@ -124,9 +124,9 @@ namespace Svg.Contrib.Render.FingerPrint
       // ReSharper restore ExceptionNotDocumentedOptional
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
                                        [NotNull] Matrix sourceMatrix,
@@ -163,10 +163,10 @@ namespace Svg.Contrib.Render.FingerPrint
       verticalStart = (int) y;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fontName"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fontName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     protected virtual void AddTranslationToContainer([NotNull] T svgElement,
                                                      int horizontalStart,
                                                      int verticalStart,
@@ -195,7 +195,7 @@ namespace Svg.Contrib.Render.FingerPrint
       }
 
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
-                                                           verticalStart));
+                                                                      verticalStart));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Direction(direction));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Align(Alignment.BaseLineLeft));
 
@@ -209,8 +209,8 @@ namespace Svg.Contrib.Render.FingerPrint
       }
 
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.Font(fontName,
-                                                       characterHeight,
-                                                       slant));
+                                                                  characterHeight,
+                                                                  slant));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.PrintText(text));
     }
   }

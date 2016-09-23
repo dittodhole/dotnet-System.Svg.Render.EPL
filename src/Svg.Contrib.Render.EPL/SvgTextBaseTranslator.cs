@@ -15,8 +15,8 @@ namespace Svg.Contrib.Render.EPL
   {
     // TODO translate dX and dY
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     public SvgTextBaseTranslator([NotNull] EplTransformer eplTransformer,
                                  [NotNull] EplCommands eplCommands)
     {
@@ -38,10 +38,10 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected EplCommands EplCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] T svgElement,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -107,9 +107,9 @@ namespace Svg.Contrib.Render.EPL
                                      eplContainer);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
                                        [NotNull] Matrix sourceMatrix,
@@ -147,7 +147,7 @@ namespace Svg.Contrib.Render.EPL
                                                      viewMatrix);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual string RemoveIllegalCharacters([NotNull] string text)
@@ -165,9 +165,9 @@ namespace Svg.Contrib.Render.EPL
       // ReSharper restore ExceptionNotDocumentedOptional
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected virtual void AddTranslationToContainer([NotNull] T svgElement,
                                                      int horizontalStart,
                                                      int verticalStart,
@@ -202,13 +202,13 @@ namespace Svg.Contrib.Render.EPL
       }
 
       eplContainer.Body.Add(this.EplCommands.AsciiText(horizontalStart,
-                                                    verticalStart,
-                                                    sector,
-                                                    fontSelection,
-                                                    horizontalMultiplier,
-                                                    verticalMultiplier,
-                                                    reverseImage,
-                                                    text));
+                                                       verticalStart,
+                                                       sector,
+                                                       fontSelection,
+                                                       horizontalMultiplier,
+                                                       verticalMultiplier,
+                                                       reverseImage,
+                                                       text));
     }
   }
 }

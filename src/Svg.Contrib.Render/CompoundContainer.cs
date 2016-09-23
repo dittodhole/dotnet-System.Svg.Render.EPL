@@ -18,9 +18,9 @@ namespace Svg.Contrib.Render
       this.Footer = new LinkedList<object>();
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="header"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="body"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="footer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="header" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="body" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="footer" /> is <see langword="null" />.</exception>
     protected CompoundContainer([NotNull] ICollection<object> header,
                                 [NotNull] ICollection<object> body,
                                 [NotNull] ICollection<object> footer)
@@ -71,7 +71,7 @@ namespace Svg.Contrib.Render
                              .ToArray());
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="encoding"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="encoding" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     [CollectionAccess(CollectionAccessType.Read)]

@@ -6,7 +6,7 @@ namespace Svg.Contrib.Render.EPL.Demo
   [PublicAPI]
   public class CustomBootstrapper : DefaultBootstrapper
   {
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected override EPL.EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader)
@@ -21,8 +21,8 @@ namespace Svg.Contrib.Render.EPL.Demo
       return eplTransformer;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected override EPL.SvgImageTranslator CreateSvgImageTranslator([NotNull] EPL.EplTransformer eplTransformer,

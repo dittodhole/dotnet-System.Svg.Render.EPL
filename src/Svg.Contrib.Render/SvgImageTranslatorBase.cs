@@ -13,7 +13,7 @@ namespace Svg.Contrib.Render
   public abstract class SvgImageTranslatorBase<TContainer> : SvgElementTranslatorBase<TContainer, SvgImage>
     where TContainer : Container
   {
-    /// <exception cref="ArgumentNullException"><paramref name="genericTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="genericTransformer" /> is <see langword="null" />.</exception>
     protected SvgImageTranslatorBase([NotNull] GenericTransformer genericTransformer)
     {
       if (genericTransformer == null)
@@ -30,10 +30,10 @@ namespace Svg.Contrib.Render
     [ItemNotNull]
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; } = new Dictionary<string, string>();
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
     protected virtual void StoreGraphics([NotNull] SvgImage svgImage,
                                          [NotNull] Matrix sourceMatrix,
                                          [NotNull] Matrix viewMatrix,
@@ -90,17 +90,17 @@ namespace Svg.Contrib.Render
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
     protected abstract void StoreGraphics([NotNull] string variableName,
                                           [NotNull] Bitmap bitmap,
                                           [NotNull] TContainer container);
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgImage svgImage,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -149,9 +149,9 @@ namespace Svg.Contrib.Render
                                      container);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void GetPosition([NotNull] SvgImage svgImage,
                                        [NotNull] Matrix sourceMatrix,
@@ -195,10 +195,10 @@ namespace Svg.Contrib.Render
                                                          viewMatrix);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
     protected virtual void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                      [NotNull] Matrix sourceMatrix,
                                                      [NotNull] Matrix viewMatrix,
@@ -264,10 +264,10 @@ namespace Svg.Contrib.Render
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
     protected abstract void GraphicDirectWrite([NotNull] SvgImage svgImage,
                                                [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
@@ -277,7 +277,7 @@ namespace Svg.Contrib.Render
                                                int verticalStart,
                                                [NotNull] TContainer container);
 
-    /// <exception cref="ArgumentNullException"><paramref name="imageIdentifier"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="imageIdentifier" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual string CalculateVariableName([NotNull] string imageIdentifier)
@@ -304,11 +304,11 @@ namespace Svg.Contrib.Render
       return variableName;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
     protected abstract void PrintGraphics([NotNull] SvgImage svgImage,
                                           [NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix,
@@ -318,7 +318,7 @@ namespace Svg.Contrib.Render
                                           [NotNull] string variableName,
                                           [NotNull] TContainer container);
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual bool ForceDirectWrite([NotNull] SvgImage svgImage)
     {

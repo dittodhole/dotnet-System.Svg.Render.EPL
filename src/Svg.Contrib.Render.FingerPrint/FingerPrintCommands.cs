@@ -64,7 +64,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return $"PF {copies}";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string PrintText([NotNull] string text)
@@ -77,7 +77,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return $@"PT ""{text}""";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="fontName"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fontName" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string Font([NotNull] string fontName,
@@ -106,7 +106,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return $"AN {(int) alignment}";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string ImageLoad([NotNull] string name,
@@ -122,7 +122,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return $@"IMAGE LOAD {skip},""{name}"",{totalNumberOfBytes},""""";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string PrintImage([NotNull] string name)
@@ -177,7 +177,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return "INVIMAGE";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string RemoveImage([NotNull] string name)
@@ -197,7 +197,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return $"PRBUF {totalNumberOfBytes}";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="data"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="data" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string PrintBarCode([NotNull] string data)

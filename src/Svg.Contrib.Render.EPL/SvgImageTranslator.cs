@@ -11,8 +11,8 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public class SvgImageTranslator : SvgImageTranslatorBase<EplContainer>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     public SvgImageTranslator([NotNull] EplTransformer eplTransformer,
                               [NotNull] EplCommands eplCommands)
       : base(eplTransformer)
@@ -35,9 +35,9 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected EplCommands EplCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected override void StoreGraphics([NotNull] string variableName,
                                           [NotNull] Bitmap bitmap,
                                           [NotNull] EplContainer eplContainer)
@@ -60,14 +60,14 @@ namespace Svg.Contrib.Render.EPL
       eplContainer.Header.Add(this.EplCommands.DeleteGraphics(variableName));
       eplContainer.Header.Add(this.EplCommands.DeleteGraphics(variableName));
       eplContainer.Header.Add(this.EplCommands.StoreGraphics(variableName,
-                                                          pcxByteArray.Length));
+                                                             pcxByteArray.Length));
       eplContainer.Header.Add(pcxByteArray);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected override void GraphicDirectWrite([NotNull] SvgImage svgImage,
                                                [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
@@ -112,18 +112,18 @@ namespace Svg.Contrib.Render.EPL
         var rows = bitmap.Height;
 
         eplContainer.Body.Add(this.EplCommands.GraphicDirectWrite(horizontalStart,
-                                                               verticalStart,
-                                                               numberOfBytesPerRow,
-                                                               rows));
+                                                                  verticalStart,
+                                                                  numberOfBytesPerRow,
+                                                                  rows));
         eplContainer.Body.Add(rawBinaryData);
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected override void PrintGraphics([NotNull] SvgImage svgImage,
                                           [NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix,
@@ -155,8 +155,8 @@ namespace Svg.Contrib.Render.EPL
       }
 
       eplContainer.Body.Add(this.EplCommands.PrintGraphics(horizontalStart,
-                                                        verticalStart,
-                                                        variableName));
+                                                           verticalStart,
+                                                           variableName));
     }
   }
 }

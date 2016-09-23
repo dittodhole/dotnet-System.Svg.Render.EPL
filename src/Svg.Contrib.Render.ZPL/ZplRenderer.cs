@@ -11,7 +11,7 @@ namespace Svg.Contrib.Render.ZPL
   [PublicAPI]
   public class ZplRenderer : RendererBase<ZplContainer>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     public ZplRenderer([NotNull] ZplCommands zplCommands,
                        CharacterSet characterSet = CharacterSet.ZebraCodePage850)
     {
@@ -54,8 +54,8 @@ namespace Svg.Contrib.Render.ZPL
       return encoding;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgDocument"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public override ZplContainer GetTranslation([NotNull] SvgDocument svgDocument,
@@ -88,10 +88,10 @@ namespace Svg.Contrib.Render.ZPL
       return zplContainer;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgDocument"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     protected virtual void AddHeaderToTranslation([NotNull] SvgDocument svgDocument,
                                                   [NotNull] Matrix sourceMatrix,
                                                   [NotNull] Matrix viewMatrix,
@@ -117,10 +117,10 @@ namespace Svg.Contrib.Render.ZPL
       zplContainer.Header.Add(this.ZplCommands.ChangeInternationalFont(this.CharacterSet));
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgDocument"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     protected virtual void AddBodyToTranslation([NotNull] SvgDocument svgDocument,
                                                 [NotNull] Matrix sourceMatrix,
                                                 [NotNull] Matrix viewMatrix,
@@ -145,7 +145,7 @@ namespace Svg.Contrib.Render.ZPL
 
       zplContainer.Body.Add(this.ZplCommands.StartFormat());
       zplContainer.Body.Add(this.ZplCommands.LabelHome(18,
-                                                    8));
+                                                       8));
       zplContainer.Body.Add(this.ZplCommands.PrintOrientation(PrintOrientation.Normal));
       this.TranslateSvgElementAndChildren(svgDocument,
                                           sourceMatrix,
@@ -153,10 +153,10 @@ namespace Svg.Contrib.Render.ZPL
                                           zplContainer);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgDocument"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     protected virtual void AddFooterToTranslation([NotNull] SvgDocument svgDocument,
                                                   [NotNull] Matrix sourceMatrix,
                                                   [NotNull] Matrix viewMatrix,

@@ -23,7 +23,7 @@ namespace Svg.Contrib.Render.EPL
       return eplTransformer;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual EplTransformer CreateEplTransformer([NotNull] SvgUnitReader svgUnitReader)
@@ -38,7 +38,7 @@ namespace Svg.Contrib.Render.EPL
       return eplTransformer;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual Matrix CreateViewMatrix([NotNull] EplTransformer eplTransformer,
@@ -59,7 +59,7 @@ namespace Svg.Contrib.Render.EPL
       return viewMatrix;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual EplRenderer CreateEplRenderer([NotNull] EplCommands eplCommands,
@@ -82,8 +82,8 @@ namespace Svg.Contrib.Render.EPL
     [Pure]
     protected virtual EplCommands CreateEplCommands() => new EplCommands();
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgLineTranslator CreateSvgLineTranslator([NotNull] EplTransformer eplTransformer,
@@ -104,9 +104,9 @@ namespace Svg.Contrib.Render.EPL
       return svgLineTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgRectangleTranslator CreateSvgRectangleTranslator([NotNull] EplTransformer eplTransformer,
@@ -133,8 +133,8 @@ namespace Svg.Contrib.Render.EPL
       return svgRectangleTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] EplTransformer eplTransformer,
@@ -155,8 +155,8 @@ namespace Svg.Contrib.Render.EPL
       return svgTextBaseTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] EplTransformer eplTransformer,
@@ -177,8 +177,8 @@ namespace Svg.Contrib.Render.EPL
       return svgTextSpanTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgPathTranslator CreateSvgPathTranslator([NotNull] EplTransformer eplTransformer,
@@ -199,8 +199,8 @@ namespace Svg.Contrib.Render.EPL
       return svgPathTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] EplTransformer eplTransformer,
@@ -221,7 +221,7 @@ namespace Svg.Contrib.Render.EPL
       return svgImageTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual EplRenderer CreateEplRenderer([NotNull] EplTransformer eplTransformer,

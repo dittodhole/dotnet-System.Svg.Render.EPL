@@ -10,8 +10,8 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public class SvgLineTranslator : SvgElementTranslatorBase<EplContainer, SvgLine>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     public SvgLineTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)
     {
@@ -33,10 +33,10 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected EplCommands EplCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgLine svgLine,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -86,9 +86,9 @@ namespace Svg.Contrib.Render.EPL
                                      eplContainer);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void GetPosition([NotNull] SvgLine svgLine,
                                        [NotNull] Matrix sourceMatrix,
@@ -146,8 +146,8 @@ namespace Svg.Contrib.Render.EPL
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected virtual void AddTranslationToContainer([NotNull] SvgLine svgLine,
                                                      int horizontalStart,
                                                      int verticalStart,
@@ -182,25 +182,25 @@ namespace Svg.Contrib.Render.EPL
         if (strokeShouldBeWhite)
         {
           eplContainer.Body.Add(this.EplCommands.LineDrawWhite(horizontalStart,
-                                                            verticalStart,
-                                                            horizontalLength,
-                                                            verticalLength));
+                                                               verticalStart,
+                                                               horizontalLength,
+                                                               verticalLength));
         }
         else
         {
           eplContainer.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
-                                                            verticalStart,
-                                                            horizontalLength,
-                                                            verticalLength));
+                                                               verticalStart,
+                                                               horizontalLength,
+                                                               verticalLength));
         }
       }
       else
       {
         eplContainer.Body.Add(this.EplCommands.LineDrawDiagonal(horizontalStart,
-                                                             verticalStart,
-                                                             horizontalLength,
-                                                             verticalLength,
-                                                             verticalEnd));
+                                                                verticalStart,
+                                                                horizontalLength,
+                                                                verticalLength,
+                                                                verticalEnd));
       }
     }
   }

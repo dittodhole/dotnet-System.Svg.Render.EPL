@@ -17,7 +17,7 @@ namespace Svg.Contrib.Render.EPL.Tests
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
     protected override float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase)
     {
       if (svgTextBase == null)

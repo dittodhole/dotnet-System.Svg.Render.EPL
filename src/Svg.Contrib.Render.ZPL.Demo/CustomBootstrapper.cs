@@ -6,8 +6,8 @@ namespace Svg.Contrib.Render.ZPL.Demo
   [PublicAPI]
   public class CustomBootstrapper : DefaultBootstrapper
   {
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected override ZPL.SvgImageTranslator CreateSvgImageTranslator([NotNull] ZplTransformer zplTransformer,

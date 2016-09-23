@@ -19,8 +19,8 @@ namespace Svg.Contrib.Render.EPL.Demo
     //    reusable abstraction for multiple printer languages.
     //    in short: yes! you have to get your hands dirty...
 
-    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     public SvgImageTranslator([NotNull] EPL.EplTransformer eplTransformer,
                               [NotNull] EplCommands eplCommands)
       : base(eplTransformer,
@@ -36,9 +36,9 @@ namespace Svg.Contrib.Render.EPL.Demo
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected override void GetPosition([NotNull] SvgImage svgImage,
                                         [NotNull] Matrix sourceMatrix,
@@ -89,10 +89,10 @@ namespace Svg.Contrib.Render.EPL.Demo
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected override void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                       [NotNull] Matrix sourceMatrix,
                                                       [NotNull] Matrix viewMatrix,
@@ -136,14 +136,14 @@ namespace Svg.Contrib.Render.EPL.Demo
         {
           var height = (int) sourceAlignmentHeight;
           eplContainer.Body.Add(this.EplCommands.BarCode(horizontalStart,
-                                                      verticalStart,
-                                                      sector,
-                                                      barCodeSelection,
-                                                      narrowBarWidth,
-                                                      wideBarWidth,
-                                                      height,
-                                                      printHumanReadable,
-                                                      barcode));
+                                                         verticalStart,
+                                                         sector,
+                                                         barCodeSelection,
+                                                         narrowBarWidth,
+                                                         wideBarWidth,
+                                                         height,
+                                                         printHumanReadable,
+                                                         barcode));
           return;
         }
       }
@@ -159,7 +159,7 @@ namespace Svg.Contrib.Render.EPL.Demo
                                      eplContainer);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
     [Pure]
     private bool TryGetBarCodeSelection([NotNull] SvgImage svgImage,
                                         out BarCodeSelection barCodeSelection,

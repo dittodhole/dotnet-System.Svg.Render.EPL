@@ -48,8 +48,8 @@ namespace Svg.Contrib.Render.ZPL
     //  return $"^GD{width},{height},{thickness},{(char) lineColor},{(char) orientation}^FS";
     //}
 
-    /// <exception cref="ArgumentNullException"><paramref name="fontName"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fontName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string Font([NotNull] string fontName,
@@ -106,8 +106,8 @@ namespace Svg.Contrib.Render.ZPL
       return $"^CI{characterSet.ToString("D")}";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="rawBinaryData"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="rawBinaryData" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string DownloadGraphics([NotNull] string name,
@@ -132,7 +132,7 @@ namespace Svg.Contrib.Render.ZPL
       return $"~DGR:{name},{totalNumberOfBytes},{numberOfBytesPerRow},{data}";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="name"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string RecallGraphic([NotNull] string name)
@@ -154,7 +154,7 @@ namespace Svg.Contrib.Render.ZPL
       return $"^BY{moduleWidth},{Math.Round(wideBarToNarrowBarWidthRatio, 2)},{height}";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="content"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="content" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string Code128BarCode(FieldOrientation fieldOrientation,
@@ -173,7 +173,7 @@ namespace Svg.Contrib.Render.ZPL
       return $"^BC{(char) fieldOrientation},{barCodeHeight},{(char) printInterpretationLine},{(char) printInterpretationLineAboveCode},{(char) uccCheckDigit},{(char) mode}^FD{content}^FS";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="content"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="content" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string Interleaved2Of5BarCode(FieldOrientation fieldOrientation,
@@ -191,7 +191,7 @@ namespace Svg.Contrib.Render.ZPL
       return $"^B2{(char) fieldOrientation},{barCodeHeight},{(char) printInterpretationLine},{(char) printInterpretationLineAboveCode},{(char) calculateAndPrintMod10CheckDigit}^FD{content}^FS";
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="rawBinaryData"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="rawBinaryData" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual string GraphicField([NotNull] IEnumerable<byte> rawBinaryData,

@@ -23,7 +23,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return fingerPrintTransformer;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual FingerPrintTransformer CreateFingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader)
@@ -38,7 +38,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return fingerPrintTransformer;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual Matrix CreateViewMatrix([NotNull] FingerPrintTransformer fingerPrintTransformer,
@@ -59,7 +59,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return viewMatrix;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintCommands fingerPrintCommands)
@@ -78,8 +78,8 @@ namespace Svg.Contrib.Render.FingerPrint
     [Pure]
     protected virtual FingerPrintCommands CreateFingerPrintCommands() => new FingerPrintCommands();
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgLineTranslator CreateSvgLineTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
@@ -100,9 +100,9 @@ namespace Svg.Contrib.Render.FingerPrint
       return svgLineTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgRectangleTranslator CreateSvgRectangleTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
@@ -129,8 +129,8 @@ namespace Svg.Contrib.Render.FingerPrint
       return svgRectangleTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgText> CreateSvgTextTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
@@ -151,8 +151,8 @@ namespace Svg.Contrib.Render.FingerPrint
       return svgTextBaseTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgTextBaseTranslator<SvgTextSpan> CreateSvgTextSpanTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
@@ -173,8 +173,8 @@ namespace Svg.Contrib.Render.FingerPrint
       return svgTextSpanTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgPathTranslator CreateSvgPathTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
@@ -195,8 +195,8 @@ namespace Svg.Contrib.Render.FingerPrint
       return svgPathTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     protected virtual SvgImageTranslator CreateSvgImageTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
@@ -217,7 +217,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return svgImageTranslator;
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
     public virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintTransformer fingerPrintTransformer)

@@ -19,8 +19,8 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
     //    reusable abstraction for multiple printer languages.
     //    in short: yes! you have to get your hands dirty...
 
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     public SvgImageTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                               [NotNull] FingerPrintCommands fingerPrintCommands)
       : base(fingerPrintTransformer,
@@ -36,9 +36,9 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected override void GetPosition([NotNull] SvgImage svgImage,
                                         [NotNull] Matrix sourceMatrix,
@@ -90,10 +90,10 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     protected override void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                       [NotNull] Matrix sourceMatrix,
                                                       [NotNull] Matrix viewMatrix,
@@ -129,7 +129,7 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
                                                                  viewMatrix);
 
         fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
-                                                             verticalStart));
+                                                                        verticalStart));
         fingerPrintContainer.Body.Add(this.FingerPrintCommands.Direction(direction));
         fingerPrintContainer.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
         fingerPrintContainer.Body.Add(this.FingerPrintCommands.BarCodeHeight(height));

@@ -11,8 +11,8 @@ namespace Svg.Contrib.Render.ZPL
   [PublicAPI]
   public class SvgPathTranslator : SvgElementTranslatorBase<ZplContainer, SvgPath>
   {
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     public SvgPathTranslator([NotNull] ZplTransformer zplTransformer,
                              [NotNull] ZplCommands zplCommands)
     {
@@ -34,10 +34,10 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     protected ZplCommands ZplCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgPath"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] SvgPath svgPath,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
@@ -85,11 +85,11 @@ namespace Svg.Contrib.Render.ZPL
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgPath"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="svgLineSegment"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLineSegment" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     protected virtual void TranslateSvgLineSegment([NotNull] SvgPath svgPath,
                                                    [NotNull] SvgLineSegment svgLineSegment,
                                                    [NotNull] Matrix sourceMatrix,
@@ -149,11 +149,11 @@ namespace Svg.Contrib.Render.ZPL
       var thickness = (int) strokeWidth;
 
       zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                       verticalStart));
+                                                          verticalStart));
       zplContainer.Body.Add(this.ZplCommands.GraphicBox(width,
-                                                     height,
-                                                     thickness,
-                                                     LineColor.Black));
+                                                        height,
+                                                        thickness,
+                                                        LineColor.Black));
     }
   }
 }

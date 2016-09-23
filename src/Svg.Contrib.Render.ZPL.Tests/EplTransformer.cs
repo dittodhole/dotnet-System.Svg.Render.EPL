@@ -5,7 +5,7 @@ namespace Svg.Contrib.Render.ZPL.Tests
 {
   public class ZplTransformer : ZPL.ZplTransformer
   {
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public ZplTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader,
              ZPL.ZplTransformer.DefaultOutputWidth,
@@ -17,7 +17,7 @@ namespace Svg.Contrib.Render.ZPL.Tests
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
     protected override float GetLineHeightFactor([NotNull] SvgTextBase svgTextBase)
     {
       if (svgTextBase == null)

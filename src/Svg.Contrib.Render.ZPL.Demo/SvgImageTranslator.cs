@@ -19,8 +19,8 @@ namespace Svg.Contrib.Render.ZPL.Demo
     //    reusable abstraction for multiple printer languages.
     //    in short: yes! you have to get your hands dirty...
 
-    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplCommands"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     public SvgImageTranslator([NotNull] ZplTransformer zplTransformer,
                               [NotNull] ZplCommands zplCommands)
       : base(zplTransformer,
@@ -36,9 +36,9 @@ namespace Svg.Contrib.Render.ZPL.Demo
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected override void GetPosition([NotNull] SvgImage svgImage,
                                         [NotNull] Matrix sourceMatrix,
@@ -90,10 +90,10 @@ namespace Svg.Contrib.Render.ZPL.Demo
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     protected override void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                       [NotNull] Matrix sourceMatrix,
                                                       [NotNull] Matrix viewMatrix,
@@ -132,38 +132,38 @@ namespace Svg.Contrib.Render.ZPL.Demo
         if (svgImage.ID == "CargoIdBc")
         {
           zplContainer.Body.Add(this.ZplCommands.BarCodeFieldDefaut(3,
-                                                                 2,
-                                                                 height));
+                                                                    2,
+                                                                    height));
           zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                           verticalStart));
+                                                              verticalStart));
           zplContainer.Body.Add(this.ZplCommands.Interleaved2Of5BarCode(fieldOrientation,
-                                                                     height,
-                                                                     barcode,
-                                                                     PrintInterpretationLine.No));
+                                                                        height,
+                                                                        barcode,
+                                                                        PrintInterpretationLine.No));
         }
         else if (svgImage.ID == "RouteBc")
         {
           zplContainer.Body.Add(this.ZplCommands.BarCodeFieldDefaut(3,
-                                                                 2,
-                                                                 height));
+                                                                    2,
+                                                                    height));
           zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                           verticalStart));
+                                                              verticalStart));
           zplContainer.Body.Add(this.ZplCommands.Code128BarCode(fieldOrientation,
-                                                             height,
-                                                             barcode,
-                                                             PrintInterpretationLine.No));
+                                                                height,
+                                                                barcode,
+                                                                PrintInterpretationLine.No));
         }
         else if (svgImage.ID == "ReceiverBc")
         {
           zplContainer.Body.Add(this.ZplCommands.BarCodeFieldDefaut(2,
-                                                                 2.0m,
-                                                                 height));
+                                                                    2.0m,
+                                                                    height));
           zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                           verticalStart));
+                                                              verticalStart));
           zplContainer.Body.Add(this.ZplCommands.Code128BarCode(fieldOrientation,
-                                                             height,
-                                                             barcode,
-                                                             PrintInterpretationLine.No));
+                                                                height,
+                                                                barcode,
+                                                                PrintInterpretationLine.No));
         }
         else
         {
