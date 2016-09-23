@@ -137,11 +137,11 @@ namespace Svg.Contrib.Render.ZPL.Tests
       }
     }
 
-    //  protected override void Context()
-    //{
-    //public class when_svg_line_with_partly_swapped_coordinates_is_translated : SvgLineTranslatorSpecsContext
-
     //[TestFixture]
+    //public class when_svg_line_with_partly_swapped_coordinates_is_translated : SvgLineTranslatorSpecsContext
+    //{
+
+    //  protected override void Context()
     //  {
     //    base.Context();
 
