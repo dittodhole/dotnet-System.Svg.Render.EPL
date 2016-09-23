@@ -93,7 +93,7 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
     /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
     protected override void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                       [NotNull] Matrix sourceMatrix,
                                                       [NotNull] Matrix viewMatrix,
@@ -102,7 +102,7 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
                                                       int horizontalStart,
                                                       int verticalStart,
                                                       int sector,
-                                                      [NotNull] FingerPrintContainer container)
+                                                      [NotNull] FingerPrintContainer fingerPrintContainer)
     {
       if (svgImage == null)
       {
@@ -116,9 +116,9 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (fingerPrintContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
       if (svgImage.HasNonEmptyCustomAttribute("data-barcode"))
@@ -128,32 +128,32 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
         var direction = this.FingerPrintTransformer.GetDirection(sourceMatrix,
                                                                  viewMatrix);
 
-        container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                              verticalStart));
-        container.Body.Add(this.FingerPrintCommands.Direction(direction));
-        container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
-        container.Body.Add(this.FingerPrintCommands.BarCodeHeight(height));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Direction(direction));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.BarCodeHeight(height));
 
         if (svgImage.ID == "CargoIdBc")
         {
-          container.Body.Add(this.FingerPrintCommands.BarCodeMagnify(3));
-          container.Body.Add(this.FingerPrintCommands.BarCodeType(BarCodeType.Code128));
+          fingerPrintContainer.Body.Add(this.FingerPrintCommands.BarCodeMagnify(3));
+          fingerPrintContainer.Body.Add(this.FingerPrintCommands.BarCodeType(BarCodeType.Code128));
         }
         else if (svgImage.ID == "RouteBc")
         {
-          container.Body.Add(this.FingerPrintCommands.BarCodeMagnify(2));
-          container.Body.Add(this.FingerPrintCommands.BarCodeType(BarCodeType.Code128));
+          fingerPrintContainer.Body.Add(this.FingerPrintCommands.BarCodeMagnify(2));
+          fingerPrintContainer.Body.Add(this.FingerPrintCommands.BarCodeType(BarCodeType.Code128));
         }
         else if (svgImage.ID == "ReceiverBc")
         {
-          container.Body.Add(this.FingerPrintCommands.BarCodeMagnify(1));
-          container.Body.Add(this.FingerPrintCommands.BarCodeType(BarCodeType.Code128));
+          fingerPrintContainer.Body.Add(this.FingerPrintCommands.BarCodeMagnify(1));
+          fingerPrintContainer.Body.Add(this.FingerPrintCommands.BarCodeType(BarCodeType.Code128));
         }
         else
         {
           throw new NotImplementedException();
         }
-        container.Body.Add(this.FingerPrintCommands.PrintBarCode(barcode));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.PrintBarCode(barcode));
       }
       else
       {
@@ -165,7 +165,7 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
                                        horizontalStart,
                                        verticalStart,
                                        sector,
-                                       container);
+                                       fingerPrintContainer);
       }
     }
   }

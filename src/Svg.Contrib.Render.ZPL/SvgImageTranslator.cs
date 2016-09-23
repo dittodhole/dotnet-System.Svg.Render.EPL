@@ -37,10 +37,10 @@ namespace Svg.Contrib.Render.ZPL
 
     /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
     protected override void StoreGraphics([NotNull] string variableName,
                                           [NotNull] Bitmap bitmap,
-                                          [NotNull] ZplContainer container)
+                                          [NotNull] ZplContainer zplContainer)
     {
       if (variableName == null)
       {
@@ -50,9 +50,9 @@ namespace Svg.Contrib.Render.ZPL
       {
         throw new ArgumentNullException(nameof(bitmap));
       }
-      if (container == null)
+      if (zplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(zplContainer));
       }
 
       int numberOfBytesPerRow;
@@ -60,27 +60,27 @@ namespace Svg.Contrib.Render.ZPL
                                                                false,
                                                                out numberOfBytesPerRow);
 
-      container.Header.Add(this.ZplCommands.DownloadGraphics(variableName,
+      zplContainer.Header.Add(this.ZplCommands.DownloadGraphics(variableName,
                                                              rawBinaryData,
                                                              numberOfBytesPerRow));
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
-    protected override void GraphicDirectWrite([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    protected override void GraphicDirectWrite([NotNull] SvgImage svgImage,
                                                [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
                                                int verticalStart,
-                                               [NotNull] ZplContainer container)
+                                               [NotNull] ZplContainer zplContainer)
     {
-      if (svgElement == null)
+      if (svgImage == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgImage));
       }
       if (sourceMatrix == null)
       {
@@ -90,12 +90,12 @@ namespace Svg.Contrib.Render.ZPL
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (zplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(zplContainer));
       }
 
-      using (var bitmap = this.ZplTransformer.ConvertToBitmap(svgElement,
+      using (var bitmap = this.ZplTransformer.ConvertToBitmap(svgImage,
                                                               sourceMatrix,
                                                               viewMatrix,
                                                               (int) sourceAlignmentWidth,
@@ -111,9 +111,9 @@ namespace Svg.Contrib.Render.ZPL
                                                                  false,
                                                                  out numberOfBytesPerRow);
 
-        container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+        zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                          verticalStart));
-        container.Body.Add(this.ZplCommands.GraphicField(rawBinaryData,
+        zplContainer.Body.Add(this.ZplCommands.GraphicField(rawBinaryData,
                                                          numberOfBytesPerRow));
       }
     }
@@ -122,7 +122,7 @@ namespace Svg.Contrib.Render.ZPL
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
     protected override void PrintGraphics([NotNull] SvgImage svgImage,
                                           [NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix,
@@ -130,7 +130,7 @@ namespace Svg.Contrib.Render.ZPL
                                           int verticalStart,
                                           int sector,
                                           [NotNull] string variableName,
-                                          [NotNull] ZplContainer container)
+                                          [NotNull] ZplContainer zplContainer)
     {
       if (svgImage == null)
       {
@@ -148,14 +148,14 @@ namespace Svg.Contrib.Render.ZPL
       {
         throw new ArgumentNullException(nameof(variableName));
       }
-      if (container == null)
+      if (zplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(zplContainer));
       }
 
-      container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+      zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                        verticalStart));
-      container.Body.Add(this.ZplCommands.RecallGraphic(variableName));
+      zplContainer.Body.Add(this.ZplCommands.RecallGraphic(variableName));
     }
   }
 }

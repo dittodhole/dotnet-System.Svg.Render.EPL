@@ -97,19 +97,19 @@ namespace Svg.Contrib.Render
                                           [NotNull] Bitmap bitmap,
                                           [NotNull] TContainer container);
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgImage svgElement,
+    public override void Translate([NotNull] SvgImage svgImage,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
                                    [NotNull] TContainer container)
 
     {
-      if (svgElement == null)
+      if (svgImage == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgImage));
       }
       if (sourceMatrix == null)
       {
@@ -129,7 +129,7 @@ namespace Svg.Contrib.Render
       int horizontalStart;
       int verticalStart;
       int sector;
-      this.GetPosition(svgElement,
+      this.GetPosition(svgImage,
                        sourceMatrix,
                        viewMatrix,
                        out sourceAlignmentWidth,
@@ -138,7 +138,7 @@ namespace Svg.Contrib.Render
                        out verticalStart,
                        out sector);
 
-      this.AddTranslationToContainer(svgElement,
+      this.AddTranslationToContainer(svgImage,
                                      sourceMatrix,
                                      viewMatrix,
                                      sourceAlignmentWidth,
@@ -264,11 +264,11 @@ namespace Svg.Contrib.Render
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
-    protected abstract void GraphicDirectWrite([NotNull] SvgImage svgElement,
+    protected abstract void GraphicDirectWrite([NotNull] SvgImage svgImage,
                                                [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
                                                float sourceAlignmentWidth,

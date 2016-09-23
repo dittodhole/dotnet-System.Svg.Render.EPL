@@ -33,19 +33,19 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected EplCommands EplCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgLine svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    public override void Translate([NotNull] SvgLine svgLine,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] EplContainer container)
+                                   [NotNull] EplContainer eplContainer)
 
     {
-      if (svgElement == null)
+      if (svgLine == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgLine));
       }
       if (sourceMatrix == null)
       {
@@ -55,9 +55,9 @@ namespace Svg.Contrib.Render.EPL
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (eplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(eplContainer));
       }
 
       int horizontalStart;
@@ -66,7 +66,7 @@ namespace Svg.Contrib.Render.EPL
       int verticalLength;
       int verticalEnd;
       float strokeWidth;
-      this.GetPosition(svgElement,
+      this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
                        out horizontalStart,
@@ -76,21 +76,21 @@ namespace Svg.Contrib.Render.EPL
                        out verticalEnd,
                        out strokeWidth);
 
-      this.AddTranslationToContainer(svgElement,
+      this.AddTranslationToContainer(svgLine,
                                      horizontalStart,
                                      verticalStart,
                                      verticalEnd,
                                      horizontalLength,
                                      verticalLength,
                                      strokeWidth,
-                                     container);
+                                     eplContainer);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
-    protected virtual void GetPosition([NotNull] SvgLine svgElement,
+    protected virtual void GetPosition([NotNull] SvgLine svgLine,
                                        [NotNull] Matrix sourceMatrix,
                                        [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
@@ -100,9 +100,9 @@ namespace Svg.Contrib.Render.EPL
                                        out int verticalEnd,
                                        out float strokeWidth)
     {
-      if (svgElement == null)
+      if (svgLine == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgLine));
       }
       if (sourceMatrix == null)
       {
@@ -117,7 +117,7 @@ namespace Svg.Contrib.Render.EPL
       float startY;
       float endX;
       float endY;
-      this.EplTransformer.Transform(svgElement,
+      this.EplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
                                     out startX,

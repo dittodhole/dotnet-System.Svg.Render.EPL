@@ -41,11 +41,11 @@ namespace Svg.Contrib.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
     public override void Translate([NotNull] T svgElement,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] EplContainer container)
+                                   [NotNull] EplContainer eplContainer)
     {
       if (svgElement == null)
       {
@@ -59,9 +59,9 @@ namespace Svg.Contrib.Render.EPL
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (eplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(eplContainer));
       }
 
       if (svgElement.Text == null)
@@ -104,7 +104,7 @@ namespace Svg.Contrib.Render.EPL
                                      horizontalMultiplier,
                                      verticalMultiplier,
                                      text,
-                                     container);
+                                     eplContainer);
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>

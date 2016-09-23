@@ -37,10 +37,10 @@ namespace Svg.Contrib.Render.EPL
 
     /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
     protected override void StoreGraphics([NotNull] string variableName,
                                           [NotNull] Bitmap bitmap,
-                                          [NotNull] EplContainer container)
+                                          [NotNull] EplContainer eplContainer)
     {
       if (variableName == null)
       {
@@ -50,36 +50,36 @@ namespace Svg.Contrib.Render.EPL
       {
         throw new ArgumentNullException(nameof(bitmap));
       }
-      if (container == null)
+      if (eplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(eplContainer));
       }
 
       var pcxByteArray = this.EplTransformer.ConvertToPcx(bitmap);
 
-      container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
-      container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
-      container.Header.Add(this.EplCommands.StoreGraphics(variableName,
+      eplContainer.Header.Add(this.EplCommands.DeleteGraphics(variableName));
+      eplContainer.Header.Add(this.EplCommands.DeleteGraphics(variableName));
+      eplContainer.Header.Add(this.EplCommands.StoreGraphics(variableName,
                                                           pcxByteArray.Length));
-      container.Header.Add(pcxByteArray);
+      eplContainer.Header.Add(pcxByteArray);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
-    protected override void GraphicDirectWrite([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    protected override void GraphicDirectWrite([NotNull] SvgImage svgImage,
                                                [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
                                                int verticalStart,
-                                               [NotNull] EplContainer container)
+                                               [NotNull] EplContainer eplContainer)
     {
-      if (svgElement == null)
+      if (svgImage == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgImage));
       }
       if (sourceMatrix == null)
       {
@@ -89,12 +89,12 @@ namespace Svg.Contrib.Render.EPL
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (eplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      using (var bitmap = this.EplTransformer.ConvertToBitmap(svgElement,
+      using (var bitmap = this.EplTransformer.ConvertToBitmap(svgImage,
                                                               sourceMatrix,
                                                               viewMatrix,
                                                               (int) sourceAlignmentWidth,
@@ -111,11 +111,11 @@ namespace Svg.Contrib.Render.EPL
                                                                  out numberOfBytesPerRow);
         var rows = bitmap.Height;
 
-        container.Body.Add(this.EplCommands.GraphicDirectWrite(horizontalStart,
+        eplContainer.Body.Add(this.EplCommands.GraphicDirectWrite(horizontalStart,
                                                                verticalStart,
                                                                numberOfBytesPerRow,
                                                                rows));
-        container.Body.Add(rawBinaryData);
+        eplContainer.Body.Add(rawBinaryData);
       }
     }
 
@@ -123,7 +123,7 @@ namespace Svg.Contrib.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
     protected override void PrintGraphics([NotNull] SvgImage svgImage,
                                           [NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix,
@@ -131,7 +131,7 @@ namespace Svg.Contrib.Render.EPL
                                           int verticalStart,
                                           int sector,
                                           [NotNull] string variableName,
-                                          [NotNull] EplContainer container)
+                                          [NotNull] EplContainer eplContainer)
     {
       if (svgImage == null)
       {
@@ -149,12 +149,12 @@ namespace Svg.Contrib.Render.EPL
       {
         throw new ArgumentNullException(nameof(variableName));
       }
-      if (container == null)
+      if (eplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      container.Body.Add(this.EplCommands.PrintGraphics(horizontalStart,
+      eplContainer.Body.Add(this.EplCommands.PrintGraphics(horizontalStart,
                                                         verticalStart,
                                                         variableName));
     }

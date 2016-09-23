@@ -34,18 +34,18 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     protected FingerPrintCommands FingerPrintCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgPath svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    public override void Translate([NotNull] SvgPath svgPath,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] FingerPrintContainer container)
+                                   [NotNull] FingerPrintContainer fingerPrintContainer)
     {
-      if (svgElement == null)
+      if (svgPath == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgPath));
       }
       if (sourceMatrix == null)
       {
@@ -55,9 +55,9 @@ namespace Svg.Contrib.Render.FingerPrint
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (fingerPrintContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
       // TODO translate C (curveto)
@@ -68,20 +68,20 @@ namespace Svg.Contrib.Render.FingerPrint
       // TODO translate Z (closepath)
       // TODO add test cases
 
-      if (svgElement.PathData == null)
+      if (svgPath.PathData == null)
       {
         return;
       }
 
       // ReSharper disable ExceptionNotDocumentedOptional
-      foreach (var svgLineSegment in svgElement.PathData.OfType<SvgLineSegment>())
+      foreach (var svgLineSegment in svgPath.PathData.OfType<SvgLineSegment>())
         // ReSharper restore ExceptionNotDocumentedOptional
       {
-        this.TranslateSvgLineSegment(svgElement,
+        this.TranslateSvgLineSegment(svgPath,
                                      svgLineSegment,
                                      sourceMatrix,
                                      viewMatrix,
-                                     container);
+                                     fingerPrintContainer);
       }
     }
 

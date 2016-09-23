@@ -40,11 +40,11 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
     public override void Translate([NotNull] T svgElement,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] FingerPrintContainer container)
+                                   [NotNull] FingerPrintContainer fingerPrintContainer)
     {
       if (svgElement == null)
       {
@@ -58,9 +58,9 @@ namespace Svg.Contrib.Render.FingerPrint
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (fingerPrintContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
       if (svgElement.Text == null)
@@ -103,7 +103,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                      characterHeight,
                                      slant,
                                      text,
-                                     container);
+                                     fingerPrintContainer);
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null" />.</exception>

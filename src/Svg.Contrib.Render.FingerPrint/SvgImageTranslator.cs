@@ -35,10 +35,10 @@ namespace Svg.Contrib.Render.FingerPrint
 
     /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
     protected override void StoreGraphics([NotNull] string variableName,
                                           [NotNull] Bitmap bitmap,
-                                          [NotNull] FingerPrintContainer container)
+                                          [NotNull] FingerPrintContainer fingerPrintContainer)
     {
       if (variableName == null)
       {
@@ -48,35 +48,35 @@ namespace Svg.Contrib.Render.FingerPrint
       {
         throw new ArgumentNullException(nameof(bitmap));
       }
-      if (container == null)
+      if (fingerPrintContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
       var pcxByteArray = this.FingerPrintTransformer.ConvertToPcx(bitmap);
 
-      container.Header.Add(this.FingerPrintCommands.RemoveImage(variableName));
-      container.Header.Add(this.FingerPrintCommands.ImageLoad(variableName,
+      fingerPrintContainer.Header.Add(this.FingerPrintCommands.RemoveImage(variableName));
+      fingerPrintContainer.Header.Add(this.FingerPrintCommands.ImageLoad(variableName,
                                                               pcxByteArray.Length));
-      container.Header.Add(pcxByteArray);
+      fingerPrintContainer.Header.Add(pcxByteArray);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
-    protected override void GraphicDirectWrite([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
+    protected override void GraphicDirectWrite([NotNull] SvgImage svgImage,
                                                [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
                                                int verticalStart,
-                                               [NotNull] FingerPrintContainer container)
+                                               [NotNull] FingerPrintContainer fingerPrintContainer)
     {
-      if (svgElement == null)
+      if (svgImage == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgImage));
       }
       if (sourceMatrix == null)
       {
@@ -86,14 +86,14 @@ namespace Svg.Contrib.Render.FingerPrint
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (fingerPrintContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
       throw new NotImplementedException();
 
-      using (var bitmap = this.FingerPrintTransformer.ConvertToBitmap(svgElement,
+      using (var bitmap = this.FingerPrintTransformer.ConvertToBitmap(svgImage,
                                                                       sourceMatrix,
                                                                       viewMatrix,
                                                                       (int) sourceAlignmentWidth,
@@ -109,13 +109,13 @@ namespace Svg.Contrib.Render.FingerPrint
                                                                          false,
                                                                          out numberOfBytesPerRow);
 
-        container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                              verticalStart));
-        container.Body.Add(this.FingerPrintCommands.Direction(Direction.Direction3));
-        container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
-        container.Body.Add(this.FingerPrintCommands.NormalImage());
-        container.Body.Add(this.FingerPrintCommands.PrintBuffer(rawBinaryData.Count()));
-        container.Body.Add(rawBinaryData);
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Direction(Direction.Direction3));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.NormalImage());
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.PrintBuffer(rawBinaryData.Count()));
+        fingerPrintContainer.Body.Add(rawBinaryData);
       }
     }
 
@@ -123,7 +123,7 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer"/> is <see langword="null" />.</exception>
     protected override void PrintGraphics([NotNull] SvgImage svgImage,
                                           [NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix,
@@ -131,7 +131,7 @@ namespace Svg.Contrib.Render.FingerPrint
                                           int verticalStart,
                                           int sector,
                                           [NotNull] string variableName,
-                                          [NotNull] FingerPrintContainer container)
+                                          [NotNull] FingerPrintContainer fingerPrintContainer)
     {
       if (svgImage == null)
       {
@@ -149,9 +149,9 @@ namespace Svg.Contrib.Render.FingerPrint
       {
         throw new ArgumentNullException(nameof(variableName));
       }
-      if (container == null)
+      if (fingerPrintContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
       Direction direction;
@@ -164,12 +164,12 @@ namespace Svg.Contrib.Render.FingerPrint
         direction = Direction.Direction3;
       }
 
-      container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
+      fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                            verticalStart));
-      container.Body.Add(this.FingerPrintCommands.Direction(direction));
-      container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
-      container.Body.Add(this.FingerPrintCommands.NormalImage());
-      container.Body.Add(this.FingerPrintCommands.PrintImage(variableName));
+      fingerPrintContainer.Body.Add(this.FingerPrintCommands.Direction(direction));
+      fingerPrintContainer.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
+      fingerPrintContainer.Body.Add(this.FingerPrintCommands.NormalImage());
+      fingerPrintContainer.Body.Add(this.FingerPrintCommands.PrintImage(variableName));
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>

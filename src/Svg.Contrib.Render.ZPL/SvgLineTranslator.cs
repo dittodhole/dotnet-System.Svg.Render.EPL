@@ -33,18 +33,18 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     protected ZplCommands ZplCommands { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgLine svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
+    public override void Translate([NotNull] SvgLine svgLine,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] ZplContainer container)
+                                   [NotNull] ZplContainer zplContainer)
     {
-      if (svgElement == null)
+      if (svgLine == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgLine));
       }
       if (sourceMatrix == null)
       {
@@ -54,9 +54,9 @@ namespace Svg.Contrib.Render.ZPL
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (zplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(zplContainer));
       }
 
       int horizontalStart;
@@ -65,7 +65,7 @@ namespace Svg.Contrib.Render.ZPL
       int height;
       int verticalEnd;
       float strokeWidth;
-      this.GetPosition(svgElement,
+      this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
                        out horizontalStart,
@@ -79,7 +79,7 @@ namespace Svg.Contrib.Render.ZPL
           || height == 0)
       {
         LineColor lineColor;
-        var strokeShouldBeWhite = (svgElement.Stroke as SvgColourServer)?.Colour == Color.White;
+        var strokeShouldBeWhite = (svgLine.Stroke as SvgColourServer)?.Colour == Color.White;
         if (strokeShouldBeWhite)
         {
           lineColor = LineColor.White;
@@ -91,9 +91,9 @@ namespace Svg.Contrib.Render.ZPL
 
         var thickness = (int) strokeWidth;
 
-        container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+        zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                          verticalStart));
-        container.Body.Add(this.ZplCommands.GraphicBox(width,
+        zplContainer.Body.Add(this.ZplCommands.GraphicBox(width,
                                                        height,
                                                        thickness,
                                                        lineColor));
@@ -104,11 +104,11 @@ namespace Svg.Contrib.Render.ZPL
       }
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
     [Pure]
-    protected virtual void GetPosition([NotNull] SvgLine svgElement,
+    protected virtual void GetPosition([NotNull] SvgLine svgLine,
                                        [NotNull] Matrix sourceMatrix,
                                        [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
@@ -118,9 +118,9 @@ namespace Svg.Contrib.Render.ZPL
                                        out int verticalEnd,
                                        out float strokeWidth)
     {
-      if (svgElement == null)
+      if (svgLine == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgLine));
       }
       if (sourceMatrix == null)
       {
@@ -135,7 +135,7 @@ namespace Svg.Contrib.Render.ZPL
       float startY;
       float endX;
       float endY;
-      this.ZplTransformer.Transform(svgElement,
+      this.ZplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
                                     out startX,

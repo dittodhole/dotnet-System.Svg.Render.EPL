@@ -92,7 +92,7 @@ namespace Svg.Contrib.Render.EPL.Demo
     /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
     protected override void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                       [NotNull] Matrix sourceMatrix,
                                                       [NotNull] Matrix viewMatrix,
@@ -101,7 +101,7 @@ namespace Svg.Contrib.Render.EPL.Demo
                                                       int horizontalStart,
                                                       int verticalStart,
                                                       int sector,
-                                                      [NotNull] EplContainer container)
+                                                      [NotNull] EplContainer eplContainer)
     {
       if (svgImage == null)
       {
@@ -115,9 +115,9 @@ namespace Svg.Contrib.Render.EPL.Demo
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (eplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(eplContainer));
       }
 
       if (svgImage.HasNonEmptyCustomAttribute("data-barcode"))
@@ -135,7 +135,7 @@ namespace Svg.Contrib.Render.EPL.Demo
                                         out printHumanReadable))
         {
           var height = (int) sourceAlignmentHeight;
-          container.Body.Add(this.EplCommands.BarCode(horizontalStart,
+          eplContainer.Body.Add(this.EplCommands.BarCode(horizontalStart,
                                                       verticalStart,
                                                       sector,
                                                       barCodeSelection,
@@ -156,7 +156,7 @@ namespace Svg.Contrib.Render.EPL.Demo
                                      horizontalStart,
                                      verticalStart,
                                      sector,
-                                     container);
+                                     eplContainer);
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>

@@ -93,7 +93,7 @@ namespace Svg.Contrib.Render.ZPL.Demo
     /// <exception cref="ArgumentNullException"><paramref name="svgImage"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer"/> is <see langword="null" />.</exception>
     protected override void AddTranslationToContainer([NotNull] SvgImage svgImage,
                                                       [NotNull] Matrix sourceMatrix,
                                                       [NotNull] Matrix viewMatrix,
@@ -102,7 +102,7 @@ namespace Svg.Contrib.Render.ZPL.Demo
                                                       int horizontalStart,
                                                       int verticalStart,
                                                       int sector,
-                                                      [NotNull] ZplContainer container)
+                                                      [NotNull] ZplContainer zplContainer)
     {
       if (svgImage == null)
       {
@@ -116,9 +116,9 @@ namespace Svg.Contrib.Render.ZPL.Demo
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (zplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(zplContainer));
       }
 
       if (svgImage.HasNonEmptyCustomAttribute("data-barcode"))
@@ -131,36 +131,36 @@ namespace Svg.Contrib.Render.ZPL.Demo
 
         if (svgImage.ID == "CargoIdBc")
         {
-          container.Body.Add(this.ZplCommands.BarCodeFieldDefaut(3,
+          zplContainer.Body.Add(this.ZplCommands.BarCodeFieldDefaut(3,
                                                                  2,
                                                                  height));
-          container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+          zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                            verticalStart));
-          container.Body.Add(this.ZplCommands.Interleaved2Of5BarCode(fieldOrientation,
+          zplContainer.Body.Add(this.ZplCommands.Interleaved2Of5BarCode(fieldOrientation,
                                                                      height,
                                                                      barcode,
                                                                      PrintInterpretationLine.No));
         }
         else if (svgImage.ID == "RouteBc")
         {
-          container.Body.Add(this.ZplCommands.BarCodeFieldDefaut(3,
+          zplContainer.Body.Add(this.ZplCommands.BarCodeFieldDefaut(3,
                                                                  2,
                                                                  height));
-          container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+          zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                            verticalStart));
-          container.Body.Add(this.ZplCommands.Code128BarCode(fieldOrientation,
+          zplContainer.Body.Add(this.ZplCommands.Code128BarCode(fieldOrientation,
                                                              height,
                                                              barcode,
                                                              PrintInterpretationLine.No));
         }
         else if (svgImage.ID == "ReceiverBc")
         {
-          container.Body.Add(this.ZplCommands.BarCodeFieldDefaut(2,
+          zplContainer.Body.Add(this.ZplCommands.BarCodeFieldDefaut(2,
                                                                  2.0m,
                                                                  height));
-          container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+          zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                            verticalStart));
-          container.Body.Add(this.ZplCommands.Code128BarCode(fieldOrientation,
+          zplContainer.Body.Add(this.ZplCommands.Code128BarCode(fieldOrientation,
                                                              height,
                                                              barcode,
                                                              PrintInterpretationLine.No));
@@ -180,7 +180,7 @@ namespace Svg.Contrib.Render.ZPL.Demo
                                        horizontalStart,
                                        verticalStart,
                                        sector,
-                                       container);
+                                       zplContainer);
       }
     }
   }

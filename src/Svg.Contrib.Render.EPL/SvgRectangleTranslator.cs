@@ -43,18 +43,18 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected SvgUnitReader SvgUnitReader { get; }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgElement"/> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix"/> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix"/> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgRectangle svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer"/> is <see langword="null" />.</exception>
+    public override void Translate([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] EplContainer container)
+                                   [NotNull] EplContainer eplContainer)
     {
-      if (svgElement == null)
+      if (svgRectangle == null)
       {
-        throw new ArgumentNullException(nameof(svgElement));
+        throw new ArgumentNullException(nameof(svgRectangle));
       }
       if (sourceMatrix == null)
       {
@@ -64,26 +64,26 @@ namespace Svg.Contrib.Render.EPL
       {
         throw new ArgumentNullException(nameof(viewMatrix));
       }
-      if (container == null)
+      if (eplContainer == null)
       {
-        throw new ArgumentNullException(nameof(container));
+        throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      if (svgElement.Fill != SvgPaintServer.None
-          && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
+      if (svgRectangle.Fill != SvgPaintServer.None
+          && (svgRectangle.Fill as SvgColourServer)?.Colour != Color.White)
       {
-        this.TranslateFilledBox(svgElement,
+        this.TranslateFilledBox(svgRectangle,
                                 sourceMatrix,
                                 viewMatrix,
-                                container);
+                                eplContainer);
       }
 
-      if (svgElement.Stroke != SvgPaintServer.None)
+      if (svgRectangle.Stroke != SvgPaintServer.None)
       {
-        this.TranslateBox(svgElement,
+        this.TranslateBox(svgRectangle,
                           sourceMatrix,
                           viewMatrix,
-                          container);
+                          eplContainer);
       }
     }
 
