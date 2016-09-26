@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render.FingerPrint.Demo
@@ -7,11 +8,26 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
   public class SvgTextBaseTranslator<T> : FingerPrint.SvgTextBaseTranslator<T>
     where T : SvgTextBase
   {
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     public SvgTextBaseTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                                  [NotNull] FingerPrintCommands fingerPrintCommands)
       : base(fingerPrintTransformer,
-             fingerPrintCommands) {}
+             fingerPrintCommands)
+    {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
+    }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected override void GetPosition([NotNull] T svgElement,
                                         [NotNull] Matrix sourceMatrix,
@@ -21,6 +37,19 @@ namespace Svg.Contrib.Render.FingerPrint.Demo
                                         out float fontSize,
                                         out Direction direction)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       base.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,

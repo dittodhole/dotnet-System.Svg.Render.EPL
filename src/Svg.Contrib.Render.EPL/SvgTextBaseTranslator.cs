@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
@@ -14,9 +15,19 @@ namespace Svg.Contrib.Render.EPL
   {
     // TODO translate dX and dY
 
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     public SvgTextBaseTranslator([NotNull] EplTransformer eplTransformer,
                                  [NotNull] EplCommands eplCommands)
     {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
       this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
     }
@@ -27,11 +38,32 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected EplCommands EplCommands { get; }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] T svgElement,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] EplContainer container)
+                                   [NotNull] EplContainer eplContainer)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
+      }
+
       if (svgElement.Text == null)
       {
         return;
@@ -72,9 +104,12 @@ namespace Svg.Contrib.Render.EPL
                                      horizontalMultiplier,
                                      verticalMultiplier,
                                      text,
-                                     container);
+                                     eplContainer);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
                                        [NotNull] Matrix sourceMatrix,
@@ -84,6 +119,19 @@ namespace Svg.Contrib.Render.EPL
                                        out int sector,
                                        out float fontSize)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       float x;
       float y;
       this.EplTransformer.Transform(svgElement,
@@ -99,11 +147,16 @@ namespace Svg.Contrib.Render.EPL
                                                      viewMatrix);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     protected virtual string RemoveIllegalCharacters([NotNull] string text)
     {
+      if (text == null)
+      {
+        throw new ArgumentNullException(nameof(text));
+      }
+
       // TODO add regex for removing illegal characters ...
 
       // ReSharper disable ExceptionNotDocumentedOptional
@@ -112,6 +165,9 @@ namespace Svg.Contrib.Render.EPL
       // ReSharper restore ExceptionNotDocumentedOptional
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected virtual void AddTranslationToContainer([NotNull] T svgElement,
                                                      int horizontalStart,
                                                      int verticalStart,
@@ -120,8 +176,21 @@ namespace Svg.Contrib.Render.EPL
                                                      int horizontalMultiplier,
                                                      int verticalMultiplier,
                                                      [NotNull] string text,
-                                                     [NotNull] EplContainer container)
+                                                     [NotNull] EplContainer eplContainer)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (text == null)
+      {
+        throw new ArgumentNullException(nameof(text));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
+      }
+
       ReverseImage reverseImage;
       if ((svgElement.Fill as SvgColourServer)?.Colour == Color.White)
       {
@@ -132,14 +201,14 @@ namespace Svg.Contrib.Render.EPL
         reverseImage = ReverseImage.Normal;
       }
 
-      container.Body.Add(this.EplCommands.AsciiText(horizontalStart,
-                                                    verticalStart,
-                                                    sector,
-                                                    fontSelection,
-                                                    horizontalMultiplier,
-                                                    verticalMultiplier,
-                                                    reverseImage,
-                                                    text));
+      eplContainer.Body.Add(this.EplCommands.AsciiText(horizontalStart,
+                                                       verticalStart,
+                                                       sector,
+                                                       fontSelection,
+                                                       horizontalMultiplier,
+                                                       verticalMultiplier,
+                                                       reverseImage,
+                                                       text));
     }
   }
 }

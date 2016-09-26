@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
@@ -9,10 +10,25 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public class SvgRectangleTranslator : SvgElementTranslatorBase<EplContainer, SvgRectangle>
   {
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public SvgRectangleTranslator([NotNull] EplTransformer eplTransformer,
                                   [NotNull] EplCommands eplCommands,
                                   [NotNull] SvgUnitReader svgUnitReader)
     {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
       this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
       this.SvgUnitReader = svgUnitReader;
@@ -27,40 +43,82 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected SvgUnitReader SvgUnitReader { get; }
 
-    public override void Translate([NotNull] SvgRectangle svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
+    public override void Translate([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] EplContainer container)
+                                   [NotNull] EplContainer eplContainer)
     {
-      if (svgElement.Fill != SvgPaintServer.None
-          && (svgElement.Fill as SvgColourServer)?.Colour != Color.White)
+      if (svgRectangle == null)
       {
-        this.TranslateFilledBox(svgElement,
-                                sourceMatrix,
-                                viewMatrix,
-                                container);
+        throw new ArgumentNullException(nameof(svgRectangle));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      if (svgElement.Stroke != SvgPaintServer.None)
+      if (svgRectangle.Fill != SvgPaintServer.None
+          && (svgRectangle.Fill as SvgColourServer)?.Colour != Color.White)
       {
-        this.TranslateBox(svgElement,
+        this.TranslateFilledBox(svgRectangle,
+                                sourceMatrix,
+                                viewMatrix,
+                                eplContainer);
+      }
+
+      if (svgRectangle.Stroke != SvgPaintServer.None)
+      {
+        this.TranslateBox(svgRectangle,
                           sourceMatrix,
                           viewMatrix,
-                          container);
+                          eplContainer);
       }
     }
 
-    protected virtual void TranslateFilledBox([NotNull] SvgRectangle instance,
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
+    protected virtual void TranslateFilledBox([NotNull] SvgRectangle svgRectangle,
                                               [NotNull] Matrix sourceMatrix,
                                               [NotNull] Matrix viewMatrix,
-                                              [NotNull] EplContainer container)
+                                              [NotNull] EplContainer eplContainer)
     {
+      if (svgRectangle == null)
+      {
+        throw new ArgumentNullException(nameof(svgRectangle));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
+      }
+
       int horizontalStart;
       int verticalStart;
       int lineThickness;
       int horizontalEnd;
       int verticalEnd;
-      this.GetPosition(instance,
+      this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
                        out horizontalStart,
@@ -72,23 +130,44 @@ namespace Svg.Contrib.Render.EPL
       var horizontalLength = horizontalEnd - horizontalStart;
       var verticalLength = verticalEnd - verticalStart;
 
-      container.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
-                                                        verticalStart,
-                                                        horizontalLength,
-                                                        verticalLength));
+      eplContainer.Body.Add(this.EplCommands.LineDrawBlack(horizontalStart,
+                                                           verticalStart,
+                                                           horizontalLength,
+                                                           verticalLength));
     }
 
-    protected virtual void TranslateBox([NotNull] SvgRectangle instance,
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
+    protected virtual void TranslateBox([NotNull] SvgRectangle svgRectangle,
                                         [NotNull] Matrix sourceMatrix,
                                         [NotNull] Matrix viewMatrix,
-                                        [NotNull] EplContainer container)
+                                        [NotNull] EplContainer eplContainer)
     {
+      if (svgRectangle == null)
+      {
+        throw new ArgumentNullException(nameof(svgRectangle));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
+      }
+
       int horizontalStart;
       int verticalStart;
       int lineThickness;
       int horizontalEnd;
       int verticalEnd;
-      this.GetPosition(instance,
+      this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
                        out horizontalStart,
@@ -97,15 +176,18 @@ namespace Svg.Contrib.Render.EPL
                        out horizontalEnd,
                        out verticalEnd);
 
-      container.Body.Add(this.EplCommands.DrawBox(horizontalStart,
-                                                  verticalStart,
-                                                  lineThickness,
-                                                  horizontalEnd,
-                                                  verticalEnd));
+      eplContainer.Body.Add(this.EplCommands.DrawBox(horizontalStart,
+                                                     verticalStart,
+                                                     lineThickness,
+                                                     horizontalEnd,
+                                                     verticalEnd));
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
-    protected virtual void GetPosition([NotNull] SvgRectangle instance,
+    protected virtual void GetPosition([NotNull] SvgRectangle svgRectangle,
                                        [NotNull] Matrix sourceMatrix,
                                        [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
@@ -114,12 +196,25 @@ namespace Svg.Contrib.Render.EPL
                                        out int horizontalEnd,
                                        out int verticalEnd)
     {
+      if (svgRectangle == null)
+      {
+        throw new ArgumentNullException(nameof(svgRectangle));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       float startX;
       float endX;
       float startY;
       float endY;
       float strokeWidth;
-      this.EplTransformer.Transform(instance,
+      this.EplTransformer.Transform(svgRectangle,
                                     sourceMatrix,
                                     viewMatrix,
                                     out startX,

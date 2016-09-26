@@ -18,10 +18,25 @@ namespace Svg.Contrib.Render
       this.Footer = new LinkedList<object>();
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="header" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="body" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="footer" /> is <see langword="null" />.</exception>
     protected CompoundContainer([NotNull] ICollection<object> header,
                                 [NotNull] ICollection<object> body,
                                 [NotNull] ICollection<object> footer)
     {
+      if (header == null)
+      {
+        throw new ArgumentNullException(nameof(header));
+      }
+      if (body == null)
+      {
+        throw new ArgumentNullException(nameof(body));
+      }
+      if (footer == null)
+      {
+        throw new ArgumentNullException(nameof(footer));
+      }
       this.Header = header;
       this.Body = body;
       this.Footer = footer;
@@ -56,12 +71,17 @@ namespace Svg.Contrib.Render
                              .ToArray());
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="encoding" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     [CollectionAccess(CollectionAccessType.Read)]
     public override IEnumerable<byte> ToByteStream([NotNull] Encoding encoding)
     {
+      if (encoding == null)
+      {
+        throw new ArgumentNullException(nameof(encoding));
+      }
+
       foreach (var line in this)
       {
         byte[] array;

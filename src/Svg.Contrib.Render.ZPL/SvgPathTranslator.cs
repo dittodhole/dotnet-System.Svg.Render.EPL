@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
 using Svg.Pathing;
@@ -10,9 +11,19 @@ namespace Svg.Contrib.Render.ZPL
   [PublicAPI]
   public class SvgPathTranslator : SvgElementTranslatorBase<ZplContainer, SvgPath>
   {
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     public SvgPathTranslator([NotNull] ZplTransformer zplTransformer,
                              [NotNull] ZplCommands zplCommands)
     {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+      if (zplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(zplCommands));
+      }
       this.ZplTransformer = zplTransformer;
       this.ZplCommands = zplCommands;
     }
@@ -23,11 +34,32 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     protected ZplCommands ZplCommands { get; }
 
-    public override void Translate([NotNull] SvgPath svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
+    public override void Translate([NotNull] SvgPath svgPath,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] ZplContainer container)
+                                   [NotNull] ZplContainer zplContainer)
     {
+      if (svgPath == null)
+      {
+        throw new ArgumentNullException(nameof(svgPath));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (zplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(zplContainer));
+      }
+
       // TODO translate C (curveto)
       // TODO translate S (smooth curveto)
       // TODO translate Q (quadratic bézier curve)
@@ -36,34 +68,60 @@ namespace Svg.Contrib.Render.ZPL
       // TODO translate Z (closepath)
       // TODO add test cases
 
-      if (svgElement.PathData == null)
+      if (svgPath.PathData == null)
       {
         return;
       }
 
       // ReSharper disable ExceptionNotDocumentedOptional
-      foreach (var svgLineSegment in svgElement.PathData.OfType<SvgLineSegment>())
+      foreach (var svgLineSegment in svgPath.PathData.OfType<SvgLineSegment>())
         // ReSharper restore ExceptionNotDocumentedOptional
       {
-        this.TranslateSvgLineSegment(svgElement,
+        this.TranslateSvgLineSegment(svgPath,
                                      svgLineSegment,
                                      sourceMatrix,
                                      viewMatrix,
-                                     container);
+                                     zplContainer);
       }
     }
 
-    protected virtual void TranslateSvgLineSegment([NotNull] SvgPath instance,
+    /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgLineSegment" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
+    protected virtual void TranslateSvgLineSegment([NotNull] SvgPath svgPath,
                                                    [NotNull] SvgLineSegment svgLineSegment,
                                                    [NotNull] Matrix sourceMatrix,
                                                    [NotNull] Matrix viewMatrix,
-                                                   [NotNull] ZplContainer container)
+                                                   [NotNull] ZplContainer zplContainer)
     {
+      if (svgPath == null)
+      {
+        throw new ArgumentNullException(nameof(svgPath));
+      }
+      if (svgLineSegment == null)
+      {
+        throw new ArgumentNullException(nameof(svgLineSegment));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (zplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(zplContainer));
+      }
+
       var svgLine = new SvgLine
                     {
-                      Color = instance.Color,
-                      Stroke = instance.Stroke,
-                      StrokeWidth = instance.StrokeWidth,
+                      Color = svgPath.Color,
+                      Stroke = svgPath.Stroke,
+                      StrokeWidth = svgPath.StrokeWidth,
                       StartX = svgLineSegment.Start.X,
                       StartY = svgLineSegment.Start.Y,
                       EndX = svgLineSegment.End.X,
@@ -90,12 +148,12 @@ namespace Svg.Contrib.Render.ZPL
       var height = (int) (endY - startY);
       var thickness = (int) strokeWidth;
 
-      container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                       verticalStart));
-      container.Body.Add(this.ZplCommands.GraphicBox(width,
-                                                     height,
-                                                     thickness,
-                                                     LineColor.Black));
+      zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                          verticalStart));
+      zplContainer.Body.Add(this.ZplCommands.GraphicBox(width,
+                                                        height,
+                                                        thickness,
+                                                        LineColor.Black));
     }
   }
 }

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
@@ -10,10 +11,20 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public class SvgImageTranslator : SvgImageTranslatorBase<EplContainer>
   {
+    /// <exception cref="ArgumentNullException"><paramref name="eplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplCommands" /> is <see langword="null" />.</exception>
     public SvgImageTranslator([NotNull] EplTransformer eplTransformer,
                               [NotNull] EplCommands eplCommands)
       : base(eplTransformer)
     {
+      if (eplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(eplTransformer));
+      }
+      if (eplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(eplCommands));
+      }
       this.EplTransformer = eplTransformer;
       this.EplCommands = eplCommands;
     }
@@ -24,29 +35,66 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     protected EplCommands EplCommands { get; }
 
+    /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected override void StoreGraphics([NotNull] string variableName,
                                           [NotNull] Bitmap bitmap,
-                                          [NotNull] EplContainer container)
+                                          [NotNull] EplContainer eplContainer)
     {
+      if (variableName == null)
+      {
+        throw new ArgumentNullException(nameof(variableName));
+      }
+      if (bitmap == null)
+      {
+        throw new ArgumentNullException(nameof(bitmap));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
+      }
+
       var pcxByteArray = this.EplTransformer.ConvertToPcx(bitmap);
 
-      container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
-      container.Header.Add(this.EplCommands.DeleteGraphics(variableName));
-      container.Header.Add(this.EplCommands.StoreGraphics(variableName,
-                                                          pcxByteArray.Length));
-      container.Header.Add(pcxByteArray);
+      eplContainer.Header.Add(this.EplCommands.DeleteGraphics(variableName));
+      eplContainer.Header.Add(this.EplCommands.DeleteGraphics(variableName));
+      eplContainer.Header.Add(this.EplCommands.StoreGraphics(variableName,
+                                                             pcxByteArray.Length));
+      eplContainer.Header.Add(pcxByteArray);
     }
 
-    protected override void GraphicDirectWrite([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
+    protected override void GraphicDirectWrite([NotNull] SvgImage svgImage,
                                                [NotNull] Matrix sourceMatrix,
                                                [NotNull] Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
                                                int verticalStart,
-                                               [NotNull] EplContainer container)
+                                               [NotNull] EplContainer eplContainer)
     {
-      using (var bitmap = this.EplTransformer.ConvertToBitmap(svgElement,
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
+      }
+
+      using (var bitmap = this.EplTransformer.ConvertToBitmap(svgImage,
                                                               sourceMatrix,
                                                               viewMatrix,
                                                               (int) sourceAlignmentWidth,
@@ -63,26 +111,52 @@ namespace Svg.Contrib.Render.EPL
                                                                  out numberOfBytesPerRow);
         var rows = bitmap.Height;
 
-        container.Body.Add(this.EplCommands.GraphicDirectWrite(horizontalStart,
-                                                               verticalStart,
-                                                               numberOfBytesPerRow,
-                                                               rows));
-        container.Body.Add(rawBinaryData);
+        eplContainer.Body.Add(this.EplCommands.GraphicDirectWrite(horizontalStart,
+                                                                  verticalStart,
+                                                                  numberOfBytesPerRow,
+                                                                  rows));
+        eplContainer.Body.Add(rawBinaryData);
       }
     }
 
-    protected override void PrintGraphics([NotNull] SvgImage svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
+    protected override void PrintGraphics([NotNull] SvgImage svgImage,
                                           [NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix,
                                           int horizontalStart,
                                           int verticalStart,
                                           int sector,
                                           [NotNull] string variableName,
-                                          [NotNull] EplContainer container)
+                                          [NotNull] EplContainer eplContainer)
     {
-      container.Body.Add(this.EplCommands.PrintGraphics(horizontalStart,
-                                                        verticalStart,
-                                                        variableName));
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (variableName == null)
+      {
+        throw new ArgumentNullException(nameof(variableName));
+      }
+      if (eplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(eplContainer));
+      }
+
+      eplContainer.Body.Add(this.EplCommands.PrintGraphics(horizontalStart,
+                                                           verticalStart,
+                                                           variableName));
     }
   }
 }

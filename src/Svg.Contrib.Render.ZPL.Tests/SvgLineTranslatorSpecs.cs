@@ -140,6 +140,7 @@ namespace Svg.Contrib.Render.ZPL.Tests
     //[TestFixture]
     //public class when_svg_line_with_partly_swapped_coordinates_is_translated : SvgLineTranslatorSpecsContext
     //{
+
     //  protected override void Context()
     //  {
     //    base.Context();

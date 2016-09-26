@@ -13,7 +13,6 @@ namespace Svg.Contrib.Render.ZPL
   {
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string FieldOrigin(int horizontalStart,
                                       int verticalStart)
     {
@@ -22,7 +21,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string FieldTypeset(int horizontalStart,
                                        int verticalStart)
     {
@@ -31,7 +29,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string GraphicBox(int width,
                                      int height,
                                      int thickness,
@@ -42,7 +39,6 @@ namespace Svg.Contrib.Render.ZPL
 
     //[NotNull]
     //[Pure]
-    //[MustUseReturnValue]
     //public virtual string GraphicDiagonalLine(int width,
     //                                          int height,
     //                                          int thickness,
@@ -52,21 +48,30 @@ namespace Svg.Contrib.Render.ZPL
     //  return $"^GD{width},{height},{thickness},{(char) lineColor},{(char) orientation}^FS";
     //}
 
+    /// <exception cref="ArgumentNullException"><paramref name="fontName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Font([NotNull] string fontName,
                                FieldOrientation fieldOrientation,
                                int characterHeight,
                                int width,
-                               string text)
+                               [NotNull] string text)
     {
+      if (fontName == null)
+      {
+        throw new ArgumentNullException(nameof(fontName));
+      }
+      if (text == null)
+      {
+        throw new ArgumentNullException(nameof(text));
+      }
+
       return $"^A{fontName}{(char) fieldOrientation},{characterHeight},{width}^FD{text}^FS";
     }
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string StartFormat()
     {
       return "^XA";
@@ -74,7 +79,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string EndFormat()
     {
       return "^XZ";
@@ -82,7 +86,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string PrintOrientation(PrintOrientation printOrientation)
     {
       return $"^PO{(char) printOrientation}";
@@ -90,7 +93,6 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string LabelHome(int horizontalStart,
                                     int verticalStart)
     {
@@ -99,19 +101,28 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string ChangeInternationalFont(CharacterSet characterSet)
     {
       return $"^CI{characterSet.ToString("D")}";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="rawBinaryData" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string DownloadGraphics([NotNull] string name,
                                            [NotNull] IEnumerable<byte> rawBinaryData,
                                            int numberOfBytesPerRow)
     {
+      if (name == null)
+      {
+        throw new ArgumentNullException(nameof(name));
+      }
+      if (rawBinaryData == null)
+      {
+        throw new ArgumentNullException(nameof(rawBinaryData));
+      }
+
       var binaryData = rawBinaryData.ToArray();
       var totalNumberOfBytes = binaryData.Count();
       var data = BitConverter.ToString(binaryData)
@@ -121,17 +132,21 @@ namespace Svg.Contrib.Render.ZPL
       return $"~DGR:{name},{totalNumberOfBytes},{numberOfBytesPerRow},{data}";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string RecallGraphic([NotNull] string name)
     {
+      if (name == null)
+      {
+        throw new ArgumentNullException(nameof(name));
+      }
+
       return $"^XGR:{name},1,1^FS";
     }
 
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string BarCodeFieldDefaut(int moduleWidth,
                                              decimal wideBarToNarrowBarWidthRatio,
                                              int height)
@@ -139,9 +154,9 @@ namespace Svg.Contrib.Render.ZPL
       return $"^BY{moduleWidth},{Math.Round(wideBarToNarrowBarWidthRatio, 2)},{height}";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="content" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Code128BarCode(FieldOrientation fieldOrientation,
                                          int barCodeHeight,
                                          [NotNull] string content,
@@ -150,12 +165,17 @@ namespace Svg.Contrib.Render.ZPL
                                          UccCheckDigit uccCheckDigit = UccCheckDigit.No,
                                          Mode mode = Mode.NoSelectedMode)
     {
+      if (content == null)
+      {
+        throw new ArgumentNullException(nameof(content));
+      }
+
       return $"^BC{(char) fieldOrientation},{barCodeHeight},{(char) printInterpretationLine},{(char) printInterpretationLineAboveCode},{(char) uccCheckDigit},{(char) mode}^FD{content}^FS";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="content" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string Interleaved2Of5BarCode(FieldOrientation fieldOrientation,
                                                  int barCodeHeight,
                                                  [NotNull] string content,
@@ -163,15 +183,25 @@ namespace Svg.Contrib.Render.ZPL
                                                  PrintInterpretationLineAboveCode printInterpretationLineAboveCode = PrintInterpretationLineAboveCode.No,
                                                  CalculateAndPrintMod10CheckDigit calculateAndPrintMod10CheckDigit = CalculateAndPrintMod10CheckDigit.No)
     {
+      if (content == null)
+      {
+        throw new ArgumentNullException(nameof(content));
+      }
+
       return $"^B2{(char) fieldOrientation},{barCodeHeight},{(char) printInterpretationLine},{(char) printInterpretationLineAboveCode},{(char) calculateAndPrintMod10CheckDigit}^FD{content}^FS";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="rawBinaryData" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual string GraphicField([NotNull] IEnumerable<byte> rawBinaryData,
                                        int numberOfBytesPerRow)
     {
+      if (rawBinaryData == null)
+      {
+        throw new ArgumentNullException(nameof(rawBinaryData));
+      }
+
       var binaryData = rawBinaryData.ToArray();
       var totalNumberOfBytes = binaryData.Count();
       var data = BitConverter.ToString(binaryData)

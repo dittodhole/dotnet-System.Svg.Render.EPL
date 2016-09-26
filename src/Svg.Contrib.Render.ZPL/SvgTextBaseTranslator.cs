@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
 // ReSharper disable NonLocalizedString
@@ -12,9 +13,19 @@ namespace Svg.Contrib.Render.ZPL
   {
     // TODO translate dX and dY
 
+    /// <exception cref="ArgumentNullException"><paramref name="zplTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     public SvgTextBaseTranslator([NotNull] ZplTransformer zplTransformer,
                                  [NotNull] ZplCommands zplCommands)
     {
+      if (zplTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(zplTransformer));
+      }
+      if (zplCommands == null)
+      {
+        throw new ArgumentNullException(nameof(zplCommands));
+      }
       this.ZplTransformer = zplTransformer;
       this.ZplCommands = zplCommands;
     }
@@ -25,11 +36,32 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     protected ZplCommands ZplCommands { get; }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     public override void Translate([NotNull] T svgElement,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] ZplContainer container)
+                                   [NotNull] ZplContainer zplContainer)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (zplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(zplContainer));
+      }
+
       if (svgElement.Text == null)
       {
         return;
@@ -69,14 +101,19 @@ namespace Svg.Contrib.Render.ZPL
                                      characterHeight,
                                      width,
                                      text,
-                                     container);
+                                     zplContainer);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     protected virtual string RemoveIllegalCharacters([NotNull] string text)
     {
+      if (text == null)
+      {
+        throw new ArgumentNullException(nameof(text));
+      }
+
       // TODO add regex for removing illegal characters ...
 
       // ReSharper disable ExceptionNotDocumentedOptional
@@ -85,6 +122,9 @@ namespace Svg.Contrib.Render.ZPL
       // ReSharper restore ExceptionNotDocumentedOptional
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     protected virtual void GetPosition([NotNull] T svgElement,
                                        [NotNull] Matrix sourceMatrix,
@@ -94,6 +134,19 @@ namespace Svg.Contrib.Render.ZPL
                                        out FieldOrientation fieldOrientation,
                                        out float fontSize)
     {
+      if (svgElement == null)
+      {
+        throw new ArgumentNullException(nameof(svgElement));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       float x;
       float y;
       this.ZplTransformer.Transform(svgElement,
@@ -109,6 +162,9 @@ namespace Svg.Contrib.Render.ZPL
                                                                  viewMatrix);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="fontName" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     protected virtual void AddTranslationToContainer(int horizontalStart,
                                                      int verticalStart,
                                                      [NotNull] string fontName,
@@ -116,15 +172,28 @@ namespace Svg.Contrib.Render.ZPL
                                                      int characterHeight,
                                                      int width,
                                                      [NotNull] string text,
-                                                     [NotNull] ZplContainer container)
+                                                     [NotNull] ZplContainer zplContainer)
     {
-      container.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
-                                                       verticalStart));
-      container.Body.Add(this.ZplCommands.Font(fontName,
-                                               fieldOrientation,
-                                               characterHeight,
-                                               width,
-                                               text));
+      if (fontName == null)
+      {
+        throw new ArgumentNullException(nameof(fontName));
+      }
+      if (text == null)
+      {
+        throw new ArgumentNullException(nameof(text));
+      }
+      if (zplContainer == null)
+      {
+        throw new ArgumentNullException(nameof(zplContainer));
+      }
+
+      zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
+                                                          verticalStart));
+      zplContainer.Body.Add(this.ZplCommands.Font(fontName,
+                                                  fieldOrientation,
+                                                  characterHeight,
+                                                  width,
+                                                  text));
     }
   }
 }

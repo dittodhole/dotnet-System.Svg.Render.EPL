@@ -9,9 +9,19 @@ namespace Svg.Contrib.Render.FingerPrint
   [PublicAPI]
   public class SvgLineTranslator : SvgElementTranslatorBase<FingerPrintContainer, SvgLine>
   {
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     public SvgLineTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                              [NotNull] FingerPrintCommands fingerPrintCommands)
     {
+      if (fingerPrintTransformer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      }
+      if (fingerPrintCommands == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintCommands));
+      }
       this.FingerPrintTransformer = fingerPrintTransformer;
       this.FingerPrintCommands = fingerPrintCommands;
     }
@@ -22,18 +32,39 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     protected FingerPrintTransformer FingerPrintTransformer { get; }
 
-    public override void Translate([NotNull] SvgLine svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
+    public override void Translate([NotNull] SvgLine svgLine,
                                    [NotNull] Matrix sourceMatrix,
                                    [NotNull] Matrix viewMatrix,
-                                   [NotNull] FingerPrintContainer container)
+                                   [NotNull] FingerPrintContainer fingerPrintContainer)
     {
+      if (svgLine == null)
+      {
+        throw new ArgumentNullException(nameof(svgLine));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+      if (fingerPrintContainer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintContainer));
+      }
+
       int horizontalStart;
       int verticalStart;
       int length;
       int lineWeight;
       int verticalEnd;
       float strokeWidth;
-      this.GetPosition(svgElement,
+      this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
                        out horizontalStart,
@@ -43,18 +74,21 @@ namespace Svg.Contrib.Render.FingerPrint
                        out verticalEnd,
                        out strokeWidth);
 
-      this.AddTranslationToContainer(svgElement,
+      this.AddTranslationToContainer(svgLine,
                                      horizontalStart,
                                      verticalStart,
                                      verticalEnd,
                                      length,
                                      lineWeight,
                                      strokeWidth,
-                                     container);
+                                     fingerPrintContainer);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
-    protected virtual void GetPosition([NotNull] SvgLine svgElement,
+    protected virtual void GetPosition([NotNull] SvgLine svgLine,
                                        [NotNull] Matrix sourceMatrix,
                                        [NotNull] Matrix viewMatrix,
                                        out int horizontalStart,
@@ -64,11 +98,24 @@ namespace Svg.Contrib.Render.FingerPrint
                                        out int verticalEnd,
                                        out float strokeWidth)
     {
+      if (svgLine == null)
+      {
+        throw new ArgumentNullException(nameof(svgLine));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       float startX;
       float startY;
       float endX;
       float endY;
-      this.FingerPrintTransformer.Transform(svgElement,
+      this.FingerPrintTransformer.Transform(svgLine,
                                             sourceMatrix,
                                             viewMatrix,
                                             out startX,
@@ -98,15 +145,26 @@ namespace Svg.Contrib.Render.FingerPrint
       }
     }
 
-    protected virtual void AddTranslationToContainer([NotNull] SvgLine svgElement,
+    /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
+    protected virtual void AddTranslationToContainer([NotNull] SvgLine svgLine,
                                                      int horizontalStart,
                                                      int verticalStart,
                                                      int verticalEnd,
                                                      int length,
                                                      int lineWeight,
                                                      float strokeWidth,
-                                                     [NotNull] FingerPrintContainer container)
+                                                     [NotNull] FingerPrintContainer fingerPrintContainer)
     {
+      if (svgLine == null)
+      {
+        throw new ArgumentNullException(nameof(svgLine));
+      }
+      if (fingerPrintContainer == null)
+      {
+        throw new ArgumentNullException(nameof(fingerPrintContainer));
+      }
+
       if (length == 0
           || lineWeight == 0)
       {
@@ -119,12 +177,12 @@ namespace Svg.Contrib.Render.FingerPrint
           lineWeight = (int) strokeWidth;
         }
 
-        container.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
-                                                             verticalStart));
-        container.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
-        container.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
-        container.Body.Add(this.FingerPrintCommands.Line(length,
-                                                         lineWeight));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
+                                                                        verticalStart));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Direction(Direction.LeftToRight));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Align(Alignment.TopLeft));
+        fingerPrintContainer.Body.Add(this.FingerPrintCommands.Line(length,
+                                                                    lineWeight));
       }
       else
       {

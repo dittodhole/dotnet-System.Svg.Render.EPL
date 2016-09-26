@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -16,21 +17,34 @@ namespace Svg.Contrib.Render.FingerPrint
     public const int DefaultOutputHeight = 1296;
     public const int DefaultOutputWidth = 816;
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public FingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader)
       : base(svgUnitReader,
              FingerPrintTransformer.DefaultOutputWidth,
-             FingerPrintTransformer.DefaultOutputHeight) {}
+             FingerPrintTransformer.DefaultOutputHeight)
+    {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
+    }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public FingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader,
                                   int outputWidth,
                                   int outputHeight)
       : base(svgUnitReader,
              outputWidth,
-             outputHeight) {}
+             outputHeight)
+    {
+      if (svgUnitReader == null)
+      {
+        throw new ArgumentNullException(nameof(svgUnitReader));
+      }
+    }
 
     [Pure]
     [NotNull]
-    [MustUseReturnValue]
     protected override Matrix CreateDeviceMatrix()
     {
       var deviceMatrix = new Matrix(1,
@@ -42,13 +56,18 @@ namespace Svg.Contrib.Render.FingerPrint
       return deviceMatrix;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="deviceMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     [NotNull]
-    [MustUseReturnValue]
     protected override Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
                                                               float magnificationFactor,
                                                               ViewRotation viewRotation = ViewRotation.Normal)
     {
+      if (deviceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(deviceMatrix));
+      }
+
       var viewMatrix = deviceMatrix.Clone();
 
       if (viewRotation == ViewRotation.Normal)
@@ -94,6 +113,9 @@ namespace Svg.Contrib.Render.FingerPrint
       return viewMatrix;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public override void Transform([NotNull] SvgRectangle svgRectangle,
                                    [NotNull] Matrix sourceMatrix,
@@ -104,6 +126,19 @@ namespace Svg.Contrib.Render.FingerPrint
                                    out float endY,
                                    out float strokeWidth)
     {
+      if (svgRectangle == null)
+      {
+        throw new ArgumentNullException(nameof(svgRectangle));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       base.Transform(svgRectangle,
                      sourceMatrix,
                      viewMatrix,
@@ -119,6 +154,9 @@ namespace Svg.Contrib.Render.FingerPrint
       endY += strokeWidth / 2f;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public void Transform([NotNull] SvgTextBase svgTextBase,
                           [NotNull] Matrix sourceMatrix,
@@ -128,6 +166,19 @@ namespace Svg.Contrib.Render.FingerPrint
                           out float fontSize,
                           out Direction direction)
     {
+      if (svgTextBase == null)
+      {
+        throw new ArgumentNullException(nameof(svgTextBase));
+      }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       startX = this.SvgUnitReader.GetValue(svgTextBase,
                                            svgTextBase.X.FirstOrDefault());
       startY = this.SvgUnitReader.GetValue(svgTextBase,
@@ -151,11 +202,21 @@ namespace Svg.Contrib.Render.FingerPrint
                               out startY);
     }
 
-    [MustUseReturnValue]
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual Direction GetDirection([NotNull] Matrix sourceMatrix,
                                           [NotNull] Matrix viewMatrix)
     {
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
       var sector = this.GetRotationSector(sourceMatrix,
                                           viewMatrix);
       var direction = (Direction) ((4 - sector) % 4 + 1);
@@ -163,6 +224,7 @@ namespace Svg.Contrib.Render.FingerPrint
       return direction;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
     [Pure]
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
@@ -170,6 +232,11 @@ namespace Svg.Contrib.Render.FingerPrint
                                          out int characterHeight,
                                          out int slant)
     {
+      if (svgTextBase == null)
+      {
+        throw new ArgumentNullException(nameof(svgTextBase));
+      }
+
       if (svgTextBase.FontWeight > SvgFontWeight.Normal)
       {
         fontName = "Swiss 721 Bold BT";
@@ -191,13 +258,18 @@ namespace Svg.Contrib.Render.FingerPrint
       }
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public override IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
                                                        bool invertBytes,
                                                        int numberOfBytesPerRow)
     {
+      if (bitmap == null)
+      {
+        throw new ArgumentNullException(nameof(bitmap));
+      }
+
       var result = new byte[]
                    {
                      0x40,
@@ -209,11 +281,16 @@ namespace Svg.Contrib.Render.FingerPrint
       return result;
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    [MustUseReturnValue]
     public virtual byte[] ConvertToPcx([NotNull] Bitmap bitmap)
     {
+      if (bitmap == null)
+      {
+        throw new ArgumentNullException(nameof(bitmap));
+      }
+
       var width = bitmap.Width;
       var mod = width % 8;
       if (mod > 0)
