@@ -34,6 +34,12 @@ namespace Svg.Contrib.Render.EPL
                                                                                         },
                                                                                         {
                                                                                           BarCodeSelection.Interleaved2Of5WithHumanReadableCheckDigit, "2D"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Code39, "3"
+                                                                                        },
+                                                                                        {
+                                                                                          BarCodeSelection.Code39WithCheckDigit, "3C"
                                                                                         }
                                                                                       };
 

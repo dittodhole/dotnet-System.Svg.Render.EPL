@@ -43,7 +43,9 @@ namespace Svg.Contrib.Render.EPL
     Code128C,
     Interleaved2Of5,
     Interleaved2Of5WithMod10CheckDigit,
-    Interleaved2Of5WithHumanReadableCheckDigit
+    Interleaved2Of5WithHumanReadableCheckDigit,
+    Code39,
+    Code39WithCheckDigit
   }
 
   [PublicAPI]
