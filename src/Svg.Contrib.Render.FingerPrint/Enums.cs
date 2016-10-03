@@ -42,6 +42,9 @@ namespace Svg.Contrib.Render.FingerPrint
     Code128A,
     Code128B,
     Code128C,
-    Interleaved2Of5
+    Interleaved2Of5,
+    Code39,
+    Code39FullAscii,
+    Code39WithChecksum
   }
 }
