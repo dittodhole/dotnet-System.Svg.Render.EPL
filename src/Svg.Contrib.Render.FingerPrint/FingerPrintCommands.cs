@@ -29,6 +29,15 @@ namespace Svg.Contrib.Render.FingerPrint
                                                                               },
                                                                               {
                                                                                 FingerPrint.BarCodeType.Interleaved2Of5, "INT2OF5"
+                                                                              },
+                                                                              {
+                                                                                FingerPrint.BarCodeType.Code39, "CODE39"
+                                                                              },
+                                                                              {
+                                                                                FingerPrint.BarCodeType.Code39FullAscii, "CODE39A"
+                                                                              },
+                                                                              {
+                                                                                FingerPrint.BarCodeType.Code39WithChecksum, "CODE39C"
                                                                               }
                                                                             };
 

@@ -75,4 +75,11 @@ namespace Svg.Contrib.Render.ZPL
     Yes = 'Y',
     No = 'N'
   }
+
+  [PublicAPI]
+  public enum Mod43Check
+  {
+    Yes = 'Y',
+    No = 'N'
+  }
 }

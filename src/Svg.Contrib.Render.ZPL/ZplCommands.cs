@@ -157,6 +157,25 @@ namespace Svg.Contrib.Render.ZPL
     /// <exception cref="ArgumentNullException"><paramref name="content" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
+    public virtual string Code39BarCode(FieldOrientation fieldOrientation,
+                                        int barCodeHeight,
+                                        [NotNull] string content,
+                                        PrintInterpretationLine printInterpretationLine = PrintInterpretationLine.Yes,
+                                        PrintInterpretationLineAboveCode printInterpretationLineAboveCode = PrintInterpretationLineAboveCode.No,
+                                        Mod43Check mod43Check = Mod43Check.No)
+    {
+      if (content == null)
+      {
+        throw new ArgumentNullException(nameof(content));
+      }
+
+      return $"^B3{(char) fieldOrientation},{(char) mod43Check},{barCodeHeight},{(char) printInterpretationLine},{(char) printInterpretationLineAboveCode}^FD{content}^FS";
+    }
+
+
+    /// <exception cref="ArgumentNullException"><paramref name="content" /> is <see langword="null" />.</exception>
+    [NotNull]
+    [Pure]
     public virtual string Code128BarCode(FieldOrientation fieldOrientation,
                                          int barCodeHeight,
                                          [NotNull] string content,
