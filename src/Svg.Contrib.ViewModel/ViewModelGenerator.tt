@@ -69,8 +69,10 @@ namespace <#= this.Host.ResolveAssemblyReference("$(RootNamespace)") #>
 
     protected virtual string GetText(string id)
     {
+      // see https://github.com/vvvv/SVG/issues/301 :dragon:
+
       var svgTextBase = this.SvgDocument.GetElementById<SvgTextBase>(id);
-      var text = svgTextBase.Text;
+      var text = svgTextBase.Content;
 
       return text;
     }
@@ -78,8 +80,10 @@ namespace <#= this.Host.ResolveAssemblyReference("$(RootNamespace)") #>
     protected virtual void SetText(string id,
                                    string text)
     {
+      // see https://github.com/vvvv/SVG/issues/301 :dragon:
+
       var svgTextBase = this.SvgDocument.GetElementById<SvgTextBase>(id);
-      svgTextBase.Text = text;
+      svgTextBase.Content = text;
     }
 
     protected virtual bool GetVisible(string id)

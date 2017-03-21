@@ -1,9 +1,0 @@
-language: csharp
-solution: src/Svg.Contrib.Render.sln
-install:
- - nuget restore src/Svg.Contrib.Render.sln
- - nuget install NUnit.Runners -Version 3.2.1 -OutputDirectory testrunner
-script:
- - xbuild /p:Configuration=Release src/Svg.Contrib.Render.sln
- - mono testrunner/NUnit.ConsoleRunner.3.2.1/tools/nunit3-console.exe src/Svg.Contrib.Render.EPL.Tests/bin/Release/Svg.Contrib.Render.EPL.Tests.dll
- - mono testrunner/NUnit.ConsoleRunner.3.2.1/tools/nunit3-console.exe src/Svg.Contrib.Render.ZPL.Tests/bin/Release/Svg.Contrib.Render.ZPL.Tests.dll
