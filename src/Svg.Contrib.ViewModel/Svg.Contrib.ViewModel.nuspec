@@ -10,5 +10,4 @@
     <description>$description$</description>
     <developmentDependency>true</developmentDependency>
   </metadata>
-  <files />
 </package>
