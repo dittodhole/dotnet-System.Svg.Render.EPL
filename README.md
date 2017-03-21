@@ -40,7 +40,7 @@
 [![MyGet Pre Release](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.svg?style=flat-square)](//www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render)
 https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render
 
-    PM> Install-Package Caliburn.Micro.Contrib.Controller -pre
+    PM> Install-Package Svg.Contrib.Render -pre
 
 [![MyGet Pre Release](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.EPL.svg?style=flat-square)](//www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.EPL)
 https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.EPL
