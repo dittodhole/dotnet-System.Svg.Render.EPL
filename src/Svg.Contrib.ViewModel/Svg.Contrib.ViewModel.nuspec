@@ -8,5 +8,7 @@
     <projectUrl>https://github.com/dittodhole/dotnet-Svg.Contrib.Render</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/dittodhole/dotnet-Svg.Contrib.Render/master/src/Svg.Contrib.ViewModel/assets/icon.png</iconUrl>
     <description>$description$</description>
+    <developmentDependency>true</developmentDependency>
   </metadata>
+  <files />
 </package>
