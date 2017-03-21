@@ -51,13 +51,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="assets\label.svg" />
-    <None Include="LICENSE" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\icon.png" />
-    <Content Include="assets\noun_7266_cc.png" />
     <Content Include="ViewModelGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ViewModelGenerator.cs</LastGenOutput>

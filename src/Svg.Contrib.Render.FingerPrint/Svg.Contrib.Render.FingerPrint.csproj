@@ -65,15 +65,8 @@
     <Compile Include="SvgTextBaseTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\934-019-002.pdf" />
-    <None Include="assets\937-005.pdf" />
-    <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="assets\icon.png" />
-    <Content Include="assets\noun_286941_cc.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Svg.Contrib.Render\Svg.Contrib.Render.csproj">
