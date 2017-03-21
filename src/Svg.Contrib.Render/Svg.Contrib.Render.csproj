@@ -60,6 +60,7 @@
     <Compile Include="SvgUnitReader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Svg.Contrib.Render.nuspec" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>

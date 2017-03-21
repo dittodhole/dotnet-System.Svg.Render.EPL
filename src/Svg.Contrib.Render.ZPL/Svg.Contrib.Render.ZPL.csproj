@@ -61,6 +61,7 @@
     <Compile Include="ZplTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Svg.Contrib.Render.ZPL.nuspec" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>

@@ -65,6 +65,7 @@
     <Compile Include="SvgTextBaseTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Svg.Contrib.Render.FingerPrint.nuspec" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
