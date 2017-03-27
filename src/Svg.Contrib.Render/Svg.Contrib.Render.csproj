@@ -60,9 +60,10 @@
     <Compile Include="SvgUnitReader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LICENSE" />
     <None Include="Svg.Contrib.Render.nuspec" />
     <None Include="packages.config" />
-    <None Include="README.md" />
+    <Content Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="BeforeBuild">
