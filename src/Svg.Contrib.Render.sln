@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render.EPL", "Svg.Contrib.Render.EPL\Svg.Contrib.Render.EPL.csproj", "{9B74D70D-21F7-41DA-B146-EFF862672606}"
 EndProject
@@ -11,8 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Contrib.Render.ZPL", "S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{877F02E9-A48D-43E7-94D0-8DBBEDA40D2C}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		..\appveyor.yml = ..\appveyor.yml
 		..\GitVersion.yml = ..\GitVersion.yml
+		JetBrains.Annotations.cs = JetBrains.Annotations.cs
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject

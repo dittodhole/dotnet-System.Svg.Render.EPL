@@ -1,11 +1,5 @@
 bin/
 obj/
-nupkg/
-nuspec/
 packages/
 *.user
 *.suo
-*.nupkg
-!*.nupkg/
-*.nupkg.bak
-*.log

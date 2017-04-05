@@ -22,6 +22,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Svg.Contrib.Render.EPL.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,15 +31,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Svg.Contrib.Render.EPL.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Magick.NET-Q8-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
-      <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.0.4.701\lib\net20\Magick.NET-Q8-AnyCPU.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Magick.NET-Q8-AnyCPU.7.0.5.500\lib\net20\Magick.NET-Q8-AnyCPU.dll</HintPath>
     </Reference>
     <Reference Include="Svg, Version=2.2.1.39233, Culture=neutral, PublicKeyToken=12a0bac221edeae2, processorArchitecture=MSIL">
       <HintPath>..\packages\Svg.2.3.0\lib\net35\Svg.dll</HintPath>
@@ -53,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\JetBrains.Annotations.cs">
+      <Link>JetBrains.Annotations.cs</Link>
+    </Compile>
     <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EplCommands.cs" />
@@ -67,9 +67,10 @@
     <Compile Include="SvgTextBaseTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LICENSE" />
     <None Include="Svg.Contrib.Render.EPL.nuspec" />
     <None Include="packages.config" />
-    <None Include="README.md" />
+    <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Svg.Contrib.Render\Svg.Contrib.Render.csproj">

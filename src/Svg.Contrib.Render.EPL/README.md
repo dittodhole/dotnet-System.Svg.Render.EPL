@@ -45,7 +45,7 @@ var array = eplContainer.ToByteStream(encoding)
 - `SvgLineSegment`
 - `SvgLine`
 - `SvgImage`
-- native barcodes (see [Svg.Contrib.Render.EPL.Demo](../Svg.Contrib.Render.EPL.Demo))
+- native barcodes
 
 ## License
 

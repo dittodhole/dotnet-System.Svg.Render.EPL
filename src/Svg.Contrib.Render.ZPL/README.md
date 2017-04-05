@@ -44,7 +44,7 @@ var array = zplContainer.ToByteStream(encoding)
 - `SvgLineSegment`
 - `SvgLine`
 - `SvgImage`
-- native barcodes (see [Svg.Contrib.Render.ZPL.Demo](../Svg.Contrib.Render.ZPL.Demo))
+- native barcodes
 
 ## License
 

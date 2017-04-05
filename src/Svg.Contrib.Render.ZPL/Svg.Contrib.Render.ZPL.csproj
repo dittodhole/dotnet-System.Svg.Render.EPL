@@ -20,6 +20,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Svg.Contrib.Render.ZPL.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,12 +29,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Svg.Contrib.Render.ZPL.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Svg, Version=2.2.1.39233, Culture=neutral, PublicKeyToken=12a0bac221edeae2, processorArchitecture=MSIL">
       <HintPath>..\packages\Svg.2.3.0\lib\net35\Svg.dll</HintPath>
       <Private>True</Private>
@@ -47,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\JetBrains.Annotations.cs">
+      <Link>JetBrains.Annotations.cs</Link>
+    </Compile>
     <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,9 +62,10 @@
     <Compile Include="ZplTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LICENSE" />
     <None Include="Svg.Contrib.Render.ZPL.nuspec" />
     <None Include="packages.config" />
-    <None Include="README.md" />
+    <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Svg.Contrib.Render\Svg.Contrib.Render.csproj">

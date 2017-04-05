@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="Svg.Contrib.ViewModel.nuspec" />
     <None Include="ViewModelGenerator.cs">
@@ -52,7 +53,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
+    <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ViewModelGenerator.tt">
