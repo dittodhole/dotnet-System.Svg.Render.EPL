@@ -62,10 +62,10 @@
     <Compile Include="ZplTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LICENSE" />
+    <EmbeddedResource Include="LICENSE" />
     <None Include="Svg.Contrib.Render.ZPL.nuspec" />
     <None Include="packages.config" />
-    <Content Include="README.md" />
+    <EmbeddedResource Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Svg.Contrib.Render\Svg.Contrib.Render.csproj">
@@ -74,9 +74,11 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
-    <Exec Command="ROBOCOPY &quot;$(OutDir)\&quot; &quot;$(SolutionDir)..\bin\lib\Net35&quot; $(TargetName).*" IgnoreExitCode="true" />
   </Target>
+  -->
 </Project>
