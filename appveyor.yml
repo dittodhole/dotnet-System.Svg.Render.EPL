@@ -33,7 +33,7 @@ build:
   publish_nuget_symbols: false
   verbosity: detailed
 after_build:
-- cmd: nuget pack "%project_file%" -properties "Configuration=%configuration%" -symbols
+- cmd: nuget pack "%project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
 - cmd: nuget pack "%epl_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
 - cmd: nuget pack "%fingerprint_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
 - cmd: nuget pack "%zpl_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
