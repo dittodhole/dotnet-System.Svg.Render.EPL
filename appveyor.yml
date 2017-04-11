@@ -37,7 +37,7 @@ after_build:
 - cmd: nuget pack "%epl_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
 - cmd: nuget pack "%fingerprint_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
 - cmd: nuget pack "%zpl_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
-- cmd: nuget pack "%viewmodel_project_file%" -properties "Configuration=%configuration%" -Tool
+- cmd: nuget pack "%viewmodel_project_file%" -properties "Configuration=%configuration%" -Tool -symbols
 - cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%project_name%.%GitVersion_NuGetVersion%.nupkg"
 - cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%project_name%.%GitVersion_NuGetVersion%.symbols.nupkg"
 - cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%epl_project_name%.%GitVersion_NuGetVersion%.nupkg"
