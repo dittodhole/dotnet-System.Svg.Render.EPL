@@ -62,10 +62,10 @@
     <Compile Include="ZplTransformer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LICENSE" />
+    <EmbeddedResource Include="LICENSE" />
     <None Include="Svg.Contrib.Render.ZPL.nuspec" />
     <None Include="packages.config" />
-    <Content Include="README.md" />
+    <EmbeddedResource Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Svg.Contrib.Render\Svg.Contrib.Render.csproj">
