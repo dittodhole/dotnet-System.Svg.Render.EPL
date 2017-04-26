@@ -34,7 +34,8 @@ namespace <#= this.Host.ResolveAssemblyReference("$(RootNamespace)") #>
                                                          })
                                   .Where(arg => arg.BuildAction != null)
                                   .Where(arg => (prjBuildAction) arg.BuildAction == prjBuildAction.prjBuildActionEmbeddedResource)
-                                  .Where(arg => arg.FullPath != null);
+                                  .Where(arg => arg.FullPath != null)
+                                  .Where(arg => Path.GetExtension(arg.FullPath) == ".svg");
   foreach (var embeddedProjectItem in embeddedProjectItems)
   {
     var path = embeddedProjectItem.FullPath;
