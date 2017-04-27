@@ -176,14 +176,29 @@ namespace Svg.Contrib.Render.ZPL
                      out startY,
                      out fontSize);
 
+      var lineHeightFactor = this.GetLineHeightFactor(svgTextBase);
       if (this.GetRotationSector(sourceMatrix,
                                  viewMatrix) % 2 == 0)
       {
-        startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
+        if (lineHeightFactor > 0f)
+        {
+          startY -= fontSize / lineHeightFactor;
+        }
+        else
+        {
+          startY -= fontSize;
+        }
       }
       else
       {
-        startX += fontSize / this.GetLineHeightFactor(svgTextBase);
+        if (lineHeightFactor > 0f)
+        {
+          startX += fontSize / lineHeightFactor;
+        }
+        else
+        {
+          startX += fontSize;
+        }
       }
     }
 

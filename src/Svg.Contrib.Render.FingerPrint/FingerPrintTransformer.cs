@@ -191,7 +191,15 @@ namespace Svg.Contrib.Render.FingerPrint
 
       if ((int) direction % 2 > 0)
       {
-        startX -= fontSize / this.GetLineHeightFactor(svgTextBase);
+        var lineHeightFactor = this.GetLineHeightFactor(svgTextBase);
+        if (lineHeightFactor > 0f)
+        {
+          startX -= fontSize / lineHeightFactor;
+        }
+        else
+        {
+          startX -= fontSize;
+        }
       }
 
       this.ApplyMatrixOnPoint(startX,

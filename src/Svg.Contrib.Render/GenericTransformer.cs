@@ -412,7 +412,15 @@ namespace Svg.Contrib.Render
       fontSize = this.SvgUnitReader.GetValue(svgTextBase,
                                              svgTextBase.FontSize);
 
-      startY -= fontSize / this.GetLineHeightFactor(svgTextBase);
+      var lineHeightFactor = this.GetLineHeightFactor(svgTextBase);
+      if (lineHeightFactor > 0f)
+      {
+        startY -= fontSize / lineHeightFactor;
+      }
+      else
+      {
+        startY -= fontSize;
+      }
 
       this.ApplyMatrixOnPoint(startX,
                               startY,
