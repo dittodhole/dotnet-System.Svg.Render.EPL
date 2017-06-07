@@ -15,30 +15,12 @@ namespace Svg.Contrib.Render.ZPL
     public const int DefaultOutputWidth = 816;
 
     /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
-    public ZplTransformer([NotNull] SvgUnitReader svgUnitReader)
-      : base(svgUnitReader,
-             ZplTransformer.DefaultOutputWidth,
-             ZplTransformer.DefaultOutputHeight)
-    {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-    }
-
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public ZplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                          int outputWidth,
-                          int outputHeight)
+                          int outputWidth = ZplTransformer.DefaultOutputWidth,
+                          int outputHeight = ZplTransformer.DefaultOutputHeight)
       : base(svgUnitReader,
              outputWidth,
-             outputHeight)
-    {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-    }
+             outputHeight) { }
 
     [NotNull]
     [ItemNotNull]

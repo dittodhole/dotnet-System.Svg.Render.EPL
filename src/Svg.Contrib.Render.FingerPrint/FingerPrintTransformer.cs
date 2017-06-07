@@ -18,30 +18,12 @@ namespace Svg.Contrib.Render.FingerPrint
     public const int DefaultOutputWidth = 816;
 
     /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
-    public FingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader)
-      : base(svgUnitReader,
-             FingerPrintTransformer.DefaultOutputWidth,
-             FingerPrintTransformer.DefaultOutputHeight)
-    {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-    }
-
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public FingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader,
-                                  int outputWidth,
-                                  int outputHeight)
+                                  int outputWidth = FingerPrintTransformer.DefaultOutputWidth,
+                                  int outputHeight = FingerPrintTransformer.DefaultOutputHeight)
       : base(svgUnitReader,
              outputWidth,
-             outputHeight)
-    {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-    }
+             outputHeight) { }
 
     [Pure]
     [NotNull]
