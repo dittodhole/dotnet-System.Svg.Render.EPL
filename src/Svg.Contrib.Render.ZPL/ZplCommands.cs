@@ -147,9 +147,9 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    public virtual string BarCodeFieldDefaut(int moduleWidth,
-                                             decimal wideBarToNarrowBarWidthRatio,
-                                             int height)
+    public virtual string BarCodeFieldDefault(int moduleWidth,
+                                              decimal wideBarToNarrowBarWidthRatio,
+                                              int height)
     {
       return $"^BY{moduleWidth},{Math.Round(wideBarToNarrowBarWidthRatio, 2)},{height}";
     }
