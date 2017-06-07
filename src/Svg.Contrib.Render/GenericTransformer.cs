@@ -502,7 +502,7 @@ namespace Svg.Contrib.Render
                              -this.OutputHeight,
                              MatrixOrder.Append);
       }
-      else if (viewRotation == ViewRotation.RotateBy270Degress)
+      else if (viewRotation == ViewRotation.RotateBy270Degrees)
       {
         // TODO test this orientation!
         viewMatrix.Scale(magnificationFactor,

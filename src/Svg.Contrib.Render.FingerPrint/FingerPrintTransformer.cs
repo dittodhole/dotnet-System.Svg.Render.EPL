@@ -98,7 +98,7 @@ namespace Svg.Contrib.Render.FingerPrint
                              0,
                              MatrixOrder.Append);
       }
-      else if (viewRotation == ViewRotation.RotateBy270Degress)
+      else if (viewRotation == ViewRotation.RotateBy270Degrees)
       {
         viewMatrix.Scale(magnificationFactor,
                          magnificationFactor,
