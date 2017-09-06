@@ -20,7 +20,7 @@ namespace Svg.Contrib.Render
     }
 
     [NotNull]
-    protected GenericTransformer GenericTransformer { get; }
+    private GenericTransformer GenericTransformer { get; }
 
     [NotNull]
     [ItemNotNull]

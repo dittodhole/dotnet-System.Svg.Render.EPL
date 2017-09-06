@@ -22,11 +22,11 @@ namespace Svg.Contrib.Render.EPL
     }
 
     [NotNull]
-    protected EplCommands EplCommands { get; }
+    private EplCommands EplCommands { get; }
 
-    protected PrinterCodepage PrinterCodepage { get; }
+    private PrinterCodepage PrinterCodepage { get; }
 
-    protected int CountryCode { get; }
+    private int CountryCode { get; }
 
     [NotNull]
     [Pure]

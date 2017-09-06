@@ -23,13 +23,13 @@ namespace Svg.Contrib.Render.ZPL
     }
 
     [NotNull]
-    protected ZplTransformer ZplTransformer { get; }
+    private ZplTransformer ZplTransformer { get; }
 
     [NotNull]
-    protected ZplCommands ZplCommands { get; }
+    private ZplCommands ZplCommands { get; }
 
     [NotNull]
-    protected SvgUnitReader SvgUnitReader { get; }
+    private SvgUnitReader SvgUnitReader { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>

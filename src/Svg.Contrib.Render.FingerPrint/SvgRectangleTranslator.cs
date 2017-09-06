@@ -23,13 +23,13 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     [NotNull]
-    protected SvgUnitReader SvgUnitReader { get; }
+    private SvgUnitReader SvgUnitReader { get; }
 
     [NotNull]
-    protected FingerPrintCommands FingerPrintCommands { get; }
+    private FingerPrintCommands FingerPrintCommands { get; }
 
     [NotNull]
-    protected FingerPrintTransformer FingerPrintTransformer { get; }
+    private FingerPrintTransformer FingerPrintTransformer { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>

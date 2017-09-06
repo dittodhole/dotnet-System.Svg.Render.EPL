@@ -20,9 +20,9 @@ namespace Svg.Contrib.Render.ZPL
     }
 
     [NotNull]
-    protected ZplCommands ZplCommands { get; }
+    private ZplCommands ZplCommands { get; }
 
-    protected CharacterSet CharacterSet { get; }
+    private CharacterSet CharacterSet { get; }
 
     [NotNull]
     [ItemNotNull]
