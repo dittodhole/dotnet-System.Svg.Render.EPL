@@ -21,7 +21,7 @@ environment:
   viewmodel_project_dir: '%solution_dir%%viewmodel_project_name%\'
   viewmodel_project_file: '%viewmodel_project_dir%%viewmodel_project_name%.csproj'
 install:
-- cmd: choco install gitversion.portable -y
+- cmd: choco install packages.config -y
 before_build:
 - cmd: nuget restore "%solution_file%"
 - cmd: gitversion /l console /output buildserver /updateAssemblyInfo
