@@ -45,6 +45,7 @@ namespace Svg.Contrib.Render.EPL
     protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
 
     /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="fontSize" /> is out of range.</exception>
     [Pure]
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
@@ -162,9 +163,9 @@ namespace Svg.Contrib.Render.EPL
       if (lowerFontDefinitionCandidate == null
           && upperFontDefinitionCandidate == null)
       {
-        // this should never happen :beers:
-        // but can happen, if tiny font is used - idgaf
-        throw new NotImplementedException();
+        throw new ArgumentOutOfRangeException(nameof(fontSize),
+                                              fontSize,
+                                              $"Parameter {nameof(fontSize)} must be greater than {fontDefinitions.Keys.Min()}.");
       }
 
       if (lowerFontDefinitionCandidate == null)
