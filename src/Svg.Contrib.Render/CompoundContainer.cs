@@ -95,19 +95,14 @@ namespace Svg.Contrib.Render
           array = line as byte[];
         }
 
-        if (array == null)
+        if (array != null)
         {
-          continue;
-        }
-        if (!array.Any())
-        {
-          continue;
+          foreach (var @byte in array)
+          {
+            yield return @byte;
+          }
         }
 
-        foreach (var @byte in array)
-        {
-          yield return @byte;
-        }
         foreach (var @byte in encoding.GetBytes(Environment.NewLine))
         {
           yield return @byte;
