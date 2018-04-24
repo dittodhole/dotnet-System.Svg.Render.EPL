@@ -38,16 +38,16 @@ after_build:
 - cmd: nuget pack "%fingerprint_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
 - cmd: nuget pack "%zpl_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
 - cmd: nuget pack "%viewmodel_project_file%" -properties "Configuration=%configuration%" -Tool -symbols
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%project_name%.%GitVersion_NuGetVersion%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%project_name%.%GitVersion_NuGetVersion%.symbols.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%epl_project_name%.%GitVersion_NuGetVersion%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%epl_project_name%.%GitVersion_NuGetVersion%.symbols.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%fingerprint_project_name%.%GitVersion_NuGetVersion%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%fingerprint_project_name%.%GitVersion_NuGetVersion%.symbols.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%zpl_project_name%.%GitVersion_NuGetVersion%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%zpl_project_name%.%GitVersion_NuGetVersion%.symbols.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%viewmodel_project_name%.%GitVersion_NuGetVersion%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%viewmodel_project_name%.%GitVersion_NuGetVersion%.symbols.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%project_name%.%GitVersion_NuGetVersionV2%.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%epl_project_name%.%GitVersion_NuGetVersionV2%.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%epl_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%fingerprint_project_name%.%GitVersion_NuGetVersionV2%.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%fingerprint_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%zpl_project_name%.%GitVersion_NuGetVersionV2%.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%zpl_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%viewmodel_project_name%.%GitVersion_NuGetVersionV2%.nupkg"
+- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%viewmodel_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
 test: off
 deploy:
 - provider: NuGet
@@ -62,14 +62,14 @@ deploy:
 - provider: NuGet
   name: NuGet
   api_key:
-    secure: U6199dIr+h5NLeO9aWtxR2ihfMjDX3rrhqjdN3ByzlLzU9t3T00+MtjNQPkfrToY
+    secure: nEAQdlgK3zBLiNAmbfjh6b8dUsqTQ/YRIbRFukxxlGVFa4251UhGdejc3Fj6YlFa
 #  skip_symbols: true
   on:
     branch: master
 - provider: NuGet
   name: NuGet (pre release)
   api_key:
-    secure: U6199dIr+h5NLeO9aWtxR2ihfMjDX3rrhqjdN3ByzlLzU9t3T00+MtjNQPkfrToY
+    secure: nEAQdlgK3zBLiNAmbfjh6b8dUsqTQ/YRIbRFukxxlGVFa4251UhGdejc3Fj6YlFa
 #  skip_symbols: true
   on:
     branch: /release\/.*/
