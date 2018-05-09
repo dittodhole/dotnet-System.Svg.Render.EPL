@@ -98,7 +98,7 @@ namespace Svg.Contrib.Render.FingerPrint
 
         var rawBinaryData = this.FingerPrintTransformer.GetRawBinaryData(bitmap,
                                                                          false,
-                                                                         out int numberOfBytesPerRow);
+                                                                         out var numberOfBytesPerRow);
 
         fingerPrintContainer.Body.Add(this.FingerPrintCommands.Position(horizontalStart,
                                                                         verticalStart));

@@ -70,16 +70,16 @@ namespace Svg.Contrib.Render.EPL
       this.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,
-                       out int horizontalStart,
-                       out int verticalStart,
-                       out int sector,
-                       out float fontSize);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var sector,
+                       out var fontSize);
 
       this.GetFontSelection(svgElement,
                             fontSize,
-                            out int fontSelection,
-                            out int horizontalMultiplier,
-                            out int verticalMultiplier);
+                            out var fontSelection,
+                            out var horizontalMultiplier,
+                            out var verticalMultiplier);
 
       this.AddTranslationToContainer(svgElement,
                                      horizontalStart,
@@ -120,8 +120,8 @@ namespace Svg.Contrib.Render.EPL
       this.EplTransformer.Transform(svgElement,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out float x,
-                                    out float y,
+                                    out var x,
+                                    out var y,
                                     out fontSize);
 
       horizontalStart = (int) x;

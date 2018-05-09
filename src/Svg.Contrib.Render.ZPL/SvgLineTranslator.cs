@@ -54,12 +54,12 @@ namespace Svg.Contrib.Render.ZPL
       this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
-                       out int horizontalStart,
-                       out int verticalStart,
-                       out int width,
-                       out int height,
-                       out int verticalEnd,
-                       out float strokeWidth);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var width,
+                       out var height,
+                       out var verticalEnd,
+                       out var strokeWidth);
 
       if (width == 0
           || height == 0)
@@ -120,10 +120,10 @@ namespace Svg.Contrib.Render.ZPL
       this.ZplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out float startX,
-                                    out float startY,
-                                    out float endX,
-                                    out float endY,
+                                    out var startX,
+                                    out var startY,
+                                    out var endX,
+                                    out var endY,
                                     out strokeWidth);
 
       // TODO find a good TOLERANCE

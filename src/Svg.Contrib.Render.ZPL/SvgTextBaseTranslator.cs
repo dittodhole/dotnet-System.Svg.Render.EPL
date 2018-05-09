@@ -68,16 +68,16 @@ namespace Svg.Contrib.Render.ZPL
       this.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,
-                       out int horizontalStart,
-                       out int verticalStart,
-                       out FieldOrientation fieldOrientation,
-                       out float fontSize);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var fieldOrientation,
+                       out var fontSize);
 
       this.GetFontSelection(svgElement,
                             fontSize,
-                            out string fontName,
-                            out int characterHeight,
-                            out int width);
+                            out var fontName,
+                            out var characterHeight,
+                            out var width);
 
       this.AddTranslationToContainer(horizontalStart,
                                      verticalStart,
@@ -135,8 +135,8 @@ namespace Svg.Contrib.Render.ZPL
       this.ZplTransformer.Transform(svgElement,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out float x,
-                                    out float y,
+                                    out var x,
+                                    out var y,
                                     out fontSize);
 
       horizontalStart = (int) x;

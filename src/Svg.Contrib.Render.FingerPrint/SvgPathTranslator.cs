@@ -123,11 +123,11 @@ namespace Svg.Contrib.Render.FingerPrint
       this.FingerPrintTransformer.Transform(svgLine,
                                             sourceMatrix,
                                             viewMatrix,
-                                            out float startX,
-                                            out float startY,
-                                            out float endX,
-                                            out float endY,
-                                            out float strokeWidth);
+                                            out var startX,
+                                            out var startY,
+                                            out var endX,
+                                            out var endY,
+                                            out var strokeWidth);
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;

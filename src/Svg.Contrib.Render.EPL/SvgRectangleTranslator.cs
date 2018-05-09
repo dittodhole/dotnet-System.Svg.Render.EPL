@@ -104,11 +104,11 @@ namespace Svg.Contrib.Render.EPL
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out int horizontalStart,
-                       out int verticalStart,
-                       out int lineThickness,
-                       out int horizontalEnd,
-                       out int verticalEnd);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var lineThickness,
+                       out var horizontalEnd,
+                       out var verticalEnd);
 
       var horizontalLength = horizontalEnd - horizontalStart;
       var verticalLength = verticalEnd - verticalStart;
@@ -148,11 +148,11 @@ namespace Svg.Contrib.Render.EPL
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out int horizontalStart,
-                       out int verticalStart,
-                       out int lineThickness,
-                       out int horizontalEnd,
-                       out int verticalEnd);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var lineThickness,
+                       out var horizontalEnd,
+                       out var verticalEnd);
 
       eplContainer.Body.Add(this.EplCommands.DrawBox(horizontalStart,
                                                      verticalStart,
@@ -190,11 +190,11 @@ namespace Svg.Contrib.Render.EPL
       this.EplTransformer.Transform(svgRectangle,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out float startX,
-                                    out float startY,
-                                    out float endX,
-                                    out float endY,
-                                    out float strokeWidth);
+                                    out var startX,
+                                    out var startY,
+                                    out var endX,
+                                    out var endY,
+                                    out var strokeWidth);
 
       horizontalStart = (int) startX;
       verticalStart = (int) startY;

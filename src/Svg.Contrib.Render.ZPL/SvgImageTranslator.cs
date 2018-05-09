@@ -49,7 +49,7 @@ namespace Svg.Contrib.Render.ZPL
 
       var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap,
                                                                false,
-                                                               out int numberOfBytesPerRow);
+                                                               out var numberOfBytesPerRow);
 
       zplContainer.Header.Add(this.ZplCommands.DownloadGraphics(variableName,
                                                                 rawBinaryData,
@@ -99,7 +99,7 @@ namespace Svg.Contrib.Render.ZPL
 
         var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap,
                                                                  false,
-                                                                 out int numberOfBytesPerRow);
+                                                                 out var numberOfBytesPerRow);
 
         zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                             verticalStart));

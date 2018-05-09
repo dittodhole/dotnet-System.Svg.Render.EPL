@@ -99,7 +99,7 @@ namespace Svg.Contrib.Render.EPL
 
         var rawBinaryData = this.EplTransformer.GetRawBinaryData(bitmap,
                                                                  true,
-                                                                 out int numberOfBytesPerRow);
+                                                                 out var numberOfBytesPerRow);
         var rows = bitmap.Height;
 
         eplContainer.Body.Add(this.EplCommands.GraphicDirectWrite(horizontalStart,

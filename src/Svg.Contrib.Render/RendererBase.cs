@@ -28,7 +28,7 @@ namespace Svg.Contrib.Render
       }
 
       if (!this.SvgElementTranslators.TryGetValue(type,
-                                                  out ISvgElementTranslator<TContainer> svgElementTranslator))
+                                                  out var svgElementTranslator))
       {
         return null;
       }

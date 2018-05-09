@@ -123,11 +123,11 @@ namespace Svg.Contrib.Render
       this.GetPosition(svgImage,
                        sourceMatrix,
                        viewMatrix,
-                       out float sourceAlignmentWidth,
-                       out float sourceAlignmentHeight,
-                       out int horizontalStart,
-                       out int verticalStart,
-                       out int sector);
+                       out var sourceAlignmentWidth,
+                       out var sourceAlignmentHeight,
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var sector);
 
       this.AddTranslationToContainer(svgImage,
                                      sourceMatrix,
@@ -169,10 +169,10 @@ namespace Svg.Contrib.Render
       this.GenericTransformer.Transform(svgImage,
                                         sourceMatrix,
                                         viewMatrix,
-                                        out float startX,
-                                        out float startY,
-                                        out float endX,
-                                        out float endY,
+                                        out var startX,
+                                        out var startY,
+                                        out var endX,
+                                        out var endY,
                                         out sourceAlignmentWidth,
                                         out sourceAlignmentHeight);
 
@@ -235,7 +235,7 @@ namespace Svg.Contrib.Render
                            horizontalStart,
                            verticalStart,
                            container,
-                           out string variableName);
+                           out var variableName);
         if (variableName != null)
         {
           this.PrintGraphics(svgImage,

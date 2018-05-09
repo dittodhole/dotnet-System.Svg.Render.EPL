@@ -103,11 +103,11 @@ namespace Svg.Contrib.Render.FingerPrint
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out int horizontalStart,
-                       out int verticalStart,
-                       out int lineThickness,
-                       out int horizontalEnd,
-                       out int verticalEnd);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var lineThickness,
+                       out var horizontalEnd,
+                       out var verticalEnd);
 
       var length = horizontalEnd - horizontalStart;
       var lineWeight = verticalEnd - verticalStart;
@@ -149,11 +149,11 @@ namespace Svg.Contrib.Render.FingerPrint
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out int horizontalStart,
-                       out int verticalStart,
-                       out int lineWeight,
-                       out int horizontalEnd,
-                       out int verticalEnd);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var lineWeight,
+                       out var horizontalEnd,
+                       out var verticalEnd);
 
       var width = horizontalEnd - horizontalStart;
       var height = verticalEnd - verticalStart;
@@ -196,11 +196,11 @@ namespace Svg.Contrib.Render.FingerPrint
       this.FingerPrintTransformer.Transform(svgRectangle,
                                             sourceMatrix,
                                             viewMatrix,
-                                            out float startX,
-                                            out float startY,
-                                            out float endX,
-                                            out float endY,
-                                            out float strokeWidth);
+                                            out var startX,
+                                            out var startY,
+                                            out var endX,
+                                            out var endY,
+                                            out var strokeWidth);
 
       horizontalStart = (int) startX;
       verticalStart = (int) startY;
