@@ -82,4 +82,18 @@ namespace Svg.Contrib.Render.ZPL
     Yes = 'Y',
     No = 'N'
   }
+
+  [PublicAPI]
+  public enum ExtendedChannelInterpretationCodeIndicator
+  {
+    Yes = 'Y',
+    No = 'N'
+  }
+
+  [PublicAPI]
+  public enum MenuSymbolIndicator
+  {
+    Yes = 'Y',
+    No = 'N'
+  }
 }

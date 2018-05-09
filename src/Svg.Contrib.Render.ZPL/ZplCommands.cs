@@ -210,6 +210,25 @@ namespace Svg.Contrib.Render.ZPL
       return $"^B2{(char) fieldOrientation},{barCodeHeight},{(char) printInterpretationLine},{(char) printInterpretationLineAboveCode},{(char) calculateAndPrintMod10CheckDigit}^FD{content}^FS";
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="content" /> is <see langword="null" />.</exception>
+    [NotNull]
+    [Pure]
+    public virtual string AztecBarCode(FieldOrientation fieldOrientation,
+                                       int magnificationFactor,
+                                       [NotNull] string content,
+                                       ExtendedChannelInterpretationCodeIndicator extendedChannelInterpretationCodeIndicator = ExtendedChannelInterpretationCodeIndicator.No,
+                                       int errorControlAndSymbolSizeTypeIndictaor = 0,
+                                       MenuSymbolIndicator menuSymbolIndicator = MenuSymbolIndicator.No,
+                                       int numberOfSymbolsForStructuredAppend = 1)
+    {
+      if (content == null)
+      {
+        throw new ArgumentNullException(nameof(content));
+      }
+
+      return $"^B0{(char) fieldOrientation},{magnificationFactor},{(char) extendedChannelInterpretationCodeIndicator},{errorControlAndSymbolSizeTypeIndictaor},{(char) menuSymbolIndicator},{numberOfSymbolsForStructuredAppend}^FD{content}^FS";
+    }
+
     /// <exception cref="ArgumentNullException"><paramref name="rawBinaryData" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
