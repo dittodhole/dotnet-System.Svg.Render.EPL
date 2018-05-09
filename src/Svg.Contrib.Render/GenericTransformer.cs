@@ -18,11 +18,7 @@ namespace Svg.Contrib.Render
                               int outputWidth,
                               int outputHeight)
     {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-      this.SvgUnitReader = svgUnitReader;
+      this.SvgUnitReader = svgUnitReader ?? throw new ArgumentNullException(nameof(svgUnitReader));
       this.OutputWidth = outputWidth;
       this.OutputHeight = outputHeight;
     }

@@ -25,21 +25,9 @@ namespace Svg.Contrib.Render
                                 [NotNull] ICollection<object> body,
                                 [NotNull] ICollection<object> footer)
     {
-      if (header == null)
-      {
-        throw new ArgumentNullException(nameof(header));
-      }
-      if (body == null)
-      {
-        throw new ArgumentNullException(nameof(body));
-      }
-      if (footer == null)
-      {
-        throw new ArgumentNullException(nameof(footer));
-      }
-      this.Header = header;
-      this.Body = body;
-      this.Footer = footer;
+      this.Header = header ?? throw new ArgumentNullException(nameof(header));
+      this.Body = body ?? throw new ArgumentNullException(nameof(body));
+      this.Footer = footer ?? throw new ArgumentNullException(nameof(footer));
     }
 
     [NotNull]

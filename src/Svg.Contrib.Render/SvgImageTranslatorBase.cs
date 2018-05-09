@@ -16,11 +16,7 @@ namespace Svg.Contrib.Render
     /// <exception cref="ArgumentNullException"><paramref name="genericTransformer" /> is <see langword="null" />.</exception>
     protected SvgImageTranslatorBase([NotNull] GenericTransformer genericTransformer)
     {
-      if (genericTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(genericTransformer));
-      }
-      this.GenericTransformer = genericTransformer;
+      this.GenericTransformer = genericTransformer ?? throw new ArgumentNullException(nameof(genericTransformer));
     }
 
     [NotNull]

@@ -15,11 +15,7 @@ namespace Svg.Contrib.Render.ZPL
     public ZplRenderer([NotNull] ZplCommands zplCommands,
                        CharacterSet characterSet = CharacterSet.ZebraCodePage850)
     {
-      if (zplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(zplCommands));
-      }
-      this.ZplCommands = zplCommands;
+      this.ZplCommands = zplCommands ?? throw new ArgumentNullException(nameof(zplCommands));
       this.CharacterSet = characterSet;
     }
 

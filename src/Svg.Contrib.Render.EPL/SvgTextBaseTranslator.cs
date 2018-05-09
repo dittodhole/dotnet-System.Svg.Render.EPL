@@ -20,16 +20,8 @@ namespace Svg.Contrib.Render.EPL
     public SvgTextBaseTranslator([NotNull] EplTransformer eplTransformer,
                                  [NotNull] EplCommands eplCommands)
     {
-      if (eplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(eplTransformer));
-      }
-      if (eplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(eplCommands));
-      }
-      this.EplTransformer = eplTransformer;
-      this.EplCommands = eplCommands;
+      this.EplTransformer = eplTransformer ?? throw new ArgumentNullException(nameof(eplTransformer));
+      this.EplCommands = eplCommands ?? throw new ArgumentNullException(nameof(eplCommands));
     }
 
     [NotNull]

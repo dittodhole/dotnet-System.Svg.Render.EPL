@@ -16,12 +16,7 @@ namespace Svg.Contrib.Render.EPL
                        PrinterCodepage printerCodepage = PrinterCodepage.Dos850,
                        int countryCode = 850)
     {
-      if (eplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(eplCommands));
-      }
-
-      this.EplCommands = eplCommands;
+      this.EplCommands = eplCommands ?? throw new ArgumentNullException(nameof(eplCommands));
       this.PrinterCodepage = printerCodepage;
       this.CountryCode = countryCode;
     }

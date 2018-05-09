@@ -17,21 +17,9 @@ namespace Svg.Contrib.Render.ZPL
                                   [NotNull] ZplCommands zplCommands,
                                   [NotNull] SvgUnitReader svgUnitReader)
     {
-      if (zplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(zplTransformer));
-      }
-      if (zplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(zplCommands));
-      }
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-      this.ZplTransformer = zplTransformer;
-      this.ZplCommands = zplCommands;
-      this.SvgUnitReader = svgUnitReader;
+      this.ZplTransformer = zplTransformer ?? throw new ArgumentNullException(nameof(zplTransformer));
+      this.ZplCommands = zplCommands ?? throw new ArgumentNullException(nameof(zplCommands));
+      this.SvgUnitReader = svgUnitReader ?? throw new ArgumentNullException(nameof(svgUnitReader));
     }
 
     [NotNull]

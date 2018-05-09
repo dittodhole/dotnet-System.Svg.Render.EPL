@@ -17,21 +17,9 @@ namespace Svg.Contrib.Render.EPL
                                   [NotNull] EplCommands eplCommands,
                                   [NotNull] SvgUnitReader svgUnitReader)
     {
-      if (eplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(eplTransformer));
-      }
-      if (eplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(eplCommands));
-      }
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-      this.EplTransformer = eplTransformer;
-      this.EplCommands = eplCommands;
-      this.SvgUnitReader = svgUnitReader;
+      this.EplTransformer = eplTransformer ?? throw new ArgumentNullException(nameof(eplTransformer));
+      this.EplCommands = eplCommands ?? throw new ArgumentNullException(nameof(eplCommands));
+      this.SvgUnitReader = svgUnitReader ?? throw new ArgumentNullException(nameof(svgUnitReader));
     }
 
     [NotNull]
