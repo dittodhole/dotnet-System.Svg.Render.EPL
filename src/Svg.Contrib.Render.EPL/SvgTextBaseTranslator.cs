@@ -3,10 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -142,10 +138,8 @@ namespace Svg.Contrib.Render.EPL
 
       // TODO add regex for removing illegal characters ...
 
-      // ReSharper disable ExceptionNotDocumentedOptional
       return text.Replace("\"",
                           "'");
-      // ReSharper restore ExceptionNotDocumentedOptional
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>

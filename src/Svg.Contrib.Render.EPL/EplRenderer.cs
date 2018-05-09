@@ -3,9 +3,6 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -33,9 +30,7 @@ namespace Svg.Contrib.Render.EPL
     public Encoding GetEncoding()
     {
       var codepage = (int) this.PrinterCodepage;
-      // ReSharper disable ExceptionNotDocumentedOptional
       var encoding = Encoding.GetEncoding(codepage);
-      // ReSharper restore ExceptionNotDocumentedOptional
 
       return encoding;
     }

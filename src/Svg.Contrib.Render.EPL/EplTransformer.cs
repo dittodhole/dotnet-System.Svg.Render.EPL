@@ -6,9 +6,6 @@ using System.Linq;
 using ImageMagick;
 using JetBrains.Annotations;
 
-// ReSharper disable UnusedParameter.Global
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]

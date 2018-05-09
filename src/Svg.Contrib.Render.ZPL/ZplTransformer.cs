@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
@@ -57,9 +54,7 @@ namespace Svg.Contrib.Render.ZPL
       var sector = this.GetRotationSector(sourceMatrix,
                                           viewMatrix);
 
-      // ReSharper disable ExceptionNotDocumentedOptional
       var fieldOrientation = this.SectorMappings[sector];
-      // ReSharper restore ExceptionNotDocumentedOptional
 
       return fieldOrientation;
     }

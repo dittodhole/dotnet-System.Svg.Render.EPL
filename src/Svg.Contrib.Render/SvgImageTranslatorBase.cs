@@ -4,9 +4,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render
 {
   [PublicAPI]
@@ -280,10 +277,8 @@ namespace Svg.Contrib.Render
                              .ToString();
       if (variableName.Length > 8)
       {
-        // ReSharper disable ExceptionNotDocumentedOptional
         variableName = variableName.Substring(0,
                                               8);
-        // ReSharper restore ExceptionNotDocumentedOptional
       }
 
       return variableName;

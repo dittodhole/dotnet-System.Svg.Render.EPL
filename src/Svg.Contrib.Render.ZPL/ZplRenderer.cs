@@ -4,8 +4,6 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
@@ -39,12 +37,8 @@ namespace Svg.Contrib.Render.ZPL
     [Pure]
     public virtual Encoding GetEncoding()
     {
-      // ReSharper disable ExceptionNotDocumentedOptional
       var codepage = this.CharacterSetMappings[this.CharacterSet];
-      // ReSharper restore ExceptionNotDocumentedOptional
-      // ReSharper disable ExceptionNotDocumentedOptional
       var encoding = Encoding.GetEncoding(codepage);
-      // ReSharper restore ExceptionNotDocumentedOptional
 
       return encoding;
     }

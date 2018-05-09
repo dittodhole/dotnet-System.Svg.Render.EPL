@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -239,9 +236,7 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(content));
       }
 
-      // ReSharper disable ExceptionNotDocumentedOptional
       var barcode = this.BarCodeSelectionMappings[barCodeSelection];
-      // ReSharper restore ExceptionNotDocumentedOptional
 
       return $@"B{horizontalStart},{verticalStart},{rotation},{barcode},{narrowBarWidth},{wideBarWidth},{height},{(char) printHumanReadable},""{content}""";
     }
@@ -274,9 +269,7 @@ namespace Svg.Contrib.Render.EPL
                                                 PrinterCodepage printerCodepage,
                                                 int countryCode)
     {
-      // ReSharper disable ExceptionNotDocumentedOptional
       var codepage = this.PrinterCodepageMappings[printerCodepage];
-      // ReSharper restore ExceptionNotDocumentedOptional
 
       return $"I{bytes},{codepage},{countryCode}";
     }

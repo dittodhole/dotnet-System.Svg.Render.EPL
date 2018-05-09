@@ -4,8 +4,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using Svg.Pathing;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
@@ -65,9 +63,7 @@ namespace Svg.Contrib.Render.ZPL
         return;
       }
 
-      // ReSharper disable ExceptionNotDocumentedOptional
       foreach (var svgLineSegment in svgPath.PathData.OfType<SvgLineSegment>())
-        // ReSharper restore ExceptionNotDocumentedOptional
       {
         this.TranslateSvgLineSegment(svgPath,
                                      svgLineSegment,
