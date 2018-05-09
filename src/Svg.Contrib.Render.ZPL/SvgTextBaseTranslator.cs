@@ -88,11 +88,11 @@ namespace Svg.Contrib.Render.ZPL
       string fontName;
       int characterHeight;
       int width;
-      this.ZplTransformer.GetFontSelection(svgElement,
-                                           fontSize,
-                                           out fontName,
-                                           out characterHeight,
-                                           out width);
+      this.GetFontSelection(svgElement,
+                            fontSize,
+                            out fontName,
+                            out characterHeight,
+                            out width);
 
       this.AddTranslationToContainer(horizontalStart,
                                      verticalStart,
@@ -160,6 +160,21 @@ namespace Svg.Contrib.Render.ZPL
       verticalStart = (int) y;
       fieldOrientation = this.ZplTransformer.GetFieldOrientation(sourceMatrix,
                                                                  viewMatrix);
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    [Pure]
+    protected virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+                                            float fontSize,
+                                            [NotNull] out string fontName,
+                                            out int characterHeight,
+                                            out int width)
+    {
+      this.ZplTransformer.GetFontSelection(svgTextBase,
+                                           fontSize,
+                                           out fontName,
+                                           out characterHeight,
+                                           out width);
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="fontName" /> is <see langword="null" />.</exception>

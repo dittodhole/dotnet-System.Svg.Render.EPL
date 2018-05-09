@@ -90,11 +90,11 @@ namespace Svg.Contrib.Render.EPL
       int fontSelection;
       int horizontalMultiplier;
       int verticalMultiplier;
-      this.EplTransformer.GetFontSelection(svgElement,
-                                           fontSize,
-                                           out fontSelection,
-                                           out horizontalMultiplier,
-                                           out verticalMultiplier);
+      this.GetFontSelection(svgElement,
+                            fontSize,
+                            out fontSelection,
+                            out horizontalMultiplier,
+                            out verticalMultiplier);
 
       this.AddTranslationToContainer(svgElement,
                                      horizontalStart,
@@ -163,6 +163,21 @@ namespace Svg.Contrib.Render.EPL
       return text.Replace("\"",
                           "'");
       // ReSharper restore ExceptionNotDocumentedOptional
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    [Pure]
+    protected virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+                                            float fontSize,
+                                            out int fontSelection,
+                                            out int horizontalMultiplier,
+                                            out int verticalMultiplier)
+    {
+      this.EplTransformer.GetFontSelection(svgTextBase,
+                                           fontSize,
+                                           out fontSelection,
+                                           out horizontalMultiplier,
+                                           out verticalMultiplier);
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>

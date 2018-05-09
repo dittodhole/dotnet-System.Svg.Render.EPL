@@ -89,11 +89,11 @@ namespace Svg.Contrib.Render.FingerPrint
       string fontName;
       int characterHeight;
       int slant;
-      this.FingerPrintTransformer.GetFontSelection(svgElement,
-                                                   fontSize,
-                                                   out fontName,
-                                                   out characterHeight,
-                                                   out slant);
+      this.GetFontSelection(svgElement,
+                            fontSize,
+                            out fontName,
+                            out characterHeight,
+                            out slant);
 
       this.AddTranslationToContainer(svgElement,
                                      horizontalStart,
@@ -161,6 +161,21 @@ namespace Svg.Contrib.Render.FingerPrint
 
       horizontalStart = (int) x;
       verticalStart = (int) y;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    [Pure]
+    protected virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+                                            float fontSize,
+                                            out string fontName,
+                                            out int characterHeight,
+                                            out int slant)
+    {
+      this.FingerPrintTransformer.GetFontSelection(svgTextBase,
+                                                   fontSize,
+                                                   out fontName,
+                                                   out characterHeight,
+                                                   out slant);
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
