@@ -75,8 +75,7 @@ namespace Svg.Contrib.Render
         throw new ArgumentNullException(nameof(container));
       }
 
-      var svgVisualElement = svgElement as SvgVisualElement;
-      if (svgVisualElement != null)
+      if (svgElement is SvgVisualElement svgVisualElement)
       {
         // TODO consider performance here w/ the cast
         if (!svgVisualElement.Visible)

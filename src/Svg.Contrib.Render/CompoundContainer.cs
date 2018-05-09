@@ -72,8 +72,7 @@ namespace Svg.Contrib.Render
       foreach (var line in this)
       {
         byte[] array;
-        var s = line as string;
-        if (s != null)
+        if (line is string s)
         {
           array = encoding.GetBytes(s);
         }
