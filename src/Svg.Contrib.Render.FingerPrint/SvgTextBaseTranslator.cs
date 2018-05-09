@@ -66,26 +66,19 @@ namespace Svg.Contrib.Render.FingerPrint
         return;
       }
 
-      float fontSize;
-      int horizontalStart;
-      int verticalStart;
-      Direction direction;
       this.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out fontSize,
-                       out direction);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out float fontSize,
+                       out Direction direction);
 
-      string fontName;
-      int characterHeight;
-      int slant;
       this.GetFontSelection(svgElement,
                             fontSize,
-                            out fontName,
-                            out characterHeight,
-                            out slant);
+                            out string fontName,
+                            out int characterHeight,
+                            out int slant);
 
       this.AddTranslationToContainer(svgElement,
                                      horizontalStart,
@@ -141,13 +134,11 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float x;
-      float y;
       this.FingerPrintTransformer.Transform(svgElement,
                                             sourceMatrix,
                                             viewMatrix,
-                                            out x,
-                                            out y,
+                                            out float x,
+                                            out float y,
                                             out fontSize,
                                             out direction);
 

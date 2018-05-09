@@ -47,10 +47,9 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(zplContainer));
       }
 
-      int numberOfBytesPerRow;
       var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap,
                                                                false,
-                                                               out numberOfBytesPerRow);
+                                                               out int numberOfBytesPerRow);
 
       zplContainer.Header.Add(this.ZplCommands.DownloadGraphics(variableName,
                                                                 rawBinaryData,
@@ -98,10 +97,9 @@ namespace Svg.Contrib.Render.ZPL
           return;
         }
 
-        int numberOfBytesPerRow;
         var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap,
                                                                  false,
-                                                                 out numberOfBytesPerRow);
+                                                                 out int numberOfBytesPerRow);
 
         zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                             verticalStart));

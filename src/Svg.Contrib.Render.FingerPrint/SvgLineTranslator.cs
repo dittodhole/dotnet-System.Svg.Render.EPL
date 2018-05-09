@@ -50,21 +50,15 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int length;
-      int lineWeight;
-      int verticalEnd;
-      float strokeWidth;
       this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out length,
-                       out lineWeight,
-                       out verticalEnd,
-                       out strokeWidth);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out int length,
+                       out int lineWeight,
+                       out int verticalEnd,
+                       out float strokeWidth);
 
       this.AddTranslationToContainer(svgLine,
                                      horizontalStart,
@@ -103,17 +97,13 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
       this.FingerPrintTransformer.Transform(svgLine,
                                             sourceMatrix,
                                             viewMatrix,
-                                            out startX,
-                                            out startY,
-                                            out endX,
-                                            out endY,
+                                            out float startX,
+                                            out float startY,
+                                            out float endX,
+                                            out float endY,
                                             out strokeWidth);
 
       // TODO find a good TOLERANCE

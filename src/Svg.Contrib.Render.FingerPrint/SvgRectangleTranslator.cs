@@ -100,19 +100,14 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int lineThickness;
-      int horizontalEnd;
-      int verticalEnd;
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out lineThickness,
-                       out horizontalEnd,
-                       out verticalEnd);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out int lineThickness,
+                       out int horizontalEnd,
+                       out int verticalEnd);
 
       var length = horizontalEnd - horizontalStart;
       var lineWeight = verticalEnd - verticalStart;
@@ -151,19 +146,14 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int lineWeight;
-      int horizontalEnd;
-      int verticalEnd;
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out lineWeight,
-                       out horizontalEnd,
-                       out verticalEnd);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out int lineWeight,
+                       out int horizontalEnd,
+                       out int verticalEnd);
 
       var width = horizontalEnd - horizontalStart;
       var height = verticalEnd - verticalStart;
@@ -203,19 +193,14 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float endX;
-      float startY;
-      float endY;
-      float strokeWidth;
       this.FingerPrintTransformer.Transform(svgRectangle,
                                             sourceMatrix,
                                             viewMatrix,
-                                            out startX,
-                                            out startY,
-                                            out endX,
-                                            out endY,
-                                            out strokeWidth);
+                                            out float startX,
+                                            out float startY,
+                                            out float endX,
+                                            out float endY,
+                                            out float strokeWidth);
 
       horizontalStart = (int) startX;
       verticalStart = (int) startY;

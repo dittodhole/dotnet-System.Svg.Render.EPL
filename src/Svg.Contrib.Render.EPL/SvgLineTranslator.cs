@@ -52,21 +52,15 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int horizontalLength;
-      int verticalLength;
-      int verticalEnd;
-      float strokeWidth;
       this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out horizontalLength,
-                       out verticalLength,
-                       out verticalEnd,
-                       out strokeWidth);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out int horizontalLength,
+                       out int verticalLength,
+                       out int verticalEnd,
+                       out float strokeWidth);
 
       this.AddTranslationToContainer(svgLine,
                                      horizontalStart,
@@ -105,17 +99,13 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
       this.EplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
+                                    out float startX,
+                                    out float startY,
+                                    out float endX,
+                                    out float endY,
                                     out strokeWidth);
 
       // TODO find a good TOLERANCE

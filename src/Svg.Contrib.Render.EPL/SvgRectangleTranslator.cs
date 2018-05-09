@@ -101,19 +101,14 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int lineThickness;
-      int horizontalEnd;
-      int verticalEnd;
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out lineThickness,
-                       out horizontalEnd,
-                       out verticalEnd);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out int lineThickness,
+                       out int horizontalEnd,
+                       out int verticalEnd);
 
       var horizontalLength = horizontalEnd - horizontalStart;
       var verticalLength = verticalEnd - verticalStart;
@@ -150,19 +145,14 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int lineThickness;
-      int horizontalEnd;
-      int verticalEnd;
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out lineThickness,
-                       out horizontalEnd,
-                       out verticalEnd);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out int lineThickness,
+                       out int horizontalEnd,
+                       out int verticalEnd);
 
       eplContainer.Body.Add(this.EplCommands.DrawBox(horizontalStart,
                                                      verticalStart,
@@ -197,19 +187,14 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float endX;
-      float startY;
-      float endY;
-      float strokeWidth;
       this.EplTransformer.Transform(svgRectangle,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
-                                    out strokeWidth);
+                                    out float startX,
+                                    out float startY,
+                                    out float endX,
+                                    out float endY,
+                                    out float strokeWidth);
 
       horizontalStart = (int) startX;
       verticalStart = (int) startY;

@@ -120,19 +120,14 @@ namespace Svg.Contrib.Render.ZPL
                       EndY = svgLineSegment.End.Y
                     };
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
-      float strokeWidth;
       this.ZplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
-                                    out strokeWidth);
+                                    out float startX,
+                                    out float startY,
+                                    out float endX,
+                                    out float endY,
+                                    out float strokeWidth);
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) endY;

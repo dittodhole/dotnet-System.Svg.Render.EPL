@@ -51,21 +51,15 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(zplContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int width;
-      int height;
-      int verticalEnd;
-      float strokeWidth;
       this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out width,
-                       out height,
-                       out verticalEnd,
-                       out strokeWidth);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out int width,
+                       out int height,
+                       out int verticalEnd,
+                       out float strokeWidth);
 
       if (width == 0
           || height == 0)
@@ -123,17 +117,13 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
       this.ZplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
+                                    out float startX,
+                                    out float startY,
+                                    out float endX,
+                                    out float endY,
                                     out strokeWidth);
 
       // TODO find a good TOLERANCE

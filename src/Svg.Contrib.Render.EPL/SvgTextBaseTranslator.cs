@@ -67,26 +67,19 @@ namespace Svg.Contrib.Render.EPL
         return;
       }
 
-      float fontSize;
-      int horizontalStart;
-      int verticalStart;
-      int sector;
       this.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out sector,
-                       out fontSize);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out int sector,
+                       out float fontSize);
 
-      int fontSelection;
-      int horizontalMultiplier;
-      int verticalMultiplier;
       this.GetFontSelection(svgElement,
                             fontSize,
-                            out fontSelection,
-                            out horizontalMultiplier,
-                            out verticalMultiplier);
+                            out int fontSelection,
+                            out int horizontalMultiplier,
+                            out int verticalMultiplier);
 
       this.AddTranslationToContainer(svgElement,
                                      horizontalStart,
@@ -124,13 +117,11 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float x;
-      float y;
       this.EplTransformer.Transform(svgElement,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out x,
-                                    out y,
+                                    out float x,
+                                    out float y,
                                     out fontSize);
 
       horizontalStart = (int) x;

@@ -27,11 +27,8 @@ namespace Svg.Contrib.Render
         throw new ArgumentNullException(nameof(type));
       }
 
-      ISvgElementTranslator<TContainer> svgElementTranslator;
-      // ReSharper disable ExceptionNotDocumentedOptional
       if (!this.SvgElementTranslators.TryGetValue(type,
-                                                  out svgElementTranslator))
-        // ReSharper restore ExceptionNotDocumentedOptional
+                                                  out ISvgElementTranslator<TContainer> svgElementTranslator))
       {
         return null;
       }
@@ -40,7 +37,8 @@ namespace Svg.Contrib.Render
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElementTranslator" /> is <see langword="null" />.</exception>
-    public virtual void RegisterTranslator<TSvgElement>([NotNull] ISvgElementTranslator<TContainer, TSvgElement> svgElementTranslator) where TSvgElement : SvgElement
+    public virtual void RegisterTranslator<TSvgElement>([NotNull] ISvgElementTranslator<TContainer, TSvgElement> svgElementTranslator)
+      where TSvgElement : SvgElement
     {
       this.SvgElementTranslators[typeof(TSvgElement)] = svgElementTranslator ?? throw new ArgumentNullException(nameof(svgElementTranslator));
     }

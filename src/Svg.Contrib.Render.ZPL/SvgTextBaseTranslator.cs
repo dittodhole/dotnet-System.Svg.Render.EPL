@@ -65,26 +65,19 @@ namespace Svg.Contrib.Render.ZPL
         return;
       }
 
-      float fontSize;
-      int horizontalStart;
-      int verticalStart;
-      FieldOrientation fieldOrientation;
       this.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out fieldOrientation,
-                       out fontSize);
+                       out int horizontalStart,
+                       out int verticalStart,
+                       out FieldOrientation fieldOrientation,
+                       out float fontSize);
 
-      string fontName;
-      int characterHeight;
-      int width;
       this.GetFontSelection(svgElement,
                             fontSize,
-                            out fontName,
-                            out characterHeight,
-                            out width);
+                            out string fontName,
+                            out int characterHeight,
+                            out int width);
 
       this.AddTranslationToContainer(horizontalStart,
                                      verticalStart,
@@ -139,13 +132,11 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float x;
-      float y;
       this.ZplTransformer.Transform(svgElement,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out x,
-                                    out y,
+                                    out float x,
+                                    out float y,
                                     out fontSize);
 
       horizontalStart = (int) x;
