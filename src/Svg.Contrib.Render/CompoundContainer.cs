@@ -60,10 +60,9 @@ namespace Svg.Contrib.Render
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="encoding" /> is <see langword="null" />.</exception>
-    [NotNull]
     [Pure]
     [CollectionAccess(CollectionAccessType.Read)]
-    public override IEnumerable<byte> ToByteStream([NotNull] Encoding encoding)
+    public override IEnumerable<byte> ToByteStream(Encoding encoding)
     {
       if (encoding == null)
       {

@@ -28,9 +28,9 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
-    protected override void StoreGraphics([NotNull] string variableName,
-                                          [NotNull] Bitmap bitmap,
-                                          [NotNull] FingerPrintContainer fingerPrintContainer)
+    protected override void StoreGraphics(string variableName,
+                                          Bitmap bitmap,
+                                          FingerPrintContainer fingerPrintContainer)
     {
       if (variableName == null)
       {
@@ -57,14 +57,14 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
-    protected override void GraphicDirectWrite([NotNull] SvgImage svgImage,
-                                               [NotNull] Matrix sourceMatrix,
-                                               [NotNull] Matrix viewMatrix,
+    protected override void GraphicDirectWrite(SvgImage svgImage,
+                                               Matrix sourceMatrix,
+                                               Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
                                                int verticalStart,
-                                               [NotNull] FingerPrintContainer fingerPrintContainer)
+                                               FingerPrintContainer fingerPrintContainer)
     {
       if (svgImage == null)
       {
@@ -115,14 +115,14 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
-    protected override void PrintGraphics([NotNull] SvgImage svgImage,
-                                          [NotNull] Matrix sourceMatrix,
-                                          [NotNull] Matrix viewMatrix,
+    protected override void PrintGraphics(SvgImage svgImage,
+                                          Matrix sourceMatrix,
+                                          Matrix viewMatrix,
                                           int horizontalStart,
                                           int verticalStart,
                                           int sector,
-                                          [NotNull] string variableName,
-                                          [NotNull] FingerPrintContainer fingerPrintContainer)
+                                          string variableName,
+                                          FingerPrintContainer fingerPrintContainer)
     {
       if (svgImage == null)
       {
@@ -167,9 +167,9 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
-    protected override void GetPosition([NotNull] SvgImage svgImage,
-                                        [NotNull] Matrix sourceMatrix,
-                                        [NotNull] Matrix viewMatrix,
+    protected override void GetPosition(SvgImage svgImage,
+                                        Matrix sourceMatrix,
+                                        Matrix viewMatrix,
                                         out float sourceAlignmentWidth,
                                         out float sourceAlignmentHeight,
                                         out int horizontalStart,

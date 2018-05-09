@@ -21,10 +21,9 @@ namespace Svg.Contrib.Render.FingerPrint
 
     /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
-    [NotNull]
     [Pure]
-    public override FingerPrintContainer GetTranslation([NotNull] SvgDocument svgDocument,
-                                                        [NotNull] Matrix viewMatrix)
+    public override FingerPrintContainer GetTranslation(SvgDocument svgDocument,
+                                                        Matrix viewMatrix)
     {
       if (svgDocument == null)
       {

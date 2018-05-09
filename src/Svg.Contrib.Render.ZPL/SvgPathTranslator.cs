@@ -30,10 +30,10 @@ namespace Svg.Contrib.Render.ZPL
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgPath svgPath,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] ZplContainer zplContainer)
+    public override void Translate(SvgPath svgPath,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   ZplContainer zplContainer)
     {
       if (svgPath == null)
       {

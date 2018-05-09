@@ -12,7 +12,6 @@ namespace Svg.Contrib.Render.FingerPrint
   public class FingerPrintCommands
   {
     [NotNull]
-    [ItemNotNull]
     private IDictionary<BarCodeType, string> BarCodeTypeMappings { get; } = new Dictionary<BarCodeType, string>
                                                                             {
                                                                               {

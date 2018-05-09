@@ -30,9 +30,9 @@ namespace Svg.Contrib.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    protected override void StoreGraphics([NotNull] string variableName,
-                                          [NotNull] Bitmap bitmap,
-                                          [NotNull] EplContainer eplContainer)
+    protected override void StoreGraphics(string variableName,
+                                          Bitmap bitmap,
+                                          EplContainer eplContainer)
     {
       if (variableName == null)
       {
@@ -60,14 +60,14 @@ namespace Svg.Contrib.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    protected override void GraphicDirectWrite([NotNull] SvgImage svgImage,
-                                               [NotNull] Matrix sourceMatrix,
-                                               [NotNull] Matrix viewMatrix,
+    protected override void GraphicDirectWrite(SvgImage svgImage,
+                                               Matrix sourceMatrix,
+                                               Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
                                                int verticalStart,
-                                               [NotNull] EplContainer eplContainer)
+                                               EplContainer eplContainer)
     {
       if (svgImage == null)
       {
@@ -115,14 +115,14 @@ namespace Svg.Contrib.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    protected override void PrintGraphics([NotNull] SvgImage svgImage,
-                                          [NotNull] Matrix sourceMatrix,
-                                          [NotNull] Matrix viewMatrix,
+    protected override void PrintGraphics(SvgImage svgImage,
+                                          Matrix sourceMatrix,
+                                          Matrix viewMatrix,
                                           int horizontalStart,
                                           int verticalStart,
                                           int sector,
-                                          [NotNull] string variableName,
-                                          [NotNull] EplContainer eplContainer)
+                                          string variableName,
+                                          EplContainer eplContainer)
     {
       if (svgImage == null)
       {

@@ -35,10 +35,10 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] FingerPrintContainer fingerPrintContainer)
+    public override void Translate(SvgRectangle svgRectangle,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   FingerPrintContainer fingerPrintContainer)
     {
       if (svgRectangle == null)
       {

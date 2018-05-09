@@ -43,14 +43,14 @@ namespace Svg.Contrib.Render
     private static readonly TypeConverter Instance = TypeDescriptor.GetConverter(typeof(float));
 
     public override bool CanConvertFrom([NotNull] ITypeDescriptorContext context,
-                                        [NotNull] Type sourceType)
+                                        Type sourceType)
     {
       return PercentageConverter.Instance.CanConvertFrom(context,
                                                          sourceType);
     }
 
     public override bool CanConvertTo([NotNull] ITypeDescriptorContext context,
-                                      [NotNull] Type destinationType)
+                                      Type destinationType)
     {
       if (destinationType == typeof(Percentage))
       {
@@ -61,9 +61,9 @@ namespace Svg.Contrib.Render
                                                        destinationType);
     }
 
-    public override object ConvertFrom([NotNull] ITypeDescriptorContext context,
+    public override object ConvertFrom(ITypeDescriptorContext context,
                                        [CanBeNull] CultureInfo culture,
-                                       [CanBeNull] object value)
+                                       object value)
     {
       if (value == null)
       {
@@ -106,7 +106,7 @@ namespace Svg.Contrib.Render
     public override object ConvertTo([NotNull] ITypeDescriptorContext context,
                                      [CanBeNull] CultureInfo culture,
                                      [CanBeNull] object value,
-                                     [NotNull] Type destinationType)
+                                     Type destinationType)
     {
       if (!(value is Percentage))
       {

@@ -14,7 +14,6 @@ namespace Svg.Contrib.Render
   {
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
-    [ItemNotNull]
     private IDictionary<Type, ISvgElementTranslator<TContainer>> SvgElementTranslators { get; } = new Dictionary<Type, ISvgElementTranslator<TContainer>>();
 
     /// <exception cref="ArgumentNullException"><paramref name="type" /> is <see langword="null" />.</exception>

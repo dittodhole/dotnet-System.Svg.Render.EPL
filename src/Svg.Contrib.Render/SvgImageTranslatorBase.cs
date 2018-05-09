@@ -23,7 +23,6 @@ namespace Svg.Contrib.Render
     private GenericTransformer GenericTransformer { get; }
 
     [NotNull]
-    [ItemNotNull]
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; } = new Dictionary<string, string>();
 
     /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
@@ -97,10 +96,10 @@ namespace Svg.Contrib.Render
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgImage svgImage,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] TContainer container)
+    public override void Translate(SvgImage svgImage,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   TContainer container)
 
     {
       if (svgImage == null)

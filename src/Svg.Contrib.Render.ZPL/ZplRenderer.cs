@@ -25,7 +25,6 @@ namespace Svg.Contrib.Render.ZPL
     private CharacterSet CharacterSet { get; }
 
     [NotNull]
-    [ItemNotNull]
     private IDictionary<CharacterSet, int> CharacterSetMappings { get; } = new Dictionary<CharacterSet, int>
                                                                            {
                                                                              {
@@ -52,10 +51,9 @@ namespace Svg.Contrib.Render.ZPL
 
     /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
-    [NotNull]
     [Pure]
-    public override ZplContainer GetTranslation([NotNull] SvgDocument svgDocument,
-                                                [NotNull] Matrix viewMatrix)
+    public override ZplContainer GetTranslation(SvgDocument svgDocument,
+                                                Matrix viewMatrix)
     {
       if (svgDocument == null)
       {

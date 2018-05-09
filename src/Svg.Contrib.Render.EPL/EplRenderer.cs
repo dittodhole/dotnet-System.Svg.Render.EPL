@@ -42,10 +42,9 @@ namespace Svg.Contrib.Render.EPL
 
     /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
-    [NotNull]
     [Pure]
-    public override EplContainer GetTranslation([NotNull] SvgDocument svgDocument,
-                                                [NotNull] Matrix viewMatrix)
+    public override EplContainer GetTranslation(SvgDocument svgDocument,
+                                                Matrix viewMatrix)
     {
       if (svgDocument == null)
       {
