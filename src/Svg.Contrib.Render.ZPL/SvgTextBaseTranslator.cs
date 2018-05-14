@@ -76,7 +76,8 @@ namespace Svg.Contrib.Render.ZPL
                             out var characterHeight,
                             out var width);
 
-      this.AddTranslationToContainer(horizontalStart,
+      this.AddTranslationToContainer(svgElement,
+                                     horizontalStart,
                                      verticalStart,
                                      fontName,
                                      fieldOrientation,
@@ -155,10 +156,12 @@ namespace Svg.Contrib.Render.ZPL
                                            out width);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fontName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    protected virtual void AddTranslationToContainer(int horizontalStart,
+    protected virtual void AddTranslationToContainer([NotNull] T svgElement,
+                                                     int horizontalStart,
                                                      int verticalStart,
                                                      [NotNull] string fontName,
                                                      FieldOrientation fieldOrientation,
