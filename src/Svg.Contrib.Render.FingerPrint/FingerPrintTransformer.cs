@@ -169,7 +169,7 @@ namespace Svg.Contrib.Render.FingerPrint
       if ((int) direction % 2 > 0)
       {
         var lineHeightFactor = this.GetLineHeightFactor(svgTextBase);
-        if (lineHeightFactor > 0f)
+        if (lineHeightFactor >= float.Epsilon)
         {
           startX -= fontSize / lineHeightFactor;
         }

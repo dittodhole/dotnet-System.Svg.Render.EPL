@@ -155,7 +155,7 @@ namespace Svg.Contrib.Render.ZPL
       var lineHeightFactor = this.GetLineHeightFactor(svgTextBase);
 
       float offset;
-      if (lineHeightFactor > 0f)
+      if (lineHeightFactor >= float.Epsilon)
       {
         offset = fontSize / lineHeightFactor;
       }
