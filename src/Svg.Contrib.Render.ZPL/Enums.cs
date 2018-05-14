@@ -9,14 +9,6 @@ namespace Svg.Contrib.Render.ZPL
     White = 'W'
   }
 
-  [PublicAPI]
-  public enum Orientation
-  {
-    RightLeaningDiagnoal = 'R',
-    LeftLeaningDiagonal = 'L'
-  }
-
-  [PublicAPI]
   public enum FieldOrientation
   {
     Normal = 'N',
@@ -78,6 +70,20 @@ namespace Svg.Contrib.Render.ZPL
 
   [PublicAPI]
   public enum Mod43Check
+  {
+    Yes = 'Y',
+    No = 'N'
+  }
+
+  [PublicAPI]
+  public enum ExtendedChannelInterpretationCodeIndicator
+  {
+    Yes = 'Y',
+    No = 'N'
+  }
+
+  [PublicAPI]
+  public enum MenuSymbolIndicator
   {
     Yes = 'Y',
     No = 'N'

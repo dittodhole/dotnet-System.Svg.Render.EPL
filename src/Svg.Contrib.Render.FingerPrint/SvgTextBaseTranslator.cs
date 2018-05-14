@@ -3,9 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
@@ -19,32 +16,24 @@ namespace Svg.Contrib.Render.FingerPrint
     public SvgTextBaseTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                                  [NotNull] FingerPrintCommands fingerPrintCommands)
     {
-      if (fingerPrintTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(fingerPrintTransformer));
-      }
-      if (fingerPrintCommands == null)
-      {
-        throw new ArgumentNullException(nameof(fingerPrintCommands));
-      }
-      this.FingerPrintTransformer = fingerPrintTransformer;
-      this.FingerPrintCommands = fingerPrintCommands;
+      this.FingerPrintTransformer = fingerPrintTransformer ?? throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      this.FingerPrintCommands = fingerPrintCommands ?? throw new ArgumentNullException(nameof(fingerPrintCommands));
     }
 
     [NotNull]
-    protected FingerPrintTransformer FingerPrintTransformer { get; }
+    private FingerPrintTransformer FingerPrintTransformer { get; }
 
     [NotNull]
-    protected FingerPrintCommands FingerPrintCommands { get; }
+    private FingerPrintCommands FingerPrintCommands { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] T svgElement,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] FingerPrintContainer fingerPrintContainer)
+    public override void Translate(T svgElement,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   FingerPrintContainer fingerPrintContainer)
     {
       if (svgElement == null)
       {
@@ -74,26 +63,19 @@ namespace Svg.Contrib.Render.FingerPrint
         return;
       }
 
-      float fontSize;
-      int horizontalStart;
-      int verticalStart;
-      Direction direction;
       this.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out fontSize,
-                       out direction);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var fontSize,
+                       out var direction);
 
-      string fontName;
-      int characterHeight;
-      int slant;
-      this.FingerPrintTransformer.GetFontSelection(svgElement,
-                                                   fontSize,
-                                                   out fontName,
-                                                   out characterHeight,
-                                                   out slant);
+      this.GetFontSelection(svgElement,
+                            fontSize,
+                            out var fontName,
+                            out var characterHeight,
+                            out var slant);
 
       this.AddTranslationToContainer(svgElement,
                                      horizontalStart,
@@ -118,10 +100,8 @@ namespace Svg.Contrib.Render.FingerPrint
 
       // TODO add regex for removing illegal characters ...
 
-      // ReSharper disable ExceptionNotDocumentedOptional
       return text.Replace("\"",
                           "'");
-      // ReSharper restore ExceptionNotDocumentedOptional
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
@@ -149,18 +129,31 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float x;
-      float y;
       this.FingerPrintTransformer.Transform(svgElement,
                                             sourceMatrix,
                                             viewMatrix,
-                                            out x,
-                                            out y,
+                                            out var x,
+                                            out var y,
                                             out fontSize,
                                             out direction);
 
       horizontalStart = (int) x;
       verticalStart = (int) y;
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    [Pure]
+    protected virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+                                            float fontSize,
+                                            out string fontName,
+                                            out int characterHeight,
+                                            out int slant)
+    {
+      this.FingerPrintTransformer.GetFontSelection(svgTextBase,
+                                                   fontSize,
+                                                   out fontName,
+                                                   out characterHeight,
+                                                   out slant);
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>

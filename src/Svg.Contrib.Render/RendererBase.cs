@@ -4,8 +4,6 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
 
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render
 {
   [PublicAPI]
@@ -14,7 +12,6 @@ namespace Svg.Contrib.Render
   {
     // TODO maybe switch to HybridDictionary - in this scenario we have just a bunch of translators, ... but ... community?!
     [NotNull]
-    [ItemNotNull]
     private IDictionary<Type, ISvgElementTranslator<TContainer>> SvgElementTranslators { get; } = new Dictionary<Type, ISvgElementTranslator<TContainer>>();
 
     /// <exception cref="ArgumentNullException"><paramref name="type" /> is <see langword="null" />.</exception>
@@ -27,11 +24,8 @@ namespace Svg.Contrib.Render
         throw new ArgumentNullException(nameof(type));
       }
 
-      ISvgElementTranslator<TContainer> svgElementTranslator;
-      // ReSharper disable ExceptionNotDocumentedOptional
       if (!this.SvgElementTranslators.TryGetValue(type,
-                                                  out svgElementTranslator))
-        // ReSharper restore ExceptionNotDocumentedOptional
+                                                  out var svgElementTranslator))
       {
         return null;
       }
@@ -40,16 +34,10 @@ namespace Svg.Contrib.Render
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElementTranslator" /> is <see langword="null" />.</exception>
-    public virtual void RegisterTranslator<TSvgElement>([NotNull] ISvgElementTranslator<TContainer, TSvgElement> svgElementTranslator) where TSvgElement : SvgElement
+    public virtual void RegisterTranslator<TSvgElement>([NotNull] ISvgElementTranslator<TContainer, TSvgElement> svgElementTranslator)
+      where TSvgElement : SvgElement
     {
-      if (svgElementTranslator == null)
-      {
-        throw new ArgumentNullException(nameof(svgElementTranslator));
-      }
-
-      // ReSharper disable ExceptionNotDocumentedOptional
-      this.SvgElementTranslators[typeof(TSvgElement)] = svgElementTranslator;
-      // ReSharper restore ExceptionNotDocumentedOptional
+      this.SvgElementTranslators[typeof(TSvgElement)] = svgElementTranslator ?? throw new ArgumentNullException(nameof(svgElementTranslator));
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
@@ -85,8 +73,7 @@ namespace Svg.Contrib.Render
         throw new ArgumentNullException(nameof(container));
       }
 
-      var svgVisualElement = svgElement as SvgVisualElement;
-      if (svgVisualElement != null)
+      if (svgElement is SvgVisualElement svgVisualElement)
       {
         // TODO consider performance here w/ the cast
         if (!svgVisualElement.Visible)

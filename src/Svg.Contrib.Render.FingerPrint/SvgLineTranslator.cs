@@ -2,8 +2,6 @@
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
@@ -14,32 +12,24 @@ namespace Svg.Contrib.Render.FingerPrint
     public SvgLineTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                              [NotNull] FingerPrintCommands fingerPrintCommands)
     {
-      if (fingerPrintTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(fingerPrintTransformer));
-      }
-      if (fingerPrintCommands == null)
-      {
-        throw new ArgumentNullException(nameof(fingerPrintCommands));
-      }
-      this.FingerPrintTransformer = fingerPrintTransformer;
-      this.FingerPrintCommands = fingerPrintCommands;
+      this.FingerPrintTransformer = fingerPrintTransformer ?? throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      this.FingerPrintCommands = fingerPrintCommands ?? throw new ArgumentNullException(nameof(fingerPrintCommands));
     }
 
     [NotNull]
-    protected FingerPrintCommands FingerPrintCommands { get; }
+    private FingerPrintCommands FingerPrintCommands { get; }
 
     [NotNull]
-    protected FingerPrintTransformer FingerPrintTransformer { get; }
+    private FingerPrintTransformer FingerPrintTransformer { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgLine svgLine,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] FingerPrintContainer fingerPrintContainer)
+    public override void Translate(SvgLine svgLine,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   FingerPrintContainer fingerPrintContainer)
     {
       if (svgLine == null)
       {
@@ -58,21 +48,15 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int length;
-      int lineWeight;
-      int verticalEnd;
-      float strokeWidth;
       this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out length,
-                       out lineWeight,
-                       out verticalEnd,
-                       out strokeWidth);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var length,
+                       out var lineWeight,
+                       out var verticalEnd,
+                       out var strokeWidth);
 
       this.AddTranslationToContainer(svgLine,
                                      horizontalStart,
@@ -111,17 +95,13 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
       this.FingerPrintTransformer.Transform(svgLine,
                                             sourceMatrix,
                                             viewMatrix,
-                                            out startX,
-                                            out startY,
-                                            out endX,
-                                            out endY,
+                                            out var startX,
+                                            out var startY,
+                                            out var endX,
+                                            out var endY,
                                             out strokeWidth);
 
       // TODO find a good TOLERANCE

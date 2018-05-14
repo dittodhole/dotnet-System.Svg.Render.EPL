@@ -8,6 +8,6 @@ namespace Svg.Contrib.Render
     Normal = 0,
     RotateBy90Degrees = 90,
     RotateBy180Degrees = 180,
-    RotateBy270Degress = 270
+    RotateBy270Degrees = 270
   }
 }

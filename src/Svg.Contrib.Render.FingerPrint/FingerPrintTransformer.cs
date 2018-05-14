@@ -6,9 +6,6 @@ using System.Linq;
 using ImageMagick;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
@@ -18,33 +15,14 @@ namespace Svg.Contrib.Render.FingerPrint
     public const int DefaultOutputWidth = 816;
 
     /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
-    public FingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader)
-      : base(svgUnitReader,
-             FingerPrintTransformer.DefaultOutputWidth,
-             FingerPrintTransformer.DefaultOutputHeight)
-    {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-    }
-
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
     public FingerPrintTransformer([NotNull] SvgUnitReader svgUnitReader,
-                                  int outputWidth,
-                                  int outputHeight)
+                                  int outputWidth = FingerPrintTransformer.DefaultOutputWidth,
+                                  int outputHeight = FingerPrintTransformer.DefaultOutputHeight)
       : base(svgUnitReader,
              outputWidth,
-             outputHeight)
-    {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-    }
+             outputHeight) { }
 
     [Pure]
-    [NotNull]
     protected override Matrix CreateDeviceMatrix()
     {
       var deviceMatrix = new Matrix(1,
@@ -58,8 +36,7 @@ namespace Svg.Contrib.Render.FingerPrint
 
     /// <exception cref="ArgumentNullException"><paramref name="deviceMatrix" /> is <see langword="null" />.</exception>
     [Pure]
-    [NotNull]
-    protected override Matrix ApplyViewRotationOnDeviceMatrix([NotNull] Matrix deviceMatrix,
+    protected override Matrix ApplyViewRotationOnDeviceMatrix(Matrix deviceMatrix,
                                                               float magnificationFactor,
                                                               ViewRotation viewRotation = ViewRotation.Normal)
     {
@@ -98,7 +75,7 @@ namespace Svg.Contrib.Render.FingerPrint
                              0,
                              MatrixOrder.Append);
       }
-      else if (viewRotation == ViewRotation.RotateBy270Degress)
+      else if (viewRotation == ViewRotation.RotateBy270Degrees)
       {
         viewMatrix.Scale(magnificationFactor,
                          magnificationFactor,
@@ -117,9 +94,9 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
-    public override void Transform([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
+    public override void Transform(SvgRectangle svgRectangle,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
                                    out float startX,
                                    out float startY,
                                    out float endX,
@@ -267,9 +244,8 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
-    [NotNull]
     [Pure]
-    public override IEnumerable<byte> GetRawBinaryData([NotNull] Bitmap bitmap,
+    public override IEnumerable<byte> GetRawBinaryData(Bitmap bitmap,
                                                        bool invertBytes,
                                                        int numberOfBytesPerRow)
     {

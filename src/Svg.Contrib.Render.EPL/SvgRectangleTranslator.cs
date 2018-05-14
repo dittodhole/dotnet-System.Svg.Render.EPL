@@ -3,8 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -17,40 +15,28 @@ namespace Svg.Contrib.Render.EPL
                                   [NotNull] EplCommands eplCommands,
                                   [NotNull] SvgUnitReader svgUnitReader)
     {
-      if (eplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(eplTransformer));
-      }
-      if (eplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(eplCommands));
-      }
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-      this.EplTransformer = eplTransformer;
-      this.EplCommands = eplCommands;
-      this.SvgUnitReader = svgUnitReader;
+      this.EplTransformer = eplTransformer ?? throw new ArgumentNullException(nameof(eplTransformer));
+      this.EplCommands = eplCommands ?? throw new ArgumentNullException(nameof(eplCommands));
+      this.SvgUnitReader = svgUnitReader ?? throw new ArgumentNullException(nameof(svgUnitReader));
     }
 
     [NotNull]
-    protected EplTransformer EplTransformer { get; }
+    private EplTransformer EplTransformer { get; }
 
     [NotNull]
-    protected EplCommands EplCommands { get; }
+    private EplCommands EplCommands { get; }
 
     [NotNull]
-    protected SvgUnitReader SvgUnitReader { get; }
+    private SvgUnitReader SvgUnitReader { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] EplContainer eplContainer)
+    public override void Translate(SvgRectangle svgRectangle,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   EplContainer eplContainer)
     {
       if (svgRectangle == null)
       {
@@ -113,19 +99,14 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int lineThickness;
-      int horizontalEnd;
-      int verticalEnd;
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out lineThickness,
-                       out horizontalEnd,
-                       out verticalEnd);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var lineThickness,
+                       out var horizontalEnd,
+                       out var verticalEnd);
 
       var horizontalLength = horizontalEnd - horizontalStart;
       var verticalLength = verticalEnd - verticalStart;
@@ -162,19 +143,14 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int lineThickness;
-      int horizontalEnd;
-      int verticalEnd;
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out lineThickness,
-                       out horizontalEnd,
-                       out verticalEnd);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var lineThickness,
+                       out var horizontalEnd,
+                       out var verticalEnd);
 
       eplContainer.Body.Add(this.EplCommands.DrawBox(horizontalStart,
                                                      verticalStart,
@@ -209,19 +185,14 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float endX;
-      float startY;
-      float endY;
-      float strokeWidth;
       this.EplTransformer.Transform(svgRectangle,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
-                                    out strokeWidth);
+                                    out var startX,
+                                    out var startY,
+                                    out var endX,
+                                    out var endY,
+                                    out var strokeWidth);
 
       horizontalStart = (int) startX;
       verticalStart = (int) startY;

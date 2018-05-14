@@ -3,8 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
@@ -15,32 +13,24 @@ namespace Svg.Contrib.Render.ZPL
     public SvgLineTranslator([NotNull] ZplTransformer zplTransformer,
                              [NotNull] ZplCommands zplCommands)
     {
-      if (zplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(zplTransformer));
-      }
-      if (zplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(zplCommands));
-      }
-      this.ZplTransformer = zplTransformer;
-      this.ZplCommands = zplCommands;
+      this.ZplTransformer = zplTransformer ?? throw new ArgumentNullException(nameof(zplTransformer));
+      this.ZplCommands = zplCommands ?? throw new ArgumentNullException(nameof(zplCommands));
     }
 
     [NotNull]
-    protected ZplTransformer ZplTransformer { get; }
+    private ZplTransformer ZplTransformer { get; }
 
     [NotNull]
-    protected ZplCommands ZplCommands { get; }
+    private ZplCommands ZplCommands { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgLine svgLine,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] ZplContainer zplContainer)
+    public override void Translate(SvgLine svgLine,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   ZplContainer zplContainer)
     {
       if (svgLine == null)
       {
@@ -59,21 +49,15 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(zplContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int width;
-      int height;
-      int verticalEnd;
-      float strokeWidth;
       this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out width,
-                       out height,
-                       out verticalEnd,
-                       out strokeWidth);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var width,
+                       out var height,
+                       out var verticalEnd,
+                       out var strokeWidth);
 
       if (width == 0
           || height == 0)
@@ -131,17 +115,13 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
       this.ZplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
+                                    out var startX,
+                                    out var startY,
+                                    out var endX,
+                                    out var endY,
                                     out strokeWidth);
 
       // TODO find a good TOLERANCE

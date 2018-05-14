@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using ImageMagick;
 using JetBrains.Annotations;
-
-// ReSharper disable UnusedParameter.Global
-// ReSharper disable VirtualMemberNeverOverriden.Global
 
 namespace Svg.Contrib.Render.EPL
 {
@@ -15,36 +13,24 @@ namespace Svg.Contrib.Render.EPL
   {
     public const int DefaultOutputWidth = 816;
     public const int DefaultOutputHeight = 1296;
+    public const int DefaultMaximumUpperFontSizeOverlap = 2;
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
-    public EplTransformer([NotNull] SvgUnitReader svgUnitReader)
-      : base(svgUnitReader,
-             EplTransformer.DefaultOutputWidth,
-             EplTransformer.DefaultOutputHeight)
-    {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-    }
-
-    /// <exception cref="ArgumentNullException"><paramref name="svgUnitReader" /> is <see langword="null" />.</exception>
+    /// <inheritdoc />
     public EplTransformer([NotNull] SvgUnitReader svgUnitReader,
-                          int outputWidth,
-                          int outputHeight)
+                          int outputWidth = EplTransformer.DefaultOutputWidth,
+                          int outputHeight = EplTransformer.DefaultOutputHeight,
+                          int maximumUpperFontSizeOverlap = EplTransformer.DefaultMaximumUpperFontSizeOverlap)
       : base(svgUnitReader,
              outputWidth,
              outputHeight)
     {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
+      this.MaximumUpperFontSizeOverlap = maximumUpperFontSizeOverlap;
     }
 
-    protected virtual int MaximumUpperFontSizeOverlap { get; } = 2;
+    private int MaximumUpperFontSizeOverlap { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="fontSize" /> is out of range.</exception>
     [Pure]
     public virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
                                          float fontSize,
@@ -162,9 +148,9 @@ namespace Svg.Contrib.Render.EPL
       if (lowerFontDefinitionCandidate == null
           && upperFontDefinitionCandidate == null)
       {
-        // this should never happen :beers:
-        // but can happen, if tiny font is used - idgaf
-        throw new NotImplementedException();
+        throw new ArgumentOutOfRangeException(nameof(fontSize),
+                                              fontSize,
+                                              $"Parameter {nameof(fontSize)} must be greater than {fontDefinitions.Keys.Min()}.");
       }
 
       if (lowerFontDefinitionCandidate == null)
@@ -206,9 +192,9 @@ namespace Svg.Contrib.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [Pure]
-    public override void Transform([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
+    public override void Transform(SvgRectangle svgRectangle,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
                                    out float startX,
                                    out float startY,
                                    out float endX,

@@ -3,9 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
@@ -17,30 +14,22 @@ namespace Svg.Contrib.Render.ZPL
                               [NotNull] ZplCommands zplCommands)
       : base(zplTransformer)
     {
-      if (zplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(zplTransformer));
-      }
-      if (zplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(zplCommands));
-      }
-      this.ZplTransformer = zplTransformer;
-      this.ZplCommands = zplCommands;
+      this.ZplTransformer = zplTransformer ?? throw new ArgumentNullException(nameof(zplTransformer));
+      this.ZplCommands = zplCommands ?? throw new ArgumentNullException(nameof(zplCommands));
     }
 
     [NotNull]
-    protected ZplTransformer ZplTransformer { get; }
+    private ZplTransformer ZplTransformer { get; }
 
     [NotNull]
-    protected ZplCommands ZplCommands { get; }
+    private ZplCommands ZplCommands { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    protected override void StoreGraphics([NotNull] string variableName,
-                                          [NotNull] Bitmap bitmap,
-                                          [NotNull] ZplContainer zplContainer)
+    protected override void StoreGraphics(string variableName,
+                                          Bitmap bitmap,
+                                          ZplContainer zplContainer)
     {
       if (variableName == null)
       {
@@ -55,10 +44,9 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(zplContainer));
       }
 
-      int numberOfBytesPerRow;
       var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap,
                                                                false,
-                                                               out numberOfBytesPerRow);
+                                                               out var numberOfBytesPerRow);
 
       zplContainer.Header.Add(this.ZplCommands.DownloadGraphics(variableName,
                                                                 rawBinaryData,
@@ -69,14 +57,14 @@ namespace Svg.Contrib.Render.ZPL
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    protected override void GraphicDirectWrite([NotNull] SvgImage svgImage,
-                                               [NotNull] Matrix sourceMatrix,
-                                               [NotNull] Matrix viewMatrix,
+    protected override void GraphicDirectWrite(SvgImage svgImage,
+                                               Matrix sourceMatrix,
+                                               Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
                                                int verticalStart,
-                                               [NotNull] ZplContainer zplContainer)
+                                               ZplContainer zplContainer)
     {
       if (svgImage == null)
       {
@@ -106,10 +94,9 @@ namespace Svg.Contrib.Render.ZPL
           return;
         }
 
-        int numberOfBytesPerRow;
         var rawBinaryData = this.ZplTransformer.GetRawBinaryData(bitmap,
                                                                  false,
-                                                                 out numberOfBytesPerRow);
+                                                                 out var numberOfBytesPerRow);
 
         zplContainer.Body.Add(this.ZplCommands.FieldTypeset(horizontalStart,
                                                             verticalStart));
@@ -123,14 +110,14 @@ namespace Svg.Contrib.Render.ZPL
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    protected override void PrintGraphics([NotNull] SvgImage svgImage,
-                                          [NotNull] Matrix sourceMatrix,
-                                          [NotNull] Matrix viewMatrix,
+    protected override void PrintGraphics(SvgImage svgImage,
+                                          Matrix sourceMatrix,
+                                          Matrix viewMatrix,
                                           int horizontalStart,
                                           int verticalStart,
                                           int sector,
-                                          [NotNull] string variableName,
-                                          [NotNull] ZplContainer zplContainer)
+                                          string variableName,
+                                          ZplContainer zplContainer)
     {
       if (svgImage == null)
       {

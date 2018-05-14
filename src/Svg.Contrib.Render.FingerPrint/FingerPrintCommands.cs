@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
   public class FingerPrintCommands
   {
     [NotNull]
-    [ItemNotNull]
     private IDictionary<BarCodeType, string> BarCodeTypeMappings { get; } = new Dictionary<BarCodeType, string>
                                                                             {
                                                                               {

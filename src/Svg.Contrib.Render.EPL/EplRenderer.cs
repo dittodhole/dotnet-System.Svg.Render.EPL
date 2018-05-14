@@ -3,9 +3,6 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -16,41 +13,33 @@ namespace Svg.Contrib.Render.EPL
                        PrinterCodepage printerCodepage = PrinterCodepage.Dos850,
                        int countryCode = 850)
     {
-      if (eplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(eplCommands));
-      }
-
-      this.EplCommands = eplCommands;
+      this.EplCommands = eplCommands ?? throw new ArgumentNullException(nameof(eplCommands));
       this.PrinterCodepage = printerCodepage;
       this.CountryCode = countryCode;
     }
 
     [NotNull]
-    protected EplCommands EplCommands { get; }
+    private EplCommands EplCommands { get; }
 
-    protected PrinterCodepage PrinterCodepage { get; }
+    private PrinterCodepage PrinterCodepage { get; }
 
-    protected int CountryCode { get; }
+    private int CountryCode { get; }
 
     [NotNull]
     [Pure]
     public Encoding GetEncoding()
     {
       var codepage = (int) this.PrinterCodepage;
-      // ReSharper disable ExceptionNotDocumentedOptional
       var encoding = Encoding.GetEncoding(codepage);
-      // ReSharper restore ExceptionNotDocumentedOptional
 
       return encoding;
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
-    [NotNull]
     [Pure]
-    public override EplContainer GetTranslation([NotNull] SvgDocument svgDocument,
-                                                [NotNull] Matrix viewMatrix)
+    public override EplContainer GetTranslation(SvgDocument svgDocument,
+                                                Matrix viewMatrix)
     {
       if (svgDocument == null)
       {

@@ -3,8 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -15,32 +13,24 @@ namespace Svg.Contrib.Render.EPL
     public SvgLineTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)
     {
-      if (eplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(eplTransformer));
-      }
-      if (eplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(eplCommands));
-      }
-      this.EplTransformer = eplTransformer;
-      this.EplCommands = eplCommands;
+      this.EplTransformer = eplTransformer ?? throw new ArgumentNullException(nameof(eplTransformer));
+      this.EplCommands = eplCommands ?? throw new ArgumentNullException(nameof(eplCommands));
     }
 
     [NotNull]
-    protected EplTransformer EplTransformer { get; }
+    private EplTransformer EplTransformer { get; }
 
     [NotNull]
-    protected EplCommands EplCommands { get; }
+    private EplCommands EplCommands { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgLine" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgLine svgLine,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] EplContainer eplContainer)
+    public override void Translate(SvgLine svgLine,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   EplContainer eplContainer)
 
     {
       if (svgLine == null)
@@ -60,21 +50,15 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(eplContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int horizontalLength;
-      int verticalLength;
-      int verticalEnd;
-      float strokeWidth;
       this.GetPosition(svgLine,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out horizontalLength,
-                       out verticalLength,
-                       out verticalEnd,
-                       out strokeWidth);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var horizontalLength,
+                       out var verticalLength,
+                       out var verticalEnd,
+                       out var strokeWidth);
 
       this.AddTranslationToContainer(svgLine,
                                      horizontalStart,
@@ -113,17 +97,13 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
       this.EplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
+                                    out var startX,
+                                    out var startY,
+                                    out var endX,
+                                    out var endY,
                                     out strokeWidth);
 
       // TODO find a good TOLERANCE

@@ -3,8 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
@@ -17,40 +15,28 @@ namespace Svg.Contrib.Render.FingerPrint
                                   [NotNull] FingerPrintCommands fingerPrintCommands,
                                   [NotNull] SvgUnitReader svgUnitReader)
     {
-      if (fingerPrintTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(fingerPrintTransformer));
-      }
-      if (fingerPrintCommands == null)
-      {
-        throw new ArgumentNullException(nameof(fingerPrintCommands));
-      }
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-      this.FingerPrintTransformer = fingerPrintTransformer;
-      this.FingerPrintCommands = fingerPrintCommands;
-      this.SvgUnitReader = svgUnitReader;
+      this.FingerPrintTransformer = fingerPrintTransformer ?? throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      this.FingerPrintCommands = fingerPrintCommands ?? throw new ArgumentNullException(nameof(fingerPrintCommands));
+      this.SvgUnitReader = svgUnitReader ?? throw new ArgumentNullException(nameof(svgUnitReader));
     }
 
     [NotNull]
-    protected SvgUnitReader SvgUnitReader { get; }
+    private SvgUnitReader SvgUnitReader { get; }
 
     [NotNull]
-    protected FingerPrintCommands FingerPrintCommands { get; }
+    private FingerPrintCommands FingerPrintCommands { get; }
 
     [NotNull]
-    protected FingerPrintTransformer FingerPrintTransformer { get; }
+    private FingerPrintTransformer FingerPrintTransformer { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] FingerPrintContainer fingerPrintContainer)
+    public override void Translate(SvgRectangle svgRectangle,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   FingerPrintContainer fingerPrintContainer)
     {
       if (svgRectangle == null)
       {
@@ -112,19 +98,14 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int lineThickness;
-      int horizontalEnd;
-      int verticalEnd;
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out lineThickness,
-                       out horizontalEnd,
-                       out verticalEnd);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var lineThickness,
+                       out var horizontalEnd,
+                       out var verticalEnd);
 
       var length = horizontalEnd - horizontalStart;
       var lineWeight = verticalEnd - verticalStart;
@@ -163,19 +144,14 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
-      int horizontalStart;
-      int verticalStart;
-      int lineWeight;
-      int horizontalEnd;
-      int verticalEnd;
       this.GetPosition(svgRectangle,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out lineWeight,
-                       out horizontalEnd,
-                       out verticalEnd);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var lineWeight,
+                       out var horizontalEnd,
+                       out var verticalEnd);
 
       var width = horizontalEnd - horizontalStart;
       var height = verticalEnd - verticalStart;
@@ -215,19 +191,14 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float endX;
-      float startY;
-      float endY;
-      float strokeWidth;
       this.FingerPrintTransformer.Transform(svgRectangle,
                                             sourceMatrix,
                                             viewMatrix,
-                                            out startX,
-                                            out startY,
-                                            out endX,
-                                            out endY,
-                                            out strokeWidth);
+                                            out var startX,
+                                            out var startY,
+                                            out var endX,
+                                            out var endY,
+                                            out var strokeWidth);
 
       horizontalStart = (int) startX;
       verticalStart = (int) startY;

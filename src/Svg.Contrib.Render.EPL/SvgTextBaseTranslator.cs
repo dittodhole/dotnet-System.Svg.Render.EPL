@@ -3,10 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -20,32 +16,24 @@ namespace Svg.Contrib.Render.EPL
     public SvgTextBaseTranslator([NotNull] EplTransformer eplTransformer,
                                  [NotNull] EplCommands eplCommands)
     {
-      if (eplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(eplTransformer));
-      }
-      if (eplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(eplCommands));
-      }
-      this.EplTransformer = eplTransformer;
-      this.EplCommands = eplCommands;
+      this.EplTransformer = eplTransformer ?? throw new ArgumentNullException(nameof(eplTransformer));
+      this.EplCommands = eplCommands ?? throw new ArgumentNullException(nameof(eplCommands));
     }
 
     [NotNull]
-    protected EplTransformer EplTransformer { get; }
+    private EplTransformer EplTransformer { get; }
 
     [NotNull]
-    protected EplCommands EplCommands { get; }
+    private EplCommands EplCommands { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] T svgElement,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] EplContainer eplContainer)
+    public override void Translate(T svgElement,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   EplContainer eplContainer)
     {
       if (svgElement == null)
       {
@@ -75,26 +63,19 @@ namespace Svg.Contrib.Render.EPL
         return;
       }
 
-      float fontSize;
-      int horizontalStart;
-      int verticalStart;
-      int sector;
       this.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out sector,
-                       out fontSize);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var sector,
+                       out var fontSize);
 
-      int fontSelection;
-      int horizontalMultiplier;
-      int verticalMultiplier;
-      this.EplTransformer.GetFontSelection(svgElement,
-                                           fontSize,
-                                           out fontSelection,
-                                           out horizontalMultiplier,
-                                           out verticalMultiplier);
+      this.GetFontSelection(svgElement,
+                            fontSize,
+                            out var fontSelection,
+                            out var horizontalMultiplier,
+                            out var verticalMultiplier);
 
       this.AddTranslationToContainer(svgElement,
                                      horizontalStart,
@@ -132,13 +113,11 @@ namespace Svg.Contrib.Render.EPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float x;
-      float y;
       this.EplTransformer.Transform(svgElement,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out x,
-                                    out y,
+                                    out var x,
+                                    out var y,
                                     out fontSize);
 
       horizontalStart = (int) x;
@@ -159,10 +138,23 @@ namespace Svg.Contrib.Render.EPL
 
       // TODO add regex for removing illegal characters ...
 
-      // ReSharper disable ExceptionNotDocumentedOptional
       return text.Replace("\"",
                           "'");
-      // ReSharper restore ExceptionNotDocumentedOptional
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    [Pure]
+    protected virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+                                            float fontSize,
+                                            out int fontSelection,
+                                            out int horizontalMultiplier,
+                                            out int verticalMultiplier)
+    {
+      this.EplTransformer.GetFontSelection(svgTextBase,
+                                           fontSize,
+                                           out fontSelection,
+                                           out horizontalMultiplier,
+                                           out verticalMultiplier);
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>

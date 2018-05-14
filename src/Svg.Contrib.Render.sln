@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		..\appveyor.yml = ..\appveyor.yml
 		..\GitVersion.yml = ..\GitVersion.yml
-		JetBrains.Annotations.cs = JetBrains.Annotations.cs
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -51,5 +50,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D131990-15F1-4B28-B5DB-555A823D2BAE}
 	EndGlobalSection
 EndGlobal

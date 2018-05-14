@@ -3,8 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
@@ -17,40 +15,28 @@ namespace Svg.Contrib.Render.ZPL
                                   [NotNull] ZplCommands zplCommands,
                                   [NotNull] SvgUnitReader svgUnitReader)
     {
-      if (zplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(zplTransformer));
-      }
-      if (zplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(zplCommands));
-      }
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-      this.ZplTransformer = zplTransformer;
-      this.ZplCommands = zplCommands;
-      this.SvgUnitReader = svgUnitReader;
+      this.ZplTransformer = zplTransformer ?? throw new ArgumentNullException(nameof(zplTransformer));
+      this.ZplCommands = zplCommands ?? throw new ArgumentNullException(nameof(zplCommands));
+      this.SvgUnitReader = svgUnitReader ?? throw new ArgumentNullException(nameof(svgUnitReader));
     }
 
     [NotNull]
-    protected ZplTransformer ZplTransformer { get; }
+    private ZplTransformer ZplTransformer { get; }
 
     [NotNull]
-    protected ZplCommands ZplCommands { get; }
+    private ZplCommands ZplCommands { get; }
 
     [NotNull]
-    protected SvgUnitReader SvgUnitReader { get; }
+    private SvgUnitReader SvgUnitReader { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgRectangle" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgRectangle svgRectangle,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] ZplContainer zplContainer)
+    public override void Translate(SvgRectangle svgRectangle,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   ZplContainer zplContainer)
     {
       if (svgRectangle == null)
       {
@@ -134,7 +120,6 @@ namespace Svg.Contrib.Render.ZPL
                       EndY = endY
                     };
 
-      float strokeWidth;
       this.ZplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
@@ -142,7 +127,7 @@ namespace Svg.Contrib.Render.ZPL
                                     out startY,
                                     out endX,
                                     out endY,
-                                    out strokeWidth);
+                                    out var strokeWidth);
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) endY;
@@ -199,19 +184,14 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(zplContainer));
       }
 
-      float startX;
-      float endX;
-      float startY;
-      float endY;
-      float strokeWidth;
       this.ZplTransformer.Transform(svgRectangle,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
-                                    out strokeWidth);
+                                    out var startX,
+                                    out var startY,
+                                    out var endX,
+                                    out var endY,
+                                    out var strokeWidth);
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) endY;

@@ -1,4 +1,1 @@
-assembly-informational-format: '{LegacySemVerPadded}'
-branches: {}
-ignore:
-  sha: []
+assembly-informational-format: '{NuGetVersionV2}'

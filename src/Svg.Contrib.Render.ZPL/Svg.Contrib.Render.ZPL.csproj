@@ -45,9 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\JetBrains.Annotations.cs">
-      <Link>JetBrains.Annotations.cs</Link>
-    </Compile>
+    <Compile Include="App_Packages\Source.JetBrains.Annotations_11.1.1\JetBrains.Annotations.cs" />
     <Compile Include="DefaultBootstrapper.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

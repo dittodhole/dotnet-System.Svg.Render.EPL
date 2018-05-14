@@ -4,8 +4,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using Svg.Pathing;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -16,32 +14,24 @@ namespace Svg.Contrib.Render.EPL
     public SvgPathTranslator([NotNull] EplTransformer eplTransformer,
                              [NotNull] EplCommands eplCommands)
     {
-      if (eplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(eplTransformer));
-      }
-      if (eplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(eplCommands));
-      }
-      this.EplTransformer = eplTransformer;
-      this.EplCommands = eplCommands;
+      this.EplTransformer = eplTransformer ?? throw new ArgumentNullException(nameof(eplTransformer));
+      this.EplCommands = eplCommands ?? throw new ArgumentNullException(nameof(eplCommands));
     }
 
     [NotNull]
-    protected EplTransformer EplTransformer { get; }
+    private EplTransformer EplTransformer { get; }
 
     [NotNull]
-    protected EplCommands EplCommands { get; }
+    private EplCommands EplCommands { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgPath svgPath,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] EplContainer eplContainer)
+    public override void Translate(SvgPath svgPath,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   EplContainer eplContainer)
     {
       if (svgPath == null)
       {
@@ -73,9 +63,7 @@ namespace Svg.Contrib.Render.EPL
         return;
       }
 
-      // ReSharper disable ExceptionNotDocumentedOptional
       foreach (var svgLineSegment in svgPath.PathData.OfType<SvgLineSegment>())
-        // ReSharper restore ExceptionNotDocumentedOptional
       {
         this.TranslateSvgLineSegment(svgPath,
                                      svgLineSegment,
@@ -128,19 +116,14 @@ namespace Svg.Contrib.Render.EPL
                       EndY = svgLineSegment.End.Y
                     };
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
-      float strokeWidth;
       this.EplTransformer.Transform(svgLine,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out startX,
-                                    out startY,
-                                    out endX,
-                                    out endY,
-                                    out strokeWidth);
+                                    out var startX,
+                                    out var startY,
+                                    out var endX,
+                                    out var endY,
+                                    out var strokeWidth);
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;

@@ -4,8 +4,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using Svg.Pathing;
 
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
@@ -16,32 +14,24 @@ namespace Svg.Contrib.Render.FingerPrint
     public SvgPathTranslator([NotNull] FingerPrintTransformer fingerPrintTransformer,
                              [NotNull] FingerPrintCommands fingerPrintCommands)
     {
-      if (fingerPrintTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(fingerPrintTransformer));
-      }
-      if (fingerPrintCommands == null)
-      {
-        throw new ArgumentNullException(nameof(fingerPrintCommands));
-      }
-      this.FingerPrintTransformer = fingerPrintTransformer;
-      this.FingerPrintCommands = fingerPrintCommands;
+      this.FingerPrintTransformer = fingerPrintTransformer ?? throw new ArgumentNullException(nameof(fingerPrintTransformer));
+      this.FingerPrintCommands = fingerPrintCommands ?? throw new ArgumentNullException(nameof(fingerPrintCommands));
     }
 
     [NotNull]
-    protected FingerPrintTransformer FingerPrintTransformer { get; }
+    private FingerPrintTransformer FingerPrintTransformer { get; }
 
     [NotNull]
-    protected FingerPrintCommands FingerPrintCommands { get; }
+    private FingerPrintCommands FingerPrintCommands { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgPath" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgPath svgPath,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] FingerPrintContainer fingerPrintContainer)
+    public override void Translate(SvgPath svgPath,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   FingerPrintContainer fingerPrintContainer)
     {
       if (svgPath == null)
       {
@@ -73,9 +63,7 @@ namespace Svg.Contrib.Render.FingerPrint
         return;
       }
 
-      // ReSharper disable ExceptionNotDocumentedOptional
       foreach (var svgLineSegment in svgPath.PathData.OfType<SvgLineSegment>())
-        // ReSharper restore ExceptionNotDocumentedOptional
       {
         this.TranslateSvgLineSegment(svgPath,
                                      svgLineSegment,
@@ -128,19 +116,14 @@ namespace Svg.Contrib.Render.FingerPrint
                       EndY = svgLineSegment.End.Y
                     };
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
-      float strokeWidth;
       this.FingerPrintTransformer.Transform(svgLine,
                                             sourceMatrix,
                                             viewMatrix,
-                                            out startX,
-                                            out startY,
-                                            out endX,
-                                            out endY,
-                                            out strokeWidth);
+                                            out var startX,
+                                            out var startY,
+                                            out var endX,
+                                            out var endY,
+                                            out var strokeWidth);
 
       var horizontalStart = (int) startX;
       var verticalStart = (int) startY;

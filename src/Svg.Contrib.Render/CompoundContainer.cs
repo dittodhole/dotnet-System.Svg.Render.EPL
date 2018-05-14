@@ -25,21 +25,9 @@ namespace Svg.Contrib.Render
                                 [NotNull] ICollection<object> body,
                                 [NotNull] ICollection<object> footer)
     {
-      if (header == null)
-      {
-        throw new ArgumentNullException(nameof(header));
-      }
-      if (body == null)
-      {
-        throw new ArgumentNullException(nameof(body));
-      }
-      if (footer == null)
-      {
-        throw new ArgumentNullException(nameof(footer));
-      }
-      this.Header = header;
-      this.Body = body;
-      this.Footer = footer;
+      this.Header = header ?? throw new ArgumentNullException(nameof(header));
+      this.Body = body ?? throw new ArgumentNullException(nameof(body));
+      this.Footer = footer ?? throw new ArgumentNullException(nameof(footer));
     }
 
     [NotNull]
@@ -72,10 +60,9 @@ namespace Svg.Contrib.Render
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="encoding" /> is <see langword="null" />.</exception>
-    [NotNull]
     [Pure]
     [CollectionAccess(CollectionAccessType.Read)]
-    public override IEnumerable<byte> ToByteStream([NotNull] Encoding encoding)
+    public override IEnumerable<byte> ToByteStream(Encoding encoding)
     {
       if (encoding == null)
       {
@@ -85,8 +72,7 @@ namespace Svg.Contrib.Render
       foreach (var line in this)
       {
         byte[] array;
-        var s = line as string;
-        if (s != null)
+        if (line is string s)
         {
           array = encoding.GetBytes(s);
         }

@@ -1,5 +1,5 @@
 version: '{build}-{branch}'
-image: Visual Studio 2015
+image: Visual Studio 2017
 configuration: Release
 environment:
   solution_name: Svg.Contrib.Render
@@ -21,17 +21,12 @@ environment:
   viewmodel_project_dir: '%solution_dir%%viewmodel_project_name%\'
   viewmodel_project_file: '%viewmodel_project_dir%%viewmodel_project_name%.csproj'
 install:
-- cmd: choco install gitversion.portable -y
+- cmd: choco install packages.config -y
 before_build:
 - cmd: nuget restore "%solution_file%"
 - cmd: gitversion /l console /output buildserver /updateAssemblyInfo
-assembly_info:
-  patch: false
 build:
   project: '%solution_file%'
-  publish_nuget: false
-  publish_nuget_symbols: false
-  verbosity: detailed
 after_build:
 - cmd: nuget pack "%project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
 - cmd: nuget pack "%epl_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
@@ -48,14 +43,12 @@ after_build:
 - cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%zpl_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
 - cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%viewmodel_project_name%.%GitVersion_NuGetVersionV2%.nupkg"
 - cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%viewmodel_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
-test: off
 deploy:
 - provider: NuGet
   name: MyGet
   server: https://www.myget.org/F/dittodhole/api/v2/package
   api_key:
     secure: c9r6oyxFOqnfj0xezZcLIoopgoBUb5ib9nrTYMkXDTqzvMrrXmprbHgyldag6NZ4
-#  skip_symbols: true
   symbol_server: https://www.myget.org/F/dittodhole/symbols/api/v2/package
   on:
     branch: develop
@@ -63,13 +56,11 @@ deploy:
   name: NuGet
   api_key:
     secure: nEAQdlgK3zBLiNAmbfjh6b8dUsqTQ/YRIbRFukxxlGVFa4251UhGdejc3Fj6YlFa
-#  skip_symbols: true
   on:
     branch: master
 - provider: NuGet
   name: NuGet (pre release)
   api_key:
     secure: nEAQdlgK3zBLiNAmbfjh6b8dUsqTQ/YRIbRFukxxlGVFa4251UhGdejc3Fj6YlFa
-#  skip_symbols: true
   on:
     branch: /release\/.*/

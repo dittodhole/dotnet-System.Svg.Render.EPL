@@ -3,9 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render.EPL
 {
   [PublicAPI]
@@ -17,30 +14,22 @@ namespace Svg.Contrib.Render.EPL
                               [NotNull] EplCommands eplCommands)
       : base(eplTransformer)
     {
-      if (eplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(eplTransformer));
-      }
-      if (eplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(eplCommands));
-      }
-      this.EplTransformer = eplTransformer;
-      this.EplCommands = eplCommands;
+      this.EplTransformer = eplTransformer ?? throw new ArgumentNullException(nameof(eplTransformer));
+      this.EplCommands = eplCommands ?? throw new ArgumentNullException(nameof(eplCommands));
     }
 
     [NotNull]
-    protected EplTransformer EplTransformer { get; }
+    private EplTransformer EplTransformer { get; }
 
     [NotNull]
-    protected EplCommands EplCommands { get; }
+    private EplCommands EplCommands { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    protected override void StoreGraphics([NotNull] string variableName,
-                                          [NotNull] Bitmap bitmap,
-                                          [NotNull] EplContainer eplContainer)
+    protected override void StoreGraphics(string variableName,
+                                          Bitmap bitmap,
+                                          EplContainer eplContainer)
     {
       if (variableName == null)
       {
@@ -68,14 +57,14 @@ namespace Svg.Contrib.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    protected override void GraphicDirectWrite([NotNull] SvgImage svgImage,
-                                               [NotNull] Matrix sourceMatrix,
-                                               [NotNull] Matrix viewMatrix,
+    protected override void GraphicDirectWrite(SvgImage svgImage,
+                                               Matrix sourceMatrix,
+                                               Matrix viewMatrix,
                                                float sourceAlignmentWidth,
                                                float sourceAlignmentHeight,
                                                int horizontalStart,
                                                int verticalStart,
-                                               [NotNull] EplContainer eplContainer)
+                                               EplContainer eplContainer)
     {
       if (svgImage == null)
       {
@@ -105,10 +94,9 @@ namespace Svg.Contrib.Render.EPL
           return;
         }
 
-        int numberOfBytesPerRow;
         var rawBinaryData = this.EplTransformer.GetRawBinaryData(bitmap,
                                                                  true,
-                                                                 out numberOfBytesPerRow);
+                                                                 out var numberOfBytesPerRow);
         var rows = bitmap.Height;
 
         eplContainer.Body.Add(this.EplCommands.GraphicDirectWrite(horizontalStart,
@@ -124,14 +112,14 @@ namespace Svg.Contrib.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    protected override void PrintGraphics([NotNull] SvgImage svgImage,
-                                          [NotNull] Matrix sourceMatrix,
-                                          [NotNull] Matrix viewMatrix,
+    protected override void PrintGraphics(SvgImage svgImage,
+                                          Matrix sourceMatrix,
+                                          Matrix viewMatrix,
                                           int horizontalStart,
                                           int verticalStart,
                                           int sector,
-                                          [NotNull] string variableName,
-                                          [NotNull] EplContainer eplContainer)
+                                          string variableName,
+                                          EplContainer eplContainer)
     {
       if (svgImage == null)
       {

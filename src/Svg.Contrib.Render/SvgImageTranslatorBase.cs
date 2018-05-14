@@ -4,9 +4,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render
 {
   [PublicAPI]
@@ -16,18 +13,13 @@ namespace Svg.Contrib.Render
     /// <exception cref="ArgumentNullException"><paramref name="genericTransformer" /> is <see langword="null" />.</exception>
     protected SvgImageTranslatorBase([NotNull] GenericTransformer genericTransformer)
     {
-      if (genericTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(genericTransformer));
-      }
-      this.GenericTransformer = genericTransformer;
+      this.GenericTransformer = genericTransformer ?? throw new ArgumentNullException(nameof(genericTransformer));
     }
 
     [NotNull]
-    protected GenericTransformer GenericTransformer { get; }
+    private GenericTransformer GenericTransformer { get; }
 
     [NotNull]
-    [ItemNotNull]
     private IDictionary<string, string> ImageIdentifierToVariableNameMap { get; } = new Dictionary<string, string>();
 
     /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
@@ -101,10 +93,10 @@ namespace Svg.Contrib.Render
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] SvgImage svgImage,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] TContainer container)
+    public override void Translate(SvgImage svgImage,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   TContainer container)
 
     {
       if (svgImage == null)
@@ -124,19 +116,14 @@ namespace Svg.Contrib.Render
         throw new ArgumentNullException(nameof(container));
       }
 
-      float sourceAlignmentWidth;
-      float sourceAlignmentHeight;
-      int horizontalStart;
-      int verticalStart;
-      int sector;
       this.GetPosition(svgImage,
                        sourceMatrix,
                        viewMatrix,
-                       out sourceAlignmentWidth,
-                       out sourceAlignmentHeight,
-                       out horizontalStart,
-                       out verticalStart,
-                       out sector);
+                       out var sourceAlignmentWidth,
+                       out var sourceAlignmentHeight,
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var sector);
 
       this.AddTranslationToContainer(svgImage,
                                      sourceMatrix,
@@ -175,17 +162,13 @@ namespace Svg.Contrib.Render
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float startX;
-      float startY;
-      float endX;
-      float endY;
       this.GenericTransformer.Transform(svgImage,
                                         sourceMatrix,
                                         viewMatrix,
-                                        out startX,
-                                        out startY,
-                                        out endX,
-                                        out endY,
+                                        out var startX,
+                                        out var startY,
+                                        out var endX,
+                                        out var endY,
                                         out sourceAlignmentWidth,
                                         out sourceAlignmentHeight);
 
@@ -240,7 +223,6 @@ namespace Svg.Contrib.Render
       }
       else
       {
-        string variableName;
         this.StoreGraphics(svgImage,
                            sourceMatrix,
                            viewMatrix,
@@ -249,7 +231,7 @@ namespace Svg.Contrib.Render
                            horizontalStart,
                            verticalStart,
                            container,
-                           out variableName);
+                           out var variableName);
         if (variableName != null)
         {
           this.PrintGraphics(svgImage,
@@ -295,10 +277,8 @@ namespace Svg.Contrib.Render
                              .ToString();
       if (variableName.Length > 8)
       {
-        // ReSharper disable ExceptionNotDocumentedOptional
         variableName = variableName.Substring(0,
                                               8);
-        // ReSharper restore ExceptionNotDocumentedOptional
       }
 
       return variableName;

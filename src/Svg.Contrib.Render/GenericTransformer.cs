@@ -5,9 +5,6 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable VirtualMemberNeverOverriden.Global
-
 namespace Svg.Contrib.Render
 {
   [PublicAPI]
@@ -18,11 +15,7 @@ namespace Svg.Contrib.Render
                               int outputWidth,
                               int outputHeight)
     {
-      if (svgUnitReader == null)
-      {
-        throw new ArgumentNullException(nameof(svgUnitReader));
-      }
-      this.SvgUnitReader = svgUnitReader;
+      this.SvgUnitReader = svgUnitReader ?? throw new ArgumentNullException(nameof(svgUnitReader));
       this.OutputWidth = outputWidth;
       this.OutputHeight = outputHeight;
     }
@@ -502,7 +495,7 @@ namespace Svg.Contrib.Render
                              -this.OutputHeight,
                              MatrixOrder.Append);
       }
-      else if (viewRotation == ViewRotation.RotateBy270Degress)
+      else if (viewRotation == ViewRotation.RotateBy270Degrees)
       {
         // TODO test this orientation!
         viewMatrix.Scale(magnificationFactor,

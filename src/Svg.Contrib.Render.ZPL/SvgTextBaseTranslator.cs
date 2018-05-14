@@ -2,9 +2,6 @@
 using System.Drawing.Drawing2D;
 using JetBrains.Annotations;
 
-// ReSharper disable NonLocalizedString
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-
 namespace Svg.Contrib.Render.ZPL
 {
   [PublicAPI]
@@ -18,32 +15,24 @@ namespace Svg.Contrib.Render.ZPL
     public SvgTextBaseTranslator([NotNull] ZplTransformer zplTransformer,
                                  [NotNull] ZplCommands zplCommands)
     {
-      if (zplTransformer == null)
-      {
-        throw new ArgumentNullException(nameof(zplTransformer));
-      }
-      if (zplCommands == null)
-      {
-        throw new ArgumentNullException(nameof(zplCommands));
-      }
-      this.ZplTransformer = zplTransformer;
-      this.ZplCommands = zplCommands;
+      this.ZplTransformer = zplTransformer ?? throw new ArgumentNullException(nameof(zplTransformer));
+      this.ZplCommands = zplCommands ?? throw new ArgumentNullException(nameof(zplCommands));
     }
 
     [NotNull]
-    protected ZplTransformer ZplTransformer { get; }
+    private ZplTransformer ZplTransformer { get; }
 
     [NotNull]
-    protected ZplCommands ZplCommands { get; }
+    private ZplCommands ZplCommands { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    public override void Translate([NotNull] T svgElement,
-                                   [NotNull] Matrix sourceMatrix,
-                                   [NotNull] Matrix viewMatrix,
-                                   [NotNull] ZplContainer zplContainer)
+    public override void Translate(T svgElement,
+                                   Matrix sourceMatrix,
+                                   Matrix viewMatrix,
+                                   ZplContainer zplContainer)
     {
       if (svgElement == null)
       {
@@ -73,28 +62,22 @@ namespace Svg.Contrib.Render.ZPL
         return;
       }
 
-      float fontSize;
-      int horizontalStart;
-      int verticalStart;
-      FieldOrientation fieldOrientation;
       this.GetPosition(svgElement,
                        sourceMatrix,
                        viewMatrix,
-                       out horizontalStart,
-                       out verticalStart,
-                       out fieldOrientation,
-                       out fontSize);
+                       out var horizontalStart,
+                       out var verticalStart,
+                       out var fieldOrientation,
+                       out var fontSize);
 
-      string fontName;
-      int characterHeight;
-      int width;
-      this.ZplTransformer.GetFontSelection(svgElement,
-                                           fontSize,
-                                           out fontName,
-                                           out characterHeight,
-                                           out width);
+      this.GetFontSelection(svgElement,
+                            fontSize,
+                            out var fontName,
+                            out var characterHeight,
+                            out var width);
 
-      this.AddTranslationToContainer(horizontalStart,
+      this.AddTranslationToContainer(svgElement,
+                                     horizontalStart,
                                      verticalStart,
                                      fontName,
                                      fieldOrientation,
@@ -116,10 +99,8 @@ namespace Svg.Contrib.Render.ZPL
 
       // TODO add regex for removing illegal characters ...
 
-      // ReSharper disable ExceptionNotDocumentedOptional
       return text.Replace("^",
                           string.Empty);
-      // ReSharper restore ExceptionNotDocumentedOptional
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
@@ -147,13 +128,11 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      float x;
-      float y;
       this.ZplTransformer.Transform(svgElement,
                                     sourceMatrix,
                                     viewMatrix,
-                                    out x,
-                                    out y,
+                                    out var x,
+                                    out var y,
                                     out fontSize);
 
       horizontalStart = (int) x;
@@ -162,10 +141,27 @@ namespace Svg.Contrib.Render.ZPL
                                                                  viewMatrix);
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
+    [Pure]
+    protected virtual void GetFontSelection([NotNull] T svgElement,
+                                            float fontSize,
+                                            [NotNull] out string fontName,
+                                            out int characterHeight,
+                                            out int width)
+    {
+      this.ZplTransformer.GetFontSelection(svgElement,
+                                           fontSize,
+                                           out fontName,
+                                           out characterHeight,
+                                           out width);
+    }
+
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fontName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    protected virtual void AddTranslationToContainer(int horizontalStart,
+    protected virtual void AddTranslationToContainer([NotNull] T svgElement,
+                                                     int horizontalStart,
                                                      int verticalStart,
                                                      [NotNull] string fontName,
                                                      FieldOrientation fieldOrientation,
