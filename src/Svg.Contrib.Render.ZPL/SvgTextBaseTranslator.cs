@@ -141,15 +141,15 @@ namespace Svg.Contrib.Render.ZPL
                                                                  viewMatrix);
     }
 
-    /// <exception cref="ArgumentNullException"><paramref name="svgTextBase" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="svgElement" /> is <see langword="null" />.</exception>
     [Pure]
-    protected virtual void GetFontSelection([NotNull] SvgTextBase svgTextBase,
+    protected virtual void GetFontSelection([NotNull] T svgElement,
                                             float fontSize,
                                             [NotNull] out string fontName,
                                             out int characterHeight,
                                             out int width)
     {
-      this.ZplTransformer.GetFontSelection(svgTextBase,
+      this.ZplTransformer.GetFontSelection(svgElement,
                                            fontSize,
                                            out fontName,
                                            out characterHeight,
