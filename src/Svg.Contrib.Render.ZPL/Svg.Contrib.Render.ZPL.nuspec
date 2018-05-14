@@ -8,5 +8,8 @@
     <projectUrl>https://github.com/dittodhole/dotnet-Svg.Contrib.Render</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/dittodhole/dotnet-Svg.Contrib.Render/master/src/Svg.Contrib.Render.ZPL/assets/icon.png</iconUrl>
     <description>$description$</description>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing"  />
+    </frameworkAssemblies>
   </metadata>
 </package>
