@@ -153,27 +153,42 @@ namespace Svg.Contrib.Render.ZPL
                      out fontSize);
 
       var lineHeightFactor = this.GetLineHeightFactor(svgTextBase);
-      if (this.GetRotationSector(sourceMatrix,
-                                 viewMatrix) % 2 == 0)
+
+      float offset;
+      if (lineHeightFactor > 0f)
       {
-        if (lineHeightFactor > 0f)
+        offset = fontSize / lineHeightFactor;
+      }
+      else
+      {
+        offset = fontSize;
+      }
+
+      var rotationSector = this.GetRotationSector(sourceMatrix,
+                                                  viewMatrix);
+      var rotationQuotient = Math.DivRem(rotationSector,
+                                         2,
+                                         out var remainder);
+      if (remainder == 0)
+      {
+        if (rotationQuotient % 2 == 0)
         {
-          startY -= fontSize / lineHeightFactor;
+          startY += offset;
         }
         else
         {
-          startY -= fontSize;
+          startY -= offset;
         }
       }
       else
       {
-        if (lineHeightFactor > 0f)
+        if (rotationQuotient % 2 == 0)
         {
-          startX += fontSize / lineHeightFactor;
+          startX -= offset;
         }
         else
         {
-          startX += fontSize;
+          startX += offset;
         }
       }
     }
