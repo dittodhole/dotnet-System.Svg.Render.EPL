@@ -30,7 +30,7 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     protected override void StoreGraphics(SvgImage svgImage,
-                                          String variableName,
+                                          string variableName,
                                           Bitmap bitmap,
                                           FingerPrintContainer fingerPrintContainer)
     {
@@ -51,15 +51,7 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
-      byte[] buffer;
-      if (this.ForcePngConversion(svgImage))
-      {
-        buffer = this.FingerPrintTransformer.ConvertToPng(bitmap);
-      }
-      else
-      {
-        buffer = this.FingerPrintTransformer.ConvertToPcx(bitmap);
-      }
+      var buffer = this.FingerPrintTransformer.ConvertToPcx(bitmap);
 
       fingerPrintContainer.Header.Add(this.FingerPrintCommands.RemoveImage(variableName));
       fingerPrintContainer.Header.Add(this.FingerPrintCommands.ImageLoad(variableName,
@@ -216,18 +208,6 @@ namespace Svg.Contrib.Render.FingerPrint
       {
         horizontalStart += (int) sourceAlignmentHeight;
       }
-    }
-
-    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
-    [Pure]
-    protected virtual bool ForcePngConversion([NotNull] SvgImage svgImage)
-    {
-      if (svgImage == null)
-      {
-        throw new ArgumentNullException(nameof(svgImage));
-      }
-
-      return false;
     }
   }
 }

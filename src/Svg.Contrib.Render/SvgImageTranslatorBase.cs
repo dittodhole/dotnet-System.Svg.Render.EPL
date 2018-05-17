@@ -88,7 +88,7 @@ namespace Svg.Contrib.Render
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
     protected abstract void StoreGraphics([NotNull] SvgImage svgImage,
-                                          [NotNull] String variableName,
+                                          [NotNull] string variableName,
                                           [NotNull] Bitmap bitmap,
                                           [NotNull] TContainer container);
 

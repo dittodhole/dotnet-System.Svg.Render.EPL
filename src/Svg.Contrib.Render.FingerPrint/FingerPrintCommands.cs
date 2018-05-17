@@ -42,7 +42,7 @@ namespace Svg.Contrib.Render.FingerPrint
     public virtual string Position(int horizontalStart,
                                    int verticalStart)
     {
-      return $"PP {horizontalStart},{verticalStart}";
+      return $"PP {horizontalStart},{verticalStart}"; // PRPOS
     }
 
     [NotNull]
@@ -51,7 +51,7 @@ namespace Svg.Contrib.Render.FingerPrint
                               int height,
                               int lineWeight)
     {
-      return $"PX {height},{width},{lineWeight}";
+      return $"PX {height},{width},{lineWeight}"; // PRBOX
     }
 
     [NotNull]
@@ -59,14 +59,14 @@ namespace Svg.Contrib.Render.FingerPrint
     public virtual string Line(int length,
                                int lineWeight)
     {
-      return $"PL {length},{lineWeight}";
+      return $"PL {length},{lineWeight}"; // PRLINE
     }
 
     [NotNull]
     [Pure]
     public virtual string PrintFeed(int copies = 1)
     {
-      return $"PF {copies}";
+      return $"PF {copies}"; // PRINTFEED
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="text" /> is <see langword="null" />.</exception>
@@ -79,7 +79,7 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(text));
       }
 
-      return $@"PT ""{text}""";
+      return $@"PT ""{text}"""; // PRTXT
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="fontName" /> is <see langword="null" />.</exception>
@@ -94,7 +94,7 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(fontName));
       }
 
-      return $@"FT ""{fontName}"",{height},{slant}";
+      return $@"FT ""{fontName}"",{height},{slant}"; // FONT
     }
 
     [NotNull]
@@ -108,7 +108,7 @@ namespace Svg.Contrib.Render.FingerPrint
     [Pure]
     public virtual string Align(Alignment alignment)
     {
-      return $"AN {(int) alignment}";
+      return $"AN {(int) alignment}"; // ALIGN
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
@@ -137,7 +137,7 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(name));
       }
 
-      return $@"PM ""{name}""";
+      return $@"PM ""{name}"""; // PRIMAGE
     }
 
     [NotNull]
@@ -172,14 +172,14 @@ namespace Svg.Contrib.Render.FingerPrint
     [Pure]
     public virtual string NormalImage()
     {
-      return "NI";
+      return "NI"; // NORIMAGE
     }
 
     [NotNull]
     [Pure]
     public virtual string InvertImage()
     {
-      return "INVIMAGE";
+      return "II"; // INVIMAGE
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
@@ -212,21 +212,21 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(data));
       }
 
-      return $@"PB ""{data}""";
+      return $@"PB ""{data}"""; // PRBAR
     }
 
     [NotNull]
     [Pure]
     public virtual string BarCodeMagnify(int widthFactor)
     {
-      return $"BM {widthFactor}";
+      return $"BM {widthFactor}"; // BARMAG
     }
 
     [NotNull]
     [Pure]
     public virtual string BarCodeHeight(int height)
     {
-      return $"BH {height}";
+      return $"BH {height}"; // BARHEIGHT
     }
 
     [NotNull]
@@ -234,7 +234,7 @@ namespace Svg.Contrib.Render.FingerPrint
     public virtual string BarCodeRatio(int wideBarFactor,
                                        decimal narrowBarFactor)
     {
-      return $"BR {wideBarFactor},{narrowBarFactor}";
+      return $"BR {wideBarFactor},{narrowBarFactor}"; // BARRATIO
     }
 
     [NotNull]
@@ -243,7 +243,7 @@ namespace Svg.Contrib.Render.FingerPrint
     {
       var barcode = this.BarCodeTypeMappings[barCodeType];
 
-      return $@"BT ""{barcode}""";
+      return $@"BT ""{barcode}"""; // BARTYPE
     }
   }
 }

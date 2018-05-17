@@ -275,29 +275,6 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(bitmap));
       }
 
-      return this.Convert(bitmap,
-                          MagickFormat.Pcx);
-    }
-
-    /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
-    [NotNull]
-    [Pure]
-    public virtual byte[] ConvertToPng([NotNull] Bitmap bitmap)
-    {
-      if (bitmap == null)
-      {
-        throw new ArgumentNullException(nameof(bitmap));
-      }
-
-      return this.Convert(bitmap,
-                          MagickFormat.Png);
-    }
-
-    [NotNull]
-    [Pure]
-    protected virtual byte[] Convert([NotNull] Bitmap bitmap,
-                                     MagickFormat magickFormat)
-    {
       // TODO merge with Svg.Contrib.Render.EPL.EplTransformer.ConvertToPcx, Svg.Contrib.Render.EPL
 
       var width = bitmap.Width;
@@ -327,15 +304,15 @@ namespace Svg.Contrib.Render.FingerPrint
 
         var quantizeSettings = new QuantizeSettings
                                {
-                                 ColorSpace = ColorSpace.Gray,
                                  Colors = 2,
                                  DitherMethod = DitherMethod.No
                                };
         magickImage.Quantize(quantizeSettings);
 
-        magickImage.ColorType = ColorType.Bilevel;
+        magickImage.ColorType = ColorType.Grayscale;
+        magickImage.ColorSpace = ColorSpace.sRGB;
         magickImage.Depth = 1;
-        magickImage.Format = magickFormat;
+        magickImage.Format = MagickFormat.Pcx;
 
         var array = magickImage.ToByteArray();
 

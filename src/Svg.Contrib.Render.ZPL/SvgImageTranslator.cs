@@ -29,7 +29,7 @@ namespace Svg.Contrib.Render.ZPL
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
     protected override void StoreGraphics(SvgImage svgImage,
-                                          String variableName,
+                                          string variableName,
                                           Bitmap bitmap,
                                           ZplContainer zplContainer)
     {

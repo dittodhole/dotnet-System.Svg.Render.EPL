@@ -268,13 +268,13 @@ namespace Svg.Contrib.Render.EPL
 
         var quantizeSettings = new QuantizeSettings
                                {
-                                 ColorSpace = ColorSpace.Gray,
                                  Colors = 2,
                                  DitherMethod = DitherMethod.No
                                };
         magickImage.Quantize(quantizeSettings);
 
-        magickImage.ColorType = ColorType.Bilevel;
+        magickImage.ColorType = ColorType.Grayscale;
+        magickImage.ColorSpace = ColorSpace.sRGB;
         magickImage.Depth = 1;
         magickImage.Format = MagickFormat.Pcx;
 
