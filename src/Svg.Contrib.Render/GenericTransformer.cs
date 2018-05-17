@@ -406,7 +406,7 @@ namespace Svg.Contrib.Render
                                              svgTextBase.FontSize);
 
       var lineHeightFactor = this.GetLineHeightFactor(svgTextBase);
-      if (lineHeightFactor > 0f)
+      if (lineHeightFactor >= float.Epsilon)
       {
         startY -= fontSize / lineHeightFactor;
       }

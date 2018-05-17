@@ -4,9 +4,15 @@
     <id>$id$</id>
     <version>$version$</version>
     <authors>$author$</authors>
-    <licenseUrl>https://raw.githubusercontent.com/dittodhole/WTFNMFPLv3/master/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/dittodhole/WTFNMFPLv3</licenseUrl>
     <projectUrl>https://github.com/dittodhole/dotnet-Svg.Contrib.Render</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/dittodhole/dotnet-Svg.Contrib.Render/master/src/Svg.Contrib.Render.FingerPrint/assets/icon.png</iconUrl>
+    <iconUrl>https://cdn.rawgit.com/dittodhole/dotnet-Svg.Contrib.Render/master/src/Svg.Contrib.Render.FingerPrint/assets/icon.png</iconUrl>
     <description>$description$</description>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing"  />
+    </frameworkAssemblies>
+    <dependencies>
+      <dependency id="Magick.NET-Q8-AnyCPU" version="[7.0.1,7.1)" />
+    </dependencies>
   </metadata>
 </package>
