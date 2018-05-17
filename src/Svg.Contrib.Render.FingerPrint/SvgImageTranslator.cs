@@ -51,12 +51,20 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(fingerPrintContainer));
       }
 
-      var pcxByteArray = this.FingerPrintTransformer.ConvertToPcx(bitmap);
+      byte[] buffer;
+      if (this.ForcePngConversion(svgImage))
+      {
+        buffer = this.FingerPrintTransformer.ConvertToPng(bitmap);
+      }
+      else
+      {
+        buffer = this.FingerPrintTransformer.ConvertToPcx(bitmap);
+      }
 
       fingerPrintContainer.Header.Add(this.FingerPrintCommands.RemoveImage(variableName));
       fingerPrintContainer.Header.Add(this.FingerPrintCommands.ImageLoad(variableName,
-                                                                         pcxByteArray.Length));
-      fingerPrintContainer.Header.Add(pcxByteArray);
+                                                                         buffer.Length));
+      fingerPrintContainer.Header.Add(buffer);
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
