@@ -275,6 +275,8 @@ namespace Svg.Contrib.Render.FingerPrint
         throw new ArgumentNullException(nameof(bitmap));
       }
 
+      // TODO merge with Svg.Contrib.Render.EPL.EplTransformer.ConvertToPcx, Svg.Contrib.Render.EPL
+
       var width = bitmap.Width;
       var mod = width % 8;
       if (mod > 0)
@@ -287,27 +289,29 @@ namespace Svg.Contrib.Render.FingerPrint
       {
         if (mod > 0)
         {
-          var magickGeometry = new MagickGeometry
+          var magickGeometry = new MagickGeometry(width,
+                                                  height)
                                {
-                                 Width = width,
-                                 Height = height,
                                  IgnoreAspectRatio = true
                                };
           magickImage.Resize(magickGeometry);
         }
 
-        magickImage.ColorAlpha(MagickColors.White);
+        if (magickImage.HasAlpha)
+        {
+          magickImage.ColorAlpha(MagickColors.White);
+        }
 
         var quantizeSettings = new QuantizeSettings
                                {
-                                 Colors = 2,
-                                 DitherMethod = DitherMethod.No
+                                 ColorSpace = ColorSpace.Gray,
+                                 Colors = 2
                                };
         magickImage.Quantize(quantizeSettings);
 
+        magickImage.ColorType = ColorType.Bilevel;
+        magickImage.Depth = 1;
         magickImage.Format = MagickFormat.Pcx;
-        magickImage.ColorType = ColorType.Palette;
-        magickImage.ColorSpace = ColorSpace.Gray;
 
         var array = magickImage.ToByteArray();
 
