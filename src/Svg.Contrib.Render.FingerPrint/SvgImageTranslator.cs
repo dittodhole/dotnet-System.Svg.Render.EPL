@@ -203,5 +203,17 @@ namespace Svg.Contrib.Render.FingerPrint
         horizontalStart += (int) sourceAlignmentHeight;
       }
     }
+
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
+    [Pure]
+    protected virtual bool ForcePngConversion([NotNull] SvgImage svgImage)
+    {
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
+
+      return false;
+    }
   }
 }
