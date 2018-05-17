@@ -11,5 +11,8 @@
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Drawing"  />
     </frameworkAssemblies>
+    <dependencies>
+      <dependency id="Magick.NET-Q8-AnyCPU" version="[7.0.1,7.1[" />
+    </dependencies>
   </metadata>
 </package>
