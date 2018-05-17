@@ -30,7 +30,7 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
     protected override void StoreGraphics(SvgImage svgImage,
-                                          String variableName,
+                                          string variableName,
                                           Bitmap bitmap,
                                           FingerPrintContainer fingerPrintContainer)
     {

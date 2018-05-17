@@ -29,7 +29,7 @@ namespace Svg.Contrib.Render.EPL
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
     protected override void StoreGraphics(SvgImage svgImage,
-                                          String variableName,
+                                          string variableName,
                                           Bitmap bitmap,
                                           EplContainer eplContainer)
     {
