@@ -25,13 +25,19 @@ namespace Svg.Contrib.Render.FingerPrint
     [NotNull]
     private FingerPrintTransformer FingerPrintTransformer { get; }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintContainer" /> is <see langword="null" />.</exception>
-    protected override void StoreGraphics(string variableName,
+    protected override void StoreGraphics(SvgImage svgImage,
+                                          String variableName,
                                           Bitmap bitmap,
                                           FingerPrintContainer fingerPrintContainer)
     {
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
       if (variableName == null)
       {
         throw new ArgumentNullException(nameof(variableName));

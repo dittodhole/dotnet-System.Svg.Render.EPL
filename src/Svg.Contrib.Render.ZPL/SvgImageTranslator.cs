@@ -24,13 +24,19 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     private ZplCommands ZplCommands { get; }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="zplContainer" /> is <see langword="null" />.</exception>
-    protected override void StoreGraphics(string variableName,
+    protected override void StoreGraphics(SvgImage svgImage,
+                                          String variableName,
                                           Bitmap bitmap,
                                           ZplContainer zplContainer)
     {
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
       if (variableName == null)
       {
         throw new ArgumentNullException(nameof(variableName));

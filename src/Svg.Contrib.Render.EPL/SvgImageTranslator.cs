@@ -24,13 +24,19 @@ namespace Svg.Contrib.Render.EPL
     [NotNull]
     private EplCommands EplCommands { get; }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="eplContainer" /> is <see langword="null" />.</exception>
-    protected override void StoreGraphics(string variableName,
+    protected override void StoreGraphics(SvgImage svgImage,
+                                          String variableName,
                                           Bitmap bitmap,
                                           EplContainer eplContainer)
     {
+      if (svgImage == null)
+      {
+        throw new ArgumentNullException(nameof(svgImage));
+      }
       if (variableName == null)
       {
         throw new ArgumentNullException(nameof(variableName));

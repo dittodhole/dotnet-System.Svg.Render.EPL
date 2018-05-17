@@ -75,17 +75,20 @@ namespace Svg.Contrib.Render
             return;
           }
 
-          this.StoreGraphics(variableName,
+          this.StoreGraphics(svgImage,
+                             variableName,
                              bitmap,
                              container);
         }
       }
     }
 
+    /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="variableName" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="container" /> is <see langword="null" />.</exception>
-    protected abstract void StoreGraphics([NotNull] string variableName,
+    protected abstract void StoreGraphics([NotNull] SvgImage svgImage,
+                                          [NotNull] String variableName,
                                           [NotNull] Bitmap bitmap,
                                           [NotNull] TContainer container);
 
