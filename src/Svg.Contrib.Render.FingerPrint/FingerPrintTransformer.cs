@@ -305,7 +305,8 @@ namespace Svg.Contrib.Render.FingerPrint
         var quantizeSettings = new QuantizeSettings
                                {
                                  ColorSpace = ColorSpace.Gray,
-                                 Colors = 2
+                                 Colors = 2,
+                                 DitherMethod = DitherMethod.No
                                };
         magickImage.Quantize(quantizeSettings);
 
