@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
@@ -9,13 +10,17 @@ namespace Svg.Contrib.Render.FingerPrint
   public class FingerPrintRenderer : RendererBase<FingerPrintContainer>
   {
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
-    public FingerPrintRenderer([NotNull] FingerPrintCommands fingerPrintCommands)
+    public FingerPrintRenderer([NotNull] FingerPrintCommands fingerPrintCommands,
+                               CharacterSet characterSet = CharacterSet.Utf8)
     {
       this.FingerPrintCommands = fingerPrintCommands ?? throw new ArgumentNullException(nameof(fingerPrintCommands));
+      this.CharacterSet = characterSet;
     }
 
     [NotNull]
     private FingerPrintCommands FingerPrintCommands { get; }
+
+    private CharacterSet CharacterSet { get; }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
@@ -104,7 +109,7 @@ namespace Svg.Contrib.Render.FingerPrint
       }
 
       fingerPrintContainer.Header.Add(this.FingerPrintCommands.ImmediateOn());
-      fingerPrintContainer.Header.Add(this.FingerPrintCommands.SelectCharacterSet(CharacterSet.Utf8));
+      fingerPrintContainer.Header.Add(this.FingerPrintCommands.SelectCharacterSet(this.CharacterSet));
       fingerPrintContainer.Body.Add(this.FingerPrintCommands.VerbOff());
       this.TranslateSvgElementAndChildren(svgDocument,
                                           sourceMatrix,
@@ -143,11 +148,56 @@ namespace Svg.Contrib.Render.FingerPrint
       fingerPrintContainer.Footer.Add(string.Empty);
     }
 
+    [NotNull]
+    private IDictionary<CharacterSet, int> CharacterSetMappings { get; } = new Dictionary<CharacterSet, int>
+                                                                           {
+                                                                             {
+                                                                               CharacterSet.Dos850, 850
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Dos851, 851
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Dos852, 852
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Dos855, 855
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Dos857, 857
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1250, 1250
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1251, 1251
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1252, 1252
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1253, 1253
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1254, 1254
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1257, 1257
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Utf8, 65001
+                                                                             }
+                                                                           };
+
+
     [Pure]
     [NotNull]
-    public virtual Encoding GetEncoding()
+    public override Encoding GetEncoding()
     {
-      return Encoding.UTF8;
+      var codepage = this.CharacterSetMappings[this.CharacterSet];
+      var encoding = Encoding.GetEncoding(codepage);
+
+      return encoding;
     }
   }
 }

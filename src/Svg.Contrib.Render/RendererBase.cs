@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render
@@ -137,5 +138,9 @@ namespace Svg.Contrib.Render
                                       viewMatrix,
                                       container);
     }
+
+    [Pure]
+    [NotNull]
+    public abstract Encoding GetEncoding();
   }
 }

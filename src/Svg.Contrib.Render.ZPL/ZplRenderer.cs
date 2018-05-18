@@ -35,7 +35,7 @@ namespace Svg.Contrib.Render.ZPL
 
     [NotNull]
     [Pure]
-    public virtual Encoding GetEncoding()
+    public override Encoding GetEncoding()
     {
       var codepage = this.CharacterSetMappings[this.CharacterSet];
       var encoding = Encoding.GetEncoding(codepage);
