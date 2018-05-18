@@ -220,7 +220,8 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintTransformer" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    public virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintTransformer fingerPrintTransformer)
+    public virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintTransformer fingerPrintTransformer,
+                                                                 CharacterSet characterSet = CharacterSet.Utf8)
     {
       if (fingerPrintTransformer == null)
       {
@@ -229,7 +230,8 @@ namespace Svg.Contrib.Render.FingerPrint
 
       var svgUnitReader = this.CreateSvgUnitReader();
       var fingerPrintCommands = this.CreateFingerPrintCommands();
-      var fingerPrintRenderer = this.CreateFingerPrintRenderer(fingerPrintCommands);
+      var fingerPrintRenderer = this.CreateFingerPrintRenderer(fingerPrintCommands,
+                                                               characterSet);
       var svgLineTranslator = this.CreateSvgLineTranslator(fingerPrintTransformer,
                                                            fingerPrintCommands);
       var svgRectangleTranslator = this.CreateSvgRectangleTranslator(fingerPrintTransformer,
