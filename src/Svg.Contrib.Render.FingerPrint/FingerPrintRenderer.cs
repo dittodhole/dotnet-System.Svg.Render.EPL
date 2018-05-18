@@ -145,7 +145,7 @@ namespace Svg.Contrib.Render.FingerPrint
 
     [Pure]
     [NotNull]
-    public virtual Encoding GetEncoding()
+    public override Encoding GetEncoding()
     {
       return Encoding.UTF8;
     }

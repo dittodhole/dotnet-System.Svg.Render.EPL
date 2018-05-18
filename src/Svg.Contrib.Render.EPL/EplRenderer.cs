@@ -27,7 +27,7 @@ namespace Svg.Contrib.Render.EPL
 
     [NotNull]
     [Pure]
-    public Encoding GetEncoding()
+    public override Encoding GetEncoding()
     {
       var codepage = (int) this.PrinterCodepage;
       var encoding = Encoding.GetEncoding(codepage);
