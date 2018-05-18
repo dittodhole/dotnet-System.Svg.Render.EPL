@@ -60,14 +60,16 @@ namespace Svg.Contrib.Render.FingerPrint
     /// <exception cref="ArgumentNullException"><paramref name="fingerPrintCommands" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    protected virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintCommands fingerPrintCommands)
+    protected virtual FingerPrintRenderer CreateFingerPrintRenderer([NotNull] FingerPrintCommands fingerPrintCommands,
+                                                                    CharacterSet characterSet = CharacterSet.Utf8)
     {
       if (fingerPrintCommands == null)
       {
         throw new ArgumentNullException(nameof(fingerPrintCommands));
       }
 
-      var fingerPrintRenderer = new FingerPrintRenderer(fingerPrintCommands);
+      var fingerPrintRenderer = new FingerPrintRenderer(fingerPrintCommands,
+                                                        characterSet);
 
       return fingerPrintRenderer;
     }
