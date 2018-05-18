@@ -19,9 +19,9 @@ namespace Svg.Contrib.Render.EPL
     Dos737 = 737,
     Dos851 = 851,
     Dos869 = 869,
-    Windows1252 = 1252,
     Windows1250 = 1250,
     Windows1251 = 1251,
+    Windows1252 = 1252,
     Windows1253 = 1253,
     Windows1254 = 1254,
     Windows1255 = 1255
