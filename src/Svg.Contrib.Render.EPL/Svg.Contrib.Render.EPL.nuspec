@@ -9,10 +9,7 @@
     <iconUrl>https://cdn.rawgit.com/dittodhole/dotnet-Svg.Contrib.Render/master/src/Svg.Contrib.Render.EPL/assets/icon.png</iconUrl>
     <description>$description$</description>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Drawing"  />
+      <frameworkAssembly assemblyName="System.Drawing"/>
     </frameworkAssemblies>
-    <dependencies>
-      <dependency id="Magick.NET-Q8-AnyCPU" version="[7.0.1,7.1)" />
-    </dependencies>
   </metadata>
 </package>
