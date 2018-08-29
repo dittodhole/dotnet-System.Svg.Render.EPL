@@ -266,6 +266,13 @@ namespace Svg.Contrib.Render.EPL
           magickImage.ColorAlpha(MagickColors.White);
         }
 
+        var quantizeSettings = new QuantizeSettings
+                               {
+                                 Colors = 2,
+                                 DitherMethod = DitherMethod.No
+                               };
+        magickImage.Quantize(quantizeSettings);
+
         magickImage.ColorType = ColorType.Bilevel;
         magickImage.Depth = 1;
         magickImage.Format = MagickFormat.Pcx;
