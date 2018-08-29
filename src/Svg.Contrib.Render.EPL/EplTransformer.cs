@@ -277,6 +277,9 @@ namespace Svg.Contrib.Render.EPL
         magickImage.Depth = 1;
         magickImage.Format = MagickFormat.Pcx;
 
+        magickImage.Density = new Density((double) bitmap.HorizontalResolution,
+                                          (double) bitmap.VerticalResolution);
+
         var array = magickImage.ToByteArray();
 
         return array;
