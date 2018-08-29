@@ -318,6 +318,8 @@ namespace Svg.Contrib.Render.FingerPrint
 
         var array = magickImage.ToByteArray();
 
+        array = this.TrimTrailingZeros(array);
+
         return array;
       }
     }

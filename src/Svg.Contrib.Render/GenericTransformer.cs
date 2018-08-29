@@ -709,5 +709,21 @@ namespace Svg.Contrib.Render
         }
       }
     }
+
+    /// <exception cref="ArgumentNullException"><paramref name="array"/> is <see langword="null"/>.</exception>
+    [NotNull]
+    [Pure]
+    protected virtual byte[] TrimTrailingZeros([NotNull] byte[] array)
+    {
+      var i = Array.FindLastIndex(array,
+                                  @byte => @byte != byte.MinValue);
+      var result = new byte[i];
+
+      Array.Copy(array,
+                 result,
+                 result.Length);
+
+      return result;
+    }
   }
 }
