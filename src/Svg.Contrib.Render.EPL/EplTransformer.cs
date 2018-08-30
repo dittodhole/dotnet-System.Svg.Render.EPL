@@ -282,8 +282,6 @@ namespace Svg.Contrib.Render.EPL
 
         var array = magickImage.ToByteArray();
 
-        array = this.TrimTrailingZeros(array);
-
         return array;
       }
     }
