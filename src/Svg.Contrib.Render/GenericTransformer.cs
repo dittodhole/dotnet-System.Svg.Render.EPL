@@ -721,7 +721,7 @@ namespace Svg.Contrib.Render
       var extendedColorPaletteIndicatorIndex = (array.Length - 1) - 768; // size of extended color palette
       if (extendedColorPaletteIndicatorIndex < 128) // indicator must be beyond header (and image data, which is not calculated here - best effort approach)
       {
-        result = array.Clone();
+        result = (byte[]) array.Clone();
       }
       else
       {
@@ -736,7 +736,7 @@ namespace Svg.Contrib.Render
         }
         else
         {
-          result = array.Clone();
+          result = (byte[]) array.Clone();
         }
       }
 
