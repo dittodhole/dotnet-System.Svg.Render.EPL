@@ -709,5 +709,38 @@ namespace Svg.Contrib.Render
         }
       }
     }
+
+    /// <exception cref="ArgumentNullException"><paramref name="array"/> is <see langword="null"/>.</exception>
+    /// <remarks>see https://en.wikipedia.org/wiki/PCX#Color_palette</remarks>
+    [NotNull]
+    [Pure]
+    protected virtual byte[] StripExtendedColorPaletteFromPcx([NotNull] byte[] array)
+    {
+      byte[] result;
+
+      var extendedColorPaletteIndicatorIndex = (array.Length - 1) - 768; // size of extended color palette
+      if (extendedColorPaletteIndicatorIndex < 128) // indicator must be beyond header (and image data, which is not calculated here - best effort approach)
+      {
+        result = (byte[]) array.Clone();
+      }
+      else
+      {
+        var value = array[extendedColorPaletteIndicatorIndex];
+        if (value == 12)
+        {
+          result = new byte[extendedColorPaletteIndicatorIndex];
+
+          Array.Copy(array,
+                     result,
+                     result.Length);
+        }
+        else
+        {
+          result = (byte[]) array.Clone();
+        }
+      }
+
+      return result;
+    }
   }
 }

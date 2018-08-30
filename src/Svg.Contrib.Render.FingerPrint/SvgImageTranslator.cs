@@ -209,5 +209,14 @@ namespace Svg.Contrib.Render.FingerPrint
         horizontalStart += (int) sourceAlignmentHeight;
       }
     }
+
+    /// <inheritdoc/>
+    protected override string CalculateVariableName(string imageIdentifier)
+    {
+      var result = string.Concat(base.CalculateVariableName(imageIdentifier),
+                                 ".PCX");
+
+      return result;
+    }
   }
 }

@@ -309,12 +309,16 @@ namespace Svg.Contrib.Render.FingerPrint
                                };
         magickImage.Quantize(quantizeSettings);
 
-        magickImage.ColorType = ColorType.Grayscale;
-        magickImage.ColorSpace = ColorSpace.sRGB;
+        magickImage.ColorType = ColorType.Bilevel;
         magickImage.Depth = 1;
         magickImage.Format = MagickFormat.Pcx;
 
+        magickImage.Density = new Density((double) bitmap.HorizontalResolution,
+                                          (double) bitmap.VerticalResolution);
+
         var array = magickImage.ToByteArray();
+
+        array = this.StripExtendedColorPaletteFromPcx(array);
 
         return array;
       }
