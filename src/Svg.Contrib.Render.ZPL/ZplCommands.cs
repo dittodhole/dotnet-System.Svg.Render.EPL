@@ -148,7 +148,7 @@ namespace Svg.Contrib.Render.ZPL
                                               decimal wideBarToNarrowBarWidthRatio,
                                               int height)
     {
-      return $"^BY{moduleWidth},{Math.Round(wideBarToNarrowBarWidthRatio, 2)},{height}";
+      return $"^BY{moduleWidth},{Math.Round(wideBarToNarrowBarWidthRatio, 1)},{height}";
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="content" /> is <see langword="null" />.</exception>
