@@ -9,6 +9,40 @@ namespace Svg.Contrib.Render.ZPL
   public class ZplCommands
   {
     [NotNull]
+    private IDictionary<CharacterSet, int> CharacterSetMappings { get; } = new Dictionary<CharacterSet, int>
+                                                                           {
+                                                                             {
+                                                                               CharacterSet.ZebraCodePage850, 13
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.ZebraCodePage1252, 27
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Utf8, 28
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Utf16BigEndian, 29
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Utf16LittleEndian, 30
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.ZebraCodePage1250, 31
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.CodePage1251, 33
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.CodePage1253, 34
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.CodePage1254, 35
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.CodePage1255, 36
+                                                                             }
+                                                                           };
+    [NotNull]
     [Pure]
     public virtual string FieldOrigin(int horizontalStart,
                                       int verticalStart)
@@ -100,7 +134,7 @@ namespace Svg.Contrib.Render.ZPL
     [Pure]
     public virtual string ChangeInternationalFont(CharacterSet characterSet)
     {
-      return $"^CI{characterSet.ToString("D")}";
+      return $"^CI{this.CharacterSetMappings[characterSet]}";
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="name" /> is <see langword="null" />.</exception>
