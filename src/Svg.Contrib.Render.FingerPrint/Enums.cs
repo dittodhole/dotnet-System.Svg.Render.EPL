@@ -32,18 +32,18 @@ namespace Svg.Contrib.Render.FingerPrint
   [PublicAPI]
   public enum CharacterSet
   {
-    Utf8 = 8,
-    Dos850 = 850,
-    Dos851 = 851,
-    Dos852 = 852,
-    Dos855 = 855,
-    Dos857 = 857,
-    Windows1250 = 1250,
-    Windows1251 = 1251,
-    Windows1252 = 1252,
-    Windows1253 = 1253,
-    Windows1254 = 1254,
-    Windows1257 = 1257
+    Utf8,
+    Dos850,
+    Dos851,
+    Dos852,
+    Dos855,
+    Dos857,
+    Windows1250,
+    Windows1251,
+    Windows1252,
+    Windows1253,
+    Windows1254,
+    Windows1257
   }
 
   [PublicAPI]
