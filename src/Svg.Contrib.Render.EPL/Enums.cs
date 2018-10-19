@@ -5,26 +5,26 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public enum PrinterCodepage
   {
-    Dos347 = 347,
-    Dos850 = 850,
-    Dos852 = 852,
-    Dos860 = 860,
-    Dos863 = 863,
-    Dos865 = 865,
-    Dos857 = 857,
-    Dos861 = 861,
-    Dos862 = 862,
-    Dos855 = 855,
-    Dos866 = 866,
-    Dos737 = 737,
-    Dos851 = 851,
-    Dos869 = 869,
-    Windows1250 = 1250,
-    Windows1251 = 1251,
-    Windows1252 = 1252,
-    Windows1253 = 1253,
-    Windows1254 = 1254,
-    Windows1255 = 1255
+    Dos347,
+    Dos850,
+    Dos852,
+    Dos860,
+    Dos863,
+    Dos865,
+    Dos857,
+    Dos861,
+    Dos862,
+    Dos855,
+    Dos866,
+    Dos737,
+    Dos851,
+    Dos869,
+    Windows1250,
+    Windows1251,
+    Windows1252,
+    Windows1253,
+    Windows1254,
+    Windows1255
   }
 
   [PublicAPI]

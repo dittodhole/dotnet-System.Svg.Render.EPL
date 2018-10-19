@@ -269,9 +269,7 @@ namespace Svg.Contrib.Render.EPL
                                                 PrinterCodepage printerCodepage,
                                                 int countryCode)
     {
-      var codepage = this.PrinterCodepageMappings[printerCodepage];
-
-      return $"I{bytes},{codepage},{countryCode}";
+      return $"I{bytes},{this.PrinterCodepageMappings[printerCodepage]},{countryCode}";
     }
 
     [NotNull]

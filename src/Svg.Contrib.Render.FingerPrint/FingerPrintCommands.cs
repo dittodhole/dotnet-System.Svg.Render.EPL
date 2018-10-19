@@ -38,6 +38,47 @@ namespace Svg.Contrib.Render.FingerPrint
                                                                             };
 
     [NotNull]
+    private IDictionary<CharacterSet, int> CharacterSetMappings { get; } = new Dictionary<CharacterSet, int>
+                                                                           {
+                                                                             {
+                                                                               CharacterSet.Utf8, 8
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Dos850, 850
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Dos851, 851
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Dos852, 852
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Dos855, 855
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Dos857, 857
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1250, 1250
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1251, 1251
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1252, 1252
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1253, 1253
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1254, 1254
+                                                                             },
+                                                                             {
+                                                                               CharacterSet.Windows1257, 1257
+                                                                             }
+                                                                           };
+
+    [NotNull]
     [Pure]
     public virtual string Position(int horizontalStart,
                                    int verticalStart)
@@ -144,7 +185,7 @@ namespace Svg.Contrib.Render.FingerPrint
     [Pure]
     public virtual string SelectCharacterSet(CharacterSet characterSet)
     {
-      return $"NASC {characterSet.ToString("D")}";
+      return $"NASC {this.CharacterSetMappings[characterSet]}";
     }
 
     [NotNull]

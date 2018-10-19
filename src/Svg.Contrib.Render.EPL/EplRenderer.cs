@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Text;
 using JetBrains.Annotations;
@@ -26,11 +27,75 @@ namespace Svg.Contrib.Render.EPL
     private int CountryCode { get; }
 
     [NotNull]
+    private IDictionary<PrinterCodepage, Encoding> PrinterCodepageToEncodingMappings { get; } = new Dictionary<PrinterCodepage, Encoding>
+                                                                                                {
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos347, Encoding.GetEncoding(347)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos850, Encoding.GetEncoding(850)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos852, Encoding.GetEncoding(852)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos860, Encoding.GetEncoding(860)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos863, Encoding.GetEncoding(863)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos865, Encoding.GetEncoding(865)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos857, Encoding.GetEncoding(857)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos861, Encoding.GetEncoding(861)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos862, Encoding.GetEncoding(862)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos855, Encoding.GetEncoding(855)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos866, Encoding.GetEncoding(866)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos737, Encoding.GetEncoding(737)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos851, Encoding.GetEncoding(851)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Dos869, Encoding.GetEncoding(869)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Windows1250, Encoding.GetEncoding(1250)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Windows1251, Encoding.GetEncoding(1251)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Windows1252, Encoding.GetEncoding(1252)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Windows1253, Encoding.GetEncoding(1253)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Windows1254, Encoding.GetEncoding(1254)
+                                                                                                  },
+                                                                                                  {
+                                                                                                    PrinterCodepage.Windows1255, Encoding.GetEncoding(1255)
+                                                                                                  }
+                                                                                                };
+
+    [NotNull]
     [Pure]
     public override Encoding GetEncoding()
     {
-      var codepage = (int) this.PrinterCodepage;
-      var encoding = Encoding.GetEncoding(codepage);
+      var encoding = this.PrinterCodepageToEncodingMappings[this.PrinterCodepage];
 
       return encoding;
     }

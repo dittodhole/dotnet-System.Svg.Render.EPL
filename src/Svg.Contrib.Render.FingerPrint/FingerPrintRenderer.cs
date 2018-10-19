@@ -149,53 +149,52 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     [NotNull]
-    private IDictionary<CharacterSet, int> CharacterSetMappings { get; } = new Dictionary<CharacterSet, int>
-                                                                           {
-                                                                             {
-                                                                               CharacterSet.Dos850, 850
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Dos851, 851
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Dos852, 852
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Dos855, 855
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Dos857, 857
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Windows1250, 1250
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Windows1251, 1251
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Windows1252, 1252
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Windows1253, 1253
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Windows1254, 1254
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Windows1257, 1257
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.Utf8, 65001
-                                                                             }
-                                                                           };
+    private IDictionary<CharacterSet, Encoding> CharacterSetToEncodingMappings { get; } = new Dictionary<CharacterSet, Encoding>
+                                                                                          {
+                                                                                            {
+                                                                                              CharacterSet.Dos850, Encoding.GetEncoding(850)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Dos851, Encoding.GetEncoding(851)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Dos852, Encoding.GetEncoding(852)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Dos855, Encoding.GetEncoding(855)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Dos857, Encoding.GetEncoding(857)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Windows1250, Encoding.GetEncoding(1250)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Windows1251, Encoding.GetEncoding(1251)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Windows1252, Encoding.GetEncoding(1252)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Windows1253, Encoding.GetEncoding(1253)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Windows1254, Encoding.GetEncoding(1254)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Windows1257, Encoding.GetEncoding(1257)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Utf8, Encoding.UTF8
+                                                                                            }
+                                                                                          };
 
 
     [Pure]
     [NotNull]
     public override Encoding GetEncoding()
     {
-      var codepage = this.CharacterSetMappings[this.CharacterSet];
-      var encoding = Encoding.GetEncoding(codepage);
+      var encoding = this.CharacterSetToEncodingMappings[this.CharacterSet];
 
       return encoding;
     }
