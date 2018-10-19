@@ -23,22 +23,45 @@ namespace Svg.Contrib.Render.ZPL
     private CharacterSet CharacterSet { get; }
 
     [NotNull]
-    private IDictionary<CharacterSet, int> CharacterSetMappings { get; } = new Dictionary<CharacterSet, int>
-                                                                           {
-                                                                             {
-                                                                               CharacterSet.ZebraCodePage1252, 1252
-                                                                             },
-                                                                             {
-                                                                               CharacterSet.ZebraCodePage850, 850
-                                                                             }
-                                                                           };
+    private IDictionary<CharacterSet, Encoding> CharacterSetToEncodingMappings { get; } = new Dictionary<CharacterSet, Encoding>
+                                                                                          {
+                                                                                            {
+                                                                                              CharacterSet.ZebraCodePage850, Encoding.GetEncoding(850)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.ZebraCodePage1252, Encoding.GetEncoding(1252)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Utf8, Encoding.UTF8
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Utf16BigEndian, Encoding.BigEndianUnicode
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.Utf16LittleEndian, Encoding.Unicode
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.ZebraCodePage1250, Encoding.GetEncoding(1250)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.CodePage1251, Encoding.GetEncoding(1251)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.CodePage1253, Encoding.GetEncoding(1253)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.CodePage1254, Encoding.GetEncoding(1254)
+                                                                                            },
+                                                                                            {
+                                                                                              CharacterSet.CodePage1255, Encoding.GetEncoding(1255)
+                                                                                            }
+                                                                                          };
 
     [NotNull]
     [Pure]
     public override Encoding GetEncoding()
     {
-      var codepage = this.CharacterSetMappings[this.CharacterSet];
-      var encoding = Encoding.GetEncoding(codepage);
+      var encoding = this.CharacterSetToEncodingMappings[this.CharacterSet];
 
       return encoding;
     }

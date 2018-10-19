@@ -28,7 +28,15 @@ namespace Svg.Contrib.Render.ZPL
   public enum CharacterSet
   {
     ZebraCodePage850 = 13,
-    ZebraCodePage1252 = 27
+    ZebraCodePage1252 = 27,
+    Utf8 = 28,
+    Utf16BigEndian = 29,
+    Utf16LittleEndian = 30,
+    ZebraCodePage1250 = 31,
+    CodePage1251 = 33,
+    CodePage1253 = 34,
+    CodePage1254 = 35,
+    CodePage1255 = 36
   }
 
   [PublicAPI]
