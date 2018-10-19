@@ -61,7 +61,7 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     [Pure]
     protected virtual ZplRenderer CreateZplRenderer([NotNull] ZplCommands zplCommands,
-                                                    CharacterSet characterSet = CharacterSet.ZebraCodePage850)
+                                                    CharacterSet characterSet = CharacterSet.Utf8)
     {
       if (zplCommands == null)
       {
@@ -221,7 +221,7 @@ namespace Svg.Contrib.Render.ZPL
     [NotNull]
     [Pure]
     public virtual ZplRenderer CreateZplRenderer([NotNull] ZplTransformer zplTransformer,
-                                                 CharacterSet characterSet = CharacterSet.ZebraCodePage850)
+                                                 CharacterSet characterSet = CharacterSet.Utf8)
     {
       if (zplTransformer == null)
       {

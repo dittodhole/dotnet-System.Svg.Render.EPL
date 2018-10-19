@@ -11,7 +11,7 @@ namespace Svg.Contrib.Render.ZPL
   {
     /// <exception cref="ArgumentNullException"><paramref name="zplCommands" /> is <see langword="null" />.</exception>
     public ZplRenderer([NotNull] ZplCommands zplCommands,
-                       CharacterSet characterSet = CharacterSet.ZebraCodePage850)
+                       CharacterSet characterSet = CharacterSet.Utf8)
     {
       this.ZplCommands = zplCommands ?? throw new ArgumentNullException(nameof(zplCommands));
       this.CharacterSet = characterSet;
