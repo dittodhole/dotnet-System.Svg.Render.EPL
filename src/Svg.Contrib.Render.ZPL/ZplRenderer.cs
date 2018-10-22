@@ -125,7 +125,6 @@ namespace Svg.Contrib.Render.ZPL
         throw new ArgumentNullException(nameof(zplContainer));
       }
 
-      zplContainer.Header.Add(this.ZplCommands.ChangeInternationalFont(this.CharacterSet));
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgDocument" /> is <see langword="null" />.</exception>
@@ -155,6 +154,7 @@ namespace Svg.Contrib.Render.ZPL
       }
 
       zplContainer.Body.Add(this.ZplCommands.StartFormat());
+      zplContainer.Body.Add(this.ZplCommands.ChangeInternationalFont(this.CharacterSet));
       zplContainer.Body.Add(this.ZplCommands.LabelHome(18,
                                                        8));
       zplContainer.Body.Add(this.ZplCommands.PrintOrientation(PrintOrientation.Normal));
