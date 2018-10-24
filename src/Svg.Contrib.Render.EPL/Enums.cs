@@ -5,7 +5,6 @@ namespace Svg.Contrib.Render.EPL
   [PublicAPI]
   public enum PrinterCodepage
   {
-    Dos347,
     Dos850,
     Dos852,
     Dos860,

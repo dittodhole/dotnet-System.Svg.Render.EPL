@@ -30,9 +30,6 @@ namespace Svg.Contrib.Render.EPL
     private IDictionary<PrinterCodepage, Encoding> PrinterCodepageToEncodingMappings { get; } = new Dictionary<PrinterCodepage, Encoding>
                                                                                                 {
                                                                                                   {
-                                                                                                    PrinterCodepage.Dos347, Encoding.GetEncoding(347)
-                                                                                                  },
-                                                                                                  {
                                                                                                     PrinterCodepage.Dos850, Encoding.GetEncoding(850)
                                                                                                   },
                                                                                                   {
