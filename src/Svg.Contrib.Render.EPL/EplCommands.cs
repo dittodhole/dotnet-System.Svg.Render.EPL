@@ -43,9 +43,6 @@ namespace Svg.Contrib.Render.EPL
     private IDictionary<PrinterCodepage, string> PrinterCodepageMappings { get; } = new Dictionary<PrinterCodepage, string>
                                                                                     {
                                                                                       {
-                                                                                        PrinterCodepage.Dos347, "0"
-                                                                                      },
-                                                                                      {
                                                                                         PrinterCodepage.Dos850, "1"
                                                                                       },
                                                                                       {
@@ -77,9 +74,6 @@ namespace Svg.Contrib.Render.EPL
                                                                                       },
                                                                                       {
                                                                                         PrinterCodepage.Dos737, "11"
-                                                                                      },
-                                                                                      {
-                                                                                        PrinterCodepage.Dos851, "12"
                                                                                       },
                                                                                       {
                                                                                         PrinterCodepage.Dos869, "13"

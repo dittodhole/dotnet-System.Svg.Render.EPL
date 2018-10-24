@@ -47,9 +47,6 @@ namespace Svg.Contrib.Render.FingerPrint
                                                                                CharacterSet.Dos850, 850
                                                                              },
                                                                              {
-                                                                               CharacterSet.Dos851, 851
-                                                                             },
-                                                                             {
                                                                                CharacterSet.Dos852, 852
                                                                              },
                                                                              {
