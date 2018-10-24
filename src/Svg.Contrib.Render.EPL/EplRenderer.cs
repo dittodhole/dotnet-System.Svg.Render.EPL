@@ -63,9 +63,6 @@ namespace Svg.Contrib.Render.EPL
                                                                                                     PrinterCodepage.Dos737, Encoding.GetEncoding(737)
                                                                                                   },
                                                                                                   {
-                                                                                                    PrinterCodepage.Dos851, Encoding.GetEncoding(851)
-                                                                                                  },
-                                                                                                  {
                                                                                                     PrinterCodepage.Dos869, Encoding.GetEncoding(869)
                                                                                                   },
                                                                                                   {

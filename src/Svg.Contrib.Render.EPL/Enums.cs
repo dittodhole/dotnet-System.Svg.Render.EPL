@@ -16,7 +16,6 @@ namespace Svg.Contrib.Render.EPL
     Dos855,
     Dos866,
     Dos737,
-    Dos851,
     Dos869,
     Windows1250,
     Windows1251,
