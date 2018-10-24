@@ -155,9 +155,6 @@ namespace Svg.Contrib.Render.FingerPrint
                                                                                               CharacterSet.Dos850, Encoding.GetEncoding(850)
                                                                                             },
                                                                                             {
-                                                                                              CharacterSet.Dos851, Encoding.GetEncoding(851)
-                                                                                            },
-                                                                                            {
                                                                                               CharacterSet.Dos852, Encoding.GetEncoding(852)
                                                                                             },
                                                                                             {

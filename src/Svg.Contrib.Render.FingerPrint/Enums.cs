@@ -34,7 +34,6 @@ namespace Svg.Contrib.Render.FingerPrint
   {
     Utf8,
     Dos850,
-    Dos851,
     Dos852,
     Dos855,
     Dos857,
