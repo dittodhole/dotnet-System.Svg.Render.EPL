@@ -3,15 +3,31 @@
 # dotnet-Svg.Contrib.Render.ZPL
 > Convert [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) to [Zebra Programming Language (ZPL)](https://en.wikipedia.org/wiki/Zebra_(programming_language))
 
+## Build status
+
+[![](https://img.shields.io/appveyor/ci/dittodhole/dotnet-svg-contrib-render.svg)](https://ci.appveyor.com/project/dittodhole/dotnet-svg-contrib-render)
+
 ## Installing
 
-[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.ZPL.svg?style=flat-square)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/) https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/
+### myget.org
 
-    PM> Install-Package Svg.Contrib.Render.ZPL
+[![](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.ZPL.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.ZPL)
+
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.ZPL -pre --source https://www.myget.org/F/dittodhole/api/v2
+```
+
+### nuget.org
+
+[![](https://img.shields.io/nuget/v/Svg.Contrib.Render.ZPL.svg)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL)
+
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.ZPL
+```
 
 ## Example
 
-```
+```csharp
 using System.Linq;
 using Svg;
 using Svg.Contrib.Render.ZPL;

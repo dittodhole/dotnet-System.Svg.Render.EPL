@@ -27,7 +27,7 @@ PM> Install-Package -Id Svg.Contrib.Render.EPL
 
 ## Example
 
-```
+```csharp
 using System.Linq;
 using Svg;
 using Svg.Contrib.Render.EPL;
