@@ -3,11 +3,27 @@
 # dotnet-Svg.Contrib.Render.EPL
 > Convert [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) to [Eltron Programming Language (EPL)](https://en.wikipedia.org/wiki/Eltron_Programming_Language)
 
+## Build status
+
+[![](https://img.shields.io/appveyor/ci/dittodhole/dotnet-svg-contrib-render.svg)](https://ci.appveyor.com/project/dittodhole/dotnet-svg-contrib-render)
+
 ## Installing
 
-[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg?style=flat-square)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL/) https://www.nuget.org/packages/Svg.Contrib.Render.EPL/
+### myget.org
 
-    PM> Install-Package Svg.Contrib.Render.EPL
+[![](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.EPL.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.EPL)
+
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.EPL -pre --source https://www.myget.org/F/dittodhole/api/v2
+```
+
+### nuget.org
+
+[![](https://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL)
+
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.EPL
+```
 
 ## Example
 
@@ -53,4 +69,4 @@ dotnet-Svg.Contrib.Render.EPL is published under [WTFNMFPLv3](https://github.com
 
 ## Icon
 
-[Zebra](https://thenounproject.com/term/zebra/201040/) by [Cole M Johnstone](https://thenounproject.com/colemjohnstone) from the Noun Project
+[Zebra](https://thenounproject.com/term/zebra/201040/) by [Cole M Johnstone](https://thenounproject.com/colemjohnstone) from the Noun Project.
