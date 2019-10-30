@@ -92,4 +92,4 @@ This will create the following artifacts:
 
 ## License
 
-dotnet-Svg.Contrib.Render is published under [WTFNMFPLv3](https:////github.com/dittodhole/WTFNMFPLv3).
+dotnet-Svg.Contrib.Render is published under [WTFNMFPLv3](https://github.com/dittodhole/WTFNMFPLv3).

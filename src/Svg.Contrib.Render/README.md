@@ -1,4 +1,4 @@
-![](assets/icon.png)
+![](assets/noun_321865_cc.png)
 
 # dotnet-Svg.Contrib.Render
 

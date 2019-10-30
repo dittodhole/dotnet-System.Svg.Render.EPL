@@ -1,6 +1,7 @@
-![Icon](assets/icon.png)
+![](assets/noun_201040_cc.png)
 
 # dotnet-Svg.Contrib.Render.EPL
+
 > Convert [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) to [Eltron Programming Language (EPL)](https://en.wikipedia.org/wiki/Eltron_Programming_Language)
 
 ## Build status
