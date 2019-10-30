@@ -27,7 +27,7 @@ PM> Install-Package -Id Svg.Contrib.Render.FingerPrint
 
 ## Example
 
-```
+```csharp
 using System.Linq;
 using System.Text;
 using Svg;
