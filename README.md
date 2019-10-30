@@ -3,64 +3,92 @@
 
 ![](https://media.giphy.com/media/gCHHJZGvOtstO/giphy.gif)
 
-**master** branch status
-[![Build status](https://ci.appveyor.com/api/projects/status/pfhxvmnefxmga46k)](https://ci.appveyor.com/project/dittodhole/dotnet-svg-contrib-render)
+## Build status
 
-**develop** branch status
-[![Build status](https://ci.appveyor.com/api/projects/status/pfhxvmnefxmga46k/branch/develop)](https://ci.appveyor.com/project/dittodhole/dotnet-svg-contrib-render/branch/develop)
+[![](https://img.shields.io/appveyor/ci/dittodhole/dotnet-svg-contrib-render.svg)](https://ci.appveyor.com/project/dittodhole/dotnet-svg-contrib-render)
 
 ## Installing
 
-### Releases
+### myget.org
 
-[![NuGet Status](https://img.shields.io/nuget/v/Svg.Contrib.Render.svg)](https://www.nuget.org/packages/Svg.Contrib.Render/) https://www.nuget.org/packages/Svg.Contrib.Render/
+[![](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render)
 
-    PM> Install-Package Svg.Contrib.Render
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render -pre --source https://www.myget.org/F/dittodhole/api/v2
+```
 
-[![NuGet Status](https://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL/) https://www.nuget.org/packages/Svg.Contrib.Render.EPL/
+[![](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.EPL.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.EPL)
 
-    PM> Install-Package Svg.Contrib.Render.EPL
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.EPL -pre --source https://www.myget.org/F/dittodhole/api/v2
+```
 
-[![NuGet Status](https://img.shields.io/nuget/v/Svg.Contrib.Render.ZPL.svg)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/) https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/
+[![](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.FingerPrint.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.FingerPrint)
 
-    PM> Install-Package Svg.Contrib.Render.ZPL
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.FingerPrint -pre --source https://www.myget.org/F/dittodhole/api/v2
+```
 
-[![NuGet Status](https://img.shields.io/nuget/v/Svg.Contrib.Render.FingerPrint.svg)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL/) https://www.nuget.org/packages/Svg.Contrib.Render.FingerPrint/
+[![](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.ZPL.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.ZPL)
 
-    PM> Install-Package Svg.Contrib.Render.FingerPrint
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.ZPL -pre --source https://www.myget.org/F/dittodhole/api/v2
+```
 
-[![NuGet Status](https://img.shields.io/nuget/v/Svg.Contrib.ViewModel.svg)](https://www.nuget.org/packages/Svg.Contrib.ViewModel/) https://www.nuget.org/packages/Svg.Contrib.ViewModel/
+[![](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.ViewModel.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.ViewModel)
 
-    PM> Install-Package Svg.Contrib.ViewModel
+```powershell
+PM> Install-Package -Id Svg.Contrib.ViewModel -pre --source https://www.myget.org/F/dittodhole/api/v2
+```
 
-### Pre Releases
+### nuget.org
 
-    PM> nuget sources Add "dittodhole" https://www.myget.org/F/dittodhole/api/v3/index.json
+[![](https://img.shields.io/nuget/v/Svg.Contrib.Render.svg)](https://www.nuget.org/packages/Svg.Contrib.Render)
 
-[![MyGet Pre Release](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render)
-https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render
+```
 
-    PM> Install-Package Svg.Contrib.Render -pre
+[![](https://img.shields.io/nuget/v/Svg.Contrib.Render.EPL.svg)](https://www.nuget.org/packages/Svg.Contrib.Render.EPL)
 
-[![MyGet Pre Release](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.EPL.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.EPL)
-https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.EPL
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.EPL
+```
 
-    PM> Install-Package Svg.Contrib.Render.EPL -pre
+[![](https://img.shields.io/nuget/v/Svg.Contrib.Render.FingerPrint.svg)](https://www.nuget.org/packages/Svg.Contrib.Render.FingerPrint)
 
-[![MyGet Pre Release](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.ZPL.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.ZPL)
-https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.ZPL
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.FingerPrint
+```
 
-    PM> Install-Package Svg.Contrib.Render.ZPL -pre
+[![](https://img.shields.io/nuget/v/Svg.Contrib.Render.ZPL.svg)](https://www.nuget.org/packages/Svg.Contrib.Render.ZPL)
 
-[![MyGet Pre Release](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.FingerPrint.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.FingerPrint)
-https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.FingerPrint
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.ZPL
+```
 
-    PM> Install-Package Svg.Contrib.Render.FingerPrint -pre
+[![](https://img.shields.io/nuget/v/Svg.Contrib.ViewModel.svg)](https://www.nuget.org/packages/Svg.Contrib.ViewModel)
 
-[![MyGet Pre Release](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.ViewModel.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.ViewModel)
-https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.ViewModel
+```powershell
+PM> Install-Package -Id Svg.Contrib.ViewModel
+```
 
-    PM> Install-Package Svg.Contrib.ViewModel -pre
+## Developing & Building
+
+```cmd
+> git clone https://github.com/dittodhole/dotnet-Svg.Contrib.Render.git
+> cd dotnet-Svg.Contrib.Render
+dotnet-Svg.Contrib.Render> cd build
+dotnet-Svg.Contrib.Render/build> build.bat
+```
+
+This will create the following artifacts:
+
+- `artifacts/Svg.Contrib.Render.{version}.nupkg`
+- `artifacts/Svg.Contrib.Render.EPL.{version}.nupkg`
+- `artifacts/Svg.Contrib.Render.FingerPrint.{version}.nupkg`
+- `artifacts/Svg.Contrib.Render.ZPL.{version}.nupkg`
+- `artifacts/Svg.Contrib.ViewModel.{version}.nupkg`
 
 ## License
 
