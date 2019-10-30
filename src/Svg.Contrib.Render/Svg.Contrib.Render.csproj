@@ -13,7 +13,7 @@
     <PackageDescription>Svg.Contrib.Render is the base for compilers based on Svg</PackageDescription>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/dittodhole/dotnet-Svg.Contrib.Render</PackageProjectUrl>
-    <PackageIcon>icon.png</PackageIcon>
+    <PackageIcon>noun_321865_cc.png</PackageIcon>
     <PackageTags />
     <PackageType>Dependency</PackageType>
     <RepositoryUrl>https://github.com/dittodhole/dotnet-Svg.Contrib.Render.git</RepositoryUrl>
@@ -57,7 +57,7 @@
       <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="assets\icon.png">
+    <None Include="assets\noun_321865_cc.png">
       <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
