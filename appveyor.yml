@@ -1,66 +1,26 @@
-version: '{build}-{branch}'
-image: Visual Studio 2017
-configuration: Release
-environment:
-  solution_name: Svg.Contrib.Render
-  solution_dir: '%APPVEYOR_BUILD_FOLDER%\src\'
-  solution_file: '%solution_dir%%solution_name%.sln'
-  project_name: '%solution_name%'
-  project_dir: '%solution_dir%%project_name%\'
-  project_file: '%project_dir%%project_name%.csproj'
-  epl_project_name: Svg.Contrib.Render.EPL
-  epl_project_dir: '%solution_dir%%epl_project_name%\'
-  epl_project_file: '%epl_project_dir%%epl_project_name%.csproj'
-  fingerprint_project_name: Svg.Contrib.Render.FingerPrint
-  fingerprint_project_dir: '%solution_dir%%fingerprint_project_name%\'
-  fingerprint_project_file: '%fingerprint_project_dir%%fingerprint_project_name%.csproj'
-  zpl_project_name: Svg.Contrib.Render.ZPL
-  zpl_project_dir: '%solution_dir%%zpl_project_name%\'
-  zpl_project_file: '%zpl_project_dir%%zpl_project_name%.csproj'
-  viewmodel_project_name: Svg.Contrib.ViewModel
-  viewmodel_project_dir: '%solution_dir%%viewmodel_project_name%\'
-  viewmodel_project_file: '%viewmodel_project_dir%%viewmodel_project_name%.csproj'
-install:
-- cmd: choco install packages.config -y
+version: '{build}'
+image: Visual Studio 2019
+skip_tags: true
 before_build:
-- cmd: nuget restore "%solution_file%"
-- cmd: gitversion /l console /output buildserver /updateAssemblyInfo
-build:
-  project: '%solution_file%'
-after_build:
-- cmd: nuget pack "%project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
-- cmd: nuget pack "%epl_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
-- cmd: nuget pack "%fingerprint_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
-- cmd: nuget pack "%zpl_project_file%" -properties "Configuration=%configuration%" -IncludeReferencedProjects -symbols
-- cmd: nuget pack "%viewmodel_project_file%" -properties "Configuration=%configuration%" -Tool -symbols
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%project_name%.%GitVersion_NuGetVersionV2%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%epl_project_name%.%GitVersion_NuGetVersionV2%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%epl_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%fingerprint_project_name%.%GitVersion_NuGetVersionV2%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%fingerprint_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%zpl_project_name%.%GitVersion_NuGetVersionV2%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%zpl_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%viewmodel_project_name%.%GitVersion_NuGetVersionV2%.nupkg"
-- cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\%viewmodel_project_name%.%GitVersion_NuGetVersionV2%.symbols.nupkg"
+- cmd: cd build
+build_script:
+- cmd: build.bat
+artifacts:
+- path: artifacts/*.nupkg
+  name: nupkg
+  type: File
 deploy:
-- provider: NuGet
-  name: MyGet
-  server: https://www.myget.org/F/dittodhole/api/v2/package
-  api_key:
-    secure: c9r6oyxFOqnfj0xezZcLIoopgoBUb5ib9nrTYMkXDTqzvMrrXmprbHgyldag6NZ4
-  symbol_server: https://www.myget.org/F/dittodhole/symbols/api/v2/package
-  on:
-    branch: develop
 - provider: NuGet
   name: NuGet
   api_key:
     secure: nEAQdlgK3zBLiNAmbfjh6b8dUsqTQ/YRIbRFukxxlGVFa4251UhGdejc3Fj6YlFa
+  artifact: nupkg
   on:
     branch: master
 - provider: NuGet
-  name: NuGet (pre release)
+  name: MyGet
+  server: https://www.myget.org/F/dittodhole/api/v2/package
+  symbol_server: https://www.myget.org/F/dittodhole/symbols/api/v2/package
   api_key:
-    secure: nEAQdlgK3zBLiNAmbfjh6b8dUsqTQ/YRIbRFukxxlGVFa4251UhGdejc3Fj6YlFa
-  on:
-    branch: /release\/.*/
+    secure: c9r6oyxFOqnfj0xezZcLIoopgoBUb5ib9nrTYMkXDTqzvMrrXmprbHgyldag6NZ4
+  artifact: nupkg
