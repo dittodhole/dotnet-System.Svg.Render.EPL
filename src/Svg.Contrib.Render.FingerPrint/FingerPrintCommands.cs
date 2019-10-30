@@ -24,6 +24,9 @@ namespace Svg.Contrib.Render.FingerPrint
                                                                                 FingerPrint.BarCodeType.Code128C, "CODE128C"
                                                                               },
                                                                               {
+                                                                                FingerPrint.BarCodeType.EAN128, "EAN128"
+                                                                              },
+                                                                              {
                                                                                 FingerPrint.BarCodeType.Interleaved2Of5, "INT2OF5"
                                                                               },
                                                                               {
