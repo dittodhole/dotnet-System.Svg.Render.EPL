@@ -1,6 +1,10 @@
-.vs/
-bin/
-obj/
-packages/
-*.user
-*.suo
+artifacts/*.nupkg
+build/build.ps1
+build/tools/
+src/.vs/
+src/packages/
+src/**/*.user
+src/**/*.suo
+src/*/bin/
+src/*/obj/
+src/*/*.temp.nuspec
