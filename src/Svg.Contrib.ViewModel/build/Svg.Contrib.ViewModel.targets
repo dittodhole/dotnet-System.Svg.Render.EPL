@@ -1,11 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Condition="'$(TargetFramework)' == 'net35'">
-    <Reference Include="System.Core" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Update="Svg">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildProjectDirectory)\ViewModelGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ViewModelGenerator.cs</LastGenOutput>
+    </None>
+    <Compile Include="$(MSBuildProjectDirectory)\ViewModelGenerator.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ViewModelGenerator.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <Target Name="CopyTemplateToProject" BeforeTargets="Build">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\content\ViewModelGenerator.tt"
+          DestinationFiles="$(MSBuildProjectDirectory)\ViewModelGenerator.tt"
+          SkipUnchangedFiles="true" />
+  </Target>
 </Project>
