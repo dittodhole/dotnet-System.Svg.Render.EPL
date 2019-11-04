@@ -1,4 +1,4 @@
-﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="EnvDTE" #>
@@ -55,7 +55,7 @@ namespace <#= this.Host.ResolveAssemblyReference("$(RootNamespace)") #>
       if (manifestResourceName == null)
       {
         throw new FileNotFoundException("Could not find embedded SVG resource",
-                                       svgFileName);
+                                        svgFileName);
       }
 
       using (var manifestResourceStream = Assembly.GetExecutingAssembly()
