@@ -10,15 +10,4 @@
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildProjectDirectory)\ViewModelGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ViewModelGenerator.cs</LastGenOutput>
-    </None>
-    <Compile Include="$(MSBuildProjectDirectory)\ViewModelGenerator.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ViewModelGenerator.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>
