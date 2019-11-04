@@ -1,9 +1,9 @@
-<#@ template debug="true" hostspecific="true" language="C#" #>
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="EnvDTE" #>
 <#@ assembly name="VSLangProj" #>
-<#@ assembly name="$(ProjectDir)$(OutDir)Svg.dll" #>
+<#@ assembly name="$(PkgSvg)\lib\net35\Svg.dll" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
