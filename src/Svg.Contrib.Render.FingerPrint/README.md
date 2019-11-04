@@ -1,17 +1,34 @@
-![Icon](assets/icon.png)
+![](assets/noun_286941_cc.png)
 
 # dotnet-Svg.Contrib.Render.FingerPrint
+
 > Convert [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) to [Intermec FingerPrint](http://www.adc-distribution.de/intermec_etikettendrucker/fingerprint_info.pdf)
+
+## Build status
+
+[![](https://img.shields.io/appveyor/ci/dittodhole/dotnet-svg-contrib-render.svg)](https://ci.appveyor.com/project/dittodhole/dotnet-svg-contrib-render)
 
 ## Installing
 
-[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.Render.FingerPrint.svg?style=flat-square)](https://www.nuget.org/packages/Svg.Contrib.Render.FingerPrint/) https://www.nuget.org/packages/Svg.Contrib.Render.FingerPrint/
+### myget.org
 
-    PM> Install-Package Svg.Contrib.Render.FingerPrint
+[![](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.Render.FingerPrint.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.Render.FingerPrint)
+
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.FingerPrint -pre --source https://www.myget.org/F/dittodhole/api/v2
+```
+
+### nuget.org
+
+[![](https://img.shields.io/nuget/v/Svg.Contrib.Render.FingerPrint.svg)](https://www.nuget.org/packages/Svg.Contrib.Render.FingerPrint)
+
+```powershell
+PM> Install-Package -Id Svg.Contrib.Render.FingerPrint
+```
 
 ## Example
 
-```
+```csharp
 using System.Linq;
 using System.Text;
 using Svg;
@@ -52,4 +69,4 @@ dotnet-Svg.Contrib.Render.FingerPrint is published under [WTFNMFPLv3](https://gi
 
 ## Icon
 
-[Fingerprint](https://thenounproject.com/term/fingerprint/286941/) by [Roselin Christina.S](https://thenounproject.com/rosttarose) from the Noun Project
+[Fingerprint](https://thenounproject.com/term/fingerprint/286941/) by [Roselin Christina.S](https://thenounproject.com/rosttarose) from the Noun Project.

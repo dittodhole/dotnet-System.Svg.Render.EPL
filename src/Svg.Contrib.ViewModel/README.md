@@ -1,4 +1,4 @@
-![Icon](assets/icon.png)
+![](assets/noun_7266_cc.png)
 
 # dotnet-Svg.Contrib.ViewModel
 
@@ -6,11 +6,27 @@ This project creates *ViewModel*-classes for your included [SVG](https://en.wiki
 
 *Clarification: Actually the ViewModel is a Controller, but ViewModel sounds more appealing.*
 
+## Build status
+
+[![](https://img.shields.io/appveyor/ci/dittodhole/dotnet-svg-contrib-render.svg)](https://ci.appveyor.com/project/dittodhole/dotnet-svg-contrib-render)
+
 ## Installing
 
-[![NuGet Status](http://img.shields.io/nuget/v/Svg.Contrib.ViewModel.svg?style=flat-square)](https://www.nuget.org/packages/Svg.Contrib.ViewModel/) https://www.nuget.org/packages/Svg.Contrib.ViewModel/
+### myget.org
 
-    PM> Install-Package Svg.Contrib.ViewModel
+[![](https://img.shields.io/myget/dittodhole/vpre/Svg.Contrib.ViewModel.svg)](https://www.myget.org/feed/dittodhole/package/nuget/Svg.Contrib.ViewModel)
+
+```powershell
+PM> Install-Package -Id Svg.Contrib.ViewModel -pre --source https://www.myget.org/F/dittodhole/api/v2
+```
+
+### nuget.org
+
+[![](https://img.shields.io/nuget/v/Svg.Contrib.ViewModel.svg)](https://www.nuget.org/packages/Svg.Contrib.ViewModel)
+
+```powershell
+PM> Install-Package -Id Svg.Contrib.ViewModel
+```
 
 ## Example
 
@@ -38,4 +54,4 @@ dotnet-Svg.Contrib.ViewModel is published under [WTFNMFPLv3](https://github.com/
 
 ## Icon
 
-[Generator](https://thenounproject.com/term/generator/7266/) by [john trillana](https://thenounproject.com/claxxmoldii) from the Noun Project
+[Generator](https://thenounproject.com/term/generator/7266/) by [john trillana](https://thenounproject.com/claxxmoldii) from the Noun Project.
