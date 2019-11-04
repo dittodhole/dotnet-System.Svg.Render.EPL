@@ -21,9 +21,6 @@
     <RepositoryType>git</RepositoryType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net35'">
-    <Reference Include="System.Core" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GitVersionTask" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
