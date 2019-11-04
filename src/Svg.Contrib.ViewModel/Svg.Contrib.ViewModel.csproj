@@ -54,9 +54,6 @@
     </None>
     <None Include="README.md" />
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
   <Target Name="UpdateRepositoryBranch" BeforeTargets="GenerateNuspec">
     <PropertyGroup>
       <RepositoryBranch>$(GitVersion_BranchName)</RepositoryBranch>
