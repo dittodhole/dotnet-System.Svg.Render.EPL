@@ -38,9 +38,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Svg" Version="3.0.49" />
-    <PackageReference Update="Svg">
-      <GeneratePathProperty>true</GeneratePathProperty>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE.txt">
@@ -50,6 +47,14 @@
     <None Include="assets\noun_7266_cc.png">
       <Pack>true</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="build\Svg.Contrib.ViewModel.targets">
+      <Pack>true</Pack>
+      <PackagePath>build</PackagePath>
+    </None>
+    <None Include="buildMultiTargeting\Svg.Contrib.ViewModel.targets">
+      <Pack>true</Pack>
+      <PackagePath>buildMultiTargeting</PackagePath>
     </None>
     <None Include="README.md" />
     <None Include="ViewModelGenerator.tt">
@@ -76,4 +81,5 @@
       <RepositoryCommit>$(GitVersion_Sha)</RepositoryCommit>
     </PropertyGroup>
   </Target>
+  <Import Project="build\Svg.Contrib.ViewModel.targets" />
 </Project>
