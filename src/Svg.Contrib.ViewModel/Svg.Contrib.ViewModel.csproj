@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="build\Svg.Contrib.ViewModel.props" />
   <PropertyGroup>
     <TargetFrameworks>net35;net40;net46</TargetFrameworks>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -40,9 +41,17 @@
       <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="build\Svg.Contrib.ViewModel.props">
+      <Pack>true</Pack>
+      <PackagePath>build</PackagePath>
+    </None>
     <None Include="build\Svg.Contrib.ViewModel.targets">
       <Pack>true</Pack>
       <PackagePath>build</PackagePath>
+    </None>
+    <None Include="buildMultiTargeting\Svg.Contrib.ViewModel.props">
+      <Pack>true</Pack>
+      <PackagePath>buildMultiTargeting</PackagePath>
     </None>
     <None Include="buildMultiTargeting\Svg.Contrib.ViewModel.targets">
       <Pack>true</Pack>
