@@ -83,6 +83,7 @@ namespace Svg.Contrib.Render
         }
       }
 
+      if (svgElement.Transforms != null) // see https://github.com/vvvv/SVG/issues/613
       if (svgElement.Transforms.Any())
       {
         sourceMatrix = sourceMatrix.Clone();
