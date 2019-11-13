@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="CopyTemplateToProject" BeforeTargets="PrepareForBuild">
+  <Target Name="CopyViewModelGeneratorToProject" BeforeTargets="PrepareForBuild">
     <Copy SourceFiles="$(MSBuildThisFileDirectory)..\content\ViewModelGenerator.tt"
           DestinationFiles="$(MSBuildProjectDirectory)\ViewModelGenerator.tt"
           SkipUnchangedFiles="true" />
