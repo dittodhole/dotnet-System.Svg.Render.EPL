@@ -570,16 +570,7 @@ namespace Svg.Contrib.Render
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      var type = svgImage.GetType();
-      var methodInfo = type.GetMethod("GetImage");
-
-      // TODO this should be reverted, when https://github.com/vvvv/SVG/issues/602 is fixed
-
-      using (var image = methodInfo.Invoke(svgImage,
-                                           new[]
-                                           {
-                                             svgImage.Href
-                                           }) as Image)
+      using (var image = svgImage.GetImage() as Image)
       {
         if (image == null)
         {
