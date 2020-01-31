@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -570,62 +570,64 @@ namespace Svg.Contrib.Render
         throw new ArgumentNullException(nameof(viewMatrix));
       }
 
-      using (var image = svgImage.GetImage() as Image)
+      Bitmap result;
+      if (svgImage.GetImage() is Image image)
       {
-        if (image == null)
+        using (image)
         {
-          return null;
-        }
+          var sourceRatio = (float) sourceAlignmentWidth / sourceAlignmentHeight;
+          var destinationRatio = (float) image.Width / image.Height;
 
-        var sourceRatio = (float) sourceAlignmentWidth / sourceAlignmentHeight;
-        var destinationRatio = (float) image.Width / image.Height;
-
-        // TODO find a good TOLERANCE
-        Bitmap bitmap;
-        if (Math.Abs(sourceRatio - destinationRatio) < 0.5f)
-        {
-          bitmap = new Bitmap(image,
-                              sourceAlignmentWidth,
-                              sourceAlignmentHeight);
-        }
-        else
-        {
-          int destinationWidth;
-          int destinationHeight;
-
-          if (sourceRatio < destinationRatio)
+          // TODO find a good TOLERANCE
+          if (Math.Abs(sourceRatio - destinationRatio) < 0.5f)
           {
-            destinationWidth = sourceAlignmentWidth;
-            destinationHeight = (int) (sourceAlignmentWidth / destinationRatio);
+            result = new Bitmap(image,
+                                 sourceAlignmentWidth,
+                                 sourceAlignmentHeight);
           }
           else
           {
-            destinationWidth = (int) (sourceAlignmentHeight * destinationRatio);
-            destinationHeight = sourceAlignmentHeight;
+            int destinationWidth;
+            int destinationHeight;
+
+            if (sourceRatio < destinationRatio)
+            {
+              destinationWidth = sourceAlignmentWidth;
+              destinationHeight = (int) (sourceAlignmentWidth / destinationRatio);
+            }
+            else
+            {
+              destinationWidth = (int) (sourceAlignmentHeight * destinationRatio);
+              destinationHeight = sourceAlignmentHeight;
+            }
+
+            var x = (sourceAlignmentWidth - destinationWidth) / 2;
+            var y = (sourceAlignmentHeight - destinationHeight) / 2;
+
+            result = new Bitmap(sourceAlignmentWidth,
+                                 sourceAlignmentHeight);
+            using (var graphics = Graphics.FromImage(result))
+            {
+              var rect = new Rectangle(x,
+                                       y,
+                                       destinationWidth,
+                                       destinationHeight);
+              graphics.DrawImage(image,
+                                 rect);
+            }
           }
 
-          var x = (sourceAlignmentWidth - destinationWidth) / 2;
-          var y = (sourceAlignmentHeight - destinationHeight) / 2;
-
-          bitmap = new Bitmap(sourceAlignmentWidth,
-                              sourceAlignmentHeight);
-          using (var graphics = Graphics.FromImage(bitmap))
-          {
-            var rect = new Rectangle(x,
-                                     y,
-                                     destinationWidth,
-                                     destinationHeight);
-            graphics.DrawImage(image,
-                               rect);
-          }
+          var rotateFlipType = (RotateFlipType) this.GetRotationSector(sourceMatrix,
+                                                                       viewMatrix);
+          result.RotateFlip(rotateFlipType);
         }
-
-        var rotateFlipType = (RotateFlipType) this.GetRotationSector(sourceMatrix,
-                                                                     viewMatrix);
-        bitmap.RotateFlip(rotateFlipType);
-
-        return bitmap;
       }
+      else
+      {
+        result = null;
+      }
+      
+      return result;
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="bitmap" /> is <see langword="null" />.</exception>
