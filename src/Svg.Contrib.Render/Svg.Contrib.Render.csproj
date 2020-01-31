@@ -24,12 +24,15 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="WindowsBase" />
+    <PackageReference Include="Svg" Version="3.0.84" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="WindowsBase" />
+    <PackageReference Include="Svg" Version="3.0.84" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
     <Reference Include="System.Core" />
+    <PackageReference Include="Svg" Version="3.0.102" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GitVersionTask" Version="5.0.1">
@@ -40,7 +43,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Svg" Version="3.0.84" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompoundContainer.cs" />
