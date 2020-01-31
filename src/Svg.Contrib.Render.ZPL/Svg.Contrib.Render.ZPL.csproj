@@ -8,6 +8,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageId>Svg.Contrib.Render.ZPL</PackageId>
     <Authors>dittodhole</Authors>
     <PackageDescription>Convert SVG to Zebra Programming Language (ZPL)</PackageDescription>

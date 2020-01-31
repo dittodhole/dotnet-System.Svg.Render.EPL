@@ -8,6 +8,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageId>Svg.Contrib.Render.EPL</PackageId>
     <Authors>dittodhole</Authors>
     <PackageDescription>Convert SVG to Eltron Programming Language (EPL)</PackageDescription>
