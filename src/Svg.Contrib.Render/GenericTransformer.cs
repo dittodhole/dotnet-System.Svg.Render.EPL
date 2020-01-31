@@ -626,7 +626,7 @@ namespace Svg.Contrib.Render
       {
         result = null;
       }
-      
+
       return result;
     }
 

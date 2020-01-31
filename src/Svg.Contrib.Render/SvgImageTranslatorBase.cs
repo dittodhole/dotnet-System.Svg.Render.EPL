@@ -63,22 +63,24 @@ namespace Svg.Contrib.Render
         variableName = this.CalculateVariableName(imageIdentifier);
         this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
 
-        using (var bitmap = this.GenericTransformer.ConvertToBitmap(svgImage,
-                                                                    sourceMatrix,
-                                                                    viewMatrix,
-                                                                    (int) sourceAlignmentWidth,
-                                                                    (int) sourceAlignmentHeight))
+        var bitmap = this.GenericTransformer.ConvertToBitmap(svgImage,
+                                                             sourceMatrix,
+                                                             viewMatrix,
+                                                             (int) sourceAlignmentWidth,
+                                                             (int) sourceAlignmentHeight);
+        if (bitmap == null)
         {
-          if (bitmap == null)
+          variableName = null;
+        }
+        else
+        {
+          using (bitmap)
           {
-            variableName = null;
-            return;
+            this.StoreGraphics(svgImage,
+                               variableName,
+                               bitmap,
+                               container);
           }
-
-          this.StoreGraphics(svgImage,
-                             variableName,
-                             bitmap,
-                             container);
         }
       }
     }
