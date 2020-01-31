@@ -8,6 +8,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageId>Svg.Contrib.Render</PackageId>
     <Authors>dittodhole</Authors>
     <PackageDescription>Svg.Contrib.Render is the base for compilers based on Svg</PackageDescription>
@@ -24,15 +26,18 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="WindowsBase" />
+    <PackageReference Include="Svg" Version="3.0.84" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="WindowsBase" />
+    <PackageReference Include="Svg" Version="3.0.84" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
     <Reference Include="System.Core" />
+    <PackageReference Include="Svg" Version="3.0.102" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="5.0.1">
+    <PackageReference Include="GitVersionTask" Version="5.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -40,7 +45,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Svg" Version="3.0.84" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompoundContainer.cs" />
@@ -63,14 +67,4 @@
     </None>
     <None Include="README.md" />
   </ItemGroup>
-  <Target Name="UpdateRepositoryBranch" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <RepositoryBranch>$(GitVersion_BranchName)</RepositoryBranch>
-    </PropertyGroup>
-  </Target>
-  <Target Name="UpdateRepositoryCommit" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <RepositoryCommit>$(GitVersion_Sha)</RepositoryCommit>
-    </PropertyGroup>
-  </Target>
 </Project>

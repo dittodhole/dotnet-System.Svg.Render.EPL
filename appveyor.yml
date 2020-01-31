@@ -9,6 +9,9 @@ artifacts:
 - path: artifacts/*.nupkg
   name: nupkg
   type: File
+- path: artifacts/*.snupkg
+  name: snupkg
+  type: File
 deploy:
 - provider: NuGet
   name: NuGet

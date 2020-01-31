@@ -8,6 +8,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageId>Svg.Contrib.Render.EPL</PackageId>
     <Authors>dittodhole</Authors>
     <PackageDescription>Convert SVG to Eltron Programming Language (EPL)</PackageDescription>
@@ -32,11 +34,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="5.0.1">
+    <PackageReference Include="GitVersionTask" Version="5.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="7.14.5" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="7.15.1" />
     <PackageReference Include="Source.JetBrains.Annotations" Version="2019.1.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -67,14 +69,4 @@
     </None>
     <None Include="README.md" />
   </ItemGroup>
-  <Target Name="UpdateRepositoryBranch" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <RepositoryBranch>$(GitVersion_BranchName)</RepositoryBranch>
-    </PropertyGroup>
-  </Target>
-  <Target Name="UpdateRepositoryCommit" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <RepositoryCommit>$(GitVersion_Sha)</RepositoryCommit>
-    </PropertyGroup>
-  </Target>
 </Project>
