@@ -11,6 +11,7 @@ Task("Build")
 
   MSBuild(solutionFile,
           settings => settings.SetConfiguration(configuration)
+                              .SetVerbosity(Verbosity.Minimal)
                               .WithRestore()
                               .WithProperty("PackageOutputPath", MakeAbsolute(artifactsDirectory).FullPath));
 });
