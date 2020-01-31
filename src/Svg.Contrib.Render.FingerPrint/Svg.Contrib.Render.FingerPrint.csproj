@@ -32,7 +32,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="5.0.1">
+    <PackageReference Include="GitVersionTask" Version="5.1.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -67,14 +67,4 @@
     </None>
     <None Include="README.md" />
   </ItemGroup>
-  <Target Name="UpdateRepositoryBranch" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <RepositoryBranch>$(GitVersion_BranchName)</RepositoryBranch>
-    </PropertyGroup>
-  </Target>
-  <Target Name="UpdateRepositoryCommit" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <RepositoryCommit>$(GitVersion_Sha)</RepositoryCommit>
-    </PropertyGroup>
-  </Target>
 </Project>
