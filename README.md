@@ -85,9 +85,13 @@ dotnet-Svg.Contrib.Render/build> build.bat
 This will create the following artifacts:
 
 - `artifacts/Svg.Contrib.Render.{version}.nupkg`
+- `artifacts/Svg.Contrib.Render.{version}.snupkg`
 - `artifacts/Svg.Contrib.Render.EPL.{version}.nupkg`
+- `artifacts/Svg.Contrib.Render.EPL.{version}.snupkg`
 - `artifacts/Svg.Contrib.Render.FingerPrint.{version}.nupkg`
+- `artifacts/Svg.Contrib.Render.FingerPrint.{version}.snupkg`
 - `artifacts/Svg.Contrib.Render.ZPL.{version}.nupkg`
+- `artifacts/Svg.Contrib.Render.ZPL.{version}.snupkg`
 - `artifacts/Svg.Contrib.ViewModel.{version}.nupkg`
 
 ## License
