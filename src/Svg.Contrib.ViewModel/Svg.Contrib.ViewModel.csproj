@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="build\Svg.Contrib.ViewModel.props" />
   <PropertyGroup>
-    <TargetFrameworks>net35;net40;net46</TargetFrameworks>
+    <TargetFrameworks>net35;net40;net46;netstandard2.0</TargetFrameworks>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
@@ -30,6 +30,10 @@
     <PackageReference Include="Svg" Version="3.0.84" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+    <PackageReference Include="Svg" Version="3.0.102" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="Svg" Version="3.0.102" />
   </ItemGroup>
   <ItemGroup>
