@@ -6,6 +6,10 @@ using System.Linq;
 using ImageMagick;
 using JetBrains.Annotations;
 
+#if NETSTANDARD2_0
+using System.IO;
+#endif
+
 namespace Svg.Contrib.Render.FingerPrint
 {
   [PublicAPI]
@@ -285,7 +289,20 @@ namespace Svg.Contrib.Render.FingerPrint
       }
       var height = bitmap.Height;
 
-      using (var magickImage = new MagickImage(bitmap))
+      MagickImage magickImage;
+#if NETSTANDARD2_0
+      using (var memoryStream = new MemoryStream())
+      {
+        bitmap.Save(memoryStream,
+                    bitmap.RawFormat);
+
+        magickImage = new MagickImage(memoryStream);
+      }
+#else
+      magickImage = new MagickImage(bitmap);
+#endif
+
+      using (magickImage)
       {
         if (mod > 0)
         {
