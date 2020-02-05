@@ -34,7 +34,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GitVersionTask" Version="5.1.2">

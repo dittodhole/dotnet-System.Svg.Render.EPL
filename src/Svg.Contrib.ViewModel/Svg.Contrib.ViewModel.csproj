@@ -33,7 +33,7 @@
     <PackageReference Include="Svg" Version="3.0.102" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" PrivateAssets="all" />
     <PackageReference Include="Svg" Version="3.0.102" />
   </ItemGroup>
   <ItemGroup>
