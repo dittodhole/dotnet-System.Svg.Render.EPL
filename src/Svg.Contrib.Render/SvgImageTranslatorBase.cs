@@ -53,14 +53,16 @@ namespace Svg.Contrib.Render
         throw new ArgumentNullException(nameof(container));
       }
 
-      var imageIdentifier = string.Concat(svgImage.OwnerDocument.ID,
+      var imageIdentifier = string.Concat(svgImage.ID,
                                           "::",
-                                          svgImage.ID);
+                                          svgImage.OwnerDocument.ID);
 
       if (!this.ImageIdentifierToVariableNameMap.TryGetValue(imageIdentifier,
                                                              out variableName))
       {
-        variableName = this.CalculateVariableName(imageIdentifier);
+        variableName = this.CalculateVariableName(imageIdentifier,
+                                                  sourceMatrix,
+                                                  viewMatrix);
         this.ImageIdentifierToVariableNameMap[imageIdentifier] = variableName;
 
         var bitmap = this.GenericTransformer.ConvertToBitmap(svgImage,
@@ -265,14 +267,29 @@ namespace Svg.Contrib.Render
                                                [NotNull] TContainer container);
 
     /// <exception cref="ArgumentNullException"><paramref name="imageIdentifier" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="sourceMatrix" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="viewMatrix" /> is <see langword="null" />.</exception>
     [NotNull]
     [Pure]
-    protected virtual string CalculateVariableName([NotNull] string imageIdentifier)
+    protected virtual string CalculateVariableName([NotNull] string imageIdentifier,
+                                                   [NotNull] Matrix sourceMatrix,
+                                                   [NotNull] Matrix viewMatrix)
     {
       if (imageIdentifier == null)
       {
         throw new ArgumentNullException(nameof(imageIdentifier));
       }
+      if (sourceMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(sourceMatrix));
+      }
+      if (viewMatrix == null)
+      {
+        throw new ArgumentNullException(nameof(viewMatrix));
+      }
+
+      var rotationSector = this.GenericTransformer.GetRotationSector(sourceMatrix,
+                                                                     viewMatrix);
 
       // TODO this is magic
       // on purpose: the imageIdentifier should be hashed to 8 chars

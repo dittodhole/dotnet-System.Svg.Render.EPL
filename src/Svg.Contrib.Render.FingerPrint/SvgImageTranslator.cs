@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -211,10 +211,16 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     /// <inheritdoc/>
-    protected override string CalculateVariableName(string imageIdentifier)
+    protected override string CalculateVariableName(string imageIdentifier,
+                                                    Matrix sourceMatrix,
+                                                    Matrix viewMatrix)
     {
-      var result = string.Concat(base.CalculateVariableName(imageIdentifier),
-                                 ".PCX");
+      var result = base.CalculateVariableName(imageIdentifier,
+                                              sourceMatrix,
+                                              viewMatrix);
+
+      result = string.Concat(result,
+                             ".PCX");
 
       return result;
     }
