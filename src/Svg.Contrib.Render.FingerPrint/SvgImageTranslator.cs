@@ -211,13 +211,9 @@ namespace Svg.Contrib.Render.FingerPrint
     }
 
     /// <inheritdoc/>
-    protected override string CalculateVariableName(string imageIdentifier,
-                                                    Matrix sourceMatrix,
-                                                    Matrix viewMatrix)
+    protected override string CalculateVariableName(string imageIdentifier)
     {
-      var result = base.CalculateVariableName(imageIdentifier,
-                                              sourceMatrix,
-                                              viewMatrix);
+      var result = base.CalculateVariableName(imageIdentifier);
 
       result = string.Concat(result,
                              ".PCX");
