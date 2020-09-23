@@ -294,8 +294,8 @@ namespace Svg.Contrib.Render.EPL
         magickImage.Depth = 1;
         magickImage.Format = MagickFormat.Pcx;
 
-        magickImage.Density = new Density((double) bitmap.HorizontalResolution,
-                                          (double) bitmap.VerticalResolution);
+        magickImage.Density = new Density(bitmap.HorizontalResolution,
+                                          bitmap.VerticalResolution);
 
         magickImage.Negate(); // TODO see https://github.com/dlemstra/Magick.NET/issues/569
 
