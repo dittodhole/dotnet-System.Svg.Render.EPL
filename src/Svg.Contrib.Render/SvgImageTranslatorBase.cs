@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Security.Cryptography;
+using System.Text;
 using JetBrains.Annotations;
 
 namespace Svg.Contrib.Render
@@ -291,19 +293,26 @@ namespace Svg.Contrib.Render
       var rotationSector = this.GenericTransformer.GetRotationSector(sourceMatrix,
                                                                      viewMatrix);
 
-      // TODO this is magic
-      // on purpose: the imageIdentifier should be hashed to 8 chars
-      // long, and should always be the same for the same imageIdentifier
-      // thus going for this pile of shit ...
-      var variableName = Math.Abs(imageIdentifier.GetHashCode())
-                             .ToString();
-      if (variableName.Length > 8)
+      imageIdentifier = string.Concat(rotationSector,
+                                      "::",
+                                      imageIdentifier);
+
+      string result;
+      using (var md5 = MD5.Create())
       {
-        variableName = variableName.Substring(0,
-                                              8);
+        var buffer = Encoding.UTF8.GetBytes(imageIdentifier);
+        var hash = md5.ComputeHash(buffer);
+        result = BitConverter.ToString(hash)
+                             .Replace("-", string.Empty)
+                             .ToUpperInvariant();
       }
 
-      return variableName;
+      if (result.Length > 8)
+      {
+        result = result.Substring(0, 8);
+      }
+
+      return result;
     }
 
     /// <exception cref="ArgumentNullException"><paramref name="svgImage" /> is <see langword="null" />.</exception>
