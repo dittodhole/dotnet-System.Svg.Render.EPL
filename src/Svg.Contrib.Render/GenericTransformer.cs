@@ -582,8 +582,8 @@ namespace Svg.Contrib.Render
           if (Math.Abs(sourceRatio - destinationRatio) < 0.5f)
           {
             result = new Bitmap(image,
-                                 sourceAlignmentWidth,
-                                 sourceAlignmentHeight);
+                                sourceAlignmentWidth,
+                                sourceAlignmentHeight);
           }
           else
           {
@@ -605,7 +605,7 @@ namespace Svg.Contrib.Render
             var y = (sourceAlignmentHeight - destinationHeight) / 2;
 
             result = new Bitmap(sourceAlignmentWidth,
-                                 sourceAlignmentHeight);
+                                sourceAlignmentHeight);
             using (var graphics = Graphics.FromImage(result))
             {
               var rect = new Rectangle(x,
