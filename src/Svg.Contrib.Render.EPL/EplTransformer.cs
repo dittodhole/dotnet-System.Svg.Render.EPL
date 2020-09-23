@@ -297,6 +297,8 @@ namespace Svg.Contrib.Render.EPL
         magickImage.Density = new Density((double) bitmap.HorizontalResolution,
                                           (double) bitmap.VerticalResolution);
 
+        magickImage.Negate(); // TODO see https://github.com/dlemstra/Magick.NET/issues/569
+
         var array = magickImage.ToByteArray();
 
         return array;
